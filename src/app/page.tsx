@@ -134,16 +134,42 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '48px', alignItems: 'center' }}>
+          <div className="hero-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gap: '40px',
+            alignItems: 'center',
+          }}>
             
             {/* Content Left */}
             <div style={{ animation: 'slide-up 0.6s ease-out' }}>
               
+              {/* Proof Rating Badge (★★★★★ +2500 clients satisfaits) */}
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                background: '#ffffff',
+                border: '1px solid var(--color-sentech-border)',
+                borderRadius: '100px',
+                padding: '6px 16px',
+                boxShadow: '0 4px 16px rgba(15,23,42,0.04)',
+                marginBottom: '20px',
+              }}>
+                <div style={{ display: 'flex', gap: '2px' }} role="img" aria-label="5 étoiles sur 5">
+                  {[1, 2, 3, 4, 5].map(s => (
+                    <Star key={s} size={15} fill="#fbbf24" color="#fbbf24" />
+                  ))}
+                </div>
+                <span style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0f172a' }}>
+                  +2500 clients satisfaits au Sénégal
+                </span>
+              </div>
+
+              {/* Titre Impactant (56px) */}
               <h1 className="hero-title" style={{
-                fontSize: 'clamp(32px, 5vw, 56px)',
+                fontSize: 'clamp(34px, 5.5vw, 56px)',
                 fontWeight: 800,
-                lineHeight: 1.15,
-                marginBottom: '24px',
+                lineHeight: 1.12,
+                marginBottom: '20px',
                 color: 'var(--color-foreground)',
                 letterSpacing: '-0.5px',
               }}>
@@ -153,132 +179,87 @@ export default function HomePage() {
 
               <p className="text-body" style={{
                 color: '#475569',
-                fontSize: '16px',
-                lineHeight: 1.65,
-                marginBottom: '40px',
-                maxWidth: '540px',
+                fontSize: '1.05rem',
+                lineHeight: 1.6,
+                marginBottom: '32px',
+                maxWidth: '520px',
               }}>
-                Chargeurs ultra-rapides, écouteurs sans fil HD, batteries externes haute capacité et équipements certifiés avec <strong>livraison express sous 24h</strong>.
+                Équipements certifiés d&apos;origine, écouteurs sans fil, chargeurs ultra-rapides et power banks avec livraison express 24h.
               </p>
 
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '32px' }}>
+              {/* Action Buttons: [ Acheter ] [ Promotions ] */}
+              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '32px' }}>
                 <Link href="/boutique" style={{ textDecoration: 'none' }}>
                   <button id="hero-shop-btn" className="btn-primary" style={{
-                    padding: '16px 32px',
-                    fontSize: '1rem',
-                    fontWeight: 700,
+                    padding: '16px 36px',
+                    fontSize: '1.05rem',
+                    fontWeight: 800,
                     borderRadius: '14px',
                     background: 'linear-gradient(135deg, #1b75bc, #2563eb)',
                     boxShadow: '0 10px 25px rgba(27,117,188,0.35)',
-                    display: 'flex', alignItems: 'center', gap: '10px',
+                    display: 'inline-flex', alignItems: 'center', gap: '10px',
                     cursor: 'pointer',
-                    transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
-                    e.currentTarget.style.boxShadow = '0 16px 32px rgba(27,117,188,0.45)';
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                    e.currentTarget.style.boxShadow = '0 10px 25px rgba(27,117,188,0.35)';
                   }}>
-                    <ShoppingCart size={19} /> Acheter maintenant <ArrowRight size={17} />
+                    <ShoppingCart size={20} /> Acheter
                   </button>
                 </Link>
 
                 <Link href="/promotions" style={{ textDecoration: 'none' }}>
-                  <button id="hero-promo-btn" style={{
-                    padding: '16px 28px',
-                    fontSize: '1rem',
-                    fontWeight: 600,
+                  <button id="hero-promo-btn" className="btn-secondary" style={{
+                    padding: '16px 32px',
+                    fontSize: '1.05rem',
+                    fontWeight: 700,
                     borderRadius: '14px',
                     background: 'rgba(255, 255, 255, 0.75)',
                     backdropFilter: 'blur(12px)',
                     border: '1px solid rgba(27, 117, 188, 0.25)',
                     color: '#0f172a',
-                    display: 'flex', alignItems: 'center', gap: '8px',
+                    display: 'inline-flex', alignItems: 'center', gap: '8px',
                     cursor: 'pointer',
-                    boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)',
-                    transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.transform = 'translateY(-3px)';
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)';
-                    e.currentTarget.style.borderColor = '#1b75bc';
-                    e.currentTarget.style.boxShadow = '0 12px 24px rgba(27, 117, 188, 0.15)';
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.75)';
-                    e.currentTarget.style.borderColor = 'rgba(27, 117, 188, 0.25)';
-                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(15, 23, 42, 0.05)';
                   }}>
-                    <Flame size={18} color="#ef4444" /> Découvrir les promos
+                    <Flame size={20} color="#ef4444" /> Promotions
                   </button>
                 </Link>
               </div>
 
-              {/* Instant Search Bar (<10s) */}
-              <form onSubmit={handleSearch} style={{
-                display: 'flex', gap: '8px',
-                background: 'rgba(255,255,255,0.85)',
-                border: '1px solid rgba(27,117,188,0.2)',
-                borderRadius: '16px',
-                padding: '8px 10px',
-                backdropFilter: 'blur(16px)',
-                boxShadow: '0 8px 24px rgba(15,23,42,0.04)',
-                maxWidth: '540px',
+              {/* Reassurances List: ✓ Livraison 24h  ✓ Paiement Wave  ✓ Garantie */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap',
+                fontSize: '0.9rem', fontWeight: 700, color: '#0f172a',
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '12px', color: '#1b75bc' }}>
-                  <Search size={19} />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Rechercher un produit... (ex: Ecouteurs, Chargeur 65W)"
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  style={{
-                    flex: 1,
-                    background: 'transparent',
-                    border: 'none',
-                    outline: 'none',
-                    color: '#0f172a',
-                    fontSize: '0.92rem',
-                    padding: '8px 4px',
-                  }}
-                />
-                <button type="submit" className="btn-primary" style={{
-                  padding: '10px 20px', fontSize: '0.88rem', fontWeight: 700, borderRadius: '12px',
-                  background: 'linear-gradient(135deg, #1b75bc, #2563eb)'
-                }}>
-                  Chercher
-                </button>
-              </form>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ color: '#10b981', fontWeight: 900 }}>✓</span> Livraison 24h
+                </span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ color: '#10b981', fontWeight: 900 }}>✓</span> Paiement Wave
+                </span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ color: '#10b981', fontWeight: 900 }}>✓</span> Garantie
+                </span>
+              </div>
 
             </div>
 
-            {/* Right Visual Showcase: Modern Tech Setup */}
+            {/* Right Visual Showcase: Grande Image Produit (45% à 50% de largeur) */}
             <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
               
               <div style={{
                 position: 'relative',
                 width: '100%',
-                maxWidth: '440px',
-                height: '440px',
+                maxWidth: '560px',
+                height: '500px',
                 borderRadius: '32px',
                 overflow: 'hidden',
-                background: 'rgba(255,255,255,0.7)',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255,255,255,0.8)',
-                boxShadow: '0 30px 60px rgba(15,23,42,0.12), 0 0 40px rgba(27,117,188,0.12)',
+                background: '#ffffff',
+                border: '1px solid var(--color-sentech-border)',
+                boxShadow: '0 25px 50px rgba(15,23,42,0.08), 0 0 40px rgba(27,117,188,0.12)',
                 animation: 'float 4s ease-in-out infinite',
               }}>
                 <Image
                   src="/hero.jpg"
-                  alt="Setup moderne High Tech - Casque, Smartphone, Power Bank"
+                  alt="Setup High Tech moderne - Écouteurs, Smartphone, Power Bank & Chargeur"
                   fill
-                  sizes="(max-width: 768px) 100vw, 440px"
+                  sizes="(max-width: 768px) 100vw, 560px"
                   style={{ objectFit: 'cover' }}
                   priority
                 />
