@@ -118,7 +118,7 @@ export default function HomePage() {
           }} className="hero-main-grid">
             
             {/* ── COLONNE GAUCHE (Éléments 1 à 6) ── */}
-            <div style={{ animation: 'slide-up 0.5s ease-out', display: 'flex', flexDirection: 'column', alignItems: 'var(--hero-align, flex-start)', textAlign: 'var(--hero-text-align, left)' }} className="hero-left-content">
+            <div style={{ animation: 'slide-up 0.5s ease-out', display: 'flex', flexDirection: 'column' }} className="hero-left-content">
               
               {/* 1. BADGE PREMIUM : 🇸🇳 Boutique officielle */}
               <div style={{
