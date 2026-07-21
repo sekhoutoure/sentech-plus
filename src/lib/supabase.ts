@@ -134,3 +134,32 @@ export async function subscribeNewsletter(email: string) {
   return { data, error, alreadySubscribed: false };
 }
 
+// ==========================
+// AVIS CLIENTS (REVIEWS)
+// ==========================
+
+// Récupérer les avis d'un produit
+export async function fetchProductReviews(productId: string) {
+  const { data, error } = await supabase
+    .from('product_reviews')
+    .select('*')
+    .eq('product_id', productId)
+    .eq('status', 'publié')
+    .order('created_at', { ascending: false });
+  return { data: data || [], error };
+}
+
+// Soumettre un nouvel avis
+export async function submitProductReview(reviewData: {
+  product_id: string;
+  user_name: string;
+  rating: number;
+  comment: string;
+}) {
+  const { data, error } = await supabase
+    .from('product_reviews')
+    .insert([reviewData])
+    .select();
+  return { data, error };
+}
+

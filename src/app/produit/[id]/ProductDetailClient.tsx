@@ -5,10 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   ShoppingCart, Star, Check, Truck, Shield, ChevronLeft, ChevronRight,
-  Minus, Plus, Heart, Zap, Info, Share2, ChevronRight as BreadArrow, Copy, CheckCircle
+  Minus, Plus, Heart, Zap, Info, Share2, ChevronRight as BreadArrow, Copy, CheckCircle, User, MessageSquare
 } from 'lucide-react';
 import { products, formatPrice } from '@/lib/products';
-import { fetchProducts } from '@/lib/supabase';
+import { fetchProducts, fetchProductReviews, submitProductReview } from '@/lib/supabase';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useToast } from '@/context/ToastContext';
@@ -26,17 +26,28 @@ export default function ProductDetailClient({ id }: { id: string }) {
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
 
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [reviewName, setReviewName] = useState('');
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
+
   // Load from Supabase first, fall back to static
   useEffect(() => {
     async function load() {
       try {
-        const data = await fetchProducts();
-        if (data && data.length > 0) setProductData(data as any);
+        const [prodRes, revRes] = await Promise.all([
+          fetchProducts(),
+          fetchProductReviews(id)
+        ]);
+        if (prodRes && prodRes.length > 0) setProductData(prodRes as any);
+        if (revRes.data) setReviews(revRes.data);
       } catch {}
       finally { setLoading(false); }
     }
     load();
-  }, []);
+  }, [id]);
 
   const product = useMemo(() => productData.find(p => p.id === id), [productData, id]);
 
@@ -58,6 +69,30 @@ export default function ProductDetailClient({ id }: { id: string }) {
     const url = `${window.location.origin}/produit/${id}`;
     const text = encodeURIComponent(`Je viens de trouver ce produit sur SenTech Plus : ${product.name} — ${formatPrice(product.price)} 🔥\n${url}`);
     window.open(`https://wa.me/?text=${text}`, '_blank');
+  };
+
+  const handleSubmitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!reviewName.trim() || !reviewComment.trim()) return;
+    setSubmittingReview(true);
+    const { data, error } = await submitProductReview({
+      product_id: id,
+      user_name: reviewName,
+      rating: reviewRating,
+      comment: reviewComment,
+    });
+    setSubmittingReview(false);
+    
+    if (error) {
+      showToast('Erreur lors de l\'envoi de l\'avis', 'error');
+    } else {
+      showToast('Merci pour votre avis !', 'success');
+      if (data) setReviews(prev => [data[0], ...prev]);
+      setShowReviewForm(false);
+      setReviewName('');
+      setReviewComment('');
+      setReviewRating(5);
+    }
   };
 
   if (loading) {
@@ -95,6 +130,11 @@ export default function ProductDetailClient({ id }: { id: string }) {
     showToast(`${product.name} ajouté au panier !`, 'success');
     setTimeout(() => setAdded(false), 2500);
   };
+
+  const dynamicRating = reviews.length > 0 
+    ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
+    : product.rating.toFixed(1);
+  const dynamicReviewCount = reviews.length > 0 ? reviews.length : product.reviews;
 
   return (
     <div style={{ minHeight: '100vh', paddingTop: '90px' }}>
@@ -163,11 +203,11 @@ export default function ProductDetailClient({ id }: { id: string }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
               <div style={{ display: 'flex', gap: '2px' }}>
                 {[1, 2, 3, 4, 5].map(s => (
-                  <Star key={s} size={16} fill={s <= Math.round(product.rating) ? '#fbbf24' : 'none'} color={s <= Math.round(product.rating) ? '#fbbf24' : '#475569'} />
+                  <Star key={s} size={16} fill={s <= Math.round(Number(dynamicRating)) ? '#fbbf24' : 'none'} color={s <= Math.round(Number(dynamicRating)) ? '#fbbf24' : '#475569'} />
                 ))}
               </div>
-              <span style={{ fontWeight: 700, color: 'var(--color-foreground)', fontSize: '0.875rem' }}>{product.rating}</span>
-              <span style={{ color: '#475569', fontSize: '0.8rem' }}>({product.reviews} avis)</span>
+              <span style={{ fontWeight: 700, color: 'var(--color-foreground)', fontSize: '0.875rem' }}>{dynamicRating}</span>
+              <span style={{ color: '#475569', fontSize: '0.8rem' }}>({dynamicReviewCount} avis)</span>
             </div>
 
             {/* Price */}
@@ -300,6 +340,96 @@ export default function ProductDetailClient({ id }: { id: string }) {
             </div>
           </div>
         </div>
+
+        {/* Reviews Section */}
+        <section style={{ marginTop: '64px', borderTop: '1px solid var(--color-sentech-border)', paddingTop: '40px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
+            <div>
+              <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-foreground)', fontFamily: 'Outfit, sans-serif', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <MessageSquare size={24} color="#1b75bc" /> Avis Clients
+              </h2>
+              <p style={{ color: '#475569', fontSize: '0.875rem', marginTop: '4px' }}>
+                Découvrez ce que nos clients pensent de ce produit.
+              </p>
+            </div>
+            <button 
+              onClick={() => setShowReviewForm(!showReviewForm)}
+              className="btn-primary" 
+              style={{ fontSize: '0.875rem', padding: '10px 20px' }}
+            >
+              {showReviewForm ? 'Annuler' : 'Laisser un avis'}
+            </button>
+          </div>
+
+          {/* Review Form */}
+          {showReviewForm && (
+            <div style={{ background: 'var(--color-sentech-card)', border: '1px solid var(--color-sentech-border)', borderRadius: '16px', padding: '24px', marginBottom: '32px', animation: 'slide-down 0.2s ease-out' }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '16px', color: 'var(--color-foreground)' }}>Écrire un avis</h3>
+              <form onSubmit={handleSubmitReview} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                  <div style={{ flex: 1, minWidth: '200px' }}>
+                    <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '8px' }}>Votre nom <span style={{color: '#ef4444'}}>*</span></label>
+                    <input type="text" required value={reviewName} onChange={e => setReviewName(e.target.value)} className="input-dark" placeholder="Mamadou S." />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '8px' }}>Note <span style={{color: '#ef4444'}}>*</span></label>
+                    <div style={{ display: 'flex', gap: '4px', padding: '8px 12px', background: 'var(--color-sentech-dark)', border: '1px solid var(--color-sentech-border)', borderRadius: '10px' }}>
+                      {[1, 2, 3, 4, 5].map(star => (
+                        <button key={star} type="button" onClick={() => setReviewRating(star)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+                          <Star size={20} fill={star <= reviewRating ? '#fbbf24' : 'none'} color={star <= reviewRating ? '#fbbf24' : '#475569'} />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '8px' }}>Votre commentaire <span style={{color: '#ef4444'}}>*</span></label>
+                  <textarea required value={reviewComment} onChange={e => setReviewComment(e.target.value)} className="input-dark" rows={4} placeholder="Super produit, je le recommande..." style={{ resize: 'vertical' }} />
+                </div>
+                <button type="submit" disabled={submittingReview} className="btn-primary" style={{ alignSelf: 'flex-start' }}>
+                  {submittingReview ? 'Envoi...' : 'Publier mon avis'}
+                </button>
+              </form>
+            </div>
+          )}
+
+          {/* Reviews List */}
+          {reviews.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '40px', background: 'var(--color-sentech-card)', border: '1px solid var(--color-sentech-border)', borderRadius: '16px' }}>
+              <MessageSquare size={32} style={{ color: '#475569', margin: '0 auto 12px' }} />
+              <p style={{ color: '#475569' }}>Aucun avis pour l'instant. Soyez le premier à donner votre avis !</p>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+              {reviews.map((rev) => (
+                <div key={rev.id} style={{ background: 'var(--color-sentech-card)', border: '1px solid var(--color-sentech-border)', borderRadius: '16px', padding: '20px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg, #1b75bc, #2563eb)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '0.9rem' }}>
+                        {rev.user_name.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <div style={{ color: 'var(--color-foreground)', fontWeight: 700, fontSize: '0.9rem' }}>{rev.user_name}</div>
+                        <div style={{ color: '#475569', fontSize: '0.75rem' }}>
+                          {new Date(rev.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                      {[1, 2, 3, 4, 5].map(s => (
+                        <Star key={s} size={13} fill={s <= rev.rating ? '#fbbf24' : 'none'} color={s <= rev.rating ? '#fbbf24' : '#475569'} />
+                      ))}
+                    </div>
+                  </div>
+                  <p style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: 1.6 }}>&quot;{rev.comment}&quot;</p>
+                  <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '6px', color: '#10b981', fontSize: '0.75rem', fontWeight: 600 }}>
+                    <CheckCircle size={14} /> Achat vérifié
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
 
         {/* Related products */}
         {related.length > 0 && (
