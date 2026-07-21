@@ -3,6 +3,7 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { SlidersHorizontal, Search, X } from 'lucide-react';
 import { products, categories, formatPrice } from '@/lib/products';
+import { fetchProducts } from '@/lib/supabase';
 import ProductCard from '@/components/ui/ProductCard';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
@@ -154,23 +155,22 @@ function BoutiqueContent() {
   const [maxPrice, setMaxPrice]       = useState(200000);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [page, setPage]               = useState(1);
-  const [productData, setProductData] = useState(products);
+  const [productData, setProductData] = useState<Product[]>(products);
   const PER_PAGE = 12;
 
-  // Load admin-managed products from localStorage (synced from Admin Dashboard)
+  // Load products from Supabase
   useEffect(() => {
-    const loadProducts = () => {
+    async function loadProducts() {
       try {
-        const saved = localStorage.getItem('adminProductList');
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length > 0) setProductData(parsed);
+        const data = await fetchProducts();
+        if (data && data.length > 0) {
+          setProductData(data as any);
         }
-      } catch {}
-    };
+      } catch (err) {
+        console.error(err);
+      }
+    }
     loadProducts();
-    window.addEventListener('storage', loadProducts);
-    return () => window.removeEventListener('storage', loadProducts);
   }, []);
 
   const resetPage = useCallback(() => setPage(1), []);

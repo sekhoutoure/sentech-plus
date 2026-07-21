@@ -7,6 +7,7 @@ import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, Tag, Truck, Shield, AlertC
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/context/ToastContext';
 import { formatPrice } from '@/lib/products';
+import { createOrder } from '@/lib/supabase';
 
 // Promo codes — in production these should be validated server-side
 const BASE_PROMO_CODES: Record<string, { discount: number; label: string }> = {
@@ -30,6 +31,7 @@ export default function PanierPage() {
   const [clearConfirm, setClearConfirm] = useState(false);
   const [shippingCost, setShippingCost] = useState(2500);
   const [promoCodes, setPromoCodes] = useState(BASE_PROMO_CODES);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   // Sync shipping fee and promo codes from admin localStorage
   useEffect(() => {
@@ -62,6 +64,39 @@ export default function PanierPage() {
     window.addEventListener('storage', sync);
     return () => window.removeEventListener('storage', sync);
   }, []);
+
+  const handleCheckout = async () => {
+    const customerName = window.prompt('Votre nom complet :');
+    if (!customerName) return;
+    const customerEmail = window.prompt('Votre email :');
+    if (!customerEmail) return;
+
+    setIsCheckingOut(true);
+    try {
+      const orderData = {
+        customer_name: customerName,
+        customer_email: customerEmail,
+        total_amount: finalTotal,
+        items: items,
+        status: 'en_attente'
+      };
+      
+      const { error } = await createOrder(orderData);
+      
+      if (error) {
+        showToast('Erreur lors de la commande', 'error');
+        console.error(error);
+      } else {
+        clearCart();
+        showToast('Commande passée avec succès ! Merci de votre confiance.', 'success');
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Une erreur est survenue.', 'error');
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
 
   const applyPromo = () => {
     const upper = promoCode.trim().toUpperCase();
@@ -345,11 +380,14 @@ export default function PanierPage() {
               </div>
 
               {/* Checkout button */}
-              <Link href="/contact" style={{ textDecoration: 'none', display: 'block' }}>
-                <button className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '16px', fontSize: '1rem' }}>
-                  🔐 Procéder au paiement
-                </button>
-              </Link>
+              <button 
+                onClick={handleCheckout} 
+                disabled={isCheckingOut}
+                className="btn-primary" 
+                style={{ width: '100%', justifyContent: 'center', padding: '16px', fontSize: '1rem', opacity: isCheckingOut ? 0.7 : 1 }}
+              >
+                {isCheckingOut ? 'Traitement...' : '🔐 Valider la commande'}
+              </button>
 
               {/* Payment methods */}
               <div style={{ marginTop: '16px', textAlign: 'center' }}>

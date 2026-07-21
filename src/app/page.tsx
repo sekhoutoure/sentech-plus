@@ -8,7 +8,8 @@ import {
   Flame, ShoppingCart, ShieldCheck, CreditCard, Clock, Zap, Cable, Smartphone, Headphones,
   Music, Watch, BatteryCharging, Monitor, Gamepad2, Send
 } from 'lucide-react';
-import { products, categories, getBestSellers, getNewProducts, type Product } from '@/lib/products';
+import { products, categories, type Product } from '@/lib/products';
+import { fetchProducts } from '@/lib/supabase';
 import ProductCard from '@/components/ui/ProductCard';
 import CountdownTimer from '@/components/ui/CountdownTimer';
 import { useToast } from '@/context/ToastContext';
@@ -118,20 +119,19 @@ export default function HomePage() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [productData, setProductData] = useState<Product[]>(products);
 
-  // Sync with admin-managed products
+  // Sync with Supabase
   useEffect(() => {
-    const load = () => {
+    async function load() {
       try {
-        const saved = localStorage.getItem('adminProductList');
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length > 0) setProductData(parsed);
+        const data = await fetchProducts();
+        if (data && data.length > 0) {
+          setProductData(data as any);
         }
-      } catch {}
-    };
+      } catch (err) {
+        console.error(err);
+      }
+    }
     load();
-    window.addEventListener('storage', load);
-    return () => window.removeEventListener('storage', load);
   }, []);
 
   const bestSellers = productData.filter(p => p.isBestSeller).slice(0, 4);

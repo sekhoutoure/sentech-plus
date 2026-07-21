@@ -9,6 +9,7 @@ import {
   Settings, ChevronRight, DollarSign, Box, ShoppingCart, LogOut, Mail, RefreshCw, Upload, CheckSquare, Square
 } from 'lucide-react';
 import { products as initialProducts, formatPrice, Product, Category } from '@/lib/products';
+import { fetchProducts, addProduct, deleteProduct, fetchOrders } from '@/lib/supabase';
 import { useToast } from '@/context/ToastContext';
 
 // Initial Mock Data
@@ -114,14 +115,26 @@ export default function AdminPage() {
         if (savedPhone) setWhatsappPhone(savedPhone);
         const savedFee = localStorage.getItem('siteShippingFee');
         if (savedFee) setShippingFee(savedFee);
-        // Restore persisted product list
-        try {
-          const savedProds = localStorage.getItem('adminProductList');
-          if (savedProds) {
-            const parsed = JSON.parse(savedProds);
-            if (Array.isArray(parsed) && parsed.length > 0) setProductList(parsed);
+        // Load products from Supabase
+        fetchProducts().then(data => {
+          if (data && data.length > 0) setProductList(data as any);
+        });
+        // Load orders from Supabase
+        fetchOrders().then(({ data }) => {
+          if (data && data.length > 0) {
+            // Map supabase columns
+            const formattedOrders = data.map(o => ({
+              id: o.id.substring(0, 8),
+              customer: o.customer_name,
+              email: o.customer_email,
+              product: o.items?.[0]?.name || 'Produits multiples',
+              amount: o.total_amount,
+              status: o.status,
+              date: new Date(o.created_at).toLocaleDateString()
+            }));
+            setOrdersList(formattedOrders as any);
           }
-        } catch {}
+        });
         // Restore persisted promo list
         try {
           const savedPromos = localStorage.getItem('adminPromosList');
@@ -134,14 +147,9 @@ export default function AdminPage() {
     }
   }, [router]);
 
-  // Persist productList to localStorage whenever it changes (after auth)
-  useEffect(() => {
-    if (!authorized) return;
-    try {
-      localStorage.setItem('adminProductList', JSON.stringify(productList));
-      window.dispatchEvent(new Event('storage'));
-    } catch {}
-  }, [productList, authorized]);
+  // Products are now fetched from Supabase, so we don't need to persist them to localStorage
+  // But we still persist promosList
+
 
   // Persist promosList to localStorage whenever it changes (after auth)
   useEffect(() => {
@@ -173,9 +181,10 @@ export default function AdminPage() {
   };
 
   // Product actions
-  const handleDeleteProduct = (id: string, name: string) => {
+  const handleDeleteProduct = async (id: string, name: string) => {
     if (confirm(`Voulez-vous vraiment supprimer le produit "${name}" ?`)) {
       setProductList(prev => prev.filter(p => p.id !== id));
+      await deleteProduct(id);
       showToast(`Produit "${name}" supprimé !`, 'info');
     }
   };
@@ -193,51 +202,54 @@ export default function AdminPage() {
     const featuresArray = prodFeatures.split(',').map(f => f.trim()).filter(Boolean);
 
     if (editingProduct) {
+      // Pour l'instant on garde l'update local (le MVP Supabase gère surtout l'insert)
       setProductList(prev => prev.map(p => p.id === editingProduct.id ? {
         ...p,
         name: prodName,
         category: prodCategory,
         brand: prodBrand || 'SenTech',
         price: priceNum,
-        stockCount: stockNum,
-        inStock: stockNum > 0,
+        oldPrice: prodPrice !== prodPrice ? priceNum * 1.2 : priceNum,
         image: finalImage,
         images: [finalImage],
+        inStock: stockNum > 0,
+        stockCount: stockNum,
         description: prodDescription,
-        features: featuresArray.length > 0 ? featuresArray : ['Garantie 12 mois', 'Livraison Express Dakar'],
+        features: featuresArray,
         isNew: prodIsNew,
         isBestSeller: prodIsBestSeller,
         isPromo: prodIsPromo,
+        badge: prodIsPromo ? 'PROMO' : prodIsBestSeller ? 'BEST SELLER' : prodIsNew ? 'NEW' : '',
       } : p));
-      showToast(`Produit "${prodName}" mis à jour avec succès !`, 'success');
+      showToast('Produit mis à jour avec succès !', 'success');
     } else {
-      const newId = `PRD-${productList.length + 101}`;
-      const newProd: Product = {
-        id: newId,
+      const newP = {
         name: prodName,
         category: prodCategory,
         brand: prodBrand || 'SenTech',
         price: priceNum,
-        oldPrice: Math.round(priceNum * 1.2),
-        discount: prodIsPromo ? 20 : 0,
-        rating: 5.0,
-        reviews: 1,
+        oldPrice: priceNum * 1.2,
         image: finalImage,
         images: [finalImage],
-        description: prodDescription || 'Accessoire high-tech premium SenTech Plus.',
-        features: featuresArray.length > 0 ? featuresArray : ['Garantie 12 mois', 'Livraison Express Dakar', 'Qualité certifiée'],
         inStock: stockNum > 0,
         stockCount: stockNum,
-        delivery: 'Livraison 24h/48h',
-        warranty: 'Garantie 1 an',
+        description: prodDescription,
+        features: featuresArray,
         isNew: prodIsNew,
         isBestSeller: prodIsBestSeller,
         isPromo: prodIsPromo,
+        badge: prodIsPromo ? 'PROMO' : prodIsBestSeller ? 'BEST SELLER' : prodIsNew ? 'NEW' : '',
       };
-      setProductList(prev => [newProd, ...prev]);
-      showToast(`Nouveau produit "${prodName}" ajouté au catalogue !`, 'success');
+      // Sauvegarde dans Supabase
+      addProduct(newP).then(() => {
+        // Recharge la liste
+        fetchProducts().then(data => {
+          if (data) setProductList(data as any);
+        });
+      });
+      showToast('Produit ajouté avec succès !', 'success');
     }
-
+    setShowAddProductModal(false);
     setShowAddProductModal(false);
     setEditingProduct(null);
     resetProductForm();
