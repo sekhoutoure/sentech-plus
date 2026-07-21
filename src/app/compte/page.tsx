@@ -125,7 +125,7 @@ export default function ComptePage() {
   };
 
   const initials = userName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-  const loyaltyPoints = orders.reduce((sum, o) => sum + Math.floor(o.total / 1000), 0) + 100;
+  const loyaltyPoints = orders.reduce((sum, o) => sum + Math.floor(o.total / 1000), 0);
 
   if (!authorized) {
     return (

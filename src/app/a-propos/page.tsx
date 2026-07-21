@@ -5,32 +5,7 @@ import { Zap, Users, Award, Heart, Globe, ShoppingCart, Mail, MapPin } from 'luc
 
 
 
-const team = [
-  {
-    name: 'Ousmane Diallo',
-    role: 'Fondateur & CEO',
-    emoji: '👨🏾‍💼',
-    bio: 'Passionné de technologie depuis 15 ans, Ousmane a fondé SenTech Plus avec la vision de rendre la tech premium accessible à tous en Afrique de l\'Ouest.',
-  },
-  {
-    name: 'Fatou Ndiaye',
-    role: 'Directrice Produit',
-    emoji: '👩🏾‍💻',
-    bio: 'Experte en sélection de produits tech, Fatou s\'assure que chaque article vendu sur SenTech Plus respecte nos standards de qualité les plus élevés.',
-  },
-  {
-    name: 'Mamadou Sow',
-    role: 'Responsable Logistique',
-    emoji: '👨🏾‍🚀',
-    bio: 'Mamadou supervise notre réseau de livraison et s\'assure que chaque colis arrive dans les meilleures conditions dans les délais promis.',
-  },
-  {
-    name: 'Aïssatou Balde',
-    role: 'Support Client',
-    emoji: '👩🏾‍🎧',
-    bio: 'Aïssatou et son équipe sont disponibles 7j/7 pour vous aider, que ce soit par WhatsApp, email ou téléphone.',
-  },
-];
+const team: any[] = [];
 
 export default function AProposPage() {
   return (
@@ -77,10 +52,10 @@ export default function AProposPage() {
       }}>
         <div style={{ maxWidth: '960px', margin: '0 auto' }} className="about-stats-grid">
           {[
-            { value: '5,000+', label: 'Clients satisfaits', emoji: '🎉' },
-            { value: '200+', label: 'Produits référencés', emoji: '📦' },
-            { value: '4.8★', label: 'Note moyenne client', emoji: '⭐' },
-            { value: '3 ans', label: 'D\'expérience', emoji: '🏆' },
+            { value: '0', label: 'Clients satisfaits', emoji: '🎉' },
+            { value: '0', label: 'Produits référencés', emoji: '📦' },
+            { value: 'N/A', label: 'Note moyenne client', emoji: '⭐' },
+            { value: 'N/A', label: 'D\'expérience', emoji: '🏆' },
           ].map(s => (
             <div key={s.label} style={{ textAlign: 'center', padding: '24px 16px' }}>
               <div style={{ fontSize: '2rem', marginBottom: '8px' }}>{s.emoji}</div>
@@ -144,7 +119,10 @@ export default function AProposPage() {
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '24px' }}>
-            {team.map(member => (
+            {team.length === 0 ? (
+              <p style={{ color: '#475569', textAlign: 'center', gridColumn: '1 / -1' }}>L'équipe s'agrandit, revenez bientôt !</p>
+            ) : (
+              team.map(member => (
               <div key={member.name} style={{
                 background: 'var(--color-sentech-card)', border: '1px solid var(--color-sentech-border)',
                 borderRadius: '20px', padding: '32px 24px', textAlign: 'center',
@@ -178,7 +156,7 @@ export default function AProposPage() {
                 </div>
                 <p style={{ color: '#475569', fontSize: '0.82rem', lineHeight: 1.6 }}>{member.bio}</p>
               </div>
-            ))}
+            )))}
           </div>
         </div>
       </section>
@@ -189,7 +167,7 @@ export default function AProposPage() {
           Rejoignez la communauté SenTech
         </h2>
         <p style={{ color: '#475569', marginBottom: '32px', maxWidth: '440px', margin: '0 auto 32px' }}>
-          Des milliers de clients font déjà confiance à SenTech Plus pour leurs achats tech au Sénégal.
+          Créez votre compte pour commencer vos achats.
         </p>
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link href="/boutique">

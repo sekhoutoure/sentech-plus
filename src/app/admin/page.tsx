@@ -13,31 +13,11 @@ import { fetchProducts, addProduct, deleteProduct, updateProduct, fetchOrders } 
 import { useToast } from '@/context/ToastContext';
 
 // Initial Mock Data
-const initialOrders = [
-  { id: '#CMD-2847', customer: 'Amadou Diallo', email: 'amadou.d@gmail.com', product: 'Chargeur GaN 65W', amount: 15900, status: 'Livré', date: '16 Jul 2026' },
-  { id: '#CMD-2846', customer: 'Fatou Sow', email: 'fatou.sow@yahoo.fr', product: 'Écouteurs TWS Pro X1', amount: 24900, status: 'En cours', date: '16 Jul 2026' },
-  { id: '#CMD-2845', customer: 'Ibrahima Bah', email: 'ibrahima.bah@gmail.com', product: 'Montre Connectée Series 8', amount: 59900, status: 'En attente', date: '15 Jul 2026' },
-  { id: '#CMD-2844', customer: 'Mariama Koné', email: 'mariama.kone@hotmail.com', product: 'Power Bank 20000mAh', amount: 19900, status: 'Livré', date: '15 Jul 2026' },
-  { id: '#CMD-2843', customer: 'Oumar Traoré', email: 'oumar.traore@gmail.com', product: 'Casque Audio NC Pro', amount: 45900, status: 'Livré', date: '14 Jul 2026' },
-  { id: '#CMD-2842', customer: 'Khady Ndiaye', email: 'khady.n@gmail.com', product: 'Support Téléphone MagSafe', amount: 8900, status: 'Annulé', date: '14 Jul 2026' },
-];
+const initialOrders: any[] = [];
 
-const initialCustomers = [
-  { id: 'CUST-001', name: 'Amadou Diallo', email: 'amadou.d@gmail.com', city: 'Dakar', ordersCount: 5, totalSpent: 89500, type: 'VIP' },
-  { id: 'CUST-002', name: 'Fatou Sow', email: 'fatou.sow@yahoo.fr', city: 'Saint-Louis', ordersCount: 3, totalSpent: 48900, type: 'Régulier' },
-  { id: 'CUST-003', name: 'Ibrahima Bah', email: 'ibrahima.bah@gmail.com', city: 'Thiès', ordersCount: 2, totalSpent: 74800, type: 'Régulier' },
-  { id: 'CUST-004', name: 'Mariama Koné', email: 'mariama.kone@hotmail.com', city: 'Dakar', ordersCount: 6, totalSpent: 112000, type: 'VIP' },
-  { id: 'CUST-005', name: 'Oumar Traoré', email: 'oumar.traore@gmail.com', city: 'Touba', ordersCount: 1, totalSpent: 45900, type: 'Nouveau' },
-  { id: 'CUST-006', name: 'Khady Ndiaye', email: 'khady.n@gmail.com', city: 'Ziguinchor', ordersCount: 4, totalSpent: 52400, type: 'Régulier' },
-];
+const initialCustomers: any[] = [];
 
-const initialPromos = [
-  { code: 'SENTECH20', discount: '20%', type: 'Pourcentage', uses: 142, status: 'Actif', expires: '31 Aug 2026' },
-  { code: 'BIENVENUE10', discount: '10%', type: 'Pourcentage', uses: 389, status: 'Actif', expires: '31 Dec 2026' },
-  { code: 'FREESHIP', discount: 'Livraison Gratuite', type: 'Offert', uses: 95, status: 'Actif', expires: '15 Aug 2026' },
-  { code: 'GAMING15', discount: '15%', type: 'Pourcentage', uses: 64, status: 'Actif', expires: '20 Jul 2026' },
-  { code: 'PROMO30', discount: '30%', type: 'Pourcentage', uses: 50, status: 'Expiré', expires: '01 Jul 2026' },
-];
+const initialPromos: any[] = [];
 
 const statusColors: Record<string, string> = {
   'Livré': '#10b981',
@@ -391,10 +371,10 @@ export default function AdminPage() {
     .reduce((sum, o) => sum + o.amount, 0);
 
   const statsList = [
-    { label: 'Ventes cumulées', value: formatPrice(totalSalesAmount + 2450000), change: '+18%', up: true, icon: <DollarSign size={20} color="#1b75bc" /> },
-    { label: 'Commandes totales', value: String(ordersList.length + 137), change: '+12%', up: true, icon: <Box size={20} color="#1b75bc" /> },
-    { label: 'Clients enregistrés', value: String(customersList.length + 886), change: '+8%', up: true, icon: <Users size={20} color="#1b75bc" /> },
-    { label: 'Produits au catalogue', value: String(productList.length), change: 'Stock OK', up: true, icon: <ShoppingCart size={20} color="#1b75bc" /> },
+    { label: 'Ventes cumulées', value: formatPrice(totalSalesAmount), change: 'N/A', up: true, icon: <DollarSign size={20} color="#1b75bc" /> },
+    { label: 'Commandes totales', value: String(ordersList.length), change: 'N/A', up: true, icon: <Box size={20} color="#1b75bc" /> },
+    { label: 'Clients enregistrés', value: String(customersList.length), change: 'N/A', up: true, icon: <Users size={20} color="#1b75bc" /> },
+    { label: 'Produits au catalogue', value: String(productList.length), change: 'N/A', up: true, icon: <ShoppingCart size={20} color="#1b75bc" /> },
   ];
 
   if (!authorized) {
