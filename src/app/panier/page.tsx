@@ -359,6 +359,7 @@ export default function PanierPage() {
             Découvrir la boutique
           </Link>
         </div>
+        </div>
       </div>
     );
   }

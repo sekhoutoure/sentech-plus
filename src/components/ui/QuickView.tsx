@@ -19,17 +19,50 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { showToast } = useToast();
   const overlayRef = useRef<HTMLDivElement>(null);
+  const closeRef  = useRef<HTMLButtonElement>(null);
+  const modalRef  = useRef<HTMLDivElement>(null);
   const inCart = isInCart(product.id);
   const inWishlist = isInWishlist(product.id);
 
-  // Close on Escape
+  // IHM WCAG 2.1.2 — Focus trap + gestion Escape
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
-    document.addEventListener('keydown', onKey);
+    // Focus automatique sur le bouton fermer à l'ouverture
+    closeRef.current?.focus();
+
+    const FOCUSABLE = [
+      'a[href]', 'button:not([disabled])', 'textarea', 'input',
+      'select', '[tabindex]:not([tabindex="-1"])',
+    ].join(', ');
+
+    const trapFocus = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { onClose(); return; }
+      if (e.key !== 'Tab') return;
+
+      const modal = modalRef.current;
+      if (!modal) return;
+      const focusable = Array.from(modal.querySelectorAll<HTMLElement>(FOCUSABLE));
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last  = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
+    };
+
+    document.addEventListener('keydown', trapFocus);
     document.body.style.overflow = 'hidden';
+
+    // IHM: masquer le fond pour les AT
+    document.getElementById('main-content')?.setAttribute('aria-hidden', 'true');
+
     return () => {
-      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('keydown', trapFocus);
       document.body.style.overflow = '';
+      document.getElementById('main-content')?.removeAttribute('aria-hidden');
     };
   }, [onClose]);
 
@@ -50,18 +83,21 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
       onClick={(e) => { if (e.target === overlayRef.current) onClose(); }}
       role="dialog"
       aria-modal="true"
-      aria-label={`Aperçu de ${product.name}`}
+      aria-labelledby="quickview-title"
     >
-      <div className="modal-content" style={{ maxWidth: '800px' }}>
-        {/* Close button */}
+      <div ref={modalRef} className="modal-content" style={{ maxWidth: '800px' }}>
+        {/* Bouton fermer — IHM: ref pour focus initial, 44x44px */}
         <button
+          ref={closeRef}
           onClick={onClose}
           aria-label="Fermer l'aperçu"
           style={{
             position: 'absolute', top: '16px', right: '16px',
             background: 'var(--color-sentech-dark)', border: '1px solid var(--color-sentech-border)',
-            borderRadius: '8px', padding: '8px', cursor: 'pointer', color: 'var(--color-foreground)',
-            display: 'flex', alignItems: 'center',
+            borderRadius: '8px',
+            width: '44px', height: '44px',
+            cursor: 'pointer', color: 'var(--color-foreground)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}
         >
           <X size={18} />
@@ -84,13 +120,14 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
               {product.category} · {product.brand}
             </div>
 
-            <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-foreground)', lineHeight: 1.3, fontFamily: 'Outfit, sans-serif' }}>
+            {/* IHM: id pour aria-labelledby sur le dialog */}
+            <h2 id="quickview-title" style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-foreground)', lineHeight: 1.3, fontFamily: 'Outfit, sans-serif' }}>
               {product.name}
             </h2>
 
-            {/* Rating */}
+            {/* Rating — IHM: role img + contraste #475569 */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <div style={{ display: 'flex', color: '#f59e0b' }}>
+              <div style={{ display: 'flex', color: '#f59e0b' }} role="img" aria-label={`Note ${product.rating} sur 5`}>
                 {[1,2,3,4,5].map(s => (
                   <Star key={s} size={14} fill={s <= Math.round(product.rating) ? '#f59e0b' : 'none'} stroke="#f59e0b" />
                 ))}

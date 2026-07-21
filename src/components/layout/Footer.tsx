@@ -35,10 +35,10 @@ const YouTubeIcon = () => (
 );
 
 const socialLinks = [
-  { Icon: FacebookIcon, label: 'Facebook', href: 'https://www.facebook.com/sentechplus' },
-  { Icon: InstagramIcon, label: 'Instagram', href: 'https://www.instagram.com/sentechplus' },
-  { Icon: TwitterIcon, label: 'X (Twitter)', href: 'https://x.com/sentechplus' },
-  { Icon: YouTubeIcon, label: 'YouTube', href: 'https://www.youtube.com/@sentechplus' },
+  { Icon: FacebookIcon, label: 'Facebook', href: '#' },
+  { Icon: InstagramIcon, label: 'Instagram', href: '#' },
+  { Icon: TwitterIcon, label: 'X (Twitter)', href: '#' },
+  { Icon: YouTubeIcon, label: 'YouTube', href: '#' },
 ];
 
 const footerLinks = {
@@ -139,11 +139,9 @@ export default function Footer() {
               Votre boutique high-tech de confiance. Des gadgets premium, certifiés, avec une livraison rapide partout au Sénégal.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
-              <a href="tel:+221770000000" style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#475569', textDecoration: 'none', fontSize: '0.875rem', transition: 'color 0.2s' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#1b75bc'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = '#475569'; }}>
-                <Phone size={15} color="#1b75bc" /> +221 77 000 00 00
-              </a>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#475569', fontSize: '0.875rem' }}>
+                <Phone size={15} color="#1b75bc" /> Téléphone : À renseigner
+              </span>
               <a href="mailto:contact@sentechplus.com" style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#475569', textDecoration: 'none', fontSize: '0.875rem', transition: 'color 0.2s' }}
                 onMouseEnter={e => { e.currentTarget.style.color = '#1b75bc'; }}
                 onMouseLeave={e => { e.currentTarget.style.color = '#475569'; }}>

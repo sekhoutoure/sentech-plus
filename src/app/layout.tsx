@@ -78,21 +78,12 @@ export default function RootLayout({
               },
               contactPoint: {
                 '@type': 'ContactPoint',
-                telephone: '+221-77-000-00-00',
                 email: 'contact@sentechplus.com',
                 contactType: 'customer service',
                 availableLanguage: 'French',
-                contactOption: 'TollFree',
               },
-              sameAs: [
-                'https://facebook.com/sentechplus',
-                'https://instagram.com/sentechplus',
-                'https://twitter.com/sentechplus',
-              ],
-              priceRange: '$$',
               currenciesAccepted: 'XOF',
-              paymentAccepted: 'Cash, Credit Card, Orange Money, MTN Mobile Money',
-              openingHours: 'Mo-Su 08:00-20:00',
+              paymentAccepted: 'Cash, Orange Money, MTN Mobile Money',
             }),
           }}
         />

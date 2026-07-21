@@ -38,11 +38,12 @@ export default function ContactPage() {
     }
   };
 
+  // ⚠️ Mettez à jour ces informations avec vos vraies coordonnées
   const socialLinks = [
-    { label: 'Facebook', href: 'https://www.facebook.com/sentechplus', color: '#1877F2', emoji: '📘' },
-    { label: 'Instagram', href: 'https://www.instagram.com/sentechplus', color: '#E4405F', emoji: '📷' },
-    { label: 'WhatsApp', href: 'https://wa.me/221770000000', color: '#25D366', emoji: '💬' },
-    { label: 'TikTok', href: 'https://www.tiktok.com/@sentechplus', color: '#000000', emoji: '🎵' },
+    { label: 'Facebook',  href: '#', color: '#1877F2', emoji: '📘' },
+    { label: 'Instagram', href: '#', color: '#E4405F', emoji: '📷' },
+    { label: 'WhatsApp',  href: '#', color: '#25D366', emoji: '💬' },
+    { label: 'TikTok',    href: '#', color: '#000000', emoji: '🎵' },
   ];
 
   return (
@@ -66,10 +67,10 @@ export default function ContactPage() {
           <div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '32px' }}>
               {[
-                { icon: <Phone size={20} />, title: 'Téléphone', value: '+221 77 000 00 00', sub: 'Lun-Sam 8h-20h', href: 'tel:+221770000000' },
+                { icon: <Phone size={20} />, title: 'Téléphone', value: 'À renseigner', sub: 'Lun-Sam 8h-20h', href: null },
                 { icon: <Mail size={20} />, title: 'Email', value: 'contact@sentechplus.com', sub: 'Réponse sous 24h', href: 'mailto:contact@sentechplus.com' },
                 { icon: <MapPin size={20} />, title: 'Adresse', value: 'Dakar, Sénégal', sub: 'Afrique de l\'Ouest', href: null },
-                { icon: <Clock size={20} />, title: 'Horaires', value: 'Lun-Sam 8h-20h', sub: 'Dim 10h-18h', href: null },
+                { icon: <Clock size={20} />, title: 'Horaires', value: 'À renseigner', sub: 'Ajoutez vos heures d\'ouverture', href: null },
               ].map(item => {
                 const inner = (
                   <div key={item.title} style={{
@@ -139,17 +140,18 @@ export default function ContactPage() {
             </div>
 
             {/* WhatsApp CTA */}
-            <a
-              href="https://wa.me/221770000000"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'flex', alignItems: 'center', gap: '14px',
-                marginTop: '16px', padding: '18px 20px', borderRadius: '14px',
-                background: 'linear-gradient(135deg, rgba(37,211,102,0.1), rgba(37,211,102,0.05))',
-                border: '1px solid rgba(37,211,102,0.3)', textDecoration: 'none',
-              }}
-            >
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '14px',
+                  marginTop: '16px', padding: '18px 20px', borderRadius: '14px',
+                  background: 'linear-gradient(135deg, rgba(37,211,102,0.1), rgba(37,211,102,0.05))',
+                  border: '1px solid rgba(37,211,102,0.3)', textDecoration: 'none',
+                  opacity: 0.6, cursor: 'not-allowed',
+                }}
+              >
               <div style={{
                 width: '44px', height: '44px', borderRadius: '50%',
                 background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,

@@ -181,7 +181,7 @@ body {
   border-radius: 16px;
 }
 
-/* ===== BUTTONS ===== */
+/* ===== BUTTONS — IHM: cibles 44px min, feedback :active, états clairs ===== */
 .btn-primary {
   background: linear-gradient(135deg, #1b75bc, #0d528c);
   color: white;
@@ -191,14 +191,17 @@ body {
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   overflow: hidden;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   white-space: nowrap;
   text-decoration: none;
+  /* IHM Fitt: cible minimale */
+  min-height: 44px;
 }
 
 .btn-primary::before {
@@ -207,15 +210,18 @@ body {
   top: 0; left: -100%;
   width: 100%; height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-  transition: left 0.5s ease;
+  transition: left 0.45s ease;
 }
-
 .btn-primary:hover::before { left: 100%; }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(27, 117, 188, 0.5);
+  box-shadow: 0 8px 28px rgba(27, 117, 188, 0.45);
 }
-.btn-primary:active { transform: translateY(0); }
+/* IHM : feedback appui visible */
+.btn-primary:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 2px 8px rgba(27, 117, 188, 0.3);
+}
 
 .btn-secondary {
   background: transparent;
@@ -226,19 +232,22 @@ body {
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   text-decoration: none;
+  min-height: 44px;
 }
-
 .btn-secondary:hover {
   border-color: #1b75bc;
   color: #1b75bc;
   transform: translateY(-2px);
 }
-.btn-secondary:active { transform: translateY(0); }
+.btn-secondary:active {
+  transform: translateY(1px) scale(0.98);
+}
 
 /* ===== BADGES ===== */
 .badge-discount {
@@ -271,16 +280,17 @@ body {
   padding: 12px 16px;
   font-size: 0.95rem;
   width: 100%;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  /* IHM: outline géré par :focus-visible global */
 }
 .sentech-input:focus {
-  outline: none;
   border-color: rgba(27, 117, 188, 0.8);
-  box-shadow: 0 0 0 3px rgba(27, 117, 188, 0.25), 0 0 15px rgba(27, 117, 188, 0.1);
+  box-shadow: 0 0 0 3px rgba(27, 117, 188, 0.2);
   background: rgba(255, 255, 255, 0.05);
 }
 .sentech-input::placeholder {
-  color: #64748b;
+  /* IHM WCAG 1.4.3 — ratio 4.6:1 sur blanc */
+  color: #6b7280;
 }
 
 /* ===== ANIMATIONS ===== */
@@ -1168,12 +1178,107 @@ body {
   }
 }
 
-/* ── Accessibility: Focus Visible ── */
+/* ═══════════════════════════════════════════════════
+   RÈGLES IHM — WCAG 2.1 AA
+   ═══════════════════════════════════════════════════ */
+
+/* ── Focus visible robuste (WCAG 2.4.7 + 2.4.11) ── */
+/* Supprime le outline natif uniquement pour les clics souris */
+*:focus:not(:focus-visible) { outline: none; }
+
+/* Ring visible pour navigation clavier */
 :focus-visible {
-  outline: 2px solid #1b75bc;
+  outline: 2.5px solid #1b75bc !important;
+  outline-offset: 3px !important;
+  border-radius: 4px;
+}
+
+/* Focus sur les boutons primary */
+.btn-primary:focus-visible {
+  outline: 2.5px solid #1b75bc !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 4px rgba(27,117,188,0.25) !important;
+}
+
+/* Focus sur les inputs */
+.sentech-input:focus-visible,
+.input-dark:focus-visible {
+  outline: 2.5px solid #1b75bc !important;
+  outline-offset: 0 !important;
+  box-shadow: 0 0 0 3px rgba(27,117,188,0.2) !important;
+}
+
+/* ── Cibles tactiles minimales 44×44px (WCAG 2.5.5) ── */
+/* Toutes les actions interactives doivent être cliquables confortablement */
+button, [role="button"], [role="menuitem"], [role="tab"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Exception : boutons inline qui doivent rester compacts (badges, chips texte) */
+.btn-inline-sm {
+  min-height: unset;
+  min-width: unset;
+}
+
+/* ── Contrastes WCAG 1.4.3 (ratio ≥ 4.5:1 texte normal) ── */
+/* #64748b sur blanc = 3.9:1 → on passe à #475569 = 5.9:1 */
+:root {
+  --color-text-secondary: #475569;  /* ratio 5.9:1 sur blanc */
+  --color-text-muted:     #64748b;  /* ratio 3.9:1 — uniquement pour grands textes ≥ 18px */
+  --color-text-placeholder: #6b7280; /* ratio 4.6:1 sur blanc */
+}
+
+.sentech-input::placeholder,
+.input-dark::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+/* ── État disabled accessible (WCAG 1.4.3) ── */
+[disabled], [aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+
+/* ── Skip to content (WCAG 2.4.1) ── */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 8px;
+  z-index: 9999;
+  background: #1b75bc;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 0 0 8px 8px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: top 0.2s;
+  white-space: nowrap;
+}
+.skip-to-content:focus {
+  top: 0;
+  outline: 2px solid white;
   outline-offset: 2px;
 }
-input:focus-visible, button:focus-visible, select:focus-visible, a:focus-visible {
-  outline: 2px solid #1b75bc !important;
-  outline-offset: 2px !important;
+
+/* ── Affordance scroll horizontal (indicateur bord) ── */
+.scroll-fade-right {
+  -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  mask-image: linear-gradient(to right, black 80%, transparent 100%);
+}
+.scroll-fade-both {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
+/* ── Réduction mouvement (WCAG 2.3.3) — déjà présente, renforcée ── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-gradient {
+    animation: none !important;
+    transform: none !important;
+  }
 }
