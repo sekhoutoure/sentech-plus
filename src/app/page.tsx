@@ -17,12 +17,12 @@ import { useToast } from '@/context/ToastContext';
 
 // ── Top 6 essential categories ──
 const TOP_CATEGORIES = [
-  { name: 'Chargeurs Rapides',   icon: Zap,             desc: 'GaN & Power Delivery' },
-  { name: 'Écouteurs Bluetooth', icon: Headphones,      desc: 'Audio HD & Sans Fil' },
-  { name: 'Batteries Externes',  icon: BatteryCharging, desc: 'Power Banks 10K-30K' },
-  { name: 'Câbles Premium',      icon: Cable,           desc: 'Type-C & Lightning' },
-  { name: 'Montres Connectées',  icon: Watch,           desc: 'Smartwatches & Sport' },
-  { name: 'Supports Téléphone',  icon: Smartphone,      desc: 'Voiture & Bureau' },
+  { name: 'Chargeurs Rapides',   icon: Zap,             count: '145 produits', emoji: '🔋' },
+  { name: 'Écouteurs Bluetooth', icon: Headphones,      count: '98 produits',  emoji: '🎧' },
+  { name: 'Batteries Externes',  icon: BatteryCharging, count: '64 produits',  emoji: '⚡' },
+  { name: 'Câbles Premium',      icon: Cable,           count: '112 produits', emoji: '🔌' },
+  { name: 'Montres Connectées',  icon: Watch,           count: '42 produits',  emoji: '⌚' },
+  { name: 'Supports Téléphone',  icon: Smartphone,      count: '53 produits',  emoji: '📱' },
 ];
 
 const promoEndDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
@@ -354,54 +354,87 @@ export default function HomePage() {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
             gap: '24px',
           }}>
             {TOP_CATEGORIES.map((cat) => {
-              const IconComp = cat.icon;
               return (
                 <Link
                   key={cat.name}
                   href={`/boutique?cat=${encodeURIComponent(cat.name)}`}
                   style={{ textDecoration: 'none' }}
                 >
-                  <div style={{
-                    background: 'var(--color-sentech-card)',
-                    border: '1px solid var(--color-sentech-border)',
-                    borderRadius: '18px',
-                    padding: '20px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    gap: '14px',
-                    transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                    boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.borderColor = 'rgba(27,117,188,0.35)';
-                    e.currentTarget.style.boxShadow = '0 12px 24px rgba(27,117,188,0.1)';
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.borderColor = 'var(--color-sentech-border)';
-                    e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.02)';
-                  }}
+                  <div
+                    style={{
+                      background: '#ffffff',
+                      border: '1px solid var(--color-sentech-border)',
+                      borderRadius: '20px',
+                      padding: '24px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      minHeight: '140px',
+                      cursor: 'pointer',
+                      transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+                      boxShadow: '0 2px 8px rgba(15,23,42,0.03)',
+                      position: 'relative',
+                      overflow: 'hidden',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.transform = 'translateY(-6px)';
+                      e.currentTarget.style.borderColor = '#1b75bc';
+                      e.currentTarget.style.boxShadow = '0 12px 28px rgba(15, 23, 42, 0.08)';
+                      const iconEl = e.currentTarget.querySelector('.cat-emoji');
+                      if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1.15)';
+                      const arrowEl = e.currentTarget.querySelector('.cat-arrow');
+                      if (arrowEl) (arrowEl as HTMLElement).style.transform = 'translateX(4px)';
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.borderColor = 'var(--color-sentech-border)';
+                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(15,23,42,0.03)';
+                      const iconEl = e.currentTarget.querySelector('.cat-emoji');
+                      if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1)';
+                      const arrowEl = e.currentTarget.querySelector('.cat-arrow');
+                      if (arrowEl) (arrowEl as HTMLElement).style.transform = 'translateX(0)';
+                    }}
                   >
-                    <div style={{
-                      width: '46px', height: '46px', borderRadius: '14px',
-                      background: 'rgba(27,117,188,0.08)',
-                      border: '1px solid rgba(27,117,188,0.15)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    }}>
-                      <IconComp size={24} color="#1b75bc" />
+                    {/* Top: Icon (Emoji) */}
+                    <div
+                      className="cat-emoji"
+                      style={{
+                        fontSize: '2.2rem',
+                        marginBottom: '16px',
+                        transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+                        width: 'fit-content',
+                      }}
+                    >
+                      {cat.emoji}
                     </div>
-                    <div>
-                      <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-foreground)', fontFamily: 'Outfit, sans-serif' }}>
-                        {cat.name}
+
+                    {/* Bottom: Title + Count (Left), Arrow (Right) */}
+                    <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                      <div>
+                        <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-inter, Inter), sans-serif', marginBottom: '2px' }}>
+                          {cat.name}
+                        </div>
+                        <div style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 600 }}>
+                          {cat.count}
+                        </div>
                       </div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '4px' }}>
-                        {cat.desc}
+
+                      <div
+                        className="cat-arrow"
+                        style={{
+                          width: '36px', height: '36px', borderRadius: '50%',
+                          background: 'rgba(27,117,188,0.08)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          color: '#1b75bc', fontWeight: 800, fontSize: '1.1rem',
+                          transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+                          flexShrink: 0,
+                        }}
+                      >
+                        →
                       </div>
                     </div>
                   </div>
