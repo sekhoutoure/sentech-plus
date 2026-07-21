@@ -41,7 +41,11 @@ export default function HomePage() {
     async function load() {
       try {
         const data = await fetchProducts();
-        if (data && data.length > 0) setProductData(data as any);
+        if (data && data.length >= 4) {
+          setProductData(data as any);
+        } else if (data && data.length > 0) {
+          setProductData([...(data as any), ...products.slice(data.length)]);
+        }
       } catch (err) {
         console.error('Erreur chargement produits:', err);
       }
