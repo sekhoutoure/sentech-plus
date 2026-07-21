@@ -16,43 +16,18 @@ import { useToast } from '@/context/ToastContext';
 
 const heroSlides = [
   {
-    tag: '🔥 Meilleure vente',
-    title: 'Chargeurs GaN',
-    subtitle: '65W Ultra-Compact',
-    desc: 'La technologie GaN de 3ème génération. Chargez votre laptop, smartphone et tablette simultanément.',
+    tag: '✨ Bienvenue',
+    title: 'Votre Nouvelle Boutique',
+    subtitle: 'En cours de configuration',
+    desc: 'Découvrez bientôt notre catalogue complet. Ajoutez vos produits depuis votre tableau de bord.',
     img: '/charger.jpg',
-    cta: '/boutique?cat=Chargeurs+Rapides',
+    cta: '/boutique',
     color: '#1b75bc',
-    badge: '-31%',
-  },
-  {
-    tag: '⭐ Premium',
-    title: 'Écouteurs TWS',
-    subtitle: 'Pro X1 avec ANC',
-    desc: 'Son Hi-Fi immersif avec réduction de bruit active. 8h + 32h d\'autonomie totale.',
-    img: '/earbuds.jpg',
-    cta: '/boutique?cat=%C3%89couteurs+Bluetooth',
-    color: '#a1b1c2',
-    badge: '-34%',
-  },
-  {
-    tag: '✨ Nouveauté',
-    title: 'Montre Connectée',
-    subtitle: 'Series 8 Premium',
-    desc: 'AMOLED 1.9", GPS intégré, ECG + SpO2, 14 jours d\'autonomie. Le compagnon santé ultime.',
-    img: '/smartwatch.jpg',
-    cta: '/boutique?cat=Montres+Connect%C3%A9es',
-    color: '#a855f7',
-    badge: '-33%',
+    badge: 'SENTECH',
   },
 ];
 
-const reviews = [
-  { name: 'Amadou Diop', city: 'Dakar', rating: 5, text: 'Excellent produit, livraison en 2 jours. Je suis très satisfait de la qualité. Je recommande vivement SenTech Plus !', product: 'Chargeur GaN 65W' },
-  { name: 'Mariama Bah', city: 'Conakry', rating: 5, text: 'Service client au top, les écouteurs sont incroyables. Son cristallin, autonomie excellente. Meilleur achat de l\'année.', product: 'Écouteurs TWS Pro X1' },
-  { name: 'Oumar Traoré', city: 'Abidjan', rating: 5, text: 'Prix imbattable pour cette qualité. La montre connectée est magnifique. Emballage parfait, livraison rapide.', product: 'Montre Connectée Series 8' },
-  { name: 'Fatou Sall', city: 'Dakar', rating: 5, text: 'Boutique fiable, produits authentiques. Le support client répond rapidement. Mon go-to pour les gadgets tech.', product: 'Power Bank 20000mAh' },
-];
+const reviews: any[] = [];
 
 // Helper to render category icon using SVG instead of emoji
 function CategoryIcon({ name, size = 28 }: { name: string; size?: number }) {
@@ -492,7 +467,10 @@ export default function HomePage() {
             </div>
           </div>
           <div className="reviews-grid">
-            {reviews.map((r, i) => (
+            {reviews.length === 0 ? (
+              <p style={{ color: '#475569', textAlign: 'center', gridColumn: '1 / -1' }}>Aucun témoignage pour le moment.</p>
+            ) : (
+              reviews.map((r, i) => (
               <div key={i} className="glass-card" style={{ padding: '28px', position: 'relative' }}>
                 <div style={{
                   position: 'absolute', top: '20px', right: '20px',
@@ -521,7 +499,7 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-            ))}
+            )))}
           </div>
         </div>
       </section>
