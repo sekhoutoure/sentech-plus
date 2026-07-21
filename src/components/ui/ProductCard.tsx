@@ -253,8 +253,8 @@ export default function ProductCard({ product, showQuickView = true }: ProductCa
                 </span>
               </div>
 
-              {/* Current Price (20px / 1.25rem) */}
-              <div style={{ marginBottom: '4px' }}>
+              {/* Prices Area: Current Price + Old Price inline */}
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '8px', flexWrap: 'wrap' }}>
                 <span style={{
                   fontSize: '20px',
                   fontWeight: 800,
@@ -264,11 +264,7 @@ export default function ProductCard({ product, showQuickView = true }: ProductCa
                 }}>
                   {formatPrice(product.price)}
                 </span>
-              </div>
-
-              {/* Old Price (Petit texte 14px) */}
-              <div style={{ minHeight: '20px', marginBottom: '12px' }}>
-                {product.oldPrice > product.price ? (
+                {product.oldPrice > product.price && (
                   <span style={{
                     fontSize: '14px',
                     color: '#94a3b8',
@@ -277,7 +273,7 @@ export default function ProductCard({ product, showQuickView = true }: ProductCa
                   }}>
                     {formatPrice(product.oldPrice)}
                   </span>
-                ) : null}
+                )}
               </div>
 
               {/* Stock Indicator (Petit texte 14px) */}
@@ -302,7 +298,7 @@ export default function ProductCard({ product, showQuickView = true }: ProductCa
             {/* Action Button: [ Ajouter ] (Progressive emergence transition on hover) */}
             <div style={{
               opacity: hovered ? 1 : 0.9,
-              transform: hovered ? 'translateY(0)' : 'translateY(2px)',
+              transform: hovered ? 'translateY(0)' : 'translateY(3px)',
               transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
             }}>
               <button
