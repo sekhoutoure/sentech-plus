@@ -83,7 +83,7 @@ export default function HomePage() {
       <section style={{
         position: 'relative',
         overflow: 'hidden',
-        background: 'linear-gradient(135deg, rgba(27,117,188,0.06) 0%, rgba(248,250,252,0.95) 45%, rgba(27,117,188,0.08) 100%)',
+        background: 'linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%)',
         padding: '70px 0 100px 0',
       }}>
         {/* Soft Background Orbs & Glass Particles */}
@@ -340,9 +340,9 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════════════════════════════════════
-          SECTION 2 : CATÉGORIES POPULAIRES (Padding 100px, Margin 40px, Gap 24px)
+          SECTION 2 : CATÉGORIES POPULAIRES
       ═══════════════════════════════════════════════ */}
-      <section className="section-padding" style={{ background: 'var(--color-background)' }}>
+      <section className="section-padding" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #fafcff 100%)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '40px' }}>
             <h2 style={{ fontSize: '1.6rem', fontWeight: 800, fontFamily: 'Outfit, sans-serif', color: 'var(--color-foreground)' }}>
@@ -447,9 +447,9 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════════════════════════════════════
-          SECTION 3 : 🔥 OFFRES FLASH (Décompte & Promotions)
+          SECTION 3 : 🔥 OFFRES FLASH
       ═══════════════════════════════════════════════ */}
-      <section className="section-padding" style={{ background: 'var(--color-background)', borderTop: '1px solid var(--color-sentech-border)' }}>
+      <section className="section-padding" style={{ background: 'linear-gradient(180deg, #fafcff 0%, #f3f8ff 100%)', borderTop: '1px solid var(--color-sentech-border)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
           
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
@@ -485,9 +485,9 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════════════════════════════════════
-          SECTION 4 : ⭐ MEILLEURES VENTES (Filtres Interactifs)
+          SECTION 4 : ⭐ MEILLEURES VENTES
       ═══════════════════════════════════════════════ */}
-      <section className="section-padding" style={{ background: 'rgba(248, 250, 252, 0.6)', borderTop: '1px solid var(--color-sentech-border)' }}>
+      <section className="section-padding" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #fafcff 100%)', borderTop: '1px solid var(--color-sentech-border)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
           
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
@@ -557,7 +557,7 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════
           SECTION 5 : 🆕 NOUVEAUTÉS HIGH-TECH
       ═══════════════════════════════════════════════ */}
-      <section className="section-padding" style={{ background: 'var(--color-background)', borderTop: '1px solid var(--color-sentech-border)' }}>
+      <section className="section-padding" style={{ background: 'linear-gradient(180deg, #fafcff 0%, #f3f8ff 100%)', borderTop: '1px solid var(--color-sentech-border)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
           
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
@@ -598,9 +598,9 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════════════════════════════════════
-          SECTION : 📸 PRODUITS EN SITUATION & LIFESTYLE
+          SECTION 6 : 📸 PRODUITS EN SITUATION & LIFESTYLE
       ═══════════════════════════════════════════════ */}
-      <section className="section-padding" style={{ background: 'rgba(248, 250, 252, 0.7)', borderTop: '1px solid var(--color-sentech-border)' }}>
+      <section className="section-padding" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #fafcff 100%)', borderTop: '1px solid var(--color-sentech-border)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
