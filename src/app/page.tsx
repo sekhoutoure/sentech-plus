@@ -460,11 +460,6 @@ export default function HomePage() {
             <span style={{ fontSize: '0.8rem', color: '#1b75bc', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px' }}>Témoignages</span>
             <h2 className="section-title" style={{ marginTop: '8px' }}>
               Ce que disent nos <span className="sentech-gradient-text">clients</span>
-            </h2>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', marginTop: '12px' }}>
-              {[1,2,3,4,5].map(s => <Star key={s} size={20} fill="#f59e0b" color="#f59e0b" />)}
-              <span style={{ color: '#475569', marginLeft: '8px' }}>4.9/5 sur plus de 1000 avis</span>
-            </div>
           </div>
           <div className="reviews-grid">
             {reviews.length === 0 ? (
