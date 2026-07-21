@@ -399,10 +399,45 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
-  .btn-primary, .btn-secondary {
-    width: 100% !important;
-    justify-content: center !important;
-  }
+/* ===== MOBILE HERO FIRST SPECIFICATIONS ===== */
+.mobile-hero-btn {
+  height: 56px !important;
+  width: 100% !important;
+  border-radius: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+}
+
+.mobile-category-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-category-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-category-item {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  min-width: 115px;
+  height: 76px;
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 18px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
 }
 
 /* ===== SECTION PADDING & WHITE SPACE ===== */

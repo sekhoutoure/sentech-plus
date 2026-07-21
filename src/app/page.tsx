@@ -83,14 +83,14 @@ export default function HomePage() {
   return (
     <>
       {/* ═══════════════════════════════════════════════
-          SECTION 1 : HERO ULTRA MODERNE (Senior UI/UX Design)
+          SECTION 1 : HERO ULTRA MODERNE (Mobile-First & Desktop Senior UI/UX)
       ═══════════════════════════════════════════════ */}
       <section style={{
         position: 'relative',
         overflow: 'hidden',
         background: 'linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%)',
-        paddingTop: '80px',
-        paddingBottom: '100px',
+        paddingTop: '40px',
+        paddingBottom: '60px',
       }}>
         {/* Ambient Diffuse Glowing Blobs */}
         <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
@@ -108,58 +108,58 @@ export default function HomePage() {
           }} />
         </div>
 
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 2 }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 20px', position: 'relative', zIndex: 2 }}>
           
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
             gap: '60px',
             alignItems: 'center',
-            minHeight: '680px',
           }} className="hero-main-grid">
             
-            {/* ── COLONNE GAUCHE ── */}
-            <div style={{ animation: 'slide-up 0.5s ease-out' }}>
+            {/* ── COLONNE GAUCHE (Éléments 1 à 6) ── */}
+            <div style={{ animation: 'slide-up 0.5s ease-out', display: 'flex', flexDirection: 'column', alignItems: 'var(--hero-align, flex-start)', textAlign: 'var(--hero-text-align, left)' }} className="hero-left-content">
               
-              {/* Badges Top: Badge Premium & Badge Social Proof */}
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
-                {/* Badge Premium */}
-                <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  background: '#ffffff',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '999px',
-                  padding: '6px 16px',
-                  boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
-                }}>
-                  <Award size={15} color="#1B75BC" />
-                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
-                    ⭐ Boutique Officielle au Sénégal 🇸🇳
-                  </span>
-                </div>
-
-                {/* Badge Social Proof */}
-                <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  background: '#ffffff',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '999px',
-                  padding: '6px 16px',
-                  boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
-                }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
-                    👥 +2500 clients satisfaits &nbsp; <span style={{ color: '#FBBF24' }}>★★★★★</span> 4.9/5
-                  </span>
-                </div>
+              {/* 1. BADGE PREMIUM : 🇸🇳 Boutique officielle */}
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                background: '#ffffff',
+                border: '1px solid #E2E8F0',
+                borderRadius: '999px',
+                padding: '6px 16px',
+                boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
+                marginBottom: '14px',
+              }}>
+                <span style={{ fontSize: '0.85rem' }}>🇸🇳</span>
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
+                  Boutique officielle au Sénégal
+                </span>
               </div>
 
-              {/* Grand Titre (72px, 800 weight, 1.05 line-height) */}
+              {/* 2. SOCIAL PROOF CAPSULE : 👥 ★★★★★ +2500 clients satisfaits */}
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                background: '#ffffff',
+                border: '1px solid #E2E8F0',
+                borderRadius: '999px',
+                padding: '6px 16px',
+                boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
+                marginBottom: '20px',
+              }}>
+                <span style={{ fontSize: '0.82rem' }}>👥</span>
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
+                  <span style={{ color: '#FBBF24', marginRight: '4px' }}>★★★★★</span>
+                  <AnimatedCounter end={2500} prefix="+" suffix=" clients satisfaits" />
+                </span>
+              </div>
+
+              {/* 3. TITRE : Manrope 800, 44px (Mobile) / 72px (Desktop), Line-height 1.1 */}
               <h1 className="hero-title" style={{
                 fontFamily: 'var(--font-manrope, Manrope), sans-serif',
-                fontSize: 'clamp(38px, 5.2vw, 72px)',
+                fontSize: 'clamp(34px, 5vw, 72px)',
                 fontWeight: 800,
-                lineHeight: 1.05,
-                marginBottom: '24px',
+                lineHeight: 1.08,
+                marginBottom: '20px',
                 color: '#0F172A',
                 letterSpacing: '-0.03em',
               }}>
@@ -168,89 +168,32 @@ export default function HomePage() {
                 au meilleur prix au Sénégal.
               </h1>
 
-              {/* Description (Max 600px, Slate 600, 500 weight) */}
+              {/* 4. DESCRIPTION : Max 3 lines, Slate 600 */}
               <p className="hero-description" style={{
                 fontFamily: 'var(--font-manrope, Manrope), sans-serif',
                 color: '#475569',
-                fontSize: '1.05rem',
+                fontSize: '1rem',
                 fontWeight: 500,
-                lineHeight: 1.6,
-                marginBottom: '32px',
+                lineHeight: 1.55,
+                marginBottom: '28px',
                 maxWidth: '600px',
               }}>
                 Découvrez une sélection premium d&apos;accessoires High-Tech certifiés avec livraison express partout au Sénégal.
               </p>
 
-              {/* 3 Cartes de confiance (Petites cartes blanches avec icônes Lucide) */}
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '12px',
-                marginBottom: '36px',
-              }}>
-                <div style={{
-                  background: '#ffffff',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '20px',
-                  padding: '14px 16px',
-                  display: 'flex', alignItems: 'center', gap: '10px',
-                  boxShadow: '0 4px 14px rgba(15,23,42,0.03)',
-                  transition: 'transform 250ms ease, box-shadow 250ms ease',
-                }} className="hover-lift">
-                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Truck size={20} color="#1B75BC" />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>Livraison Express 24h</div>
-                  </div>
-                </div>
-
-                <div style={{
-                  background: '#ffffff',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '20px',
-                  padding: '14px 16px',
-                  display: 'flex', alignItems: 'center', gap: '10px',
-                  boxShadow: '0 4px 14px rgba(15,23,42,0.03)',
-                  transition: 'transform 250ms ease, box-shadow 250ms ease',
-                }} className="hover-lift">
-                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <ShieldCheck size={20} color="#1B75BC" />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>Produits Certifiés</div>
-                  </div>
-                </div>
-
-                <div style={{
-                  background: '#ffffff',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '20px',
-                  padding: '14px 16px',
-                  display: 'flex', alignItems: 'center', gap: '10px',
-                  boxShadow: '0 4px 14px rgba(15,23,42,0.03)',
-                  transition: 'transform 250ms ease, box-shadow 250ms ease',
-                }} className="hover-lift">
-                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Headphones size={20} color="#1B75BC" />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>Support 7j/7</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Deux Boutons (16px gap, 16px border-radius) */}
-              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '28px' }}>
-                <Link href="/boutique" style={{ textDecoration: 'none' }}>
-                  <button id="hero-shop-btn" className="btn-primary btn-pulse" style={{
-                    padding: '16px 36px',
+              {/* 5. BOUTONS : Full-width 56px (Mobile) / Auto (Desktop) avec 12px gap */}
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', width: '100%', marginBottom: '32px' }} className="hero-buttons-container">
+                <Link href="/boutique" style={{ textDecoration: 'none', flex: 1, minWidth: '220px' }}>
+                  <button id="hero-shop-btn" className="btn-primary btn-pulse mobile-hero-btn" style={{
+                    height: '56px',
+                    width: '100%',
+                    padding: '0 28px',
                     fontSize: '1rem',
                     fontWeight: 700,
                     borderRadius: '16px',
                     background: '#1B75BC',
                     boxShadow: '0 10px 25px rgba(27,117,188,0.35)',
-                    display: 'inline-flex', alignItems: 'center', gap: '10px',
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
                     cursor: 'pointer', color: '#ffffff', border: 'none',
                     transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
                     fontFamily: 'var(--font-manrope, Manrope), sans-serif',
@@ -259,62 +202,98 @@ export default function HomePage() {
                   </button>
                 </Link>
 
-                <Link href="/promotions" style={{ textDecoration: 'none' }}>
-                  <button id="hero-promo-btn" className="btn-secondary" style={{
-                    padding: '16px 32px',
+                <Link href="/promotions" style={{ textDecoration: 'none', flex: 1, minWidth: '220px' }}>
+                  <button id="hero-promo-btn" className="btn-secondary mobile-hero-btn" style={{
+                    height: '56px',
+                    width: '100%',
+                    padding: '0 24px',
                     fontSize: '1rem',
                     fontWeight: 700,
                     borderRadius: '16px',
                     background: '#ffffff',
                     border: '1px solid #E2E8F0',
                     color: '#0F172A',
-                    display: 'inline-flex', alignItems: 'center', gap: '8px',
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                     cursor: 'pointer',
                     boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
                     transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
                     fontFamily: 'var(--font-manrope, Manrope), sans-serif',
                   }}>
-                    Découvrir les promotions <Flame size={18} color="#EF4444" />
+                    Découvrir les promos <Flame size={18} color="#EF4444" />
                   </button>
                 </Link>
               </div>
 
-              {/* Sous les boutons : Photos rondes de clients + rating */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ display: 'flex' }}>
-                  {[
-                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
-                    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
-                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
-                    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
-                  ].map((src, i) => (
-                    <div key={i} style={{
-                      position: 'relative', width: '32px', height: '32px', borderRadius: '50%',
-                      overflow: 'hidden', border: '2px solid #ffffff', marginLeft: i === 0 ? 0 : '-10px',
-                      boxShadow: '0 2px 8px rgba(15,23,42,0.1)',
-                    }}>
-                      <Image src={src} alt="Client satisfait" fill style={{ objectFit: 'cover' }} />
-                    </div>
-                  ))}
+              {/* 6. CARTES AVANTAGES : 2 colonnes top, 1 full-width bottom */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '12px',
+                width: '100%',
+                maxWidth: '600px',
+              }}>
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: '18px',
+                  padding: '12px 14px',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  boxShadow: '0 4px 12px rgba(15,23,42,0.03)',
+                }} className="hover-lift">
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Truck size={18} color="#1B75BC" />
+                  </div>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
+                    🚚 Livraison 24h
+                  </div>
                 </div>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
-                  <span style={{ color: '#FBBF24', marginRight: '4px' }}>★★★★★</span>
-                  <AnimatedCounter end={2500} prefix="+" suffix=" clients satisfaits" />
+
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: '18px',
+                  padding: '12px 14px',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  boxShadow: '0 4px 12px rgba(15,23,42,0.03)',
+                }} className="hover-lift">
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <ShieldCheck size={18} color="#1B75BC" />
+                  </div>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
+                    🛡️ Produits certifiés
+                  </div>
+                </div>
+
+                <div style={{
+                  gridColumn: '1 / -1',
+                  background: '#ffffff',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: '18px',
+                  padding: '12px 14px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                  boxShadow: '0 4px 12px rgba(15,23,42,0.03)',
+                }} className="hover-lift">
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Headphones size={18} color="#1B75BC" />
+                  </div>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
+                    🎧 Support client 7j/7 à votre écoute
+                  </div>
                 </div>
               </div>
 
             </div>
 
-            {/* ── COLONNE DROITE (55%): Podium & Cartes Flottantes Glassmorphism ── */}
-            <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {/* ── 7. IMAGE PRODUITS SHOWCASE & FLOATING CARDS ── */}
+            <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
               
               {/* Soft Glowing Blue Halo Ring Behind Products */}
               <div style={{
                 position: 'absolute',
-                width: '460px', height: '460px',
+                width: '380px', height: '380px',
                 borderRadius: '50%',
                 border: '2px solid rgba(27,117,188,0.3)',
-                boxShadow: '0 0 100px rgba(27,117,188,0.2), inset 0 0 50px rgba(27,117,188,0.12)',
+                boxShadow: '0 0 80px rgba(27,117,188,0.2), inset 0 0 40px rgba(27,117,188,0.12)',
                 pointerEvents: 'none',
                 animation: 'pulse-glow 5s ease-in-out infinite',
               }} />
@@ -323,9 +302,9 @@ export default function HomePage() {
               <div style={{
                 position: 'relative',
                 width: '100%',
-                maxWidth: '540px',
-                height: '480px',
-                borderRadius: '32px',
+                maxWidth: '480px',
+                height: '420px',
+                borderRadius: '28px',
                 overflow: 'hidden',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 zIndex: 2,
@@ -333,92 +312,61 @@ export default function HomePage() {
               }}>
                 <Image
                   src="/hero_showcase.jpg"
-                  alt="Mise en scène podium produits High-Tech : Casque, Earbuds, Chargeur GaN, Power Bank et Smartwatch"
+                  alt="Mise en scène produits High-Tech : Casque, Écouteurs, Chargeur GaN, Power Bank et Montre"
                   fill
-                  sizes="(max-width: 768px) 100vw, 540px"
+                  sizes="(max-width: 768px) 100vw, 480px"
                   style={{ objectFit: 'contain' }}
                   priority
                 />
               </div>
 
-              {/* ── CARTE FLOTTANTE 1 (Haut Gauche) : Paiement Sécurisé ── */}
+              {/* Floating Card 1 (Paiement sécurisé) */}
               <div style={{
                 position: 'absolute',
-                top: '20px',
-                left: '-10px',
-                background: 'rgba(255, 255, 255, 0.82)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
+                top: '10px',
+                left: '0px',
+                background: 'rgba(255, 255, 255, 0.85)',
+                backdropFilter: 'blur(14px)',
+                WebkitBackdropFilter: 'blur(14px)',
                 border: '1px solid rgba(255, 255, 255, 0.7)',
-                borderRadius: '20px',
-                padding: '14px 18px',
-                boxShadow: '0 12px 32px rgba(15,23,42,0.08)',
+                borderRadius: '16px',
+                padding: '10px 14px',
+                boxShadow: '0 10px 25px rgba(15,23,42,0.08)',
                 zIndex: 4,
-                display: 'flex', alignItems: 'center', gap: '12px',
+                display: 'flex', alignItems: 'center', gap: '8px',
                 animation: 'float 3.5s ease-in-out infinite alternate',
               }}>
-                <div style={{ width: '38px', height: '38px', borderRadius: '12px', background: 'rgba(34,197,94,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <ShieldCheck size={20} color="#22C55E" />
+                <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: 'rgba(34,197,94,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <ShieldCheck size={16} color="#22C55E" />
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>✓ Paiement sécurisé</div>
-                  <div style={{ fontSize: '0.72rem', color: '#64748B', display: 'flex', gap: '4px', marginTop: '2px', fontWeight: 600 }}>
-                    <span style={{ color: '#FF6600', fontWeight: 800 }}>Orange Money</span> • <span style={{ color: '#1BA0E2', fontWeight: 800 }}>Wave</span> • Cash
-                  </div>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>Paiement sécurisé</div>
+                  <div style={{ fontSize: '0.68rem', color: '#64748B', fontWeight: 600 }}>Orange Money • Wave</div>
                 </div>
               </div>
 
-              {/* ── CARTE FLOTTANTE 2 (Haut Droite) : Livraison Express ── */}
+              {/* Floating Card 2 (Livraison Express) */}
               <div style={{
                 position: 'absolute',
-                top: '60px',
-                right: '-10px',
-                background: 'rgba(255, 255, 255, 0.82)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
+                bottom: '20px',
+                right: '0px',
+                background: 'rgba(255, 255, 255, 0.85)',
+                backdropFilter: 'blur(14px)',
+                WebkitBackdropFilter: 'blur(14px)',
                 border: '1px solid rgba(255, 255, 255, 0.7)',
-                borderRadius: '20px',
-                padding: '14px 18px',
-                boxShadow: '0 12px 32px rgba(15,23,42,0.08)',
+                borderRadius: '16px',
+                padding: '10px 14px',
+                boxShadow: '0 10px 25px rgba(15,23,42,0.08)',
                 zIndex: 4,
-                display: 'flex', alignItems: 'center', gap: '12px',
+                display: 'flex', alignItems: 'center', gap: '8px',
                 animation: 'float 4.5s ease-in-out infinite alternate-reverse',
               }}>
-                <div style={{ width: '38px', height: '38px', borderRadius: '12px', background: 'rgba(27,117,188,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Truck size={20} color="#1B75BC" />
+                <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: 'rgba(27,117,188,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Truck size={16} color="#1B75BC" />
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>Livraison Express</div>
-                  <div style={{ fontSize: '0.72rem', color: '#64748B', fontWeight: 600, marginTop: '2px' }}>
-                    ⚡ 24h Dakar • 48h Régions
-                  </div>
-                </div>
-              </div>
-
-              {/* ── CARTE FLOTTANTE 3 (Bas Droite) : Garantie 12 mois ── */}
-              <div style={{
-                position: 'absolute',
-                bottom: '30px',
-                right: '10px',
-                background: 'rgba(255, 255, 255, 0.85)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                border: '1px solid rgba(255, 255, 255, 0.7)',
-                borderRadius: '20px',
-                padding: '14px 18px',
-                boxShadow: '0 12px 32px rgba(15,23,42,0.08)',
-                zIndex: 4,
-                display: 'flex', alignItems: 'center', gap: '12px',
-                animation: 'float 4s ease-in-out infinite alternate',
-              }}>
-                <div style={{ width: '38px', height: '38px', borderRadius: '12px', background: 'rgba(37,99,235,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Award size={20} color="#2563EB" />
-                </div>
-                <div>
-                  <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>Garantie 12 mois</div>
-                  <div style={{ fontSize: '0.72rem', color: '#64748B', fontWeight: 600, marginTop: '2px' }}>
-                    Produits certifiés d&apos;origine
-                  </div>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>Livraison Express</div>
+                  <div style={{ fontSize: '0.68rem', color: '#64748B', fontWeight: 600 }}>24h Dakar • 48h Régions</div>
                 </div>
               </div>
 
@@ -427,127 +375,47 @@ export default function HomePage() {
           </div>
 
           {/* ═══════════════════════════════════════════════
-              BANDE FLOTTANTE DES CATÉGORIES (En bas du Hero)
+              8. BANDE DES CATÉGORIES (Scroller Horizontal Mobile & Grid Desktop)
           ═══════════════════════════════════════════════ */}
-          <div style={{
-            marginTop: '60px',
-            background: '#ffffff',
-            border: '1px solid #E2E8F0',
-            borderRadius: '24px',
-            padding: '20px 24px',
-            boxShadow: '0 20px 50px rgba(15,23,42,0.07)',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(135px, 1fr))',
-            gap: '16px',
-            alignItems: 'center',
-          }}>
-            {[
-              { name: 'Chargeurs', count: '145 produits', icon: Zap },
-              { name: 'Écouteurs', count: '320 produits', icon: Headphones },
-              { name: 'Power Banks', count: '87 produits', icon: BatteryCharging },
-              { name: 'Câbles', count: '96 produits', icon: Cable },
-              { name: 'Montres', count: '64 produits', icon: Watch },
-              { name: 'Gaming', count: '78 produits', icon: Sparkles },
-              { name: 'Supports', count: '52 produits', icon: Smartphone },
-            ].map((cat, i) => {
-              const IconComponent = cat.icon;
-              return (
+          <div style={{ marginTop: '40px' }}>
+            <div className="mobile-category-scroll no-scrollbar" style={{
+              display: 'flex',
+              gap: '12px',
+              overflowX: 'auto',
+              padding: '10px 4px 14px 4px',
+            }}>
+              {[
+                { name: 'Chargeurs', emoji: '⚡', count: '145 prods' },
+                { name: 'Écouteurs', emoji: '🎧', count: '320 prods' },
+                { name: 'Power Banks', emoji: '🔋', count: '87 prods' },
+                { name: 'Montres', emoji: '⌚', count: '64 prods' },
+                { name: 'Gaming', emoji: '🎮', count: '78 prods' },
+                { name: 'Câbles', emoji: '🔌', count: '96 prods' },
+                { name: 'Supports', emoji: '📱', count: '52 prods' },
+              ].map((cat) => (
                 <Link
                   key={cat.name}
                   href={`/boutique?cat=${encodeURIComponent(cat.name)}`}
-                  style={{ textDecoration: 'none', textAlign: 'center' }}
+                  style={{ textDecoration: 'none' }}
                 >
-                  <div
-                    style={{
-                      background: '#ffffff',
-                      borderRadius: '20px',
-                      padding: '12px 10px',
-                      transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms ease, box-shadow 250ms ease',
-                      border: '1px solid transparent',
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.transform = 'translateY(-5px)';
-                      e.currentTarget.style.borderColor = '#1B75BC';
-                      e.currentTarget.style.boxShadow = '0 10px 24px rgba(27,117,188,0.1)';
-                      const iconEl = e.currentTarget.querySelector('.cat-icon-container');
-                      if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1.1)';
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.borderColor = 'transparent';
-                      e.currentTarget.style.boxShadow = 'none';
-                      const iconEl = e.currentTarget.querySelector('.cat-icon-container');
-                      if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1)';
-                    }}
-                  >
-                    <div
-                      className="cat-icon-container"
-                      style={{
-                        width: '44px', height: '44px', borderRadius: '50%',
-                        background: 'rgba(27,117,188,0.08)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        margin: '0 auto 10px', color: '#1B75BC',
-                        transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)',
-                      }}
-                    >
-                      <IconComponent size={22} />
-                    </div>
-                    <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
+                  <div className="mobile-category-item hover-lift">
+                    <div style={{ fontSize: '1.4rem', marginBottom: '4px' }}>{cat.emoji}</div>
+                    <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
                       {cat.name}
-                    </div>
-                    <div style={{ fontSize: '0.74rem', color: '#64748B', fontWeight: 500, marginTop: '3px' }}>
-                      {cat.count}
                     </div>
                   </div>
                 </Link>
-              );
-            })}
+              ))}
 
-            {/* 8ème carte : Voir toutes les catégories */}
-            <Link
-              href="/boutique"
-              style={{ textDecoration: 'none', textAlign: 'center' }}
-            >
-              <div
-                style={{
-                  background: '#ffffff',
-                  borderRadius: '20px',
-                  padding: '12px 10px',
-                  transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms ease, box-shadow 250ms ease',
-                  border: '1px solid transparent',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'translateY(-5px)';
-                  e.currentTarget.style.borderColor = '#1B75BC';
-                  e.currentTarget.style.boxShadow = '0 10px 24px rgba(27,117,188,0.1)';
-                  const iconEl = e.currentTarget.querySelector('.cat-icon-container');
-                  if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1.1)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.borderColor = 'transparent';
-                  e.currentTarget.style.boxShadow = 'none';
-                  const iconEl = e.currentTarget.querySelector('.cat-icon-container');
-                  if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1)';
-                }}
-              >
-                <div
-                  className="cat-icon-container"
-                  style={{
-                    width: '44px', height: '44px', borderRadius: '50%',
-                    background: 'rgba(15,23,42,0.06)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    margin: '0 auto 10px', color: '#0F172A',
-                    transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)',
-                  }}
-                >
-                  <ChevronRight size={22} />
+              <Link href="/boutique" style={{ textDecoration: 'none' }}>
+                <div className="mobile-category-item hover-lift" style={{ border: '1px solid #1B75BC', background: 'rgba(27,117,188,0.04)' }}>
+                  <div style={{ fontSize: '1.2rem', marginBottom: '4px', color: '#1B75BC' }}>→</div>
+                  <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#1B75BC', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
+                    Voir tout
+                  </div>
                 </div>
-                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#1B75BC', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
-                  Voir toutes <br /> les catégories
-                </div>
-              </div>
-            </Link>
+              </Link>
+            </div>
           </div>
 
         </div>
