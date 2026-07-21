@@ -5,9 +5,10 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import SkipToContent from '@/components/ui/SkipToContent';
 import ScrollToTop from '@/components/ui/ScrollToTop';
+import WhatsAppButton from '@/components/ui/WhatsAppButton';
 
 // Pages qui ne doivent PAS afficher le Navbar ni le Footer
-const NO_CHROME_ROUTES = ['/login', '/admin', '/admin/login'];
+const NO_CHROME_ROUTES = ['/login', '/admin', '/admin/login', '/panier'];
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -28,6 +29,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
       </main>
       <Footer />
       <ScrollToTop />
+      <WhatsAppButton />
     </>
   );
 }

@@ -326,7 +326,21 @@ export default function PanierPage() {
 
   if (items.length === 0) {
     return (
-      <div style={{ minHeight: '100vh', paddingTop: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        {/* Minimalist Checkout Header */}
+        <header style={{ 
+          padding: '20px 24px', 
+          borderBottom: '1px solid var(--color-sentech-border)', 
+          display: 'flex', 
+          justifyContent: 'center',
+          background: 'var(--color-sentech-card)'
+        }}>
+          <Link href="/" style={{ position: 'relative', width: '140px', height: '34px' }}>
+            <Image src="/logo_horizontal_v2.png" alt="SenTech Plus" fill sizes="140px" style={{ objectFit: 'contain', filter: 'invert(1) hue-rotate(180deg)' }} priority />
+          </Link>
+        </header>
+        
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ textAlign: 'center', padding: '48px 24px' }}>
           <ShoppingBag size={72} style={{ color: 'var(--color-sentech-border)', margin: '0 auto 24px' }} />
           <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--color-foreground)', marginBottom: '12px', fontFamily: 'Outfit, sans-serif' }}>
@@ -359,8 +373,25 @@ export default function PanierPage() {
         isLoading={isCheckingOut}
       />
 
-      <div style={{ minHeight: '100vh', paddingTop: '100px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 24px' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        {/* Minimalist Checkout Header */}
+        <header style={{ 
+          padding: '20px 24px', 
+          borderBottom: '1px solid var(--color-sentech-border)', 
+          display: 'flex', 
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          background: 'var(--color-sentech-card)'
+        }}>
+          <Link href="/" style={{ position: 'relative', width: '130px', height: '30px' }}>
+            <Image src="/logo_horizontal_v2.png" alt="SenTech Plus" fill sizes="130px" style={{ objectFit: 'contain', filter: 'invert(1) hue-rotate(180deg)' }} priority />
+          </Link>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10b981', fontSize: '0.85rem', fontWeight: 600 }}>
+            <Shield size={16} /> Paiement 100% Sécurisé
+          </div>
+        </header>
+
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 24px', width: '100%' }}>
           {/* Header */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '12px' }}>
             <div>

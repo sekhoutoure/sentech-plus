@@ -6,6 +6,7 @@ import { products, Product } from '@/lib/products';
 import { fetchProducts } from '@/lib/supabase';
 import ProductCard from '@/components/ui/ProductCard';
 import CountdownTimer from '@/components/ui/CountdownTimer';
+import { SkeletonGrid } from '@/components/ui/SkeletonCard';
 
 const promoEnd = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
 
@@ -72,9 +73,8 @@ export default function PromotionsPage() {
       {/* Products */}
       <section style={{ padding: '60px 24px', maxWidth: '1400px', margin: '0 auto' }}>
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '60px', color: '#475569' }}>
-            <div style={{ fontSize: '2rem', marginBottom: '12px' }}>⏳</div>
-            Chargement des offres...
+          <div style={{ marginTop: '30px' }}>
+            <SkeletonGrid count={8} />
           </div>
         ) : promoProducts.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px' }}>

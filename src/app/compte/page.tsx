@@ -92,16 +92,36 @@ export default function ComptePage() {
     window.dispatchEvent(new Event('storage'));
   };
 
-  const handleSaveProfile = () => {
-    setUserName(editName);
-    setUserPhone(editPhone);
-    setUserCity(editCity);
-    localStorage.setItem('userName', editName);
-    localStorage.setItem('userPhone', editPhone);
-    localStorage.setItem('userCity', editCity);
+  const handleSaveProfile = async () => {
     setIsEditing(false);
-    showToast('Profil mis à jour avec succès !', 'success');
-    window.dispatchEvent(new Event('storage'));
+    showToast('Mise à jour en cours...', 'info');
+
+    try {
+      // Import dynamically or use a quick fetch to Supabase (if we had the client exposed)
+      // Wait, we need to import supabase at the top!
+      const { supabase } = await import('@/lib/supabase');
+      const { error } = await supabase.auth.updateUser({
+        data: { name: editName, phone: editPhone, city: editCity }
+      });
+
+      if (error) {
+        console.error("Erreur de mise à jour profil", error);
+        showToast('Erreur lors de la sauvegarde.', 'error');
+        return;
+      }
+      
+      setUserName(editName);
+      setUserPhone(editPhone);
+      setUserCity(editCity);
+      localStorage.setItem('userName', editName);
+      localStorage.setItem('userPhone', editPhone);
+      localStorage.setItem('userCity', editCity);
+      showToast('Profil mis à jour de façon permanente !', 'success');
+      window.dispatchEvent(new Event('storage'));
+    } catch (err) {
+      console.error(err);
+      showToast('Erreur réseau.', 'error');
+    }
   };
 
   const initials = userName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();

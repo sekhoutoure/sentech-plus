@@ -66,14 +66,34 @@ const footerLinks = {
 export default function Footer() {
   const { showToast } = useToast();
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleNewsletter = (e: React.FormEvent) => {
+  const handleNewsletter = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && email.includes('@')) {
-      showToast('🎉 Merci ! Vous êtes maintenant abonné(e).', 'success');
-      setEmail('');
-    } else {
+    if (!email || !email.includes('@')) {
       showToast('Veuillez saisir un email valide.', 'error');
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      // @ts-ignore - we'll dynamically import or ensure it exists if not already imported at top
+      const { subscribeNewsletter } = await import('@/lib/supabase');
+      const res = await subscribeNewsletter(email);
+      
+      if (res.error) {
+        showToast('Erreur lors de l\'abonnement. Veuillez réessayer.', 'error');
+      } else if (res.alreadySubscribed) {
+        showToast('Vous êtes déjà abonné(e) à notre newsletter !', 'info');
+        setEmail('');
+      } else {
+        showToast('🎉 Merci ! Vous êtes maintenant abonné(e).', 'success');
+        setEmail('');
+      }
+    } catch (err) {
+      showToast('Erreur de connexion. Veuillez réessayer.', 'error');
+    } finally {
+      setLoading(false);
     }
   };
 

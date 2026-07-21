@@ -99,3 +99,38 @@ export async function createOrder(orderData: any) {
   return { data, error };
 }
 
+// Sauvegarder un message de contact
+export async function saveContactMessage(message: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}) {
+  const { data, error } = await supabase.from('contact_messages').insert([{
+    name: message.name,
+    email: message.email,
+    subject: message.subject || 'Sans sujet',
+    message: message.message,
+    created_at: new Date().toISOString(),
+  }]).select();
+  return { data, error };
+}
+
+// S'abonner à la newsletter
+export async function subscribeNewsletter(email: string) {
+  // Vérifie si l'email existe déjà
+  const { data: existing } = await supabase
+    .from('newsletter_subscribers')
+    .select('id')
+    .eq('email', email)
+    .single();
+
+  if (existing) return { data: existing, error: null, alreadySubscribed: true };
+
+  const { data, error } = await supabase.from('newsletter_subscribers').insert([{
+    email,
+    subscribed_at: new Date().toISOString(),
+  }]).select();
+  return { data, error, alreadySubscribed: false };
+}
+

@@ -6,6 +6,7 @@ import { Sparkles, ArrowRight } from 'lucide-react';
 import { products, Product } from '@/lib/products';
 import { fetchProducts } from '@/lib/supabase';
 import ProductCard from '@/components/ui/ProductCard';
+import { SkeletonGrid } from '@/components/ui/SkeletonCard';
 
 export default function NouveautesPage() {
   const [productData, setProductData] = useState<Product[]>(products);
@@ -55,9 +56,8 @@ export default function NouveautesPage() {
 
       <section style={{ padding: '60px 24px', maxWidth: '1400px', margin: '0 auto' }}>
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '60px', color: '#475569' }}>
-            <div style={{ fontSize: '2rem', marginBottom: '12px' }}>✨</div>
-            Chargement des nouveautés...
+          <div style={{ marginTop: '30px' }}>
+            <SkeletonGrid count={8} />
           </div>
         ) : newProducts.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px' }}>

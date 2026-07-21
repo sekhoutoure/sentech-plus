@@ -156,6 +156,7 @@ function BoutiqueContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [page, setPage]               = useState(1);
   const [productData, setProductData] = useState<Product[]>(products);
+  const [loading, setLoading]         = useState(true);
   const PER_PAGE = 12;
 
   // Load products from Supabase
@@ -168,6 +169,8 @@ function BoutiqueContent() {
         }
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     }
     loadProducts();
@@ -338,18 +341,28 @@ function BoutiqueContent() {
 
         {/* Products */}
         <section aria-label="Résultats">
-          {paginated.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '80px 20px', color: '#475569' }}>
+          {loading ? (
+            <SkeletonGrid count={8} />
+          ) : paginated.length === 0 ? (
+            <div style={{
+              textAlign: 'center', padding: '60px 20px', background: 'var(--color-sentech-card)',
+              borderRadius: '16px', border: '1px solid var(--color-sentech-border)',
+            }}>
               <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🔍</div>
-              <h3 style={{ color: 'var(--color-foreground)', marginBottom: '8px' }}>Aucun produit trouvé</h3>
-              <p>Essayez de modifier vos filtres ou votre recherche.</p>
-              <button onClick={clearFilters} className="btn-primary" style={{ marginTop: '20px' }}>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '8px' }}>
+                Aucun produit trouvé
+              </h3>
+              <p style={{ color: '#475569' }}>Essayez de modifier vos filtres ou votre recherche.</p>
+              <button
+                onClick={() => { setSelectedCat(''); setMaxPrice(200000); setSearch(''); }}
+                className="btn-secondary" style={{ marginTop: '20px' }}
+              >
                 Réinitialiser les filtres
               </button>
             </div>
           ) : (
             <>
-              <div className="product-grid">
+              <div className="products-grid">
                 {paginated.map(p => <ProductCard key={p.id} product={p} />)}
               </div>
 

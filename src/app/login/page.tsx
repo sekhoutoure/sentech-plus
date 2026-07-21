@@ -55,7 +55,7 @@ export default function LoginPage() {
     }
   }, [router]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email || !password || (!isLogin && !name)) {
@@ -75,20 +75,59 @@ export default function LoginPage() {
 
     setLoading(true);
 
-    setTimeout(() => {
-      setLoading(false);
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userEmail', email);
-      if (!isLogin) {
-        localStorage.setItem('userName', name);
-        showToast('🎉 Inscription réussie ! Bienvenue chez SenTech Plus.', 'success');
-      } else {
-        localStorage.setItem('userName', 'Moussa Diallo');
+    try {
+      const { supabase } = await import('@/lib/supabase');
+
+      if (isLogin) {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (error) throw error;
+
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userEmail', email);
+        // On récupère le nom depuis les metadata s'il y est, sinon on met un fallback
+        localStorage.setItem('userName', data.user.user_metadata?.name || email.split('@')[0]);
+        
         showToast('✅ Connexion réussie ! Bon retour.', 'success');
+        window.dispatchEvent(new Event('storage'));
+        router.replace('/compte');
+      } else {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              name,
+              phone,
+            }
+          }
+        });
+
+        if (error) throw error;
+
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userName', name);
+        
+        showToast('🎉 Inscription réussie ! Bienvenue chez SenTech Plus.', 'success');
+        window.dispatchEvent(new Event('storage'));
+        router.replace('/compte');
       }
-      router.replace('/compte');
-      window.dispatchEvent(new Event('storage'));
-    }, 1400);
+    } catch (err: any) {
+      console.error(err);
+      if (err.message.includes('Invalid login credentials')) {
+        showToast('Email ou mot de passe incorrect.', 'error');
+      } else if (err.message.includes('User already registered')) {
+        showToast('Cet email est déjà utilisé. Veuillez vous connecter.', 'error');
+      } else {
+        showToast('Erreur lors de la connexion. Veuillez réessayer.', 'error');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const switchMode = (login: boolean) => {
