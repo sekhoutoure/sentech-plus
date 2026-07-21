@@ -35,10 +35,10 @@ const YouTubeIcon = () => (
 );
 
 const socialLinks = [
-  { Icon: FacebookIcon, label: 'Facebook', href: 'https://facebook.com/sentechplus' },
-  { Icon: InstagramIcon, label: 'Instagram', href: 'https://instagram.com/sentechplus' },
-  { Icon: TwitterIcon, label: 'X (Twitter)', href: 'https://twitter.com/sentechplus' },
-  { Icon: YouTubeIcon, label: 'YouTube', href: 'https://youtube.com/@sentechplus' },
+  { Icon: FacebookIcon, label: 'Facebook', href: 'https://www.facebook.com/sentechplus' },
+  { Icon: InstagramIcon, label: 'Instagram', href: 'https://www.instagram.com/sentechplus' },
+  { Icon: TwitterIcon, label: 'X (Twitter)', href: 'https://x.com/sentechplus' },
+  { Icon: YouTubeIcon, label: 'YouTube', href: 'https://www.youtube.com/@sentechplus' },
 ];
 
 const footerLinks = {

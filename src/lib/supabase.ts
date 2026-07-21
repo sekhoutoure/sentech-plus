@@ -60,6 +60,33 @@ export async function deleteProduct(id: string) {
   return { error };
 }
 
+// Mettre à jour un produit (Admin)
+export async function updateProduct(id: string, productData: any) {
+  const { data, error } = await supabase.from('products').update({
+    name: productData.name,
+    price: productData.price,
+    old_price: productData.oldPrice || null,
+    image: productData.image,
+    category: productData.category,
+    brand: productData.brand,
+    badge: productData.badge || null,
+    in_stock: productData.inStock !== undefined ? productData.inStock : true,
+    description: productData.description,
+    updated_at: new Date().toISOString(),
+  }).eq('id', id).select();
+  return { data, error };
+}
+
+// Récupérer les commandes par email client
+export async function fetchOrdersByEmail(email: string) {
+  const { data, error } = await supabase
+    .from('orders')
+    .select('*')
+    .eq('customer_email', email)
+    .order('created_at', { ascending: false });
+  return { data: data || [], error };
+}
+
 // Récupérer les commandes
 export async function fetchOrders() {
   const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });

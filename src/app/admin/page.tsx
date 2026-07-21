@@ -9,7 +9,7 @@ import {
   Settings, ChevronRight, DollarSign, Box, ShoppingCart, LogOut, Mail, RefreshCw, Upload, CheckSquare, Square
 } from 'lucide-react';
 import { products as initialProducts, formatPrice, Product, Category } from '@/lib/products';
-import { fetchProducts, addProduct, deleteProduct, fetchOrders } from '@/lib/supabase';
+import { fetchProducts, addProduct, deleteProduct, updateProduct, fetchOrders } from '@/lib/supabase';
 import { useToast } from '@/context/ToastContext';
 
 // Initial Mock Data
@@ -202,14 +202,12 @@ export default function AdminPage() {
     const featuresArray = prodFeatures.split(',').map(f => f.trim()).filter(Boolean);
 
     if (editingProduct) {
-      // Pour l'instant on garde l'update local (le MVP Supabase gère surtout l'insert)
-      setProductList(prev => prev.map(p => p.id === editingProduct.id ? {
-        ...p,
+      const updatedFields = {
         name: prodName,
         category: prodCategory,
         brand: prodBrand || 'SenTech',
         price: priceNum,
-        oldPrice: prodPrice !== prodPrice ? priceNum * 1.2 : priceNum,
+        oldPrice: priceNum * 1.2,
         image: finalImage,
         images: [finalImage],
         inStock: stockNum > 0,
@@ -220,7 +218,13 @@ export default function AdminPage() {
         isBestSeller: prodIsBestSeller,
         isPromo: prodIsPromo,
         badge: prodIsPromo ? 'PROMO' : prodIsBestSeller ? 'BEST SELLER' : prodIsNew ? 'NEW' : '',
-      } : p));
+      };
+      // Mise à jour locale
+      setProductList(prev => prev.map(p => p.id === editingProduct.id ? { ...p, ...updatedFields } : p));
+      // Mise à jour Supabase
+      updateProduct(editingProduct.id, updatedFields).then(({ error }) => {
+        if (error) console.error('Erreur update Supabase:', error);
+      });
       showToast('Produit mis à jour avec succès !', 'success');
     } else {
       const newP = {

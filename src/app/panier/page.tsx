@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, Tag, Truck, Shield, AlertCircle } from 'lucide-react';
+import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, Tag, Truck, Shield, AlertCircle, X, User, Mail, Phone, MapPin, CheckCircle } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/context/ToastContext';
 import { formatPrice } from '@/lib/products';
 import { createOrder } from '@/lib/supabase';
 
-// Promo codes — in production these should be validated server-side
+// Promo codes
 const BASE_PROMO_CODES: Record<string, { discount: number; label: string }> = {
   'SENTECH10': { discount: 0.10, label: '-10%' },
   'BIENVENUE': { discount: 0.15, label: '-15% bienvenue' },
@@ -22,6 +22,196 @@ const BASE_PROMO_CODES: Record<string, { discount: number; label: string }> = {
 
 const FREE_SHIPPING_THRESHOLD = 30000;
 
+// Checkout Modal Component
+function CheckoutModal({
+  isOpen,
+  onClose,
+  onConfirm,
+  total,
+  isLoading,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: (data: { name: string; email: string; phone: string; address: string }) => void;
+  total: number;
+  isLoading: boolean;
+}) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [step, setStep] = useState(1);
+
+  // Pre-fill from localStorage if logged in
+  useEffect(() => {
+    if (isOpen) {
+      const storedName = localStorage.getItem('userName');
+      const storedEmail = localStorage.getItem('userEmail');
+      if (storedName) setName(storedName);
+      if (storedEmail) setEmail(storedEmail);
+    }
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !email.trim() || !phone.trim() || !address.trim()) return;
+    onConfirm({ name, email, phone, address });
+  };
+
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 1000,
+      background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: '16px', animation: 'fade-in 0.2s ease-out',
+    }}>
+      <div style={{
+        background: 'var(--color-sentech-card)', border: '1px solid var(--color-sentech-border)',
+        borderRadius: '20px', width: '100%', maxWidth: '500px',
+        boxShadow: '0 25px 60px rgba(0,0,0,0.4)',
+        animation: 'fade-in 0.25s ease-out',
+        maxHeight: '90vh', overflowY: 'auto',
+      }}>
+        {/* Header */}
+        <div style={{
+          padding: '24px 24px 0',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          marginBottom: '24px',
+        }}>
+          <div>
+            <h2 style={{ color: 'var(--color-foreground)', fontWeight: 800, fontSize: '1.3rem', fontFamily: 'Outfit, sans-serif' }}>
+              🛒 Valider la commande
+            </h2>
+            <p style={{ color: '#475569', fontSize: '0.8rem', marginTop: '4px' }}>
+              Total : <strong style={{ color: '#1b75bc' }}>{formatPrice(total)}</strong>
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#475569', display: 'flex', padding: '4px' }}
+            aria-label="Fermer"
+          >
+            <X size={22} />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} style={{ padding: '0 24px 24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Name */}
+          <div>
+            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '7px' }}>
+              Nom complet <span style={{ color: '#ef4444' }}>*</span>
+            </label>
+            <div style={{ position: 'relative' }}>
+              <User size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#475569' }} />
+              <input
+                type="text" required
+                value={name} onChange={e => setName(e.target.value)}
+                placeholder="Moussa Diallo"
+                className="input-dark"
+                style={{ paddingLeft: '40px' }}
+              />
+            </div>
+          </div>
+
+          {/* Email */}
+          <div>
+            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '7px' }}>
+              Email <span style={{ color: '#ef4444' }}>*</span>
+            </label>
+            <div style={{ position: 'relative' }}>
+              <Mail size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#475569' }} />
+              <input
+                type="email" required
+                value={email} onChange={e => setEmail(e.target.value)}
+                placeholder="moussa@example.com"
+                className="input-dark"
+                style={{ paddingLeft: '40px' }}
+              />
+            </div>
+          </div>
+
+          {/* Phone */}
+          <div>
+            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '7px' }}>
+              Téléphone <span style={{ color: '#ef4444' }}>*</span>
+            </label>
+            <div style={{ position: 'relative' }}>
+              <Phone size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#475569' }} />
+              <input
+                type="tel" required
+                value={phone} onChange={e => setPhone(e.target.value)}
+                placeholder="+221 77 000 00 00"
+                className="input-dark"
+                style={{ paddingLeft: '40px' }}
+              />
+            </div>
+          </div>
+
+          {/* Address */}
+          <div>
+            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '7px' }}>
+              Adresse de livraison <span style={{ color: '#ef4444' }}>*</span>
+            </label>
+            <div style={{ position: 'relative' }}>
+              <MapPin size={15} style={{ position: 'absolute', left: '13px', top: '16px', color: '#475569' }} />
+              <textarea
+                required
+                value={address} onChange={e => setAddress(e.target.value)}
+                placeholder="Rue, Quartier, Ville (ex: Liberté 6, Dakar)"
+                rows={2}
+                className="input-dark"
+                style={{ paddingLeft: '40px', resize: 'none', fontFamily: 'inherit' }}
+              />
+            </div>
+          </div>
+
+          {/* Payment note */}
+          <div style={{
+            background: 'rgba(27,117,188,0.06)', border: '1px solid rgba(27,117,188,0.2)',
+            borderRadius: '10px', padding: '12px 16px',
+            display: 'flex', alignItems: 'center', gap: '10px',
+          }}>
+            <CheckCircle size={16} color="#1b75bc" />
+            <span style={{ fontSize: '0.78rem', color: '#475569' }}>
+              Paiement à la livraison ou via <strong>Orange Money / Wave</strong>. Notre équipe vous contactera sous 24h.
+            </span>
+          </div>
+
+          {/* Buttons */}
+          <div style={{ display: 'flex', gap: '12px', marginTop: '4px' }}>
+            <button
+              type="button" onClick={onClose}
+              style={{
+                flex: '0 0 auto', padding: '13px 20px',
+                background: 'var(--color-sentech-dark)', border: '1px solid var(--color-sentech-border)',
+                borderRadius: '10px', color: 'var(--color-foreground)', cursor: 'pointer',
+                fontWeight: 600, fontSize: '0.875rem',
+              }}
+            >
+              Annuler
+            </button>
+            <button
+              type="submit" disabled={isLoading}
+              style={{
+                flex: 1, padding: '13px',
+                background: isLoading ? '#93c5fd' : 'linear-gradient(135deg, #1b75bc, #2563eb)',
+                border: 'none', borderRadius: '10px', color: 'white',
+                fontWeight: 700, fontSize: '0.9rem', cursor: isLoading ? 'not-allowed' : 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                boxShadow: '0 4px 16px rgba(27,117,188,0.35)',
+              }}
+            >
+              {isLoading ? '⏳ Traitement...' : '✅ Confirmer ma commande'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 export default function PanierPage() {
   const { items, totalPrice, updateQuantity, removeFromCart, clearCart } = useCart();
   const { showToast } = useToast();
@@ -32,6 +222,10 @@ export default function PanierPage() {
   const [shippingCost, setShippingCost] = useState(2500);
   const [promoCodes, setPromoCodes] = useState(BASE_PROMO_CODES);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   // Sync shipping fee and promo codes from admin localStorage
   useEffect(() => {
@@ -65,30 +259,31 @@ export default function PanierPage() {
     return () => window.removeEventListener('storage', sync);
   }, []);
 
-  const handleCheckout = async () => {
-    const customerName = window.prompt('Votre nom complet :');
-    if (!customerName) return;
-    const customerEmail = window.prompt('Votre email :');
-    if (!customerEmail) return;
+  const discount = appliedPromo ? Math.round(totalPrice * appliedPromo.discount) : 0;
+  const shipping = totalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : shippingCost;
+  const toFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - totalPrice);
+  const finalTotal = totalPrice - discount + shipping;
 
+  const handleCheckoutConfirm = async (data: { name: string; email: string; phone: string; address: string }) => {
     setIsCheckingOut(true);
     try {
       const orderData = {
-        customer_name: customerName,
-        customer_email: customerEmail,
+        customer_name: data.name,
+        customer_email: data.email,
+        customer_phone: data.phone,
+        customer_address: data.address,
         total_amount: finalTotal,
         items: items,
-        status: 'en_attente'
+        status: 'en_attente',
       };
-      
       const { error } = await createOrder(orderData);
-      
       if (error) {
-        showToast('Erreur lors de la commande', 'error');
+        showToast('Erreur lors de la commande. Réessayez.', 'error');
         console.error(error);
       } else {
         clearCart();
-        showToast('Commande passée avec succès ! Merci de votre confiance.', 'success');
+        setShowCheckoutModal(false);
+        showToast('🎉 Commande passée avec succès ! Merci de votre confiance.', 'success');
       }
     } catch (err) {
       console.error(err);
@@ -127,206 +322,183 @@ export default function PanierPage() {
     showToast('Panier vidé', 'info');
   };
 
-  const discount = appliedPromo ? Math.round(totalPrice * appliedPromo.discount) : 0;
-  const shipping = totalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : shippingCost;
-  const finalTotal = totalPrice - discount + shipping;
-  const toFreeShipping = FREE_SHIPPING_THRESHOLD - totalPrice;
+  if (!mounted) return null;
 
   if (items.length === 0) {
     return (
-      <div style={{ minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', textAlign: 'center', padding: '60px 24px', paddingTop: '130px' }}>
-        <div style={{
-          width: '90px', height: '90px', margin: '0 auto 20px',
-          background: 'rgba(27,117,188,0.08)', borderRadius: '50%',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          border: '1px solid rgba(27,117,188,0.15)',
-        }}>
-          <ShoppingBag size={40} color="#1b75bc" />
+      <div style={{ minHeight: '100vh', paddingTop: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center', padding: '48px 24px' }}>
+          <ShoppingBag size={72} style={{ color: 'var(--color-sentech-border)', margin: '0 auto 24px' }} />
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--color-foreground)', marginBottom: '12px', fontFamily: 'Outfit, sans-serif' }}>
+            Votre panier est vide
+          </h1>
+          <p style={{ color: '#475569', marginBottom: '32px' }}>
+            Découvrez nos produits et ajoutez-en au panier !
+          </p>
+          <Link href="/boutique" style={{
+            display: 'inline-flex', alignItems: 'center', gap: '8px',
+            background: 'linear-gradient(135deg, #1b75bc, #2563eb)',
+            color: 'white', padding: '14px 28px', borderRadius: '12px',
+            textDecoration: 'none', fontWeight: 700, fontSize: '0.95rem',
+            boxShadow: '0 4px 20px rgba(27,117,188,0.35)',
+          }}>
+            Découvrir la boutique
+          </Link>
         </div>
-        <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--color-foreground)', marginBottom: '12px', fontFamily: 'Outfit, sans-serif' }}>
-          Votre panier est vide
-        </h1>
-        <p style={{ color: '#475569', marginBottom: '32px', maxWidth: '360px' }}>
-          Découvrez nos produits high-tech et ajoutez vos favoris au panier !
-        </p>
-        <Link href="/boutique" className="btn-primary" style={{ padding: '14px 32px' }}>
-          <ShoppingBag size={18} /> Aller à la boutique
-        </Link>
       </div>
     );
   }
 
   return (
-    <div style={{ minHeight: '100vh', paddingTop: '90px' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '40px 24px' }}>
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '40px', flexWrap: 'wrap', gap: '12px' }}>
-          <div>
-            <Link href="/boutique" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#475569', textDecoration: 'none', fontSize: '0.875rem', marginBottom: '8px' }}>
-              <ArrowLeft size={16} /> Continuer les achats
-            </Link>
-            <h1 style={{ fontSize: 'clamp(1.6rem, 4vw, 2rem)', fontWeight: 800, color: 'var(--color-foreground)', fontFamily: 'Outfit, sans-serif' }}>
-              Mon panier{' '}
-              <span style={{ color: '#475569', fontSize: '1.1rem', fontWeight: 400 }}>
-                ({items.length} article{items.length > 1 ? 's' : ''})
-              </span>
-            </h1>
-          </div>
-          <button
-            onClick={handleClear}
-            style={{
-              background: clearConfirm ? 'rgba(239,68,68,0.15)' : 'transparent',
-              border: `1px solid ${clearConfirm ? 'rgba(239,68,68,0.5)' : 'rgba(239,68,68,0.3)'}`,
-              borderRadius: '8px', padding: '8px 16px', color: '#ef4444', cursor: 'pointer',
-              fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '6px',
-              transition: 'all 0.2s',
-            }}
-            aria-label="Vider le panier"
-          >
-            <Trash2 size={14} />
-            {clearConfirm ? 'Confirmer la suppression ?' : 'Vider le panier'}
-          </button>
-        </div>
+    <>
+      <CheckoutModal
+        isOpen={showCheckoutModal}
+        onClose={() => setShowCheckoutModal(false)}
+        onConfirm={handleCheckoutConfirm}
+        total={finalTotal}
+        isLoading={isCheckingOut}
+      />
 
-        {/* Free shipping progress */}
-        {toFreeShipping > 0 && (
-          <div style={{
-            background: 'rgba(27,117,188,0.06)', border: '1px solid rgba(27,117,188,0.15)',
-            borderRadius: '12px', padding: '14px 18px', marginBottom: '24px',
-            display: 'flex', alignItems: 'center', gap: '12px',
-          }}>
-            <Truck size={18} color="#1b75bc" />
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '0.85rem', color: '#475569', marginBottom: '6px' }}>
-                Plus que <strong style={{ color: 'var(--color-foreground)' }}>{formatPrice(toFreeShipping)}</strong> pour la livraison gratuite !
-              </div>
-              <div style={{ height: '4px', background: 'rgba(255,255,255,0.08)', borderRadius: '2px', overflow: 'hidden' }}>
-                <div style={{
-                  height: '100%', borderRadius: '2px',
-                  background: 'linear-gradient(90deg, #1b75bc, #a1b1c2)',
-                  width: `${Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100)}%`,
-                  transition: 'width 0.4s ease',
-                }} />
+      <div style={{ minHeight: '100vh', paddingTop: '100px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 24px' }}>
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '12px' }}>
+            <div>
+              <Link href="/boutique" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#475569', textDecoration: 'none', fontSize: '0.875rem', marginBottom: '8px' }}>
+                <ArrowLeft size={15} /> Continuer les achats
+              </Link>
+              <h1 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.2rem)', fontWeight: 800, color: 'var(--color-foreground)', fontFamily: 'Outfit, sans-serif', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <ShoppingBag size={28} color="#1b75bc" />
+                Mon Panier
+                <span style={{ background: 'rgba(27,117,188,0.12)', border: '1px solid rgba(27,117,188,0.25)', color: '#1b75bc', borderRadius: '20px', padding: '2px 12px', fontSize: '1rem' }}>
+                  {items.length}
+                </span>
+              </h1>
+            </div>
+            <button
+              onClick={handleClear}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '6px',
+                background: clearConfirm ? 'rgba(239,68,68,0.08)' : 'var(--color-sentech-dark)',
+                border: `1px solid ${clearConfirm ? 'rgba(239,68,68,0.3)' : 'var(--color-sentech-border)'}`,
+                borderRadius: '8px', padding: '8px 16px',
+                color: clearConfirm ? '#ef4444' : '#475569',
+                cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600, transition: 'all 0.2s',
+              }}
+            >
+              <Trash2 size={14} />
+              {clearConfirm ? 'Confirmer la suppression ?' : 'Vider le panier'}
+            </button>
+          </div>
+
+          {/* Free shipping progress */}
+          {toFreeShipping > 0 && (
+            <div style={{
+              background: 'rgba(27,117,188,0.06)', border: '1px solid rgba(27,117,188,0.15)',
+              borderRadius: '12px', padding: '14px 18px', marginBottom: '24px',
+              display: 'flex', alignItems: 'center', gap: '12px',
+            }}>
+              <Truck size={18} color="#1b75bc" />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '0.85rem', color: '#475569', marginBottom: '6px' }}>
+                  Plus que <strong style={{ color: 'var(--color-foreground)' }}>{formatPrice(toFreeShipping)}</strong> pour la livraison gratuite !
+                </div>
+                <div style={{ height: '4px', background: 'rgba(255,255,255,0.08)', borderRadius: '2px', overflow: 'hidden' }}>
+                  <div style={{
+                    height: '100%', borderRadius: '2px',
+                    background: 'linear-gradient(90deg, #1b75bc, #a1b1c2)',
+                    width: `${Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100)}%`,
+                    transition: 'width 0.4s ease',
+                  }} />
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Layout */}
-        <div className="cart-layout">
-          {/* Cart items */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {items.map(item => (
-              <div key={item.id} style={{
-                background: 'var(--color-sentech-card)', border: '1px solid var(--color-sentech-border)',
-                borderRadius: '16px', padding: '18px',
-                transition: 'border-color 0.2s',
-              }}>
-                <div className="cart-item-grid">
-                  {/* Image */}
-                  <Link href={`/produit/${item.id}`} style={{ textDecoration: 'none' }} className="cart-item-image">
-                    <div style={{ width: '80px', height: '80px', borderRadius: '10px', overflow: 'hidden', position: 'relative', background: 'var(--color-sentech-dark)' }}>
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        sizes="80px"
-                        style={{ objectFit: 'cover' }}
-                      />
-                    </div>
-                  </Link>
-
-                  {/* Info */}
-                  <div className="cart-item-info">
-                    <div style={{ fontSize: '0.68rem', color: '#1b75bc', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '3px' }}>
-                      {item.brand} · {item.category}
-                    </div>
-                    <Link href={`/produit/${item.id}`} style={{ textDecoration: 'none' }}>
-                      <h3 style={{ color: 'var(--color-foreground)', fontSize: '0.95rem', fontWeight: 600, marginBottom: '8px', lineHeight: 1.3 }}>
-                        {item.name}
-                      </h3>
+          {/* Layout */}
+          <div className="cart-layout">
+            {/* Cart items */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {items.map(item => (
+                <div key={item.id} style={{
+                  background: 'var(--color-sentech-card)', border: '1px solid var(--color-sentech-border)',
+                  borderRadius: '16px', padding: '18px', transition: 'border-color 0.2s',
+                }}>
+                  <div className="cart-item-grid">
+                    <Link href={`/produit/${item.id}`} style={{ textDecoration: 'none' }} className="cart-item-image">
+                      <div style={{ width: '80px', height: '80px', borderRadius: '10px', overflow: 'hidden', position: 'relative', background: 'var(--color-sentech-dark)' }}>
+                        <Image src={item.image} alt={item.name} fill sizes="80px" style={{ objectFit: 'cover' }} />
+                      </div>
                     </Link>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                      <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--color-foreground)' }}>
-                        {formatPrice(item.price)}
-                      </span>
-                      {item.oldPrice > item.price && (
-                        <span className="price-old" style={{ fontSize: '0.8rem' }}>{formatPrice(item.oldPrice)}</span>
-                      )}
-                      {item.discount > 0 && <span className="badge-discount">-{item.discount}%</span>}
+                    <div className="cart-item-info">
+                      <div style={{ fontSize: '0.68rem', color: '#1b75bc', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '3px' }}>
+                        {item.brand} · {item.category}
+                      </div>
+                      <Link href={`/produit/${item.id}`} style={{ textDecoration: 'none' }}>
+                        <h3 style={{ color: 'var(--color-foreground)', fontSize: '0.95rem', fontWeight: 600, marginBottom: '8px', lineHeight: 1.3 }}>
+                          {item.name}
+                        </h3>
+                      </Link>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--color-foreground)' }}>
+                          {formatPrice(item.price)}
+                        </span>
+                        {item.oldPrice > item.price && (
+                          <span className="price-old" style={{ fontSize: '0.8rem' }}>{formatPrice(item.oldPrice)}</span>
+                        )}
+                        {item.discount > 0 && <span className="badge-discount">-{item.discount}%</span>}
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Controls */}
-                  <div className="cart-item-controls">
-                    <button
-                      onClick={() => handleRemove(item.id, item.name)}
-                      aria-label={`Supprimer ${item.name} du panier`}
-                      style={{ background: 'none', border: 'none', color: '#475569', cursor: 'pointer', padding: '4px', display: 'flex', transition: 'color 0.2s' }}
-                      onMouseEnter={e => { e.currentTarget.style.color = '#ef4444'; }}
-                      onMouseLeave={e => { e.currentTarget.style.color = '#475569'; }}
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                    <div style={{
-                      display: 'flex', alignItems: 'center',
-                      background: 'var(--color-sentech-dark)', border: '1px solid var(--color-sentech-border)', borderRadius: '8px', overflow: 'hidden',
-                    }}>
+                    <div className="cart-item-controls">
                       <button
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        aria-label={`Diminuer la quantité de ${item.name}`}
-                        style={{ padding: '6px 10px', background: 'none', border: 'none', color: 'var(--color-foreground)', cursor: 'pointer', display: 'flex' }}
+                        onClick={() => handleRemove(item.id, item.name)}
+                        aria-label={`Supprimer ${item.name}`}
+                        style={{ background: 'none', border: 'none', color: '#475569', cursor: 'pointer', padding: '4px', display: 'flex', transition: 'color 0.2s' }}
+                        onMouseEnter={e => { e.currentTarget.style.color = '#ef4444'; }}
+                        onMouseLeave={e => { e.currentTarget.style.color = '#475569'; }}
                       >
-                        <Minus size={14} />
+                        <Trash2 size={16} />
                       </button>
-                      <span style={{ padding: '6px 12px', color: 'var(--color-foreground)', fontWeight: 700, fontSize: '0.9rem', minWidth: '32px', textAlign: 'center' }}>
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        aria-label={`Augmenter la quantité de ${item.name}`}
-                        disabled={item.quantity >= item.stockCount}
-                        style={{ padding: '6px 10px', background: 'none', border: 'none', color: 'var(--color-foreground)', cursor: item.quantity < item.stockCount ? 'pointer' : 'not-allowed', display: 'flex', opacity: item.quantity >= item.stockCount ? 0.4 : 1 }}
-                      >
-                        <Plus size={14} />
-                      </button>
-                    </div>
-                    <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#1b75bc' }}>
-                      = {formatPrice(item.price * item.quantity)}
+                      <div style={{ display: 'flex', alignItems: 'center', background: 'var(--color-sentech-dark)', border: '1px solid var(--color-sentech-border)', borderRadius: '8px', overflow: 'hidden' }}>
+                        <button onClick={() => updateQuantity(item.id, item.quantity - 1)} aria-label="Diminuer" style={{ padding: '6px 10px', background: 'none', border: 'none', color: 'var(--color-foreground)', cursor: 'pointer', display: 'flex' }}>
+                          <Minus size={14} />
+                        </button>
+                        <span style={{ padding: '6px 12px', color: 'var(--color-foreground)', fontWeight: 700, fontSize: '0.9rem', minWidth: '32px', textAlign: 'center' }}>
+                          {item.quantity}
+                        </span>
+                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)} aria-label="Augmenter" style={{ padding: '6px 10px', background: 'none', border: 'none', color: 'var(--color-foreground)', cursor: 'pointer', display: 'flex' }}>
+                          <Plus size={14} />
+                        </button>
+                      </div>
+                      <div style={{ textAlign: 'right', fontWeight: 800, color: 'var(--color-foreground)', fontSize: '0.95rem' }}>
+                        {formatPrice(item.price * item.quantity)}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          {/* Order summary */}
-          <div style={{ position: 'sticky', top: '90px' }}>
-            <div style={{
-              background: 'var(--color-sentech-card)', border: '1px solid var(--color-sentech-border)',
-              borderRadius: '20px', padding: '28px',
-            }}>
-              <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--color-foreground)', marginBottom: '24px' }}>
-                Récapitulatif
-              </h2>
+            {/* Order summary */}
+            <div style={{ background: 'var(--color-sentech-card)', border: '1px solid var(--color-sentech-border)', borderRadius: '16px', padding: '24px', height: 'fit-content', position: 'sticky', top: '100px' }}>
+              <h2 style={{ color: 'var(--color-foreground)', fontWeight: 700, fontSize: '1.1rem', marginBottom: '20px' }}>Récapitulatif</h2>
 
-              {/* Promo code */}
-              <div style={{ marginBottom: '24px' }}>
-                <label htmlFor="promo-code-input" style={{ fontSize: '0.8rem', color: '#475569', display: 'block', marginBottom: '8px' }}>
+              {/* Promo */}
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '8px' }}>
                   Code promo
                 </label>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <div style={{ flex: 1, position: 'relative' }}>
-                    <Tag size={15} style={{ position: 'absolute', left: '11px', top: '50%', transform: 'translateY(-50%)', color: '#475569' }} aria-hidden="true" />
+                  <div style={{ position: 'relative', flex: 1 }}>
+                    <Tag size={14} style={{ position: 'absolute', left: '11px', top: '50%', transform: 'translateY(-50%)', color: '#475569' }} />
                     <input
-                      id="promo-code-input"
                       type="text"
-                      placeholder="SENTECH10..."
                       value={promoCode}
                       onChange={e => setPromoCode(e.target.value)}
-                      onKeyDown={e => e.key === 'Enter' && applyPromo()}
+                      onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); applyPromo(); } }}
+                      placeholder="SENTECH20"
                       className="input-dark"
-                      style={{ paddingLeft: '34px', fontSize: '0.875rem' }}
+                      style={{ paddingLeft: '34px', fontSize: '0.85rem' }}
                     />
                   </div>
                   <button
@@ -354,7 +526,7 @@ export default function PanierPage() {
 
               {/* Totals */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--color-sentech-muted)', fontSize: '0.9rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', color: '#475569', fontSize: '0.9rem' }}>
                   <span>Sous-total</span><span>{formatPrice(totalPrice)}</span>
                 </div>
                 {discount > 0 && (
@@ -362,7 +534,7 @@ export default function PanierPage() {
                     <span>Réduction promo</span><span>-{formatPrice(discount)}</span>
                   </div>
                 )}
-                <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--color-sentech-muted)', fontSize: '0.9rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', color: '#475569', fontSize: '0.9rem' }}>
                   <span>Livraison</span>
                   <span style={{ color: shipping === 0 ? '#10b981' : 'inherit' }}>
                     {shipping === 0 ? '🎉 Gratuite' : formatPrice(shipping)}
@@ -380,24 +552,23 @@ export default function PanierPage() {
               </div>
 
               {/* Checkout button */}
-              <button 
-                onClick={handleCheckout} 
-                disabled={isCheckingOut}
-                className="btn-primary" 
-                style={{ width: '100%', justifyContent: 'center', padding: '16px', fontSize: '1rem', opacity: isCheckingOut ? 0.7 : 1 }}
+              <button
+                onClick={() => setShowCheckoutModal(true)}
+                className="btn-primary"
+                style={{ width: '100%', justifyContent: 'center', padding: '16px', fontSize: '1rem' }}
               >
-                {isCheckingOut ? 'Traitement...' : '🔐 Valider la commande'}
+                🔐 Valider la commande
               </button>
 
               {/* Payment methods */}
               <div style={{ marginTop: '16px', textAlign: 'center' }}>
-                <p style={{ fontSize: '0.72rem', color: 'var(--color-sentech-muted)', marginBottom: '10px' }}>Paiements acceptés</p>
+                <p style={{ fontSize: '0.72rem', color: '#475569', marginBottom: '10px' }}>Paiements acceptés</p>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', flexWrap: 'wrap' }}>
-                  {['💳 Carte', '📱 Orange Money', '📲 MTN', '🔐 PayPal'].map(p => (
+                  {['💳 Carte', '📱 Orange Money', '📲 Wave', '💵 Cash livraison'].map(p => (
                     <span key={p} style={{
                       padding: '3px 8px', borderRadius: '4px',
                       background: 'var(--color-sentech-dark)', border: '1px solid var(--color-sentech-border)',
-                      fontSize: '0.68rem', color: 'var(--color-sentech-muted)',
+                      fontSize: '0.68rem', color: '#475569',
                     }}>{p}</span>
                   ))}
                 </div>
@@ -419,6 +590,6 @@ export default function PanierPage() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
