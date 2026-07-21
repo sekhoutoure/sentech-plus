@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
 @theme inline {
+  /* ===== CHARTE GRAPHIQUE OPTIMISÉE (3 COULEURS PRINCIPALES) ===== */
+  /* 1. BLEU SENTECH (Couleur Principale & Action) */
+  --color-sentech-blue: #1b75bc;
+  --color-sentech-blue-light: #3b82f6;
+  --color-sentech-blue-dark: #0d528c;
+  --color-sentech-glow: rgba(27, 117, 188, 0.12);
+
+  /* 2. NEUTRES ARDOISE / CARBONE (Fond, Cartes & Textes) */
   --color-background: #f8fafc;
   --color-foreground: #0f172a;
-  --color-sentech-black: #ffffff;
-  --color-sentech-dark: #f1f5f9;
   --color-sentech-card: #ffffff;
   --color-sentech-border: rgba(15, 23, 42, 0.08);
-  --color-sentech-blue: #1b75bc;
-  --color-sentech-blue-light: #4ba3e3;
-  --color-sentech-blue-dark: #0d528c;
-  --color-sentech-glow: rgba(27, 117, 188, 0.1);
   --color-sentech-text: #0f172a;
   --color-sentech-muted: #64748b;
-  --color-sentech-accent: #a1b1c2;
-  --color-sentech-success: #10b981;
+
+  /* 3. ROUGE PROMO (Accentuation & Offres Flash) */
   --color-sentech-danger: #ef4444;
-  --color-sentech-warning: #f59e0b;
+  --color-sentech-warning: #ef4444;
+  --color-sentech-success: #10b981;
 
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Outfit', system-ui, sans-serif;
@@ -181,58 +184,47 @@ body {
   border-radius: 16px;
 }
 
-/* ===== BUTTONS — IHM: cibles 44px min, feedback :active, états clairs ===== */
+/* ===== BUTTONS (1 STYLE PRINCIPAL HARMONISÉ) ===== */
 .btn-primary {
-  background: linear-gradient(135deg, #1b75bc, #0d528c);
-  color: white;
+  background: #1b75bc;
+  color: #ffffff;
   border: none;
   padding: 12px 28px;
-  border-radius: 10px;
-  font-weight: 600;
+  border-radius: 12px;
+  font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  position: relative;
-  overflow: hidden;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   white-space: nowrap;
   text-decoration: none;
-  /* IHM Fitt: cible minimale */
   min-height: 44px;
 }
 
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-  transition: left 0.45s ease;
-}
-.btn-primary:hover::before { left: 100%; }
 .btn-primary:hover {
+  background: #0d528c;
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(27, 117, 188, 0.45);
+  box-shadow: 0 10px 25px rgba(13, 82, 140, 0.35);
 }
-/* IHM : feedback appui visible */
+
 .btn-primary:active {
-  transform: translateY(1px) scale(0.98);
-  box-shadow: 0 2px 8px rgba(27, 117, 188, 0.3);
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 4px 12px rgba(13, 82, 140, 0.2);
 }
 
 .btn-secondary {
-  background: transparent;
-  color: var(--color-foreground);
-  border: 1px solid var(--color-sentech-border);
+  background: #ffffff;
+  color: var(--color-foreground, #0f172a);
+  border: 1px solid var(--color-sentech-border, rgba(15, 23, 42, 0.12));
   padding: 12px 28px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -240,13 +232,15 @@ body {
   text-decoration: none;
   min-height: 44px;
 }
+
 .btn-secondary:hover {
-  border-color: #1b75bc;
-  color: #1b75bc;
+  background: #f1f5f9;
+  border-color: rgba(15, 23, 42, 0.2);
   transform: translateY(-2px);
 }
+
 .btn-secondary:active {
-  transform: translateY(1px) scale(0.98);
+  transform: translateY(0) scale(0.98);
 }
 
 /* ===== BADGES ===== */
@@ -293,22 +287,56 @@ body {
   color: #6b7280;
 }
 
-/* ===== ANIMATIONS ===== */
-.animate-fade-in { animation: fade-in 0.6s ease-out; }
-.animate-slide-up { animation: slide-up 0.5s ease-out; }
-.animate-slide-down { animation: slide-down 0.3s ease-out; }
+/* ===== ANIMATIONS (200-300ms max pour une réactivité maximale) ===== */
+.animate-fade-in { animation: fade-in 0.25s ease-out; }
+.animate-slide-up { animation: slide-up 0.25s ease-out; }
+.animate-slide-down { animation: slide-down 0.2s ease-out; }
 .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
 .animate-float { animation: float 3s ease-in-out infinite; }
 .animate-gradient { animation: gradient-shift 4s ease infinite; }
-.animate-scale-in { animation: scale-in 0.3s ease-out; }
+.animate-scale-in { animation: scale-in 0.25s ease-out; }
 
-/* Staggered animation for product cards */
-.product-grid .sentech-card:nth-child(1) { animation: slide-up 0.4s ease-out 0.05s both; }
-.product-grid .sentech-card:nth-child(2) { animation: slide-up 0.4s ease-out 0.1s both; }
-.product-grid .sentech-card:nth-child(3) { animation: slide-up 0.4s ease-out 0.15s both; }
-.product-grid .sentech-card:nth-child(4) { animation: slide-up 0.4s ease-out 0.2s both; }
-.product-grid .sentech-card:nth-child(5) { animation: slide-up 0.4s ease-out 0.25s both; }
-.product-grid .sentech-card:nth-child(6) { animation: slide-up 0.4s ease-out 0.3s both; }
+/* Micro-interaction: Hover Lift */
+.hover-lift {
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+/* ===== OMBRES DISCRÈTES (Jamais de grosses ombres noires) ===== */
+.shadow-sm {
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+}
+.shadow-md {
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+}
+.shadow-lg {
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+/* Skeleton & Shimmer Loading */
+.skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-wave 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+.shimmer-effect {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
+
+/* Staggered animation for product cards (200-250ms) */
+.product-grid .sentech-card:nth-child(1) { animation: slide-up 0.25s ease-out 0.02s both; }
+.product-grid .sentech-card:nth-child(2) { animation: slide-up 0.25s ease-out 0.04s both; }
+.product-grid .sentech-card:nth-child(3) { animation: slide-up 0.25s ease-out 0.06s both; }
+.product-grid .sentech-card:nth-child(4) { animation: slide-up 0.25s ease-out 0.08s both; }
+.product-grid .sentech-card:nth-child(5) { animation: slide-up 0.25s ease-out 0.10s both; }
+.product-grid .sentech-card:nth-child(6) { animation: slide-up 0.25s ease-out 0.12s both; }
 
 /* ===== SCROLLBAR HIDDEN ===== */
 .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -323,17 +351,72 @@ body {
 /* ===== PRODUCT GRID ===== */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
 }
 
-/* ===== SECTION TITLES ===== */
-.section-title {
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+@media (max-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .btn-primary, .btn-secondary {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+/* ===== SECTION PADDING & WHITE SPACE ===== */
+.section-padding {
+  padding: 100px 0;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 60px 0;
+  }
+}
+
+/* ===== TYPOGRAPHIE HIERARCHY — INTER ===== */
+.hero-title {
+  font-family: var(--font-inter, 'Inter'), system-ui, sans-serif;
+  font-size: clamp(34px, 5vw, 56px);
   font-weight: 800;
+  line-height: 1.15;
   letter-spacing: -0.02em;
+}
+
+.section-title {
+  font-family: var(--font-inter, 'Inter'), system-ui, sans-serif;
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 800;
   line-height: 1.2;
+  letter-spacing: -0.015em;
+  margin-bottom: 40px;
+}
+
+.card-title {
+  font-family: var(--font-inter, 'Inter'), system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.text-body {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.text-small {
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 /* ===== INPUTS ===== */

@@ -88,11 +88,11 @@ function BoutiqueContent() {
   const hasActiveFilters = selectedCat || search || sort !== 'default' || maxPrice < 200000;
 
   return (
-    <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '32px 24px' }}>
+    <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '60px 24px 100px' }}>
 
       {/* ── En-tête ── */}
-      <div style={{ marginBottom: '24px' }}>
-        <h1 className="section-title" style={{ marginBottom: '4px' }}>
+      <div style={{ marginBottom: '40px' }}>
+        <h1 className="section-title" style={{ marginBottom: '8px' }}>
           La <span className="sentech-gradient-text">Boutique</span>
         </h1>
         {/* IHM WCAG 1.3.1 — aria-live: annonce dynamique du nombre de résultats */}

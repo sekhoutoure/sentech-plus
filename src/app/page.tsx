@@ -3,38 +3,35 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
-  ArrowRight, Shield, Truck, RotateCcw, Star, Sparkles,
-  Flame, ShoppingCart, ShieldCheck, CreditCard, Clock, Zap, Cable, Smartphone, Headphones,
-  Music, Watch, BatteryCharging, Monitor, Gamepad2, Send, ChevronRight
+  ArrowRight, ShieldCheck, Truck, CreditCard, Star, Sparkles,
+  Flame, Search, Zap, Cable, Smartphone, Headphones, ShoppingCart,
+  Watch, BatteryCharging, Send, ChevronRight, Award, Clock
 } from 'lucide-react';
-import { products, categories, type Product } from '@/lib/products';
+import { products, type Product } from '@/lib/products';
 import { fetchProducts } from '@/lib/supabase';
 import ProductCard from '@/components/ui/ProductCard';
 import CountdownTimer from '@/components/ui/CountdownTimer';
 import { useToast } from '@/context/ToastContext';
 
-// ── Category icon helper ──
-function CategoryIcon({ name, size = 26 }: { name: string; size?: number }) {
-  const color = '#1b75bc';
-  switch (name) {
-    case 'Chargeurs Rapides':   return <Zap size={size} color={color} />;
-    case 'Câbles Premium':      return <Cable size={size} color={color} />;
-    case 'Supports Téléphone':  return <Smartphone size={size} color={color} />;
-    case 'Écouteurs Bluetooth': return <Headphones size={size} color={color} />;
-    case 'Casques Audio':       return <Music size={size} color={color} />;
-    case 'Montres Connectées':  return <Watch size={size} color={color} />;
-    case 'Batteries Externes':  return <BatteryCharging size={size} color={color} />;
-    case 'Accessoires PC':      return <Monitor size={size} color={color} />;
-    case 'Gaming':              return <Gamepad2 size={size} color={color} />;
-    default:                    return <Zap size={size} color={color} />;
-  }
-}
+// ── Top 6 essential categories ──
+const TOP_CATEGORIES = [
+  { name: 'Chargeurs Rapides',   icon: Zap,             desc: 'GaN & Power Delivery' },
+  { name: 'Écouteurs Bluetooth', icon: Headphones,      desc: 'Audio HD & Sans Fil' },
+  { name: 'Batteries Externes',  icon: BatteryCharging, desc: 'Power Banks 10K-30K' },
+  { name: 'Câbles Premium',      icon: Cable,           desc: 'Type-C & Lightning' },
+  { name: 'Montres Connectées',  icon: Watch,           desc: 'Smartwatches & Sport' },
+  { name: 'Supports Téléphone',  icon: Smartphone,      desc: 'Voiture & Bureau' },
+];
 
 const promoEndDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
 
 export default function HomePage() {
+  const router = useRouter();
   const { showToast } = useToast();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState<'bestsellers' | 'promos' | 'new'>('bestsellers');
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [productData, setProductData] = useState<Product[]>(products);
 
@@ -43,14 +40,29 @@ export default function HomePage() {
       try {
         const data = await fetchProducts();
         if (data && data.length > 0) setProductData(data as any);
-      } catch (err) { console.error(err); }
+      } catch (err) {
+        console.error('Erreur chargement produits:', err);
+      }
     }
     load();
   }, []);
 
-  const bestSellers  = productData.filter(p => p.isBestSeller).slice(0, 4);
-  const newProducts  = productData.filter(p => p.isNew).slice(0, 4);
-  const promoProducts = productData.filter(p => p.isPromo).slice(0, 3);
+  const bestSellers = productData.filter(p => p.isBestSeller);
+  const promoProducts = productData.filter(p => p.isPromo);
+  const newProducts = productData.filter(p => p.isNew);
+
+  const currentTabProducts = activeTab === 'bestsellers'
+    ? (bestSellers.length ? bestSellers : productData.slice(0, 8))
+    : activeTab === 'promos'
+    ? (promoProducts.length ? promoProducts : productData.slice(0, 8))
+    : (newProducts.length ? newProducts : productData.slice(0, 8));
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/boutique?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,382 +77,598 @@ export default function HomePage() {
   return (
     <>
       {/* ═══════════════════════════════════════════════
-          HERO — 65vh, catégories intégrées en bas
+          SECTION 1 : HERO (Aération 100px)
       ═══════════════════════════════════════════════ */}
       <section style={{
-        minHeight: '65vh', position: 'relative', overflow: 'hidden',
-        display: 'flex', flexDirection: 'column', justifyContent: 'center',
-        background: 'radial-gradient(ellipse at 70% 50%, rgba(27,117,188,0.06) 0%, transparent 60%), var(--color-background)',
-        paddingBottom: '0',
+        position: 'relative',
+        overflow: 'hidden',
+        background: 'linear-gradient(135deg, rgba(27,117,188,0.06) 0%, rgba(248,250,252,0.95) 45%, rgba(27,117,188,0.08) 100%)',
+        padding: '70px 0 100px 0',
       }}>
-        {/* Fond décoratif */}
+        {/* Soft Background Orbs & Glass Particles */}
         <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-          {[...Array(4)].map((_, i) => (
-            <div key={i} style={{
-              position: 'absolute',
-              width: `${180 + i * 90}px`, height: `${180 + i * 90}px`,
-              borderRadius: '50%',
-              border: '1px solid rgba(27,117,188,0.07)',
-              top: `${15 + i * 12}%`, right: `${3 + i * 4}%`,
-              animation: `spin-slow ${20 + i * 5}s linear infinite`,
-              animationDirection: i % 2 === 0 ? 'normal' : 'reverse',
-            }} />
-          ))}
           <div style={{
-            position: 'absolute', top: '15%', right: '12%',
-            width: '500px', height: '500px',
-            background: 'radial-gradient(circle, rgba(27,117,188,0.09) 0%, transparent 70%)',
-            pointerEvents: 'none',
+            position: 'absolute', top: '-15%', right: '10%',
+            width: '500px', height: '500px', borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(27,117,188,0.12) 0%, transparent 70%)',
+            filter: 'blur(50px)',
+            animation: 'pulse-glow 6s ease-in-out infinite',
+          }} />
+          <div style={{
+            position: 'absolute', bottom: '-10%', left: '5%',
+            width: '400px', height: '400px', borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(96,165,250,0.15) 0%, transparent 70%)',
+            filter: 'blur(40px)',
           }} />
         </div>
 
-        {/* Contenu hero */}
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px', width: '100%', position: 'relative', zIndex: 1 }}>
-          <div className="hero-grid">
-            {/* Texte */}
-            <div style={{ animation: 'slide-up 0.5s ease-out' }}>
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', gap: '8px',
-                background: 'rgba(27,117,188,0.10)', border: '1px solid rgba(27,117,188,0.22)',
-                borderRadius: '100px', padding: '5px 14px', marginBottom: '20px',
-                fontSize: '0.82rem', color: '#60a5fa', fontWeight: 600,
-              }}>
-                <Sparkles size={13} /> Bienvenue sur SenTech Plus
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 2 }}>
+          
+          {/* LOGO Header Area in Hero */}
+          <div style={{
+            display: 'flex', justifyContent: 'center', marginBottom: '32px',
+            animation: 'fade-in 0.6s ease-out',
+          }}>
+            <div style={{
+              background: 'rgba(255,255,255,0.7)',
+              backdropFilter: 'blur(16px)',
+              border: '1px solid rgba(27,117,188,0.18)',
+              borderRadius: '100px',
+              padding: '8px 24px',
+              boxShadow: '0 8px 24px rgba(27,117,188,0.08)',
+              display: 'inline-flex', alignItems: 'center', gap: '10px',
+            }}>
+              <div style={{ position: 'relative', width: '130px', height: '32px' }}>
+                <Image
+                  src="/logo_horizontal_v2.png"
+                  alt="SenTech Plus Logo"
+                  fill
+                  sizes="130px"
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
               </div>
+              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1b75bc', letterSpacing: '1px', textTransform: 'uppercase' }}>
+                OFFICIEL SÉNÉGAL
+              </span>
+            </div>
+          </div>
 
-              <h1 className="section-title" style={{ fontSize: 'clamp(1.7rem, 4vw, 3.2rem)', marginBottom: '8px' }}>
-                Votre Nouvelle Boutique
-              </h1>
-              <h2 style={{
-                fontSize: 'clamp(1.1rem, 2.5vw, 1.7rem)', fontWeight: 700,
-                color: '#1b75bc', marginBottom: '18px', fontFamily: 'Outfit, sans-serif',
+          <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '48px', alignItems: 'center' }}>
+            
+            {/* Content Left */}
+            <div style={{ animation: 'slide-up 0.6s ease-out' }}>
+              
+              <h1 className="hero-title" style={{
+                fontSize: 'clamp(32px, 5vw, 56px)',
+                fontWeight: 800,
+                lineHeight: 1.15,
+                marginBottom: '24px',
+                color: 'var(--color-foreground)',
+                letterSpacing: '-0.5px',
               }}>
-                En cours de configuration
-              </h2>
-              <p style={{ color: '#475569', fontSize: '1rem', lineHeight: '1.7', marginBottom: '32px', maxWidth: '480px' }}>
-                Découvrez bientôt notre catalogue complet. Ajoutez vos produits depuis votre tableau de bord.
+                Les meilleurs accessoires <span className="sentech-gradient-text">High-Tech</span> <br />
+                au meilleur prix au Sénégal.
+              </h1>
+
+              <p className="text-body" style={{
+                color: '#475569',
+                fontSize: '16px',
+                lineHeight: 1.65,
+                marginBottom: '40px',
+                maxWidth: '540px',
+              }}>
+                Chargeurs ultra-rapides, écouteurs sans fil HD, batteries externes haute capacité et équipements certifiés avec <strong>livraison express sous 24h</strong>.
               </p>
 
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '32px' }}>
                 <Link href="/boutique" style={{ textDecoration: 'none' }}>
-                  <button id="hero-shop-btn" className="btn-primary" style={{ padding: '14px 28px', fontSize: '0.95rem' }}>
-                    <ShoppingCart size={17} /> Acheter maintenant
+                  <button id="hero-shop-btn" className="btn-primary" style={{
+                    padding: '16px 32px',
+                    fontSize: '1rem',
+                    fontWeight: 700,
+                    borderRadius: '14px',
+                    background: 'linear-gradient(135deg, #1b75bc, #2563eb)',
+                    boxShadow: '0 10px 25px rgba(27,117,188,0.35)',
+                    display: 'flex', alignItems: 'center', gap: '10px',
+                    cursor: 'pointer',
+                    transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
+                    e.currentTarget.style.boxShadow = '0 16px 32px rgba(27,117,188,0.45)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.boxShadow = '0 10px 25px rgba(27,117,188,0.35)';
+                  }}>
+                    <ShoppingCart size={19} /> Acheter maintenant <ArrowRight size={17} />
                   </button>
                 </Link>
+
                 <Link href="/promotions" style={{ textDecoration: 'none' }}>
-                  <button id="hero-promo-btn" className="btn-secondary" style={{ padding: '14px 24px', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '7px' }}>
-                    <Flame size={15} color="#ef4444" /> Promotions
+                  <button id="hero-promo-btn" style={{
+                    padding: '16px 28px',
+                    fontSize: '1rem',
+                    fontWeight: 600,
+                    borderRadius: '14px',
+                    background: 'rgba(255, 255, 255, 0.75)',
+                    backdropFilter: 'blur(12px)',
+                    border: '1px solid rgba(27, 117, 188, 0.25)',
+                    color: '#0f172a',
+                    display: 'flex', alignItems: 'center', gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)',
+                    transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)';
+                    e.currentTarget.style.borderColor = '#1b75bc';
+                    e.currentTarget.style.boxShadow = '0 12px 24px rgba(27, 117, 188, 0.15)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.75)';
+                    e.currentTarget.style.borderColor = 'rgba(27, 117, 188, 0.25)';
+                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(15, 23, 42, 0.05)';
+                  }}>
+                    <Flame size={18} color="#ef4444" /> Découvrir les promos
                   </button>
                 </Link>
               </div>
 
-              {/* Stats compactes — uniquement le nombre réel de produits */}
-              {productData.length > 0 && (
-                <div style={{ display: 'flex', gap: '28px', marginTop: '32px', flexWrap: 'wrap' }}>
-                  <div>
-                    <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-foreground)', fontFamily: 'Outfit, sans-serif' }}>
-                      {productData.length}
-                    </div>
-                    <div style={{ fontSize: '0.75rem', color: '#475569' }}>Produits</div>
-                  </div>
+              {/* Instant Search Bar (<10s) */}
+              <form onSubmit={handleSearch} style={{
+                display: 'flex', gap: '8px',
+                background: 'rgba(255,255,255,0.85)',
+                border: '1px solid rgba(27,117,188,0.2)',
+                borderRadius: '16px',
+                padding: '8px 10px',
+                backdropFilter: 'blur(16px)',
+                boxShadow: '0 8px 24px rgba(15,23,42,0.04)',
+                maxWidth: '540px',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '12px', color: '#1b75bc' }}>
+                  <Search size={19} />
                 </div>
-              )}
+                <input
+                  type="text"
+                  placeholder="Rechercher un produit... (ex: Ecouteurs, Chargeur 65W)"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  style={{
+                    flex: 1,
+                    background: 'transparent',
+                    border: 'none',
+                    outline: 'none',
+                    color: '#0f172a',
+                    fontSize: '0.92rem',
+                    padding: '8px 4px',
+                  }}
+                />
+                <button type="submit" className="btn-primary" style={{
+                  padding: '10px 20px', fontSize: '0.88rem', fontWeight: 700, borderRadius: '12px',
+                  background: 'linear-gradient(135deg, #1b75bc, #2563eb)'
+                }}>
+                  Chercher
+                </button>
+              </form>
+
             </div>
 
-            {/* Image héro */}
-            <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }} className="hero-image-wrap">
+            {/* Right Visual Showcase: Modern Tech Setup */}
+            <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
+              
               <div style={{
-                position: 'relative', width: '380px', height: '380px',
-                borderRadius: '28px', overflow: 'hidden',
-                border: '1px solid var(--color-sentech-border)',
-                boxShadow: '0 40px 80px rgba(15,23,42,0.08), 0 0 40px rgba(27,117,188,0.1)',
+                position: 'relative',
+                width: '100%',
+                maxWidth: '440px',
+                height: '440px',
+                borderRadius: '32px',
+                overflow: 'hidden',
+                background: 'rgba(255,255,255,0.7)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255,255,255,0.8)',
+                boxShadow: '0 30px 60px rgba(15,23,42,0.12), 0 0 40px rgba(27,117,188,0.12)',
                 animation: 'float 4s ease-in-out infinite',
               }}>
                 <Image
-                  src="/charger.jpg" alt="SenTech Plus — Accessoires tech" fill
-                  sizes="380px" style={{ objectFit: 'cover' }} priority
+                  src="/hero.jpg"
+                  alt="Setup moderne High Tech - Casque, Smartphone, Power Bank"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 440px"
+                  style={{ objectFit: 'cover' }}
+                  priority
                 />
+
                 <div style={{
-                  position: 'absolute', top: '16px', right: '16px',
-                  background: 'linear-gradient(135deg, #ef4444, #dc2626)',
-                  color: 'white', borderRadius: '10px', padding: '6px 12px',
-                  fontWeight: 800, fontSize: '1.1rem', fontFamily: 'Outfit, sans-serif',
-                  boxShadow: '0 4px 16px rgba(239,68,68,0.35)',
+                  position: 'absolute', inset: 0,
+                  background: 'linear-gradient(to top, rgba(15,23,42,0.75) 0%, transparent 60%)',
+                }} />
+
+                <div style={{
+                  position: 'absolute', top: '20px', left: '20px',
+                  background: 'rgba(255, 255, 255, 0.85)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255, 255, 255, 0.6)',
+                  borderRadius: '14px', padding: '8px 14px',
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
+                  animation: 'float 3.5s ease-in-out infinite alternate',
                 }}>
-                  SENTECH
+                  <Headphones size={18} color="#1b75bc" />
+                  <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0f172a' }}>Casque Audio HD</span>
                 </div>
+
+                <div style={{
+                  position: 'absolute', top: '70px', right: '20px',
+                  background: 'rgba(255, 255, 255, 0.85)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255, 255, 255, 0.6)',
+                  borderRadius: '14px', padding: '8px 14px',
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
+                  animation: 'float 4.5s ease-in-out infinite alternate-reverse',
+                }}>
+                  <BatteryCharging size={18} color="#10b981" />
+                  <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0f172a' }}>Power Bank 20K</span>
+                </div>
+
+                <div style={{
+                  position: 'absolute', bottom: '24px', left: '20px', right: '20px',
+                  background: 'rgba(15, 23, 42, 0.85)',
+                  backdropFilter: 'blur(18px)',
+                  border: '1px solid rgba(27, 117, 188, 0.4)',
+                  borderRadius: '18px', padding: '16px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  boxShadow: '0 12px 30px rgba(0,0,0,0.25)',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{
+                      width: '40px', height: '40px', borderRadius: '12px',
+                      background: 'rgba(27,117,188,0.2)', border: '1px solid rgba(27,117,188,0.4)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <Smartphone size={20} color="#60a5fa" />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '0.78rem', color: '#60a5fa', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        SETUP MODERNE COMPLET
+                      </div>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#ffffff' }}>
+                        Smartphone & High-Tech
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '100px' }}>
+                    <Star size={14} color="#fbbf24" fill="#fbbf24" />
+                    <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#ffffff' }}>4.9/5</span>
+                  </div>
+                </div>
+
               </div>
+
             </div>
+
           </div>
         </div>
+      </section>
 
-        {/* ── Catégories intégrées dans le Hero ── */}
-        <div style={{
-          borderTop: '1px solid var(--color-sentech-border)',
-          background: 'rgba(255,255,255,0.5)',
-          backdropFilter: 'blur(10px)',
-          marginTop: '40px',
-          position: 'relative', zIndex: 1,
-        }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
-            <div style={{
-              display: 'flex', gap: '4px', overflowX: 'auto',
-              padding: '14px 0',
-              scrollbarWidth: 'none',
-            }} className="categories-strip">
-              {categories.map((cat) => (
+      {/* ═══════════════════════════════════════════════
+          SECTION 2 : CATÉGORIES POPULAIRES (Padding 100px, Margin 40px, Gap 24px)
+      ═══════════════════════════════════════════════ */}
+      <section className="section-padding" style={{ background: 'var(--color-background)' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '40px' }}>
+            <h2 style={{ fontSize: '1.6rem', fontWeight: 800, fontFamily: 'Outfit, sans-serif', color: 'var(--color-foreground)' }}>
+              Catégories <span className="sentech-gradient-text">populaires</span>
+            </h2>
+            <Link href="/boutique" style={{ textDecoration: 'none', color: '#1b75bc', fontSize: '0.9rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+              Voir tout <ChevronRight size={16} />
+            </Link>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))',
+            gap: '24px',
+          }}>
+            {TOP_CATEGORIES.map((cat) => {
+              const IconComp = cat.icon;
+              return (
                 <Link
                   key={cat.name}
                   href={`/boutique?cat=${encodeURIComponent(cat.name)}`}
-                  style={{ textDecoration: 'none', flexShrink: 0 }}
+                  style={{ textDecoration: 'none' }}
                 >
                   <div style={{
-                    display: 'flex', alignItems: 'center', gap: '7px',
-                    padding: '8px 14px', borderRadius: '100px',
-                    border: '1px solid rgba(27,117,188,0.12)',
-                    background: 'rgba(27,117,188,0.04)',
-                    color: '#475569', fontSize: '0.82rem', fontWeight: 500,
-                    whiteSpace: 'nowrap', cursor: 'pointer',
-                    transition: 'all 0.15s',
+                    background: 'var(--color-sentech-card)',
+                    border: '1px solid var(--color-sentech-border)',
+                    borderRadius: '18px',
+                    padding: '20px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    gap: '14px',
+                    transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
                   }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.background = 'rgba(27,117,188,0.10)';
-                      e.currentTarget.style.color = '#1b75bc';
-                      e.currentTarget.style.borderColor = 'rgba(27,117,188,0.3)';
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.background = 'rgba(27,117,188,0.04)';
-                      e.currentTarget.style.color = '#475569';
-                      e.currentTarget.style.borderColor = 'rgba(27,117,188,0.12)';
-                    }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.borderColor = 'rgba(27,117,188,0.35)';
+                    e.currentTarget.style.boxShadow = '0 12px 24px rgba(27,117,188,0.1)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.borderColor = 'var(--color-sentech-border)';
+                    e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.02)';
+                  }}
                   >
-                    <CategoryIcon name={cat.name} size={14} />
-                    {cat.name}
-                  </div>
-                </Link>
-              ))}
-              <Link href="/boutique" style={{ textDecoration: 'none', flexShrink: 0 }}>
-                <div style={{
-                  display: 'flex', alignItems: 'center', gap: '6px',
-                  padding: '8px 14px', borderRadius: '100px',
-                  background: 'linear-gradient(135deg, #1b75bc, #0d528c)',
-                  color: 'white', fontSize: '0.82rem', fontWeight: 600,
-                  whiteSpace: 'nowrap', cursor: 'pointer',
-                }}>
-                  Tout voir <ChevronRight size={13} />
-                </div>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════
-          MEILLEURES VENTES
-      ═══════════════════════════════════════════════ */}
-      <section className="section-padding" style={{ background: 'var(--color-background)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '36px', flexWrap: 'wrap', gap: '12px' }}>
-            <div>
-              <span style={{ fontSize: '0.75rem', color: '#1b75bc', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '3px' }}>Top produits</span>
-              <h2 className="section-title" style={{ marginTop: '6px', marginBottom: 0 }}>
-                Nos <span className="sentech-gradient-text">meilleures ventes</span>
-              </h2>
-            </div>
-            <Link href="/boutique" style={{ textDecoration: 'none' }}>
-              <button className="btn-secondary" id="view-all-bestsellers" style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '9px 18px', fontSize: '0.85rem' }}>
-                Voir tout <ArrowRight size={15} />
-              </button>
-            </Link>
-          </div>
-          <div className="product-grid">
-            {bestSellers.map(p => <ProductCard key={p.id} product={p} />)}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════
-          PROMOTIONS + COUNTDOWN
-      ═══════════════════════════════════════════════ */}
-      <section className="section-padding" style={{ background: 'var(--color-background)', borderTop: '1px solid var(--color-sentech-border)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          {/* Bandeau promo compact */}
-          <div className="promo-banner-card" style={{ marginBottom: '36px' }}>
-            <div style={{
-              position: 'absolute', top: '-40px', right: '-40px',
-              width: '320px', height: '320px', borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(27,117,188,0.12) 0%, transparent 70%)',
-              pointerEvents: 'none',
-            }} />
-            <div className="promo-banner-grid" style={{ position: 'relative', zIndex: 1 }}>
-              <div>
-                <span style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.35)',
-                  borderRadius: '100px', padding: '4px 12px',
-                  fontSize: '0.75rem', color: '#f87171', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '2px',
-                  marginBottom: '16px',
-                }}>
-                  <Flame size={13} color="#ef4444" /> Offre Flash
-                </span>
-                <h2 className="section-title" style={{ marginBottom: '10px', fontSize: 'clamp(1.6rem, 3vw, 2.6rem)' }}>
-                  Jusqu&apos;à <span style={{ color: '#ef4444' }}>-40%</span>{' '}
-                  <span className="sentech-gradient-text">sélection produits</span>
-                </h2>
-                <p style={{ color: '#475569', marginBottom: '24px', fontSize: '0.95rem' }}>
-                  Offres limitées — profitez avant la fin du compte à rebours !
-                </p>
-                <Link href="/promotions" style={{ textDecoration: 'none' }}>
-                  <button id="promo-cta-btn" className="btn-primary" style={{ padding: '12px 24px' }}>
-                    Voir toutes les promos <ArrowRight size={16} />
-                  </button>
-                </Link>
-              </div>
-              <div style={{ width: '100%', maxWidth: '340px', margin: '0 auto' }}>
-                <CountdownTimer targetDate={promoEndDate} label="Offre se termine dans" />
-              </div>
-            </div>
-          </div>
-
-          {/* Produits en promo */}
-          <div className="product-grid">
-            {promoProducts.map(p => <ProductCard key={p.id} product={p} />)}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════
-          NOUVEAUTÉS
-      ═══════════════════════════════════════════════ */}
-      <section className="section-padding" style={{ background: 'var(--color-sentech-dark)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '36px', flexWrap: 'wrap', gap: '12px' }}>
-            <div>
-              <span style={{ fontSize: '0.75rem', color: '#1b75bc', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '3px', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                <Sparkles size={13} color="#1b75bc" /> Dernières arrivées
-              </span>
-              <h2 className="section-title" style={{ marginTop: '6px', marginBottom: 0 }}>
-                Les <span className="sentech-gradient-text">nouveautés</span>
-              </h2>
-            </div>
-            <Link href="/nouveautes" style={{ textDecoration: 'none' }}>
-              <button className="btn-secondary" id="view-all-new" style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '9px 18px', fontSize: '0.85rem' }}>
-                Voir tout <ArrowRight size={15} />
-              </button>
-            </Link>
-          </div>
-          <div className="product-grid">
-            {newProducts.map(p => <ProductCard key={p.id} product={p} />)}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════
-          GARANTIES + NEWSLETTER (section fusionnée)
-      ═══════════════════════════════════════════════ */}
-      <section className="section-padding" style={{
-        background: 'linear-gradient(135deg, rgba(27,117,188,0.03) 0%, transparent 60%)',
-        borderTop: '1px solid var(--color-sentech-border)',
-      }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '48px', alignItems: 'start' }}>
-
-            {/* Garanties compactes */}
-            <div>
-              <span style={{ fontSize: '0.75rem', color: '#1b75bc', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '3px' }}>Nos engagements</span>
-              <h2 className="section-title" style={{ marginTop: '6px', marginBottom: '24px' }}>
-                Pourquoi <span className="sentech-gradient-text">nous choisir</span> ?
-              </h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                {[
-                  { icon: <ShieldCheck size={20} color="#1b75bc" />, title: 'Produits certifiés', desc: 'Authentiques et testés rigoureusement.' },
-                  { icon: <Truck size={20} color="#1b75bc" />, title: 'Livraison rapide', desc: 'Expédition 24h, livraison 2-5 jours.' },
-                  { icon: <CreditCard size={20} color="#1b75bc" />, title: 'Paiement sécurisé', desc: 'Carte, Orange Money, MTN Money, PayPal.' },
-                  { icon: <Shield size={20} color="#1b75bc" />, title: 'Garantie 1-2 ans', desc: 'SAV réactif et professionnel.' },
-                  { icon: <Clock size={20} color="#1b75bc" />, title: 'Support 7j/7', desc: 'Équipe disponible avant et après achat.' },
-                  { icon: <RotateCcw size={20} color="#1b75bc" />, title: 'Retours simples', desc: '14 jours — remboursement rapide.' },
-                ].map(item => (
-                  <div key={item.title} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                     <div style={{
-                      width: '38px', height: '38px', borderRadius: '10px', flexShrink: 0,
-                      background: 'rgba(27,117,188,0.08)', border: '1px solid rgba(27,117,188,0.14)',
+                      width: '46px', height: '46px', borderRadius: '14px',
+                      background: 'rgba(27,117,188,0.08)',
+                      border: '1px solid rgba(27,117,188,0.15)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                     }}>
-                      {item.icon}
+                      <IconComp size={24} color="#1b75bc" />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '2px' }}>{item.title}</div>
-                      <div style={{ fontSize: '0.8rem', color: '#64748b', lineHeight: '1.5' }}>{item.desc}</div>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-foreground)', fontFamily: 'Outfit, sans-serif' }}>
+                        {cat.name}
+                      </div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '4px' }}>
+                        {cat.desc}
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          SECTION 3 : PRODUITS VEDETTES (Padding 100px, Margin 40px, Gap 24px)
+      ═══════════════════════════════════════════════ */}
+      <section className="section-padding" style={{ background: 'var(--color-background)', borderTop: '1px solid var(--color-sentech-border)' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
+          
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '40px', flexWrap: 'wrap', gap: '16px' }}>
+            <div>
+              <h2 style={{ fontSize: '1.8rem', fontWeight: 800, fontFamily: 'Outfit, sans-serif', color: 'var(--color-foreground)' }}>
+                Sélection <span className="sentech-gradient-text">Produits</span>
+              </h2>
             </div>
 
-            {/* Newsletter */}
-            <div style={{ background: 'var(--color-sentech-card)', border: '1px solid var(--color-sentech-border)', borderRadius: '20px', padding: '36px' }}>
+            {/* Quick Filter Tabs */}
+            <div style={{
+              display: 'flex', gap: '8px', background: 'rgba(15,23,42,0.04)',
+              padding: '6px', borderRadius: '16px', border: '1px solid var(--color-sentech-border)'
+            }}>
+              <button
+                onClick={() => setActiveTab('bestsellers')}
+                style={{
+                  padding: '9px 18px', borderRadius: '12px', fontSize: '0.88rem', fontWeight: 700,
+                  border: 'none', cursor: 'pointer', transition: 'all 0.2s',
+                  background: activeTab === 'bestsellers' ? '#1b75bc' : 'transparent',
+                  color: activeTab === 'bestsellers' ? '#ffffff' : '#64748b',
+                  display: 'flex', alignItems: 'center', gap: '6px'
+                }}
+              >
+                <Award size={16} /> Meilleures ventes
+              </button>
+              <button
+                onClick={() => setActiveTab('promos')}
+                style={{
+                  padding: '9px 18px', borderRadius: '12px', fontSize: '0.88rem', fontWeight: 700,
+                  border: 'none', cursor: 'pointer', transition: 'all 0.2s',
+                  background: activeTab === 'promos' ? '#ef4444' : 'transparent',
+                  color: activeTab === 'promos' ? '#ffffff' : '#64748b',
+                  display: 'flex', alignItems: 'center', gap: '6px'
+                }}
+              >
+                <Flame size={16} /> Offres Flash
+              </button>
+              <button
+                onClick={() => setActiveTab('new')}
+                style={{
+                  padding: '9px 18px', borderRadius: '12px', fontSize: '0.88rem', fontWeight: 700,
+                  border: 'none', cursor: 'pointer', transition: 'all 0.2s',
+                  background: activeTab === 'new' ? '#1b75bc' : 'transparent',
+                  color: activeTab === 'new' ? '#ffffff' : '#64748b',
+                  display: 'flex', alignItems: 'center', gap: '6px'
+                }}
+              >
+                <Sparkles size={16} /> Nouveautés
+              </button>
+            </div>
+          </div>
+
+          <div className="product-grid">
+            {currentTabProducts.slice(0, 8).map(p => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '48px' }}>
+            <Link href="/boutique" style={{ textDecoration: 'none' }}>
+              <button className="btn-primary" style={{ padding: '16px 32px', fontSize: '0.95rem', borderRadius: '14px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                Voir tous les produits dans la Boutique <ArrowRight size={17} />
+              </button>
+            </Link>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          SECTION 4 : BANDEAU OFFRE FLASH (Padding 100px, Margin 40px)
+      ═══════════════════════════════════════════════ */}
+      <section className="section-padding" style={{ background: 'var(--color-background)', borderTop: '1px solid var(--color-sentech-border)' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
+          
+          <div style={{
+            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+            borderRadius: '28px',
+            padding: '48px',
+            color: '#ffffff',
+            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '32px', alignItems: 'center',
+            boxShadow: '0 20px 50px rgba(15,23,42,0.12)',
+            border: '1px solid rgba(255,255,255,0.1)',
+          }}>
+            <div>
+              <span style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                background: 'rgba(239,68,68,0.2)', border: '1px solid rgba(239,68,68,0.4)',
+                borderRadius: '100px', padding: '6px 14px',
+                fontSize: '0.78rem', color: '#f87171', fontWeight: 800, textTransform: 'uppercase',
+                marginBottom: '18px',
+              }}>
+                <Flame size={15} color="#ef4444" /> Vente Flash Spéciale
+              </span>
+              <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '12px', fontFamily: 'Outfit, sans-serif' }}>
+                Jusqu&apos;à <span style={{ color: '#ef4444' }}>-40%</span> sur les Chargeurs & Écouteurs
+              </h2>
+              <p style={{ color: '#94a3b8', fontSize: '0.98rem', marginBottom: '28px', lineHeight: '1.6' }}>
+                Stocks de promotion limités. Commandez avant la fin du décompte !
+              </p>
+              <Link href="/promotions" style={{ textDecoration: 'none' }}>
+                <button className="btn-primary" style={{ padding: '14px 28px', fontSize: '0.95rem', borderRadius: '12px', background: 'linear-gradient(135deg, #ef4444, #dc2626)' }}>
+                  En profiter maintenant <ArrowRight size={17} />
+                </button>
+              </Link>
+            </div>
+
+            <div style={{ width: '100%', maxWidth: '360px', margin: '0 auto' }}>
+              <CountdownTimer targetDate={promoEndDate} label="Temps restant :" />
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          SECTION 5 : POURQUOI CHOISIR SENTECH PLUS ? (Padding 100px, Margin 40px, Gap 24px)
+      ═══════════════════════════════════════════════ */}
+      <section className="section-padding" style={{ background: 'linear-gradient(135deg, rgba(27,117,188,0.03) 0%, transparent 60%)', borderTop: '1px solid var(--color-sentech-border)' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <h2 style={{ fontSize: '1.8rem', fontWeight: 800, fontFamily: 'Outfit, sans-serif', color: 'var(--color-foreground)' }}>
+              Pourquoi choisir <span className="sentech-gradient-text">SenTech Plus</span> ?
+            </h2>
+            <p style={{ color: '#64748b', fontSize: '0.95rem', marginTop: '6px' }}>
+              Achetez vos équipements tech en toute sécurité avec un service de proximité.
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '24px',
+          }}>
+            {[
+              { icon: <ShieldCheck size={26} color="#1b75bc" />, title: 'Produits 100% Certifiés', desc: 'Composants officiels & testés pour votre sécurité.' },
+              { icon: <Truck size={26} color="#1b75bc" />, title: 'Livraison Express 24h', desc: 'Expédition rapide partout à Dakar et dans les régions.' },
+              { icon: <CreditCard size={26} color="#1b75bc" />, title: 'Paiement à la Livraison', desc: 'Réglez votre commande en Cash, Orange Money ou Wave.' },
+              { icon: <Clock size={26} color="#1b75bc" />, title: 'Garantie & Support 7j/7', desc: '1 à 2 ans de garantie constructeur et SAV réactif.' },
+            ].map((item, i) => (
+              <div key={i} style={{
+                background: 'var(--color-sentech-card)',
+                border: '1px solid var(--color-sentech-border)',
+                borderRadius: '20px',
+                padding: '32px 24px',
+                boxShadow: '0 4px 16px rgba(0,0,0,0.02)',
+              }}>
+                <div style={{
+                  width: '52px', height: '52px', borderRadius: '14px',
+                  background: 'rgba(27,117,188,0.08)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginBottom: '20px',
+                }}>
+                  {item.icon}
+                </div>
+                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '8px', fontFamily: 'Outfit, sans-serif' }}>
+                  {item.title}
+                </h3>
+                <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: '1.55' }}>
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          SECTION 6 : NEWSLETTER (Padding 100px)
+      ═══════════════════════════════════════════════ */}
+      <section className="section-padding" style={{ background: 'var(--color-background)', borderTop: '1px solid var(--color-sentech-border)' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
+          
+          <div style={{
+            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+            borderRadius: '28px',
+            padding: '48px 36px',
+            color: '#ffffff',
+            textAlign: 'center',
+          }}>
+            <div style={{ maxWidth: '580px', margin: '0 auto' }}>
               <div style={{
                 width: '52px', height: '52px', borderRadius: '50%',
-                background: 'rgba(27,117,188,0.08)', border: '1px solid rgba(27,117,188,0.15)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px',
+                background: 'rgba(27,117,188,0.2)', border: '1px solid rgba(27,117,188,0.4)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                margin: '0 auto 20px auto',
               }}>
-                <Send size={22} color="#1b75bc" />
+                <Send size={22} color="#60a5fa" />
               </div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-foreground)', marginBottom: '10px', fontFamily: 'Outfit, sans-serif' }}>
-                Club <span className="sentech-gradient-text">SenTech Plus</span>
-              </h3>
-              <p style={{ color: '#64748b', marginBottom: '24px', fontSize: '0.9rem', lineHeight: '1.6' }}>
-                Recevez nos promotions exclusives, nouveautés et conseils tech directement dans votre boîte mail.
+
+              <h2 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '12px', fontFamily: 'Outfit, sans-serif' }}>
+                Rejoignez le Club <span style={{ color: '#60a5fa' }}>SenTech Plus</span>
+              </h2>
+              <p style={{ color: '#94a3b8', fontSize: '0.92rem', marginBottom: '28px', lineHeight: '1.6' }}>
+                Recevez nos ventes privées, codes réductions et conseils tech directement par e-mail.
               </p>
-              <form onSubmit={handleNewsletterSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <label htmlFor="home-newsletter-email" style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>
-                  Votre e-mail
-                </label>
+
+              <form onSubmit={handleNewsletterSubmit} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <input
                   id="home-newsletter-email"
                   type="email"
-                  placeholder="votre@email.com"
+                  placeholder="Votre adresse e-mail"
                   value={newsletterEmail}
                   onChange={e => setNewsletterEmail(e.target.value)}
-                  className="sentech-input"
-                  style={{ padding: '13px 18px', fontSize: '0.9rem' }}
+                  style={{
+                    flex: '1', minWidth: '250px', maxWidth: '380px',
+                    padding: '14px 20px', fontSize: '0.92rem',
+                    borderRadius: '14px',
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    color: '#ffffff',
+                    outline: 'none',
+                  }}
                 />
-                <button type="submit" className="btn-primary" style={{ padding: '13px 24px', fontSize: '0.9rem', justifyContent: 'center' }}>
-                  S&apos;abonner gratuitement
+                <button type="submit" className="btn-primary" style={{
+                  padding: '14px 28px', fontSize: '0.92rem', fontWeight: 700, borderRadius: '14px',
+                  background: 'linear-gradient(135deg, #1b75bc, #2563eb)'
+                }}>
+                  S&apos;abonner
                 </button>
               </form>
-              <p style={{ fontSize: '0.7rem', color: '#94a3b8', marginTop: '10px' }}>
-                Aucun spam. Désabonnement possible à tout moment.
-              </p>
-
-              {/* Crédibilité — affiché uniquement quand des avis réels existent via Supabase */}
-              {false && (
-                <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--color-sentech-border)' }}>
-                  <p style={{ fontSize: '0.8rem', color: '#64748b', fontStyle: 'italic', lineHeight: '1.5' }}>
-                    &ldquo;Aucun avis pour l’instant. Soyez le premier à partager votre expérience&nbsp;!&rdquo;
-                  </p>
-                </div>
-              )}
             </div>
           </div>
+
         </div>
       </section>
 
-      <style>{`
-        .categories-strip::-webkit-scrollbar { display: none; }
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes slide-up {
-          from { opacity: 0; transform: translateY(16px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
+      {/* ═══════════════════════════════════════════════
+          FOOTER (Rendu automatiquement par SiteChrome)
+      ═══════════════════════════════════════════════ */}
     </>
   );
 }

@@ -54,7 +54,7 @@ export default function NouveautesPage() {
         </div>
       </section>
 
-      <section style={{ padding: '60px 24px', maxWidth: '1400px', margin: '0 auto' }}>
+      <section style={{ padding: '100px 24px', maxWidth: '1400px', margin: '0 auto' }}>
         {loading ? (
           <div style={{ marginTop: '30px' }}>
             <SkeletonGrid count={8} />
@@ -76,10 +76,10 @@ export default function NouveautesPage() {
           </div>
         ) : (
           <>
-            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '32px' }}>
+            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '40px' }}>
               ✨ {newProducts.length} nouveauté{newProducts.length > 1 ? 's' : ''}
             </h2>
-            <div className="products-grid">
+            <div className="product-grid">
               {newProducts.map(p => (
                 <ProductCard key={p.id} product={p} />
               ))}

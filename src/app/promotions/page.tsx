@@ -71,7 +71,7 @@ export default function PromotionsPage() {
       </section>
 
       {/* Products */}
-      <section style={{ padding: '60px 24px', maxWidth: '1400px', margin: '0 auto' }}>
+      <section style={{ padding: '100px 24px', maxWidth: '1400px', margin: '0 auto' }}>
         {loading ? (
           <div style={{ marginTop: '30px' }}>
             <SkeletonGrid count={8} />
@@ -86,10 +86,10 @@ export default function PromotionsPage() {
           </div>
         ) : (
           <>
-            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '32px' }}>
+            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '40px' }}>
               🔥 {promoProducts.length} produit{promoProducts.length > 1 ? 's' : ''} en promotion
             </h2>
-            <div className="products-grid">
+            <div className="product-grid">
               {promoProducts.map(p => (
                 <ProductCard key={p.id} product={p} />
               ))}

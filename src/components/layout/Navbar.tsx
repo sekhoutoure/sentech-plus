@@ -7,22 +7,21 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import {
-  ShoppingCart, Heart, Search, Menu, X, ChevronDown, User,
+  ShoppingCart, Heart, Search, Menu, X, ChevronDown, ChevronRight, User,
   Package, Headphones, Watch, Battery, Monitor, Gamepad2, Cable, Smartphone, Zap,
   BookOpen, Info, MessageCircle, Tag
 } from 'lucide-react';
 import { products } from '@/lib/products';
 
 const categoryItems = [
-  { label: 'Chargeurs Rapides', href: '/boutique?cat=Chargeurs+Rapides', icon: <Zap size={15} /> },
-  { label: 'Câbles Premium', href: '/boutique?cat=C%C3%A2bles+Premium', icon: <Cable size={15} /> },
-  { label: 'Supports Téléphone', href: '/boutique?cat=Supports+T%C3%A9l%C3%A9phone', icon: <Smartphone size={15} /> },
-  { label: 'Écouteurs Bluetooth', href: '/boutique?cat=%C3%89couteurs+Bluetooth', icon: <Headphones size={15} /> },
-  { label: 'Casques Audio', href: '/boutique?cat=Casques+Audio', icon: <Package size={15} /> },
-  { label: 'Montres Connectées', href: '/boutique?cat=Montres+Connect%C3%A9es', icon: <Watch size={15} /> },
-  { label: 'Batteries Externes', href: '/boutique?cat=Batteries+Externes', icon: <Battery size={15} /> },
-  { label: 'Accessoires PC', href: '/boutique?cat=Accessoires+PC', icon: <Monitor size={15} /> },
-  { label: 'Gaming', href: '/boutique?cat=Gaming', icon: <Gamepad2 size={15} /> },
+  { label: 'Téléphones', href: '/boutique?cat=T%C3%A9l%C3%A9phones', icon: <Smartphone size={16} /> },
+  { label: 'Accessoires', href: '/boutique?cat=Accessoires', icon: <Package size={16} /> },
+  { label: 'Audio', href: '/boutique?cat=Audio', icon: <Headphones size={16} /> },
+  { label: 'Gaming', href: '/boutique?cat=Gaming', icon: <Gamepad2 size={16} /> },
+  { label: 'PC', href: '/boutique?cat=PC', icon: <Monitor size={16} /> },
+  { label: 'Montres', href: '/boutique?cat=Montres', icon: <Watch size={16} /> },
+  { label: 'Chargeurs', href: '/boutique?cat=Chargeurs', icon: <Zap size={16} /> },
+  { label: 'Power Bank', href: '/boutique?cat=Power+Bank', icon: <Battery size={16} /> },
 ];
 
 const moreLinks = [
@@ -30,6 +29,8 @@ const moreLinks = [
   { label: 'À propos', href: '/a-propos', icon: <Info size={15} /> },
   { label: 'Contact', href: '/contact', icon: <MessageCircle size={15} /> },
 ];
+
+const POPULAR_SEARCHES = ['Galaxy Buds', 'Power Bank', 'Chargeur 65W', 'iPhone'];
 
 export default function Navbar() {
   const { totalItems } = useCart();
@@ -39,6 +40,7 @@ export default function Navbar() {
   const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchFocused, setSearchFocused] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dropdown, setDropdown] = useState<string | null>(null);
   const [announcementVisible, setAnnouncementVisible] = useState(true);
@@ -132,12 +134,12 @@ export default function Navbar() {
         aria-label="Navigation principale"
         style={{
           position: 'fixed', top: navTop, left: 0, right: 0, zIndex: 1000,
-          transition: 'top 0.3s ease, background 0.3s ease, box-shadow 0.3s ease',
-          background: scrolled ? 'rgba(255,255,255,0.98)' : 'rgba(255,255,255,0.94)',
+          transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+          background: scrolled ? '#ffffff' : 'rgba(255, 255, 255, 0.85)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderBottom: scrolled ? '1px solid rgba(27,117,188,0.18)' : '1px solid rgba(15,23,42,0.06)',
-          boxShadow: scrolled ? '0 4px 24px rgba(15,23,42,0.05)' : 'none',
+          borderBottom: '1px solid rgba(15, 23, 42, 0.06)',
+          boxShadow: scrolled ? '0 10px 30px rgba(15, 23, 42, 0.08)' : '0 2px 10px rgba(15, 23, 42, 0.02)',
         }}
       >
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
@@ -160,7 +162,7 @@ export default function Navbar() {
             {/* ── Desktop Nav ── */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }} className="desktop-nav" role="menubar">
 
-              {/* Boutique mega-menu */}
+              {/* Catégories mega-menu */}
               <div
                 style={{ position: 'relative' }}
                 onMouseEnter={() => setDropdown('boutique')}
@@ -178,82 +180,126 @@ export default function Navbar() {
                   }}
                   role="menuitem"
                 >
-                  Boutique <ChevronDown size={13} style={{ transition: 'transform 0.2s', transform: dropdown === 'boutique' ? 'rotate(180deg)' : 'none' }} />
+                  Catégories <ChevronDown size={13} style={{ transition: 'transform 0.2s', transform: dropdown === 'boutique' ? 'rotate(180deg)' : 'none' }} />
                 </Link>
 
                 {dropdown === 'boutique' && (
                   <div
                     style={{
-                      position: 'absolute', top: 'calc(100% + 4px)', left: '50%', transform: 'translateX(-40%)',
+                      position: 'absolute', top: 'calc(100% + 4px)', left: '50%', transform: 'translateX(-30%)',
                       zIndex: 200, background: '#ffffff',
                       border: '1px solid rgba(15,23,42,0.08)',
-                      borderRadius: '16px', padding: '16px',
-                      boxShadow: '0 24px 48px rgba(15,23,42,0.1)',
+                      borderRadius: '20px', padding: '20px',
+                      boxShadow: '0 25px 60px rgba(15,23,42,0.12)',
                       animation: 'slide-down 0.15s ease-out',
-                      minWidth: '520px',
+                      width: '680px',
+                      display: 'grid',
+                      gridTemplateColumns: '1.2fr 0.8fr',
+                      gap: '20px',
                     }}
                     role="menu"
                   >
-                    {/* Header du mega-menu */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', paddingBottom: '12px', borderBottom: '1px solid rgba(15,23,42,0.06)' }}>
-                      <span style={{ fontSize: '0.75rem', color: '#1b75bc', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px' }}>Catégories</span>
-                      <Link href="/boutique" style={{ fontSize: '0.78rem', color: '#1b75bc', textDecoration: 'none', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        Voir tout →
-                      </Link>
-                    </div>
-                    {/* Grille 3 colonnes */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4px' }}>
-                      {categoryItems.map(item => (
-                        <Link
-                          key={item.label}
-                          href={item.href}
-                          role="menuitem"
-                          style={{
-                            display: 'flex', alignItems: 'center', gap: '8px',
-                            padding: '9px 10px', borderRadius: '8px',
-                            color: '#475569', textDecoration: 'none',
-                            fontSize: '0.82rem', fontWeight: 500,
-                            transition: 'all 0.15s',
-                          }}
-                          onMouseEnter={e => {
-                            e.currentTarget.style.background = 'rgba(27,117,188,0.07)';
-                            e.currentTarget.style.color = '#1b75bc';
-                          }}
-                          onMouseLeave={e => {
-                            e.currentTarget.style.background = 'transparent';
-                            e.currentTarget.style.color = '#475569';
-                          }}
-                        >
-                          <span style={{ color: '#1b75bc', flexShrink: 0 }}>{item.icon}</span>
-                          {item.label}
+                    {/* Left Column: Categories List */}
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', paddingBottom: '10px', borderBottom: '1px solid rgba(15,23,42,0.06)' }}>
+                        <span style={{ fontSize: '0.75rem', color: '#1b75bc', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1.5px' }}>
+                          Nos Catégories
+                        </span>
+                        <Link href="/boutique" style={{ fontSize: '0.78rem', color: '#1b75bc', textDecoration: 'none', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          Voir tout →
                         </Link>
-                      ))}
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
+                        {categoryItems.map(item => (
+                          <Link
+                            key={item.label}
+                            href={item.href}
+                            role="menuitem"
+                            style={{
+                              display: 'flex', alignItems: 'center', gap: '10px',
+                              padding: '10px 12px', borderRadius: '10px',
+                              color: '#0f172a', textDecoration: 'none',
+                              fontSize: '0.88rem', fontWeight: 600,
+                              transition: 'all 0.18s ease',
+                              background: 'rgba(15,23,42,0.02)',
+                            }}
+                            onMouseEnter={e => {
+                              e.currentTarget.style.background = 'rgba(27,117,188,0.08)';
+                              e.currentTarget.style.color = '#1b75bc';
+                              e.currentTarget.style.transform = 'translateX(2px)';
+                            }}
+                            onMouseLeave={e => {
+                              e.currentTarget.style.background = 'rgba(15,23,42,0.02)';
+                              e.currentTarget.style.color = '#0f172a';
+                              e.currentTarget.style.transform = 'none';
+                            }}
+                          >
+                            <div style={{
+                              width: '30px', height: '30px', borderRadius: '8px',
+                              background: 'rgba(27,117,188,0.1)',
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              color: '#1b75bc', flexShrink: 0
+                            }}>
+                              {item.icon}
+                            </div>
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
 
-                    {/* Accès rapide: promos + nouveautés */}
-                    <div style={{ display: 'flex', gap: '8px', marginTop: '14px', paddingTop: '12px', borderTop: '1px solid rgba(15,23,42,0.06)' }}>
-                      <Link href="/promotions" style={{
-                        flex: 1, display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'center',
-                        padding: '8px', borderRadius: '8px', textDecoration: 'none', fontSize: '0.8rem', fontWeight: 600,
-                        background: 'rgba(239,68,68,0.07)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.15)',
-                        transition: 'all 0.15s',
-                      }}>
-                        <Tag size={13} /> 🔥 Promotions
-                      </Link>
-                      <Link href="/nouveautes" style={{
-                        flex: 1, display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'center',
-                        padding: '8px', borderRadius: '8px', textDecoration: 'none', fontSize: '0.8rem', fontWeight: 600,
-                        background: 'rgba(27,117,188,0.07)', color: '#1b75bc', border: '1px solid rgba(27,117,188,0.15)',
-                        transition: 'all 0.15s',
-                      }}>
-                        ✨ Nouveautés
-                      </Link>
+                    {/* Right Column: Featured Banner Image */}
+                    <div style={{
+                      position: 'relative',
+                      borderRadius: '14px',
+                      overflow: 'hidden',
+                      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+                      padding: '20px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'flex-end',
+                      color: '#ffffff',
+                      boxShadow: '0 10px 25px rgba(15,23,42,0.15)',
+                    }}>
+                      <Image
+                        src="/hero.jpg"
+                        alt="Collection High Tech SenTech Plus"
+                        fill
+                        sizes="280px"
+                        style={{ objectFit: 'cover', opacity: 0.45 }}
+                      />
+                      <div style={{ position: 'relative', zIndex: 2 }}>
+                        <span style={{
+                          display: 'inline-block',
+                          background: '#ef4444', color: '#ffffff',
+                          padding: '3px 8px', borderRadius: '6px',
+                          fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase',
+                          marginBottom: '8px',
+                        }}>
+                          SELECTION TECH
+                        </span>
+                        <h4 style={{ fontSize: '1.05rem', fontWeight: 800, lineHeight: '1.3', marginBottom: '6px', fontFamily: 'Outfit, sans-serif' }}>
+                          Les meilleurs équipements du Sénégal
+                        </h4>
+                        <p style={{ fontSize: '0.78rem', color: '#cbd5e1', marginBottom: '14px' }}>
+                          Livraison express 24h & Garantie officielle.
+                        </p>
+                        <Link href="/boutique" style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '6px',
+                          background: 'linear-gradient(135deg, #1b75bc, #2563eb)',
+                          color: '#ffffff', padding: '8px 14px', borderRadius: '8px',
+                          fontSize: '0.8rem', fontWeight: 700, textDecoration: 'none',
+                        }}>
+                          Découvrir <ChevronRight size={14} />
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* 🔥 Promos direct */}
+              {/* Promotions */}
               <Link
                 href="/promotions"
                 style={{
@@ -271,146 +317,205 @@ export default function Navbar() {
                   e.currentTarget.style.background = 'transparent';
                 }}
               >
-                🔥 Promos
+                Promotions
               </Link>
 
-              {/* Plus ▾ menu */}
-              <div
-                style={{ position: 'relative' }}
-                onMouseEnter={() => setDropdown('more')}
-                onMouseLeave={() => setDropdown(null)}
+              {/* Nouveautés */}
+              <Link
+                href="/nouveautes"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '4px',
+                  padding: '8px 12px', borderRadius: '8px',
+                  color: '#475569', textDecoration: 'none',
+                  fontSize: '0.88rem', fontWeight: 600,
+                  transition: 'all 0.2s',
+                }}
+                role="menuitem"
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = 'rgba(27,117,188,0.07)';
+                  e.currentTarget.style.color = '#1b75bc';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = '#475569';
+                }}
               >
-                <button
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: '4px',
-                    padding: '8px 12px', borderRadius: '8px',
-                    color: dropdown === 'more' ? '#1b75bc' : '#475569',
-                    background: dropdown === 'more' ? 'rgba(27,117,188,0.07)' : 'transparent',
-                    border: 'none', cursor: 'pointer',
-                    fontSize: '0.88rem', fontWeight: 500,
-                    transition: 'all 0.2s',
-                  }}
-                  aria-expanded={dropdown === 'more'}
-                  aria-haspopup="true"
-                  role="menuitem"
-                >
-                  Plus <ChevronDown size={13} style={{ transition: 'transform 0.2s', transform: dropdown === 'more' ? 'rotate(180deg)' : 'none' }} />
-                </button>
+                Nouveautés
+              </Link>
 
-                {dropdown === 'more' && (
-                  <div
-                    style={{
-                      position: 'absolute', top: 'calc(100% + 4px)', right: 0,
-                      zIndex: 200, background: '#ffffff',
-                      border: '1px solid rgba(15,23,42,0.08)',
-                      borderRadius: '12px', padding: '8px',
-                      boxShadow: '0 20px 40px rgba(15,23,42,0.08)',
-                      animation: 'slide-down 0.15s ease-out',
-                      minWidth: '170px',
-                    }}
-                    role="menu"
-                  >
-                    {moreLinks.map(link => (
-                      <Link
-                        key={link.label}
-                        href={link.href}
-                        role="menuitem"
-                        style={{
-                          display: 'flex', alignItems: 'center', gap: '10px',
-                          padding: '9px 12px', borderRadius: '8px',
-                          color: '#475569', textDecoration: 'none',
-                          fontSize: '0.85rem', fontWeight: 500,
-                          transition: 'all 0.15s',
-                        }}
-                        onMouseEnter={e => {
-                          e.currentTarget.style.background = 'rgba(27,117,188,0.06)';
-                          e.currentTarget.style.color = '#1b75bc';
-                        }}
-                        onMouseLeave={e => {
-                          e.currentTarget.style.background = 'transparent';
-                          e.currentTarget.style.color = '#475569';
-                        }}
-                      >
-                        <span style={{ color: '#1b75bc' }}>{link.icon}</span>
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              {/* Blog */}
+              <Link
+                href="/blog"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '4px',
+                  padding: '8px 12px', borderRadius: '8px',
+                  color: '#475569', textDecoration: 'none',
+                  fontSize: '0.88rem', fontWeight: 600,
+                  transition: 'all 0.2s',
+                }}
+                role="menuitem"
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = 'rgba(27,117,188,0.07)';
+                  e.currentTarget.style.color = '#1b75bc';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = '#475569';
+                }}
+              >
+                Blog
+              </Link>
+
+              {/* Contact */}
+              <Link
+                href="/contact"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '4px',
+                  padding: '8px 12px', borderRadius: '8px',
+                  color: '#475569', textDecoration: 'none',
+                  fontSize: '0.88rem', fontWeight: 600,
+                  transition: 'all 0.2s',
+                }}
+                role="menuitem"
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = 'rgba(27,117,188,0.07)';
+                  e.currentTarget.style.color = '#1b75bc';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = '#475569';
+                }}
+              >
+                Contact
+              </Link>
             </div>
 
             {/* ── Actions ── */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
 
-              {/* Recherche inline — desktop */}
+              {/* Recherche Amazon-style — desktop */}
               <form onSubmit={handleSearch} role="search" className="desktop-nav" style={{ position: 'relative' }}>
                 <label htmlFor="navbar-search-input" style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>
                   Rechercher un produit
                 </label>
                 <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                  <Search size={15} style={{ position: 'absolute', left: '10px', color: '#94a3b8', pointerEvents: 'none' }} />
+                  <Search size={16} style={{ position: 'absolute', left: '12px', color: searchFocused ? '#1b75bc' : '#94a3b8', pointerEvents: 'none', transition: 'color 0.2s' }} />
                   <input
                     id="navbar-search-input"
                     ref={searchRef}
                     type="search"
-                    placeholder="Rechercher..."
+                    placeholder="🔍 Rechercher un produit..."
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
+                    onFocus={() => setSearchFocused(true)}
+                    onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
                     autoComplete="off"
                     style={{
-                      paddingLeft: '32px', paddingRight: '12px',
-                      height: '44px', width: searchQuery.length > 0 ? '200px' : '150px',
-                      borderRadius: '8px', border: '1px solid rgba(15,23,42,0.12)',
-                      background: 'rgba(15,23,42,0.04)', fontSize: '0.82rem',
-                      color: '#0f172a',
-                      transition: 'width 0.25s ease, border-color 0.2s',
-                    }}
-                    onFocus={e => {
-                      e.currentTarget.style.width = '200px';
-                      e.currentTarget.style.borderColor = 'rgba(27,117,188,0.4)';
-                    }}
-                    onBlur={e => {
-                      if (!searchQuery) e.currentTarget.style.width = '150px';
-                      e.currentTarget.style.borderColor = 'rgba(15,23,42,0.12)';
+                      paddingLeft: '36px', paddingRight: '12px',
+                      height: '44px', width: searchFocused || searchQuery ? '280px' : '200px',
+                      borderRadius: '12px', border: searchFocused ? '2px solid #1b75bc' : '1px solid rgba(15,23,42,0.12)',
+                      background: searchFocused ? '#ffffff' : 'rgba(15,23,42,0.04)', fontSize: '0.85rem',
+                      color: '#0f172a', fontWeight: 500,
+                      boxShadow: searchFocused ? '0 4px 16px rgba(27,117,188,0.15)' : 'none',
+                      transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                      outline: 'none',
                     }}
                   />
                 </div>
-                {suggestions.length > 0 && (
+
+                {/* Instant Suggestions Dropdown Overlay */}
+                {searchFocused && (
                   <div style={{
-                    position: 'absolute', top: 'calc(100% + 6px)', right: 0,
+                    position: 'absolute', top: 'calc(100% + 8px)', right: 0,
                     zIndex: 300, background: '#ffffff',
                     border: '1px solid rgba(15,23,42,0.08)',
-                    borderRadius: '12px', padding: '8px',
-                    boxShadow: '0 20px 40px rgba(15,23,42,0.08)',
-                    minWidth: '280px',
+                    borderRadius: '16px', padding: '14px',
+                    boxShadow: '0 20px 48px rgba(15,23,42,0.12)',
+                    minWidth: '320px',
+                    animation: 'slide-down 0.15s ease-out',
                   }}>
-                    {suggestions.map(p => (
-                      <Link
-                        key={p.id}
-                        href={`/produit/${p.id}`}
-                        onClick={() => setSearchQuery('')}
-                        style={{
-                          display: 'flex', alignItems: 'center', gap: '10px',
-                          padding: '10px 10px', borderRadius: '8px',
-                          textDecoration: 'none', transition: 'background 0.15s',
-                          minHeight: '44px',
-                        }}
-                        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(27,117,188,0.07)'; }}
-                        onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
-                      >
-                        <div style={{ width: '32px', height: '32px', position: 'relative', borderRadius: '6px', overflow: 'hidden', flexShrink: 0 }}>
-                          <Image src={p.image} alt={p.name} fill style={{ objectFit: 'cover' }} sizes="32px" />
+                    {/* Empty Query: Show Trending Searches (Amazon Style) */}
+                    {!searchQuery.trim() ? (
+                      <div>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#1b75bc', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
+                          🔥 Recherches Populaires
                         </div>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ color: '#0f172a', fontSize: '0.82rem', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
-                          <div style={{ color: '#475569', fontSize: '0.72rem' }}>{p.category}</div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                          {POPULAR_SEARCHES.map(item => (
+                            <button
+                              key={item}
+                              type="button"
+                              onClick={() => {
+                                setSearchQuery(item);
+                                router.push(`/boutique?search=${encodeURIComponent(item)}`);
+                                setSearchFocused(false);
+                              }}
+                              style={{
+                                padding: '6px 12px',
+                                borderRadius: '20px',
+                                background: 'rgba(27,117,188,0.08)',
+                                border: '1px solid rgba(27,117,188,0.18)',
+                                color: '#1b75bc',
+                                fontSize: '0.78rem',
+                                fontWeight: 700,
+                                cursor: 'pointer',
+                                transition: 'all 0.15s ease',
+                              }}
+                              onMouseEnter={e => {
+                                e.currentTarget.style.background = '#1b75bc';
+                                e.currentTarget.style.color = '#ffffff';
+                              }}
+                              onMouseLeave={e => {
+                                e.currentTarget.style.background = 'rgba(27,117,188,0.08)';
+                                e.currentTarget.style.color = '#1b75bc';
+                              }}
+                            >
+                              {item}
+                            </button>
+                          ))}
                         </div>
-                        <span style={{ color: '#1b75bc', fontWeight: 700, fontSize: '0.8rem', flexShrink: 0 }}>
-                          {new Intl.NumberFormat('fr-FR').format(p.price)} F
-                        </span>
-                      </Link>
-                    ))}
+                      </div>
+                    ) : suggestions.length > 0 ? (
+                      /* Live Suggestions Results */
+                      <div>
+                        <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>
+                          Suggestions instantanées ({suggestions.length})
+                        </div>
+                        {suggestions.map(p => (
+                          <Link
+                            key={p.id}
+                            href={`/produit/${p.id}`}
+                            onClick={() => {
+                              setSearchQuery('');
+                              setSearchFocused(false);
+                            }}
+                            style={{
+                              display: 'flex', alignItems: 'center', gap: '10px',
+                              padding: '8px 10px', borderRadius: '10px',
+                              textDecoration: 'none', transition: 'background 0.15s',
+                              minHeight: '44px',
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(27,117,188,0.07)'; }}
+                            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                          >
+                            <div style={{ width: '36px', height: '36px', position: 'relative', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, border: '1px solid rgba(15,23,42,0.06)' }}>
+                              <Image src={p.image} alt={p.name} fill style={{ objectFit: 'cover' }} sizes="36px" />
+                            </div>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ color: '#0f172a', fontSize: '0.84rem', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
+                              <div style={{ color: '#64748b', fontSize: '0.74rem' }}>{p.category}</div>
+                            </div>
+                            <span style={{ color: '#1b75bc', fontWeight: 800, fontSize: '0.82rem', flexShrink: 0 }}>
+                              {new Intl.NumberFormat('fr-FR').format(p.price)} F
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    ) : (
+                      <div style={{ padding: '12px 8px', fontSize: '0.82rem', color: '#64748b', textAlign: 'center' }}>
+                        Aucun produit trouvé pour « {searchQuery} »
+                      </div>
+                    )}
                   </div>
                 )}
               </form>
