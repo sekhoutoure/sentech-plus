@@ -79,130 +79,177 @@ export default function HomePage() {
   return (
     <>
       {/* ═══════════════════════════════════════════════
-          SECTION 1 : HERO (Exactement conforme au mockup)
+          SECTION 1 : HERO ULTRA MODERNE (Senior UI/UX Design)
       ═══════════════════════════════════════════════ */}
       <section style={{
         position: 'relative',
         overflow: 'hidden',
-        background: 'linear-gradient(180deg, #f0f6ff 0%, #ffffff 100%)',
-        padding: '40px 0 90px 0',
+        background: 'linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%)',
+        paddingTop: '80px',
+        paddingBottom: '100px',
       }}>
-        {/* Ambient Glowing Orbs */}
+        {/* Ambient Diffuse Glowing Blobs */}
         <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
           <div style={{
-            position: 'absolute', top: '10%', right: '15%',
-            width: '600px', height: '600px', borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(27,117,188,0.15) 0%, transparent 70%)',
-            filter: 'blur(60px)',
+            position: 'absolute', top: '5%', right: '10%',
+            width: '650px', height: '650px', borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(27,117,188,0.12) 0%, transparent 70%)',
+            filter: 'blur(80px)',
+          }} />
+          <div style={{
+            position: 'absolute', bottom: '5%', left: '5%',
+            width: '500px', height: '500px', borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(37,99,235,0.10) 0%, transparent 70%)',
+            filter: 'blur(70px)',
           }} />
         </div>
 
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 2 }}>
           
-          <div className="hero-grid" style={{
+          <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-            gap: '40px',
+            gridTemplateColumns: '45% 55%',
+            gap: '80px',
             alignItems: 'center',
-          }}>
+            minHeight: '720px',
+          }} className="hero-main-grid">
             
-            {/* ── LEFT COLUMN ── */}
+            {/* ── COLONNE GAUCHE (45%) ── */}
             <div style={{ animation: 'slide-up 0.5s ease-out' }}>
               
-              {/* Top Badge: 🛍️ BOUTIQUE OFFICIELLE AU SÉNÉGAL 🇸🇳 */}
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', gap: '8px',
-                background: '#ffffff',
-                border: '1px solid rgba(27,117,188,0.2)',
-                borderRadius: '100px',
-                padding: '6px 16px',
-                boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
-                marginBottom: '18px',
-              }}>
-                <Award size={15} color="#1b75bc" />
-                <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
-                  BOUTIQUE OFFICIELLE AU SÉNÉGAL 🇸🇳
-                </span>
+              {/* Badges Top: Badge Premium & Badge Social Proof */}
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
+                {/* Badge Premium */}
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '8px',
+                  background: '#ffffff',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: '999px',
+                  padding: '6px 16px',
+                  boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
+                }}>
+                  <Award size={15} color="#1B75BC" />
+                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
+                    ⭐ Boutique Officielle au Sénégal 🇸🇳
+                  </span>
+                </div>
+
+                {/* Badge Social Proof */}
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '8px',
+                  background: '#ffffff',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: '999px',
+                  padding: '6px 16px',
+                  boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
+                }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
+                    👥 +2500 clients satisfaits &nbsp; <span style={{ color: '#FBBF24' }}>★★★★★</span> 4.9/5
+                  </span>
+                </div>
               </div>
 
-              {/* Overlapping Avatars + Rating Proof Pill */}
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: '10px',
-                background: '#ffffff',
-                border: '1px solid var(--color-sentech-border)',
-                borderRadius: '100px',
-                padding: '6px 14px',
-                width: 'fit-content',
-                boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
-                marginBottom: '24px',
-              }}>
-                <div style={{ display: 'flex', marginLeft: '4px' }}>
-                  {[
-                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
-                    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
-                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
-                    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
-                  ].map((src, i) => (
-                    <div key={i} style={{
-                      position: 'relative', width: '26px', height: '26px', borderRadius: '50%',
-                      overflow: 'hidden', border: '2px solid #ffffff', marginLeft: i === 0 ? 0 : '-8px',
-                    }}>
-                      <Image src={src} alt="Client vérifié" fill style={{ objectFit: 'cover' }} />
-                    </div>
-                  ))}
-                </div>
-                <div style={{ display: 'flex', gap: '2px' }} role="img" aria-label="5 étoiles">
-                  {[1, 2, 3, 4, 5].map(s => (
-                    <Star key={s} size={14} fill="#fbbf24" color="#fbbf24" />
-                  ))}
-                </div>
-                <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0f172a' }}>
-                  <AnimatedCounter end={2500} prefix="+" suffix=" clients satisfaits" />
-                </span>
-              </div>
-
-              {/* Exact Hero Title */}
+              {/* Grand Titre (72px, 800 weight, 1.05 line-height) */}
               <h1 className="hero-title" style={{
-                fontSize: 'clamp(36px, 5.5vw, 64px)',
+                fontFamily: 'var(--font-manrope, Manrope), sans-serif',
+                fontSize: 'clamp(38px, 5.2vw, 72px)',
                 fontWeight: 800,
-                lineHeight: 1.1,
-                marginBottom: '20px',
-                color: '#0f172a',
+                lineHeight: 1.05,
+                marginBottom: '24px',
+                color: '#0F172A',
                 letterSpacing: '-0.03em',
               }}>
-                Les meilleurs <br />
-                accessoires <br />
-                <span className="sentech-gradient-text" style={{ background: 'linear-gradient(135deg, #1b75bc 0%, #2563eb 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  High-Tech
-                </span> <br />
-                <span style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 700, color: '#0f172a' }}>
-                  au meilleur prix au Sénégal.
-                </span>
+                Les meilleurs accessoires <br />
+                <span style={{ color: '#1B75BC' }}>High-Tech</span> <br />
+                au meilleur prix au Sénégal.
               </h1>
 
-              {/* Exact Hero Subtitle Paragraph */}
-              <p className="text-body" style={{
+              {/* Description (Max 600px, Slate 600, 500 weight) */}
+              <p className="hero-description" style={{
+                fontFamily: 'var(--font-manrope, Manrope), sans-serif',
                 color: '#475569',
                 fontSize: '1.05rem',
+                fontWeight: 500,
                 lineHeight: 1.6,
                 marginBottom: '32px',
-                maxWidth: '520px',
+                maxWidth: '600px',
               }}>
-                Découvrez une sélection premium d&apos;accessoires High-Tech certifiés avec garantie et livraison express 24h partout au Sénégal.
+                Découvrez une sélection premium d&apos;accessoires High-Tech certifiés avec livraison express partout au Sénégal.
               </p>
 
-              {/* Exact Hero Buttons */}
-              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '36px' }}>
+              {/* 3 Cartes de confiance (Petites cartes blanches avec icônes Lucide) */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '12px',
+                marginBottom: '36px',
+              }}>
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: '20px',
+                  padding: '14px 16px',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  boxShadow: '0 4px 14px rgba(15,23,42,0.03)',
+                  transition: 'transform 250ms ease, box-shadow 250ms ease',
+                }} className="hover-lift">
+                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Truck size={20} color="#1B75BC" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>Livraison Express 24h</div>
+                  </div>
+                </div>
+
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: '20px',
+                  padding: '14px 16px',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  boxShadow: '0 4px 14px rgba(15,23,42,0.03)',
+                  transition: 'transform 250ms ease, box-shadow 250ms ease',
+                }} className="hover-lift">
+                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <ShieldCheck size={20} color="#1B75BC" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>Produits Certifiés</div>
+                  </div>
+                </div>
+
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: '20px',
+                  padding: '14px 16px',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  boxShadow: '0 4px 14px rgba(15,23,42,0.03)',
+                  transition: 'transform 250ms ease, box-shadow 250ms ease',
+                }} className="hover-lift">
+                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Headphones size={20} color="#1B75BC" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>Support 7j/7</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Deux Boutons (16px gap, 16px border-radius) */}
+              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '28px' }}>
                 <Link href="/boutique" style={{ textDecoration: 'none' }}>
                   <button id="hero-shop-btn" className="btn-primary btn-pulse" style={{
                     padding: '16px 36px',
                     fontSize: '1rem',
-                    fontWeight: 800,
-                    borderRadius: '100px',
-                    background: 'linear-gradient(135deg, #1b75bc, #2563eb)',
+                    fontWeight: 700,
+                    borderRadius: '16px',
+                    background: '#1B75BC',
                     boxShadow: '0 10px 25px rgba(27,117,188,0.35)',
                     display: 'inline-flex', alignItems: 'center', gap: '10px',
                     cursor: 'pointer', color: '#ffffff', border: 'none',
+                    transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+                    fontFamily: 'var(--font-manrope, Manrope), sans-serif',
                   }}>
                     Acheter maintenant <ArrowRight size={18} />
                   </button>
@@ -213,161 +260,161 @@ export default function HomePage() {
                     padding: '16px 32px',
                     fontSize: '1rem',
                     fontWeight: 700,
-                    borderRadius: '100px',
+                    borderRadius: '16px',
                     background: '#ffffff',
-                    border: '1px solid rgba(15, 23, 42, 0.12)',
-                    color: '#0f172a',
+                    border: '1px solid #E2E8F0',
+                    color: '#0F172A',
                     display: 'inline-flex', alignItems: 'center', gap: '8px',
                     cursor: 'pointer',
                     boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
+                    transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+                    fontFamily: 'var(--font-manrope, Manrope), sans-serif',
                   }}>
-                    Découvrir les promos <Flame size={18} color="#ef4444" />
+                    Découvrir les promotions <Flame size={18} color="#EF4444" />
                   </button>
                 </Link>
               </div>
 
-              {/* Exact 3 Reassurance Cards (Bottom Left) */}
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '12px',
-                maxWidth: '560px',
-              }}>
-                <div style={{
-                  background: '#ffffff',
-                  border: '1px solid var(--color-sentech-border)',
-                  borderRadius: '16px',
-                  padding: '12px 14px',
-                  display: 'flex', alignItems: 'center', gap: '10px',
-                  boxShadow: '0 4px 12px rgba(15,23,42,0.03)',
-                }}>
-                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Truck size={18} color="#1b75bc" />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a' }}>Livraison 24h</div>
-                    <div style={{ fontSize: '0.68rem', color: '#64748b' }}>Partout au Sénégal</div>
-                  </div>
+              {/* Sous les boutons : Photos rondes de clients + rating */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ display: 'flex' }}>
+                  {[
+                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+                  ].map((src, i) => (
+                    <div key={i} style={{
+                      position: 'relative', width: '32px', height: '32px', borderRadius: '50%',
+                      overflow: 'hidden', border: '2px solid #ffffff', marginLeft: i === 0 ? 0 : '-10px',
+                      boxShadow: '0 2px 8px rgba(15,23,42,0.1)',
+                    }}>
+                      <Image src={src} alt="Client satisfait" fill style={{ objectFit: 'cover' }} />
+                    </div>
+                  ))}
                 </div>
-
-                <div style={{
-                  background: '#ffffff',
-                  border: '1px solid var(--color-sentech-border)',
-                  borderRadius: '16px',
-                  padding: '12px 14px',
-                  display: 'flex', alignItems: 'center', gap: '10px',
-                  boxShadow: '0 4px 12px rgba(15,23,42,0.03)',
-                }}>
-                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <ShieldCheck size={18} color="#1b75bc" />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a' }}>Produits certifiés</div>
-                    <div style={{ fontSize: '0.68rem', color: '#64748b' }}>Garantie 12 mois</div>
-                  </div>
-                </div>
-
-                <div style={{
-                  background: '#ffffff',
-                  border: '1px solid var(--color-sentech-border)',
-                  borderRadius: '16px',
-                  padding: '12px 14px',
-                  display: 'flex', alignItems: 'center', gap: '10px',
-                  boxShadow: '0 4px 12px rgba(15,23,42,0.03)',
-                }}>
-                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Headphones size={18} color="#1b75bc" />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a' }}>Support 7j/7</div>
-                    <div style={{ fontSize: '0.68rem', color: '#64748b' }}>À votre écoute</div>
-                  </div>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
+                  <span style={{ color: '#FBBF24', marginRight: '4px' }}>★★★★★</span>
+                  <AnimatedCounter end={2500} prefix="+" suffix=" clients satisfaits" />
                 </div>
               </div>
 
             </div>
 
-            {/* ── RIGHT COLUMN: Setup Pedestal Showcase + Vertical Reassurance Card ── */}
+            {/* ── COLONNE DROITE (55%): Podium & Cartes Flottantes Glassmorphism ── */}
             <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               
-              {/* Glowing Halo Ring Backlighting */}
+              {/* Soft Glowing Blue Halo Ring Behind Products */}
               <div style={{
                 position: 'absolute',
-                width: '440px', height: '440px',
+                width: '460px', height: '460px',
                 borderRadius: '50%',
-                border: '2px solid rgba(27,117,188,0.35)',
-                boxShadow: '0 0 80px rgba(27,117,188,0.25), inset 0 0 40px rgba(27,117,188,0.15)',
+                border: '2px solid rgba(27,117,188,0.3)',
+                boxShadow: '0 0 100px rgba(27,117,188,0.2), inset 0 0 50px rgba(27,117,188,0.12)',
                 pointerEvents: 'none',
                 animation: 'pulse-glow 5s ease-in-out infinite',
               }} />
 
-              {/* Main Product Showcase Image Container */}
+              {/* Main Floating Podium Products Showcase Image */}
               <div style={{
                 position: 'relative',
                 width: '100%',
-                maxWidth: '520px',
-                height: '460px',
+                maxWidth: '540px',
+                height: '480px',
                 borderRadius: '32px',
                 overflow: 'hidden',
-                background: 'transparent',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 zIndex: 2,
+                animation: 'float 4s ease-in-out infinite',
               }}>
                 <Image
                   src="/hero_showcase.jpg"
-                  alt="Casque Bluetooth, AirPods, Chargeur GaN 65W, Smartwatch et Power Bank"
+                  alt="Mise en scène podium produits High-Tech : Casque, Earbuds, Chargeur GaN, Power Bank et Smartwatch"
                   fill
-                  sizes="(max-width: 768px) 100vw, 520px"
+                  sizes="(max-width: 768px) 100vw, 540px"
                   style={{ objectFit: 'contain' }}
                   priority
                 />
               </div>
 
-              {/* Floating Vertical Card (Far Right) */}
+              {/* ── CARTE FLOTTANTE 1 (Haut Gauche) : Paiement Sécurisé ── */}
               <div style={{
                 position: 'absolute',
-                top: '50%',
-                right: '-16px',
-                transform: 'translateY(-50%)',
-                background: '#ffffff',
-                border: '1px solid var(--color-sentech-border)',
+                top: '20px',
+                left: '-10px',
+                background: 'rgba(255, 255, 255, 0.82)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(255, 255, 255, 0.7)',
                 borderRadius: '20px',
-                padding: '20px 16px',
-                boxShadow: '0 16px 40px rgba(15,23,42,0.08)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '16px',
-                alignItems: 'center',
+                padding: '14px 18px',
+                boxShadow: '0 12px 32px rgba(15,23,42,0.08)',
                 zIndex: 4,
-                width: '135px',
+                display: 'flex', alignItems: 'center', gap: '12px',
+                animation: 'float 3.5s ease-in-out infinite alternate',
               }}>
-                {/* Item 1 */}
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 6px' }}>
-                    <ShieldCheck size={18} color="#1b75bc" />
-                  </div>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#0f172a' }}>Paiement sécurisé</div>
+                <div style={{ width: '38px', height: '38px', borderRadius: '12px', background: 'rgba(34,197,94,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <ShieldCheck size={20} color="#22C55E" />
                 </div>
-
-                <div style={{ width: '80%', height: '1px', background: 'rgba(15,23,42,0.06)' }} />
-
-                {/* Item 2 */}
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 6px' }}>
-                    <CreditCard size={18} color="#1b75bc" />
+                <div>
+                  <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>✓ Paiement sécurisé</div>
+                  <div style={{ fontSize: '0.72rem', color: '#64748B', display: 'flex', gap: '4px', marginTop: '2px', fontWeight: 600 }}>
+                    <span style={{ color: '#FF6600', fontWeight: 800 }}>Orange Money</span> • <span style={{ color: '#1BA0E2', fontWeight: 800 }}>Wave</span> • Cash
                   </div>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#0f172a' }}>Paiement à la livraison</div>
                 </div>
+              </div>
 
-                <div style={{ width: '80%', height: '1px', background: 'rgba(15,23,42,0.06)' }} />
-
-                {/* Item 3 */}
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginBottom: '4px' }}>
-                    <span style={{ background: '#ff6600', color: '#fff', fontSize: '0.62rem', fontWeight: 900, borderRadius: '4px', padding: '1px 5px' }}>OM</span>
-                    <span style={{ background: '#1ba0e2', color: '#fff', fontSize: '0.62rem', fontWeight: 900, borderRadius: '4px', padding: '1px 5px' }}>WAVE</span>
+              {/* ── CARTE FLOTTANTE 2 (Haut Droite) : Livraison Express ── */}
+              <div style={{
+                position: 'absolute',
+                top: '60px',
+                right: '-10px',
+                background: 'rgba(255, 255, 255, 0.82)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(255, 255, 255, 0.7)',
+                borderRadius: '20px',
+                padding: '14px 18px',
+                boxShadow: '0 12px 32px rgba(15,23,42,0.08)',
+                zIndex: 4,
+                display: 'flex', alignItems: 'center', gap: '12px',
+                animation: 'float 4.5s ease-in-out infinite alternate-reverse',
+              }}>
+                <div style={{ width: '38px', height: '38px', borderRadius: '12px', background: 'rgba(27,117,188,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Truck size={20} color="#1B75BC" />
+                </div>
+                <div>
+                  <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>Livraison Express</div>
+                  <div style={{ fontSize: '0.72rem', color: '#64748B', fontWeight: 600, marginTop: '2px' }}>
+                    ⚡ 24h Dakar • 48h Régions
                   </div>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#0f172a' }}>Orange Money & Wave</div>
+                </div>
+              </div>
+
+              {/* ── CARTE FLOTTANTE 3 (Bas Droite) : Garantie 12 mois ── */}
+              <div style={{
+                position: 'absolute',
+                bottom: '30px',
+                right: '10px',
+                background: 'rgba(255, 255, 255, 0.85)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(255, 255, 255, 0.7)',
+                borderRadius: '20px',
+                padding: '14px 18px',
+                boxShadow: '0 12px 32px rgba(15,23,42,0.08)',
+                zIndex: 4,
+                display: 'flex', alignItems: 'center', gap: '12px',
+                animation: 'float 4s ease-in-out infinite alternate',
+              }}>
+                <div style={{ width: '38px', height: '38px', borderRadius: '12px', background: 'rgba(37,99,235,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Award size={20} color="#2563EB" />
+                </div>
+                <div>
+                  <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>Garantie 12 mois</div>
+                  <div style={{ fontSize: '0.72rem', color: '#64748B', fontWeight: 600, marginTop: '2px' }}>
+                    Produits certifiés d&apos;origine
+                  </div>
                 </div>
               </div>
 
@@ -376,18 +423,18 @@ export default function HomePage() {
           </div>
 
           {/* ═══════════════════════════════════════════════
-              FLOATING BOTTOM CATEGORY BAR (Exactement conforme au mockup)
+              BANDE FLOTTANTE DES CATÉGORIES (En bas du Hero)
           ═══════════════════════════════════════════════ */}
           <div style={{
             marginTop: '60px',
             background: '#ffffff',
-            border: '1px solid var(--color-sentech-border)',
+            border: '1px solid #E2E8F0',
             borderRadius: '24px',
-            padding: '18px 24px',
+            padding: '20px 24px',
             boxShadow: '0 20px 50px rgba(15,23,42,0.07)',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-            gap: '12px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(135px, 1fr))',
+            gap: '16px',
             alignItems: 'center',
           }}>
             {[
@@ -396,8 +443,8 @@ export default function HomePage() {
               { name: 'Power Banks', count: '87 produits', icon: BatteryCharging },
               { name: 'Câbles', count: '96 produits', icon: Cable },
               { name: 'Montres', count: '64 produits', icon: Watch },
-              { name: 'Supports', count: '52 produits', icon: Smartphone },
               { name: 'Gaming', count: '78 produits', icon: Sparkles },
+              { name: 'Supports', count: '52 produits', icon: Smartphone },
             ].map((cat, i) => {
               const IconComponent = cat.icon;
               return (
@@ -408,26 +455,43 @@ export default function HomePage() {
                 >
                   <div
                     style={{
-                      padding: '10px 8px',
-                      borderRadius: '16px',
-                      transition: 'all 200ms ease',
-                      borderRight: i < 6 ? '1px solid rgba(15,23,42,0.06)' : 'none',
+                      background: '#ffffff',
+                      borderRadius: '20px',
+                      padding: '12px 10px',
+                      transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms ease, box-shadow 250ms ease',
+                      border: '1px solid transparent',
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(27,117,188,0.04)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.transform = 'translateY(-5px)';
+                      e.currentTarget.style.borderColor = '#1B75BC';
+                      e.currentTarget.style.boxShadow = '0 10px 24px rgba(27,117,188,0.1)';
+                      const iconEl = e.currentTarget.querySelector('.cat-icon-container');
+                      if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1.1)';
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.borderColor = 'transparent';
+                      e.currentTarget.style.boxShadow = 'none';
+                      const iconEl = e.currentTarget.querySelector('.cat-icon-container');
+                      if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1)';
+                    }}
                   >
-                    <div style={{
-                      width: '42px', height: '42px', borderRadius: '50%',
-                      background: 'rgba(27,117,188,0.08)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      margin: '0 auto 8px', color: '#1b75bc',
-                    }}>
-                      <IconComponent size={20} />
+                    <div
+                      className="cat-icon-container"
+                      style={{
+                        width: '44px', height: '44px', borderRadius: '50%',
+                        background: 'rgba(27,117,188,0.08)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        margin: '0 auto 10px', color: '#1B75BC',
+                        transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+                      }}
+                    >
+                      <IconComponent size={22} />
                     </div>
-                    <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta, Plus Jakarta Sans), sans-serif' }}>
+                    <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
                       {cat.name}
                     </div>
-                    <div style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 600, marginTop: '2px' }}>
+                    <div style={{ fontSize: '0.74rem', color: '#64748B', fontWeight: 500, marginTop: '3px' }}>
                       {cat.count}
                     </div>
                   </div>
@@ -435,29 +499,47 @@ export default function HomePage() {
               );
             })}
 
-            {/* Last Item: Voir toutes les catégories */}
+            {/* 8ème carte : Voir toutes les catégories */}
             <Link
               href="/boutique"
               style={{ textDecoration: 'none', textAlign: 'center' }}
             >
               <div
                 style={{
-                  padding: '10px 8px',
-                  borderRadius: '16px',
-                  transition: 'all 200ms ease',
+                  background: '#ffffff',
+                  borderRadius: '20px',
+                  padding: '12px 10px',
+                  transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms ease, box-shadow 250ms ease',
+                  border: '1px solid transparent',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(27,117,188,0.04)'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateY(-5px)';
+                  e.currentTarget.style.borderColor = '#1B75BC';
+                  e.currentTarget.style.boxShadow = '0 10px 24px rgba(27,117,188,0.1)';
+                  const iconEl = e.currentTarget.querySelector('.cat-icon-container');
+                  if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = 'transparent';
+                  e.currentTarget.style.boxShadow = 'none';
+                  const iconEl = e.currentTarget.querySelector('.cat-icon-container');
+                  if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1)';
+                }}
               >
-                <div style={{
-                  width: '42px', height: '42px', borderRadius: '50%',
-                  background: 'rgba(15,23,42,0.05)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  margin: '0 auto 8px', color: '#0f172a',
-                }}>
-                  <ChevronRight size={20} />
+                <div
+                  className="cat-icon-container"
+                  style={{
+                    width: '44px', height: '44px', borderRadius: '50%',
+                    background: 'rgba(15,23,42,0.06)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    margin: '0 auto 10px', color: '#0F172A',
+                    transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+                  }}
+                >
+                  <ChevronRight size={22} />
                 </div>
-                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#1b75bc', fontFamily: 'var(--font-plus-jakarta, Plus Jakarta Sans), sans-serif' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#1B75BC', fontFamily: 'var(--font-manrope, Manrope), sans-serif' }}>
                   Voir toutes <br /> les catégories
                 </div>
               </div>
