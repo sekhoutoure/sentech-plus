@@ -79,63 +79,26 @@ export default function HomePage() {
   return (
     <>
       {/* ═══════════════════════════════════════════════
-          SECTION 1 : HERO (Aération 100px)
+          SECTION 1 : HERO (Exactement conforme au mockup)
       ═══════════════════════════════════════════════ */}
       <section style={{
         position: 'relative',
         overflow: 'hidden',
-        background: 'linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%)',
-        padding: '70px 0 100px 0',
+        background: 'linear-gradient(180deg, #f0f6ff 0%, #ffffff 100%)',
+        padding: '40px 0 90px 0',
       }}>
-        {/* Soft Background Orbs & Glass Particles */}
+        {/* Ambient Glowing Orbs */}
         <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
           <div style={{
-            position: 'absolute', top: '-15%', right: '10%',
-            width: '500px', height: '500px', borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(27,117,188,0.12) 0%, transparent 70%)',
-            filter: 'blur(50px)',
-            animation: 'pulse-glow 6s ease-in-out infinite',
-          }} />
-          <div style={{
-            position: 'absolute', bottom: '-10%', left: '5%',
-            width: '400px', height: '400px', borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(96,165,250,0.15) 0%, transparent 70%)',
-            filter: 'blur(40px)',
+            position: 'absolute', top: '10%', right: '15%',
+            width: '600px', height: '600px', borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(27,117,188,0.15) 0%, transparent 70%)',
+            filter: 'blur(60px)',
           }} />
         </div>
 
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 2 }}>
           
-          {/* LOGO Header Area in Hero */}
-          <div style={{
-            display: 'flex', justifyContent: 'center', marginBottom: '32px',
-            animation: 'fade-in 0.6s ease-out',
-          }}>
-            <div style={{
-              background: 'rgba(255,255,255,0.7)',
-              backdropFilter: 'blur(16px)',
-              border: '1px solid rgba(27,117,188,0.18)',
-              borderRadius: '100px',
-              padding: '8px 24px',
-              boxShadow: '0 8px 24px rgba(27,117,188,0.08)',
-              display: 'inline-flex', alignItems: 'center', gap: '10px',
-            }}>
-              <div style={{ position: 'relative', width: '130px', height: '32px' }}>
-                <Image
-                  src="/logo_horizontal_v2.png"
-                  alt="SenTech Plus Logo"
-                  fill
-                  sizes="130px"
-                  style={{ objectFit: 'contain' }}
-                  priority
-                />
-              </div>
-              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1b75bc', letterSpacing: '1px', textTransform: 'uppercase' }}>
-                OFFICIEL SÉNÉGAL
-              </span>
-            </div>
-          </div>
-
           <div className="hero-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
@@ -143,42 +106,81 @@ export default function HomePage() {
             alignItems: 'center',
           }}>
             
-            {/* Content Left */}
-            <div style={{ animation: 'slide-up 0.6s ease-out' }}>
+            {/* ── LEFT COLUMN ── */}
+            <div style={{ animation: 'slide-up 0.5s ease-out' }}>
               
-              {/* Proof Rating Badge (★★★★★ +2500 clients satisfaits) */}
+              {/* Top Badge: 🛍️ BOUTIQUE OFFICIELLE AU SÉNÉGAL 🇸🇳 */}
               <div style={{
                 display: 'inline-flex', alignItems: 'center', gap: '8px',
                 background: '#ffffff',
-                border: '1px solid var(--color-sentech-border)',
+                border: '1px solid rgba(27,117,188,0.2)',
                 borderRadius: '100px',
                 padding: '6px 16px',
-                boxShadow: '0 4px 16px rgba(15,23,42,0.04)',
-                marginBottom: '20px',
+                boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
+                marginBottom: '18px',
               }}>
-                <div style={{ display: 'flex', gap: '2px' }} role="img" aria-label="5 étoiles sur 5">
-                  {[1, 2, 3, 4, 5].map(s => (
-                    <Star key={s} size={15} fill="#fbbf24" color="#fbbf24" />
-                  ))}
-                </div>
-                <span style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0f172a' }}>
-                  <AnimatedCounter end={2500} prefix="+" suffix=" clients satisfaits au Sénégal" />
+                <Award size={15} color="#1b75bc" />
+                <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+                  BOUTIQUE OFFICIELLE AU SÉNÉGAL 🇸🇳
                 </span>
               </div>
 
-              {/* Titre Impactant (56px) */}
-              <h1 className="hero-title" style={{
-                fontSize: 'clamp(34px, 5.5vw, 56px)',
-                fontWeight: 800,
-                lineHeight: 1.12,
-                marginBottom: '20px',
-                color: 'var(--color-foreground)',
-                letterSpacing: '-0.5px',
+              {/* Overlapping Avatars + Rating Proof Pill */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '10px',
+                background: '#ffffff',
+                border: '1px solid var(--color-sentech-border)',
+                borderRadius: '100px',
+                padding: '6px 14px',
+                width: 'fit-content',
+                boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
+                marginBottom: '24px',
               }}>
-                Les meilleurs accessoires <span className="sentech-gradient-text">High-Tech</span> <br />
-                au meilleur prix au Sénégal.
+                <div style={{ display: 'flex', marginLeft: '4px' }}>
+                  {[
+                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+                  ].map((src, i) => (
+                    <div key={i} style={{
+                      position: 'relative', width: '26px', height: '26px', borderRadius: '50%',
+                      overflow: 'hidden', border: '2px solid #ffffff', marginLeft: i === 0 ? 0 : '-8px',
+                    }}>
+                      <Image src={src} alt="Client vérifié" fill style={{ objectFit: 'cover' }} />
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', gap: '2px' }} role="img" aria-label="5 étoiles">
+                  {[1, 2, 3, 4, 5].map(s => (
+                    <Star key={s} size={14} fill="#fbbf24" color="#fbbf24" />
+                  ))}
+                </div>
+                <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0f172a' }}>
+                  <AnimatedCounter end={2500} prefix="+" suffix=" clients satisfaits" />
+                </span>
+              </div>
+
+              {/* Exact Hero Title */}
+              <h1 className="hero-title" style={{
+                fontSize: 'clamp(36px, 5.5vw, 64px)',
+                fontWeight: 800,
+                lineHeight: 1.1,
+                marginBottom: '20px',
+                color: '#0f172a',
+                letterSpacing: '-0.03em',
+              }}>
+                Les meilleurs <br />
+                accessoires <br />
+                <span className="sentech-gradient-text" style={{ background: 'linear-gradient(135deg, #1b75bc 0%, #2563eb 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                  High-Tech
+                </span> <br />
+                <span style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 700, color: '#0f172a' }}>
+                  au meilleur prix au Sénégal.
+                </span>
               </h1>
 
+              {/* Exact Hero Subtitle Paragraph */}
               <p className="text-body" style={{
                 color: '#475569',
                 fontSize: '1.05rem',
@@ -186,157 +188,282 @@ export default function HomePage() {
                 marginBottom: '32px',
                 maxWidth: '520px',
               }}>
-                Équipements certifiés d&apos;origine, écouteurs sans fil, chargeurs ultra-rapides et power banks avec livraison express 24h.
+                Découvrez une sélection premium d&apos;accessoires High-Tech certifiés avec garantie et livraison express 24h partout au Sénégal.
               </p>
 
-              {/* Action Buttons: [ Acheter ] [ Promotions ] */}
-              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '32px' }}>
+              {/* Exact Hero Buttons */}
+              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '36px' }}>
                 <Link href="/boutique" style={{ textDecoration: 'none' }}>
                   <button id="hero-shop-btn" className="btn-primary btn-pulse" style={{
                     padding: '16px 36px',
-                    fontSize: '1.05rem',
+                    fontSize: '1rem',
                     fontWeight: 800,
-                    borderRadius: '14px',
+                    borderRadius: '100px',
                     background: 'linear-gradient(135deg, #1b75bc, #2563eb)',
                     boxShadow: '0 10px 25px rgba(27,117,188,0.35)',
                     display: 'inline-flex', alignItems: 'center', gap: '10px',
-                    cursor: 'pointer',
+                    cursor: 'pointer', color: '#ffffff', border: 'none',
                   }}>
-                    <ShoppingCart size={20} /> Acheter
+                    Acheter maintenant <ArrowRight size={18} />
                   </button>
                 </Link>
 
                 <Link href="/promotions" style={{ textDecoration: 'none' }}>
                   <button id="hero-promo-btn" className="btn-secondary" style={{
                     padding: '16px 32px',
-                    fontSize: '1.05rem',
+                    fontSize: '1rem',
                     fontWeight: 700,
-                    borderRadius: '14px',
-                    background: 'rgba(255, 255, 255, 0.75)',
-                    backdropFilter: 'blur(12px)',
-                    border: '1px solid rgba(27, 117, 188, 0.25)',
+                    borderRadius: '100px',
+                    background: '#ffffff',
+                    border: '1px solid rgba(15, 23, 42, 0.12)',
                     color: '#0f172a',
                     display: 'inline-flex', alignItems: 'center', gap: '8px',
                     cursor: 'pointer',
+                    boxShadow: '0 4px 14px rgba(15,23,42,0.04)',
                   }}>
-                    <Flame size={20} color="#ef4444" /> Promotions
+                    Découvrir les promos <Flame size={18} color="#ef4444" />
                   </button>
                 </Link>
               </div>
 
-              {/* Reassurances List: ✓ Livraison 24h  ✓ Paiement Wave  ✓ Garantie */}
+              {/* Exact 3 Reassurance Cards (Bottom Left) */}
               <div style={{
-                display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap',
-                fontSize: '0.9rem', fontWeight: 700, color: '#0f172a',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '12px',
+                maxWidth: '560px',
               }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{ color: '#10b981', fontWeight: 900 }}>✓</span> Livraison 24h
-                </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{ color: '#10b981', fontWeight: 900 }}>✓</span> Paiement Wave
-                </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{ color: '#10b981', fontWeight: 900 }}>✓</span> Garantie
-                </span>
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid var(--color-sentech-border)',
+                  borderRadius: '16px',
+                  padding: '12px 14px',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  boxShadow: '0 4px 12px rgba(15,23,42,0.03)',
+                }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Truck size={18} color="#1b75bc" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a' }}>Livraison 24h</div>
+                    <div style={{ fontSize: '0.68rem', color: '#64748b' }}>Partout au Sénégal</div>
+                  </div>
+                </div>
+
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid var(--color-sentech-border)',
+                  borderRadius: '16px',
+                  padding: '12px 14px',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  boxShadow: '0 4px 12px rgba(15,23,42,0.03)',
+                }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <ShieldCheck size={18} color="#1b75bc" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a' }}>Produits certifiés</div>
+                    <div style={{ fontSize: '0.68rem', color: '#64748b' }}>Garantie 12 mois</div>
+                  </div>
+                </div>
+
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid var(--color-sentech-border)',
+                  borderRadius: '16px',
+                  padding: '12px 14px',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  boxShadow: '0 4px 12px rgba(15,23,42,0.03)',
+                }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Headphones size={18} color="#1b75bc" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a' }}>Support 7j/7</div>
+                    <div style={{ fontSize: '0.68rem', color: '#64748b' }}>À votre écoute</div>
+                  </div>
+                </div>
               </div>
 
             </div>
 
-            {/* Right Visual Showcase: Grande Image Produit (45% à 50% de largeur) */}
-            <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
+            {/* ── RIGHT COLUMN: Setup Pedestal Showcase + Vertical Reassurance Card ── */}
+            <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               
+              {/* Glowing Halo Ring Backlighting */}
+              <div style={{
+                position: 'absolute',
+                width: '440px', height: '440px',
+                borderRadius: '50%',
+                border: '2px solid rgba(27,117,188,0.35)',
+                boxShadow: '0 0 80px rgba(27,117,188,0.25), inset 0 0 40px rgba(27,117,188,0.15)',
+                pointerEvents: 'none',
+                animation: 'pulse-glow 5s ease-in-out infinite',
+              }} />
+
+              {/* Main Product Showcase Image Container */}
               <div style={{
                 position: 'relative',
                 width: '100%',
-                maxWidth: '560px',
-                height: '500px',
+                maxWidth: '520px',
+                height: '460px',
                 borderRadius: '32px',
                 overflow: 'hidden',
-                background: '#ffffff',
-                border: '1px solid var(--color-sentech-border)',
-                boxShadow: '0 25px 50px rgba(15,23,42,0.08), 0 0 40px rgba(27,117,188,0.12)',
-                animation: 'float 4s ease-in-out infinite',
+                background: 'transparent',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                zIndex: 2,
               }}>
                 <Image
-                  src="/hero.jpg"
-                  alt="Setup High Tech moderne - Écouteurs, Smartphone, Power Bank & Chargeur"
+                  src="/hero_showcase.jpg"
+                  alt="Casque Bluetooth, AirPods, Chargeur GaN 65W, Smartwatch et Power Bank"
                   fill
-                  sizes="(max-width: 768px) 100vw, 560px"
-                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  style={{ objectFit: 'contain' }}
                   priority
                 />
+              </div>
 
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  background: 'linear-gradient(to top, rgba(15,23,42,0.75) 0%, transparent 60%)',
-                }} />
-
-                <div style={{
-                  position: 'absolute', top: '20px', left: '20px',
-                  background: 'rgba(255, 255, 255, 0.85)',
-                  backdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(255, 255, 255, 0.6)',
-                  borderRadius: '14px', padding: '8px 14px',
-                  display: 'flex', alignItems: 'center', gap: '8px',
-                  boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
-                  animation: 'float 3.5s ease-in-out infinite alternate',
-                }}>
-                  <Headphones size={18} color="#1b75bc" />
-                  <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0f172a' }}>Casque Audio HD</span>
-                </div>
-
-                <div style={{
-                  position: 'absolute', top: '70px', right: '20px',
-                  background: 'rgba(255, 255, 255, 0.85)',
-                  backdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(255, 255, 255, 0.6)',
-                  borderRadius: '14px', padding: '8px 14px',
-                  display: 'flex', alignItems: 'center', gap: '8px',
-                  boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
-                  animation: 'float 4.5s ease-in-out infinite alternate-reverse',
-                }}>
-                  <BatteryCharging size={18} color="#10b981" />
-                  <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0f172a' }}>Power Bank 20K</span>
-                </div>
-
-                <div style={{
-                  position: 'absolute', bottom: '24px', left: '20px', right: '20px',
-                  background: 'rgba(15, 23, 42, 0.85)',
-                  backdropFilter: 'blur(18px)',
-                  border: '1px solid rgba(27, 117, 188, 0.4)',
-                  borderRadius: '18px', padding: '16px',
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  boxShadow: '0 12px 30px rgba(0,0,0,0.25)',
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{
-                      width: '40px', height: '40px', borderRadius: '12px',
-                      background: 'rgba(27,117,188,0.2)', border: '1px solid rgba(27,117,188,0.4)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    }}>
-                      <Smartphone size={20} color="#60a5fa" />
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '0.78rem', color: '#60a5fa', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                        SETUP MODERNE COMPLET
-                      </div>
-                      <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#ffffff' }}>
-                        Smartphone & High-Tech
-                      </div>
-                    </div>
+              {/* Floating Vertical Card (Far Right) */}
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                right: '-16px',
+                transform: 'translateY(-50%)',
+                background: '#ffffff',
+                border: '1px solid var(--color-sentech-border)',
+                borderRadius: '20px',
+                padding: '20px 16px',
+                boxShadow: '0 16px 40px rgba(15,23,42,0.08)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+                alignItems: 'center',
+                zIndex: 4,
+                width: '135px',
+              }}>
+                {/* Item 1 */}
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 6px' }}>
+                    <ShieldCheck size={18} color="#1b75bc" />
                   </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '100px' }}>
-                    <Star size={14} color="#fbbf24" fill="#fbbf24" />
-                    <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#ffffff' }}>4.9/5</span>
-                  </div>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#0f172a' }}>Paiement sécurisé</div>
                 </div>
 
+                <div style={{ width: '80%', height: '1px', background: 'rgba(15,23,42,0.06)' }} />
+
+                {/* Item 2 */}
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(27,117,188,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 6px' }}>
+                    <CreditCard size={18} color="#1b75bc" />
+                  </div>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#0f172a' }}>Paiement à la livraison</div>
+                </div>
+
+                <div style={{ width: '80%', height: '1px', background: 'rgba(15,23,42,0.06)' }} />
+
+                {/* Item 3 */}
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginBottom: '4px' }}>
+                    <span style={{ background: '#ff6600', color: '#fff', fontSize: '0.62rem', fontWeight: 900, borderRadius: '4px', padding: '1px 5px' }}>OM</span>
+                    <span style={{ background: '#1ba0e2', color: '#fff', fontSize: '0.62rem', fontWeight: 900, borderRadius: '4px', padding: '1px 5px' }}>WAVE</span>
+                  </div>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#0f172a' }}>Orange Money & Wave</div>
+                </div>
               </div>
 
             </div>
 
           </div>
+
+          {/* ═══════════════════════════════════════════════
+              FLOATING BOTTOM CATEGORY BAR (Exactement conforme au mockup)
+          ═══════════════════════════════════════════════ */}
+          <div style={{
+            marginTop: '60px',
+            background: '#ffffff',
+            border: '1px solid var(--color-sentech-border)',
+            borderRadius: '24px',
+            padding: '18px 24px',
+            boxShadow: '0 20px 50px rgba(15,23,42,0.07)',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+            gap: '12px',
+            alignItems: 'center',
+          }}>
+            {[
+              { name: 'Chargeurs', count: '145 produits', icon: Zap },
+              { name: 'Écouteurs', count: '320 produits', icon: Headphones },
+              { name: 'Power Banks', count: '87 produits', icon: BatteryCharging },
+              { name: 'Câbles', count: '96 produits', icon: Cable },
+              { name: 'Montres', count: '64 produits', icon: Watch },
+              { name: 'Supports', count: '52 produits', icon: Smartphone },
+              { name: 'Gaming', count: '78 produits', icon: Sparkles },
+            ].map((cat, i) => {
+              const IconComponent = cat.icon;
+              return (
+                <Link
+                  key={cat.name}
+                  href={`/boutique?cat=${encodeURIComponent(cat.name)}`}
+                  style={{ textDecoration: 'none', textAlign: 'center' }}
+                >
+                  <div
+                    style={{
+                      padding: '10px 8px',
+                      borderRadius: '16px',
+                      transition: 'all 200ms ease',
+                      borderRight: i < 6 ? '1px solid rgba(15,23,42,0.06)' : 'none',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(27,117,188,0.04)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                  >
+                    <div style={{
+                      width: '42px', height: '42px', borderRadius: '50%',
+                      background: 'rgba(27,117,188,0.08)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      margin: '0 auto 8px', color: '#1b75bc',
+                    }}>
+                      <IconComponent size={20} />
+                    </div>
+                    <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta, Plus Jakarta Sans), sans-serif' }}>
+                      {cat.name}
+                    </div>
+                    <div style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 600, marginTop: '2px' }}>
+                      {cat.count}
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+
+            {/* Last Item: Voir toutes les catégories */}
+            <Link
+              href="/boutique"
+              style={{ textDecoration: 'none', textAlign: 'center' }}
+            >
+              <div
+                style={{
+                  padding: '10px 8px',
+                  borderRadius: '16px',
+                  transition: 'all 200ms ease',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(27,117,188,0.04)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+              >
+                <div style={{
+                  width: '42px', height: '42px', borderRadius: '50%',
+                  background: 'rgba(15,23,42,0.05)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  margin: '0 auto 8px', color: '#0f172a',
+                }}>
+                  <ChevronRight size={20} />
+                </div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#1b75bc', fontFamily: 'var(--font-plus-jakarta, Plus Jakarta Sans), sans-serif' }}>
+                  Voir toutes <br /> les catégories
+                </div>
+              </div>
+            </Link>
+          </div>
+
         </div>
       </section>
 
