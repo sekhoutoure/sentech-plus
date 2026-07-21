@@ -399,6 +399,8 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
+}
+
 /* ===== MOBILE HERO FIRST SPECIFICATIONS ===== */
 .mobile-hero-btn {
   height: 56px !important;
