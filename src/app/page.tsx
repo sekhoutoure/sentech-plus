@@ -108,13 +108,13 @@ export default function HomePage() {
           
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '45% 55%',
-            gap: '80px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gap: '60px',
             alignItems: 'center',
-            minHeight: '720px',
+            minHeight: '680px',
           }} className="hero-main-grid">
             
-            {/* ── COLONNE GAUCHE (45%) ── */}
+            {/* ── COLONNE GAUCHE ── */}
             <div style={{ animation: 'slide-up 0.5s ease-out' }}>
               
               {/* Badges Top: Badge Premium & Badge Social Proof */}

@@ -380,6 +380,13 @@ body {
   gap: 24px;
 }
 
+@media (min-width: 1024px) {
+  .hero-main-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 60px !important;
+  }
+}
+
 @media (max-width: 1024px) {
   .product-grid {
     grid-template-columns: repeat(3, 1fr);
