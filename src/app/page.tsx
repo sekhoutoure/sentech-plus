@@ -13,6 +13,7 @@ import { products, type Product } from '@/lib/products';
 import { fetchProducts } from '@/lib/supabase';
 import ProductCard from '@/components/ui/ProductCard';
 import CountdownTimer from '@/components/ui/CountdownTimer';
+import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { useToast } from '@/context/ToastContext';
 
 // ── Top 6 essential categories ──
@@ -160,7 +161,7 @@ export default function HomePage() {
                   ))}
                 </div>
                 <span style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0f172a' }}>
-                  +2500 clients satisfaits au Sénégal
+                  <AnimatedCounter end={2500} prefix="+" suffix=" clients satisfaits au Sénégal" />
                 </span>
               </div>
 
@@ -190,7 +191,7 @@ export default function HomePage() {
               {/* Action Buttons: [ Acheter ] [ Promotions ] */}
               <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '32px' }}>
                 <Link href="/boutique" style={{ textDecoration: 'none' }}>
-                  <button id="hero-shop-btn" className="btn-primary" style={{
+                  <button id="hero-shop-btn" className="btn-primary btn-pulse" style={{
                     padding: '16px 36px',
                     fontSize: '1.05rem',
                     fontWeight: 800,
@@ -591,6 +592,108 @@ export default function HomePage() {
                 Voir toute la Boutique <ArrowRight size={17} />
               </button>
             </Link>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          SECTION : 📸 PRODUITS EN SITUATION & LIFESTYLE
+      ═══════════════════════════════════════════════ */}
+      <section className="section-padding" style={{ background: 'rgba(248, 250, 252, 0.7)', borderTop: '1px solid var(--color-sentech-border)' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(27,117,188,0.08)', border: '1px solid rgba(27,117,188,0.2)', padding: '6px 16px', borderRadius: '100px', marginBottom: '12px' }}>
+              <Sparkles size={16} color="#1b75bc" />
+              <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#1b75bc', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                LIFESTYLE & USAGE AU QUOTIDIEN
+              </span>
+            </div>
+            <h2 style={{ fontSize: '2rem', fontWeight: 800, fontFamily: 'var(--font-inter, Inter), sans-serif', color: 'var(--color-foreground)' }}>
+              Vos accessoires <span className="sentech-gradient-text">en situation réelle</span>
+            </h2>
+            <p style={{ color: '#64748b', fontSize: '0.98rem', maxWidth: '600px', margin: '8px auto 0' }}>
+              Découvrez comment nos équipements s&apos;intègrent parfaitement dans votre quotidien au bureau, en voyage et lors de vos déplacements à Dakar.
+            </p>
+          </div>
+
+          {/* 2 Big Lifestyle Cards Grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '28px',
+            marginBottom: '48px',
+          }}>
+            {/* Card 1: Bureau & Audio Setup */}
+            <div style={{
+              position: 'relative',
+              borderRadius: '24px',
+              overflow: 'hidden',
+              height: '340px',
+              border: '1px solid var(--color-sentech-border)',
+              boxShadow: '0 12px 28px rgba(15,23,42,0.06)',
+            }}>
+              <Image
+                src="/lifestyle_audio_setup.jpg"
+                alt="Setup Audio & Bureau High-Tech avec Écouteurs sans fil"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ objectFit: 'cover' }}
+              />
+              <div style={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(to top, rgba(15,23,42,0.85) 0%, transparent 60%)',
+                padding: '24px',
+                display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+                color: '#ffffff',
+              }}>
+                <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  🎧 WORK & AUDIO HD
+                </span>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, margin: '4px 0 6px' }}>
+                  Productivité & Immersion Sonore
+                </h3>
+                <p style={{ fontSize: '0.85rem', color: '#cbd5e1', margin: 0 }}>
+                  Casques & écouteurs sans fil à réduction de bruit pour travailler en toute sérénité.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 2: Charge Rapide & Voyage */}
+            <div style={{
+              position: 'relative',
+              borderRadius: '24px',
+              overflow: 'hidden',
+              height: '340px',
+              border: '1px solid var(--color-sentech-border)',
+              boxShadow: '0 12px 28px rgba(15,23,42,0.06)',
+            }}>
+              <Image
+                src="/lifestyle_charging_travel.jpg"
+                alt="Chargeur GaN et Power Bank en situation de voyage"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ objectFit: 'cover' }}
+              />
+              <div style={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(to top, rgba(15,23,42,0.85) 0%, transparent 60%)',
+                padding: '24px',
+                display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+                color: '#ffffff',
+              }}>
+                <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#34d399', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  ⚡ NOMADE & ULTRA-RAPIDE
+                </span>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, margin: '4px 0 6px' }}>
+                  Energie Haute Capacité partout avec vous
+                </h3>
+                <p style={{ fontSize: '0.85rem', color: '#cbd5e1', margin: 0 }}>
+                  Chargeurs rapides GaN et Power Banks 20 000 mAh certifiés pour ne jamais tomber en panne.
+                </p>
+              </div>
+            </div>
           </div>
 
         </div>
