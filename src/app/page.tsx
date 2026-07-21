@@ -446,64 +446,141 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════════════════════════════════════
-          SECTION 3 : PRODUITS VEDETTES (Padding 100px, Margin 40px, Gap 24px)
+          SECTION 3 : 🔥 OFFRES FLASH (Décompte & Promotions)
       ═══════════════════════════════════════════════ */}
       <section className="section-padding" style={{ background: 'var(--color-background)', borderTop: '1px solid var(--color-sentech-border)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
           
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '40px', flexWrap: 'wrap', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
             <div>
-              <h2 style={{ fontSize: '1.8rem', fontWeight: 800, fontFamily: 'Outfit, sans-serif', color: 'var(--color-foreground)' }}>
-                Sélection <span className="sentech-gradient-text">Produits</span>
-              </h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                <span style={{ fontSize: '1.4rem' }}>🔥</span>
+                <h2 style={{ fontSize: '1.8rem', fontWeight: 800, fontFamily: 'var(--font-inter, Inter), sans-serif', color: 'var(--color-foreground)' }}>
+                  Offres <span className="sentech-gradient-text">Flash</span>
+                </h2>
+              </div>
+              <p style={{ fontSize: '0.92rem', color: '#64748b', margin: 0 }}>
+                Promotions à durée limitée — jusqu&apos;à -40% sur une sélection d&apos;équipements certifiés.
+              </p>
             </div>
 
-            {/* Quick Filter Tabs */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <CountdownTimer targetDate={promoEndDate} label="Fin dans :" />
+              <Link href="/promotions" style={{ textDecoration: 'none' }}>
+                <button className="btn-secondary" style={{ padding: '10px 20px', fontSize: '0.88rem', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  Voir tout <ChevronRight size={16} />
+                </button>
+              </Link>
+            </div>
+          </div>
+
+          <div className="product-grid">
+            {(promoProducts.length ? promoProducts : productData.slice(0, 4)).slice(0, 4).map(p => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          SECTION 4 : ⭐ MEILLEURES VENTES (Filtres Interactifs)
+      ═══════════════════════════════════════════════ */}
+      <section className="section-padding" style={{ background: 'rgba(248, 250, 252, 0.6)', borderTop: '1px solid var(--color-sentech-border)' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
+          
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                <span style={{ fontSize: '1.4rem' }}>⭐</span>
+                <h2 style={{ fontSize: '1.8rem', fontWeight: 800, fontFamily: 'var(--font-inter, Inter), sans-serif', color: 'var(--color-foreground)' }}>
+                  Meilleures <span className="sentech-gradient-text">Ventes</span>
+                </h2>
+              </div>
+              <p style={{ fontSize: '0.92rem', color: '#64748b', margin: 0 }}>
+                Les accessoires les plus populaires et les mieux notés par les clients au Sénégal.
+              </p>
+            </div>
+
+            {/* Quick Filter Pills */}
             <div style={{
-              display: 'flex', gap: '8px', background: 'rgba(15,23,42,0.04)',
-              padding: '6px', borderRadius: '16px', border: '1px solid var(--color-sentech-border)'
+              display: 'flex', gap: '8px', background: '#ffffff',
+              padding: '6px', borderRadius: '16px', border: '1px solid var(--color-sentech-border)',
+              boxShadow: '0 2px 8px rgba(15,23,42,0.03)',
             }}>
               <button
                 onClick={() => setActiveTab('bestsellers')}
                 style={{
-                  padding: '9px 18px', borderRadius: '12px', fontSize: '0.88rem', fontWeight: 700,
+                  padding: '8px 16px', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 700,
                   border: 'none', cursor: 'pointer', transition: 'all 0.2s',
                   background: activeTab === 'bestsellers' ? '#1b75bc' : 'transparent',
                   color: activeTab === 'bestsellers' ? '#ffffff' : '#64748b',
-                  display: 'flex', alignItems: 'center', gap: '6px'
                 }}
               >
-                <Award size={16} /> Meilleures ventes
+                🔥 Tout
               </button>
               <button
                 onClick={() => setActiveTab('promos')}
                 style={{
-                  padding: '9px 18px', borderRadius: '12px', fontSize: '0.88rem', fontWeight: 700,
+                  padding: '8px 16px', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 700,
                   border: 'none', cursor: 'pointer', transition: 'all 0.2s',
-                  background: activeTab === 'promos' ? '#ef4444' : 'transparent',
+                  background: activeTab === 'promos' ? '#1b75bc' : 'transparent',
                   color: activeTab === 'promos' ? '#ffffff' : '#64748b',
-                  display: 'flex', alignItems: 'center', gap: '6px'
                 }}
               >
-                <Flame size={16} /> Offres Flash
+                🎧 Audio HD
               </button>
               <button
                 onClick={() => setActiveTab('new')}
                 style={{
-                  padding: '9px 18px', borderRadius: '12px', fontSize: '0.88rem', fontWeight: 700,
+                  padding: '8px 16px', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 700,
                   border: 'none', cursor: 'pointer', transition: 'all 0.2s',
                   background: activeTab === 'new' ? '#1b75bc' : 'transparent',
                   color: activeTab === 'new' ? '#ffffff' : '#64748b',
-                  display: 'flex', alignItems: 'center', gap: '6px'
                 }}
               >
-                <Sparkles size={16} /> Nouveautés
+                🔌 Chargeurs
               </button>
             </div>
           </div>
 
           <div className="product-grid">
-            {currentTabProducts.slice(0, 8).map(p => (
+            {(bestSellers.length ? bestSellers : productData.slice(0, 4)).slice(0, 4).map(p => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          SECTION 5 : 🆕 NOUVEAUTÉS HIGH-TECH
+      ═══════════════════════════════════════════════ */}
+      <section className="section-padding" style={{ background: 'var(--color-background)', borderTop: '1px solid var(--color-sentech-border)' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
+          
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                <span style={{ fontSize: '1.4rem' }}>🆕</span>
+                <h2 style={{ fontSize: '1.8rem', fontWeight: 800, fontFamily: 'var(--font-inter, Inter), sans-serif', color: 'var(--color-foreground)' }}>
+                  Nouveautés <span className="sentech-gradient-text">High-Tech</span>
+                </h2>
+              </div>
+              <p style={{ fontSize: '0.92rem', color: '#64748b', margin: 0 }}>
+                Les tout derniers modèles certifiés récemment ajoutés à notre catalogue.
+              </p>
+            </div>
+
+            <Link href="/nouveautes" style={{ textDecoration: 'none' }}>
+              <button className="btn-secondary" style={{ padding: '10px 20px', fontSize: '0.88rem', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                Découvrir <ChevronRight size={16} />
+              </button>
+            </Link>
+          </div>
+
+          <div className="product-grid">
+            {(newProducts.length ? newProducts : productData.slice(4, 8)).slice(0, 4).map(p => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>
@@ -511,56 +588,9 @@ export default function HomePage() {
           <div style={{ textAlign: 'center', marginTop: '48px' }}>
             <Link href="/boutique" style={{ textDecoration: 'none' }}>
               <button className="btn-primary" style={{ padding: '16px 32px', fontSize: '0.95rem', borderRadius: '14px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                Voir tous les produits dans la Boutique <ArrowRight size={17} />
+                Voir toute la Boutique <ArrowRight size={17} />
               </button>
             </Link>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════
-          SECTION 4 : BANDEAU OFFRE FLASH (Padding 100px, Margin 40px)
-      ═══════════════════════════════════════════════ */}
-      <section className="section-padding" style={{ background: 'var(--color-background)', borderTop: '1px solid var(--color-sentech-border)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
-          
-          <div style={{
-            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-            borderRadius: '28px',
-            padding: '48px',
-            color: '#ffffff',
-            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '32px', alignItems: 'center',
-            boxShadow: '0 20px 50px rgba(15,23,42,0.12)',
-            border: '1px solid rgba(255,255,255,0.1)',
-          }}>
-            <div>
-              <span style={{
-                display: 'inline-flex', alignItems: 'center', gap: '6px',
-                background: 'rgba(239,68,68,0.2)', border: '1px solid rgba(239,68,68,0.4)',
-                borderRadius: '100px', padding: '6px 14px',
-                fontSize: '0.78rem', color: '#f87171', fontWeight: 800, textTransform: 'uppercase',
-                marginBottom: '18px',
-              }}>
-                <Flame size={15} color="#ef4444" /> Vente Flash Spéciale
-              </span>
-              <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '12px', fontFamily: 'Outfit, sans-serif' }}>
-                Jusqu&apos;à <span style={{ color: '#ef4444' }}>-40%</span> sur les Chargeurs & Écouteurs
-              </h2>
-              <p style={{ color: '#94a3b8', fontSize: '0.98rem', marginBottom: '28px', lineHeight: '1.6' }}>
-                Stocks de promotion limités. Commandez avant la fin du décompte !
-              </p>
-              <Link href="/promotions" style={{ textDecoration: 'none' }}>
-                <button className="btn-primary" style={{ padding: '14px 28px', fontSize: '0.95rem', borderRadius: '12px', background: 'linear-gradient(135deg, #ef4444, #dc2626)' }}>
-                  En profiter maintenant <ArrowRight size={17} />
-                </button>
-              </Link>
-            </div>
-
-            <div style={{ width: '100%', maxWidth: '360px', margin: '0 auto' }}>
-              <CountdownTimer targetDate={promoEndDate} label="Temps restant :" />
-            </div>
           </div>
 
         </div>
