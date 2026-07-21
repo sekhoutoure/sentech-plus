@@ -4,11 +4,7 @@ import './globals.css';
 import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
 import { ToastProvider } from '@/context/ToastContext';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import ScrollToTop from '@/components/ui/ScrollToTop';
-import SkipToContent from '@/components/ui/SkipToContent';
-
+import SiteChrome from '@/components/layout/SiteChrome';
 import PageTransition from '@/components/ui/PageTransition';
 
 const inter = Inter({
@@ -105,13 +101,9 @@ export default function RootLayout({
         <CartProvider>
           <WishlistProvider>
             <ToastProvider>
-              <SkipToContent />
-              <Navbar />
-              <main id="main-content" aria-label="Contenu principal">
+              <SiteChrome>
                 <PageTransition>{children}</PageTransition>
-              </main>
-              <Footer />
-              <ScrollToTop />
+              </SiteChrome>
             </ToastProvider>
           </WishlistProvider>
         </CartProvider>
