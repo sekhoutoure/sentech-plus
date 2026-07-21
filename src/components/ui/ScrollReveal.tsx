@@ -42,22 +42,22 @@ export default function ScrollReveal({
   const animationStyles: Record<string, React.CSSProperties> = {
     'fade-up': {
       opacity: isVisible ? 1 : 0,
-      transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
-      transition: `opacity 250ms ease-out ${delay}ms, transform 250ms ease-out ${delay}ms`,
+      transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
+      transition: `opacity 500ms cubic-bezier(0.4, 0, 0.2, 1) ${delay}ms, transform 500ms cubic-bezier(0.4, 0, 0.2, 1) ${delay}ms`,
     },
     'fade-in': {
       opacity: isVisible ? 1 : 0,
-      transition: `opacity 250ms ease-out ${delay}ms`,
+      transition: `opacity 500ms cubic-bezier(0.4, 0, 0.2, 1) ${delay}ms`,
     },
     'slide-up': {
       opacity: isVisible ? 1 : 0,
-      transform: isVisible ? 'translateY(0)' : 'translateY(32px)',
-      transition: `opacity 250ms ease-out ${delay}ms, transform 250ms ease-out ${delay}ms`,
+      transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
+      transition: `opacity 500ms cubic-bezier(0.4, 0, 0.2, 1) ${delay}ms, transform 500ms cubic-bezier(0.4, 0, 0.2, 1) ${delay}ms`,
     },
     'scale-up': {
       opacity: isVisible ? 1 : 0,
       transform: isVisible ? 'scale(1)' : 'scale(0.95)',
-      transition: `opacity 250ms ease-out ${delay}ms, transform 250ms ease-out ${delay}ms`,
+      transition: `opacity 500ms cubic-bezier(0.4, 0, 0.2, 1) ${delay}ms, transform 500ms cubic-bezier(0.4, 0, 0.2, 1) ${delay}ms`,
     },
   };
 

@@ -206,8 +206,8 @@ body {
 
 .btn-primary:hover {
   background: #0d528c;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(13, 82, 140, 0.35);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(13, 82, 140, 0.35);
 }
 
 .btn-primary:active {
@@ -236,7 +236,8 @@ body {
 .btn-secondary:hover {
   background: #f1f5f9;
   border-color: rgba(15, 23, 42, 0.2);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
 }
 
 .btn-secondary:active {
@@ -251,8 +252,6 @@ body {
   border-radius: 6px;
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  display: inline-block;
 }
 
 .badge-new {

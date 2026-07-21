@@ -1,11 +1,17 @@
-import type { Metadata } from 'next';
-import { Inter, Outfit } from 'next/font/google';
+import { Plus_Jakarta_Sans, Inter, Outfit } from 'next/font/google';
 import './globals.css';
 import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
 import { ToastProvider } from '@/context/ToastContext';
 import SiteChrome from '@/components/layout/SiteChrome';
 import PageTransition from '@/components/ui/PageTransition';
+import type { Metadata } from 'next';
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-plus-jakarta',
+  display: 'swap',
+});
 
 const inter = Inter({
   subsets: ['latin'],
@@ -58,7 +64,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${outfit.variable}`} style={{ scrollBehavior: 'smooth' }}>
+    <html lang="fr" className={`${plusJakartaSans.variable} ${inter.variable} ${outfit.variable}`} style={{ scrollBehavior: 'smooth' }}>
       <head>
         <script
           type="application/ld+json"

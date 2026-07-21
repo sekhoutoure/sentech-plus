@@ -14,6 +14,7 @@ import { fetchProducts } from '@/lib/supabase';
 import ProductCard from '@/components/ui/ProductCard';
 import CountdownTimer from '@/components/ui/CountdownTimer';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 import { useToast } from '@/context/ToastContext';
 
 // ── Top 6 essential categories ──
@@ -342,109 +343,111 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════
           SECTION 2 : CATÉGORIES POPULAIRES
       ═══════════════════════════════════════════════ */}
-      <section className="section-padding" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #fafcff 100%)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '40px' }}>
-            <h2 style={{ fontSize: '1.6rem', fontWeight: 800, fontFamily: 'Outfit, sans-serif', color: 'var(--color-foreground)' }}>
-              Catégories <span className="sentech-gradient-text">populaires</span>
-            </h2>
-            <Link href="/boutique" style={{ textDecoration: 'none', color: '#1b75bc', fontSize: '0.9rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
-              Voir tout <ChevronRight size={16} />
-            </Link>
-          </div>
+      <ScrollReveal animation="fade-up">
+        <section className="section-padding" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #fafcff 100%)' }}>
+          <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '40px' }}>
+              <h2 className="section-title" style={{ color: 'var(--color-foreground)', marginBottom: 0 }}>
+                Catégories <span className="sentech-gradient-text">populaires</span>
+              </h2>
+              <Link href="/boutique" style={{ textDecoration: 'none', color: '#1b75bc', fontSize: '0.95rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                Voir tout <ChevronRight size={18} />
+              </Link>
+            </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-            gap: '24px',
-          }}>
-            {TOP_CATEGORIES.map((cat) => {
-              return (
-                <Link
-                  key={cat.name}
-                  href={`/boutique?cat=${encodeURIComponent(cat.name)}`}
-                  style={{ textDecoration: 'none' }}
-                >
-                  <div
-                    style={{
-                      background: '#ffffff',
-                      border: '1px solid var(--color-sentech-border)',
-                      borderRadius: '20px',
-                      padding: '24px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      minHeight: '140px',
-                      cursor: 'pointer',
-                      transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
-                      boxShadow: '0 2px 8px rgba(15,23,42,0.03)',
-                      position: 'relative',
-                      overflow: 'hidden',
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.transform = 'translateY(-6px)';
-                      e.currentTarget.style.borderColor = '#1b75bc';
-                      e.currentTarget.style.boxShadow = '0 12px 28px rgba(15, 23, 42, 0.08)';
-                      const iconEl = e.currentTarget.querySelector('.cat-emoji');
-                      if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1.15)';
-                      const arrowEl = e.currentTarget.querySelector('.cat-arrow');
-                      if (arrowEl) (arrowEl as HTMLElement).style.transform = 'translateX(4px)';
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.borderColor = 'var(--color-sentech-border)';
-                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(15,23,42,0.03)';
-                      const iconEl = e.currentTarget.querySelector('.cat-emoji');
-                      if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1)';
-                      const arrowEl = e.currentTarget.querySelector('.cat-arrow');
-                      if (arrowEl) (arrowEl as HTMLElement).style.transform = 'translateX(0)';
-                    }}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+              gap: '24px',
+            }}>
+              {TOP_CATEGORIES.map((cat) => {
+                return (
+                  <Link
+                    key={cat.name}
+                    href={`/boutique?cat=${encodeURIComponent(cat.name)}`}
+                    style={{ textDecoration: 'none' }}
                   >
-                    {/* Top: Icon (Emoji) */}
                     <div
-                      className="cat-emoji"
                       style={{
-                        fontSize: '2.2rem',
-                        marginBottom: '16px',
-                        transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)',
-                        width: 'fit-content',
+                        background: '#ffffff',
+                        border: '1px solid var(--color-sentech-border)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        minHeight: '140px',
+                        cursor: 'pointer',
+                        transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+                        boxShadow: '0 2px 8px rgba(15,23,42,0.03)',
+                        position: 'relative',
+                        overflow: 'hidden',
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.transform = 'translateY(-6px)';
+                        e.currentTarget.style.borderColor = '#1b75bc';
+                        e.currentTarget.style.boxShadow = '0 12px 28px rgba(15, 23, 42, 0.08)';
+                        const iconEl = e.currentTarget.querySelector('.cat-emoji');
+                        if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1.15)';
+                        const arrowEl = e.currentTarget.querySelector('.cat-arrow');
+                        if (arrowEl) (arrowEl as HTMLElement).style.transform = 'translateX(4px)';
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.borderColor = 'var(--color-sentech-border)';
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(15,23,42,0.03)';
+                        const iconEl = e.currentTarget.querySelector('.cat-emoji');
+                        if (iconEl) (iconEl as HTMLElement).style.transform = 'scale(1)';
+                        const arrowEl = e.currentTarget.querySelector('.cat-arrow');
+                        if (arrowEl) (arrowEl as HTMLElement).style.transform = 'translateX(0)';
                       }}
                     >
-                      {cat.emoji}
-                    </div>
-
-                    {/* Bottom: Title + Count (Left), Arrow (Right) */}
-                    <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-                      <div>
-                        <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-inter, Inter), sans-serif', marginBottom: '2px' }}>
-                          {cat.name}
-                        </div>
-                        <div style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 600 }}>
-                          {cat.count}
-                        </div>
-                      </div>
-
+                      {/* Top: Icon (Emoji) */}
                       <div
-                        className="cat-arrow"
+                        className="cat-emoji"
                         style={{
-                          width: '36px', height: '36px', borderRadius: '50%',
-                          background: 'rgba(27,117,188,0.08)',
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          color: '#1b75bc', fontWeight: 800, fontSize: '1.1rem',
+                          fontSize: '2.2rem',
+                          marginBottom: '16px',
                           transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)',
-                          flexShrink: 0,
+                          width: 'fit-content',
                         }}
                       >
-                        →
+                        {cat.emoji}
+                      </div>
+
+                      {/* Bottom: Title + Count (Left), Arrow (Right) */}
+                      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                        <div>
+                          <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-plus-jakarta, Plus Jakarta Sans), sans-serif', marginBottom: '2px' }}>
+                            {cat.name}
+                          </div>
+                          <div style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 600 }}>
+                            {cat.count}
+                          </div>
+                        </div>
+
+                        <div
+                          className="cat-arrow"
+                          style={{
+                            width: '36px', height: '36px', borderRadius: '50%',
+                            background: 'rgba(27,117,188,0.08)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            color: '#1b75bc', fontWeight: 800, fontSize: '1.1rem',
+                            transition: 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+                            flexShrink: 0,
+                          }}
+                        >
+                          →
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              );
-            })}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </ScrollReveal>
 
       {/* ═══════════════════════════════════════════════
           SECTION 3 : 🔥 OFFRES FLASH
