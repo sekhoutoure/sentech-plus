@@ -16,7 +16,7 @@ import CountdownTimer from '@/components/ui/CountdownTimer';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { useToast } from '@/context/ToastContext';
 
-// ── 8 Catégories Flottantes Bento (Strictement conforme à la maquette) ──
+// ── 8 Catégories Flottantes Bento ──
 const HERO_CATEGORIES = [
   { name: 'Chargeurs', count: '145 produits', icon: Zap, catParam: 'Chargeurs Rapides' },
   { name: 'Écouteurs', count: '320 produits', icon: Headphones, catParam: 'Écouteurs Bluetooth' },
@@ -74,40 +74,59 @@ export default function HomePage() {
   };
 
   return (
-    <div style={{ background: '#F8FAFC', minHeight: '100vh', overflowX: 'hidden' }}>
+    <div style={{ background: '#ffffff', minHeight: '100vh', overflowX: 'hidden' }}>
 
       {/* ═════════════════════════════════════════════════════════════════
-          SECTION 1 : HERO BANNER UNIFIÉ (Fond Transparent & Côte à Côte 100%)
+          SECTION 1 : HERO SECTION MASTERCLASS (720px Height + Design Canonique)
       ═════════════════════════════════════════════════════════════════ */}
       <section style={{
         position: 'relative',
-        background: 'linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 70%, #F8FAFC 100%)',
-        paddingTop: '32px',
-        paddingBottom: '60px',
+        background: 'radial-gradient(circle at top left, #f8fbff, #eef6ff 35%, #ffffff 70%)',
+        paddingTop: '40px',
+        paddingBottom: '70px',
+        minHeight: '720px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        overflow: 'hidden',
       }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+        {/* Glow bleu arrière-plan ultra premium (.hero::before) */}
+        <div style={{
+          position: 'absolute',
+          width: '700px',
+          height: '700px',
+          background: 'rgba(59, 130, 246, 0.12)',
+          filter: 'blur(120px)',
+          top: '-200px',
+          right: '-100px',
+          borderRadius: '50%',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }} />
+
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1, width: '100%' }}>
           
-          {/* Grille côte à côte desktop 2 colonnes */}
-          <div className="hero-2col-layout" style={{
+          {/* Layout Grid 1fr 1fr (gap 80px) */}
+          <div className="hero-master-grid" style={{
             display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1.15fr) minmax(0, 0.85fr)',
-            gap: '40px',
+            gridTemplateColumns: '1fr 1fr',
             alignItems: 'center',
+            gap: '80px',
           }}>
 
-            {/* ── COLONNE GAUCHE : TEXTE, BOUTONS & BADGES ── */}
+            {/* ── COLONNE GAUCHE : TYPOGRAPHIE & ESPACEMENTS RIGOUREUX ── */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               
               {/* Badge Official Store Senegal */}
               <div style={{ marginBottom: '16px' }}>
                 <span style={{
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  padding: '6px 14px', borderRadius: '100px',
-                  background: '#ffffff', border: '1px solid rgba(15, 23, 42, 0.08)',
-                  boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
-                  fontSize: '0.78rem', fontWeight: 700, color: '#0f172a',
+                  padding: '8px 16px', borderRadius: '100px',
+                  background: '#ffffff', border: '1px solid #e2e8f0',
+                  boxShadow: '0 4px 12px rgba(15, 23, 42, 0.04)',
+                  fontSize: '0.8rem', fontWeight: 700, color: '#0f172a',
                 }}>
-                  <Star size={13} fill="#fbbf24" color="#fbbf24" />
+                  <Star size={14} fill="#fbbf24" color="#fbbf24" />
                   BOUTIQUE OFFICIELLE AU SÉNÉGAL 🇸🇳
                 </span>
               </div>
@@ -120,46 +139,51 @@ export default function HomePage() {
                     'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
                     'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80'].map((src, idx) => (
                     <div key={idx} style={{
-                      position: 'relative', width: '28px', height: '28px', borderRadius: '50%',
+                      position: 'relative', width: '30px', height: '30px', borderRadius: '50%',
                       overflow: 'hidden', border: '2px solid #ffffff', marginLeft: idx > 0 ? '-8px' : 0,
                     }}>
-                      <Image src={src} alt="Client satisfait" fill sizes="28px" style={{ objectFit: 'cover' }} />
+                      <Image src={src} alt="Client satisfait" fill sizes="30px" style={{ objectFit: 'cover' }} />
                     </div>
                   ))}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <div style={{ display: 'flex', color: '#fbbf24' }}>
-                    {[1, 2, 3, 4, 5].map(s => <Star key={s} size={13} fill="#fbbf24" color="#fbbf24" />)}
+                    {[1, 2, 3, 4, 5].map(s => <Star key={s} size={14} fill="#fbbf24" color="#fbbf24" />)}
                   </div>
-                  <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#334155' }}>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#334155' }}>
                     +2500 clients satisfaits
                   </span>
                 </div>
               </div>
 
-              {/* Main Heading (Match exact avec la maquette) */}
+              {/* Main Heading (72px, weight 900, line-height 1.02) */}
               <h1 style={{
-                fontSize: 'clamp(36px, 4.5vw, 54px)',
+                fontSize: 'clamp(42px, 5vw, 72px)',
                 fontWeight: 900,
-                lineHeight: 1.12,
+                lineHeight: 1.02,
                 color: '#0f172a',
-                letterSpacing: '-0.02em',
-                marginBottom: '20px',
+                letterSpacing: '-0.03em',
+                marginBottom: '32px', /* Titre -> 32px -> Description */
                 fontFamily: 'var(--font-inter, Inter), system-ui, sans-serif',
               }}>
                 Les meilleurs<br />
                 accessoires<br />
-                <span className="sentech-gradient-text">High-Tech</span><br />
+                <span style={{
+                  background: 'linear-gradient(90deg, #2563eb, #38bdf8)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  color: 'transparent',
+                }}>High-Tech</span><br />
                 au meilleur prix au Sénégal.
               </h1>
 
-              {/* Subtitle */}
+              {/* Description text */}
               <p style={{
-                fontSize: '1.05rem',
+                fontSize: '1.1rem',
                 color: '#475569',
                 lineHeight: 1.6,
-                maxWidth: '520px',
-                marginBottom: '32px',
+                maxWidth: '540px',
+                marginBottom: '40px', /* Description -> 40px -> Boutons */
                 fontWeight: 450,
               }}>
                 Découvrez une sélection premium d&apos;accessoires High-Tech certifiés avec garantie et livraison express 24h partout au Sénégal.
@@ -169,110 +193,124 @@ export default function HomePage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '36px', flexWrap: 'wrap' }}>
                 <Link
                   href="/boutique"
-                  className="btn-primary btn-pulse"
                   style={{
-                    padding: '14px 32px',
-                    borderRadius: '100px',
-                    fontSize: '1rem',
+                    background: '#2563eb',
+                    borderRadius: '18px',
+                    padding: '18px 36px',
+                    color: '#ffffff',
                     fontWeight: 700,
-                    boxShadow: '0 8px 24px rgba(27, 117, 188, 0.35)',
+                    fontSize: '1.05rem',
+                    textDecoration: 'none',
+                    boxShadow: '0 12px 30px rgba(37, 99, 235, 0.25)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                   }}
+                  className="hero-btn-primary"
                 >
-                  Acheter maintenant <ArrowRight size={18} />
+                  Acheter maintenant <ArrowRight size={20} />
                 </Link>
 
                 <Link
                   href="/promotions"
-                  className="btn-secondary"
                   style={{
-                    padding: '14px 28px',
-                    borderRadius: '100px',
-                    fontSize: '0.95rem',
-                    fontWeight: 600,
                     background: '#ffffff',
-                    color: '#0f172a',
-                    border: '1px solid rgba(15, 23, 42, 0.12)',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '18px',
+                    padding: '18px 36px',
+                    color: '#1f2937',
+                    fontWeight: 700,
+                    fontSize: '1rem',
+                    textDecoration: 'none',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                   }}
+                  className="hero-btn-secondary"
                 >
-                  Découvrir les promos <Flame size={16} color="#ef4444" fill="#ef4444" />
+                  Découvrir les promos <Flame size={18} color="#ef4444" fill="#ef4444" />
                 </Link>
               </div>
 
-              {/* Inline Trust Badges below buttons */}
+              {/* 3 Cartes Confiance (Box Shadow 0 15px 35px rgba(0,0,0,.06)) */}
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '14px',
+                gap: '16px',
                 width: '100%',
-                maxWidth: '560px',
-              }} className="hero-trust-badges">
+                maxWidth: '600px',
+                marginBottom: '50px', /* Cartes -> 50px -> Catégories */
+              }} className="hero-trust-cards">
                 
                 <div style={{
                   background: '#ffffff',
-                  border: '1px solid rgba(15, 23, 42, 0.08)',
-                  borderRadius: '14px',
-                  padding: '12px 14px',
+                  borderRadius: '18px',
+                  padding: '20px',
+                  boxShadow: '0 15px 35px rgba(0,0,0,0.06)',
+                  border: '1px solid #f1f5f9',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '10px',
-                  boxShadow: '0 2px 8px rgba(15, 23, 42, 0.03)',
+                  gap: '12px',
                 }}>
                   <div style={{
-                    width: '36px', height: '36px', borderRadius: '10px',
-                    background: 'rgba(27, 117, 188, 0.08)', color: '#1b75bc',
+                    width: '42px', height: '42px', borderRadius: '12px',
+                    background: 'rgba(37, 99, 235, 0.08)', color: '#2563eb',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   }}>
-                    <Truck size={18} />
+                    <Truck size={20} />
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0f172a' }}>Livraison 24h</div>
-                    <div style={{ fontSize: '0.7rem', color: '#64748b' }}>Partout au Sénégal</div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0f172a' }}>Livraison 24h</div>
+                    <div style={{ fontSize: '0.72rem', color: '#64748b' }}>Partout au Sénégal</div>
                   </div>
                 </div>
 
                 <div style={{
                   background: '#ffffff',
-                  border: '1px solid rgba(15, 23, 42, 0.08)',
-                  borderRadius: '14px',
-                  padding: '12px 14px',
+                  borderRadius: '18px',
+                  padding: '20px',
+                  boxShadow: '0 15px 35px rgba(0,0,0,0.06)',
+                  border: '1px solid #f1f5f9',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '10px',
-                  boxShadow: '0 2px 8px rgba(15, 23, 42, 0.03)',
+                  gap: '12px',
                 }}>
                   <div style={{
-                    width: '36px', height: '36px', borderRadius: '10px',
+                    width: '42px', height: '42px', borderRadius: '12px',
                     background: 'rgba(16, 185, 129, 0.08)', color: '#10b981',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   }}>
-                    <ShieldCheck size={18} />
+                    <ShieldCheck size={20} />
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0f172a' }}>Produits certifiés</div>
-                    <div style={{ fontSize: '0.7rem', color: '#64748b' }}>Garantie 12 mois</div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0f172a' }}>Produits certifiés</div>
+                    <div style={{ fontSize: '0.72rem', color: '#64748b' }}>Garantie 12 mois</div>
                   </div>
                 </div>
 
                 <div style={{
                   background: '#ffffff',
-                  border: '1px solid rgba(15, 23, 42, 0.08)',
-                  borderRadius: '14px',
-                  padding: '12px 14px',
+                  borderRadius: '18px',
+                  padding: '20px',
+                  boxShadow: '0 15px 35px rgba(0,0,0,0.06)',
+                  border: '1px solid #f1f5f9',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '10px',
-                  boxShadow: '0 2px 8px rgba(15, 23, 42, 0.03)',
+                  gap: '12px',
                 }}>
                   <div style={{
-                    width: '36px', height: '36px', borderRadius: '10px',
+                    width: '42px', height: '42px', borderRadius: '12px',
                     background: 'rgba(139, 92, 246, 0.08)', color: '#8b5cf6',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   }}>
-                    <Headphones size={18} />
+                    <Headphones size={20} />
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0f172a' }}>Support 7j/7</div>
-                    <div style={{ fontSize: '0.7rem', color: '#64748b' }}>À votre écoute</div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0f172a' }}>Support 7j/7</div>
+                    <div style={{ fontSize: '0.72rem', color: '#64748b' }}>À votre écoute</div>
                   </div>
                 </div>
 
@@ -280,41 +318,55 @@ export default function HomePage() {
 
             </div>
 
-            {/* ── COLONNE DROITE : VISUEL PRODUITS 3D FLOTTANT (SANS BOÎTE NI BORDURE) ── */}
+            {/* ── COLONNE DROITE : CERCLE LUMINEUX 550PX + SOCLES 3D + PRODUITS DÉTOURÉS ── */}
             <div style={{
               position: 'relative',
               width: '100%',
+              height: '580px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-            }} className="hero-col-right-seamless">
+            }} className="hero-col-right-master">
 
-              {/* Glowing Halo Ring Behind Products */}
+              {/* Cercle Lumineux (width: 550px, height: 550px, border: 4px solid #dbeafe, shadow: 0 0 100px #93c5fd) */}
               <div style={{
                 position: 'absolute',
-                width: '440px',
-                height: '440px',
+                width: '550px',
+                height: '550px',
                 borderRadius: '50%',
-                border: '2px solid rgba(27, 117, 188, 0.3)',
-                boxShadow: '0 0 60px rgba(27, 117, 188, 0.25), inset 0 0 40px rgba(27, 117, 188, 0.15)',
+                border: '4px solid #dbeafe',
+                boxShadow: '0 0 100px #93c5fd',
                 pointerEvents: 'none',
                 zIndex: 0,
               }} />
 
-              {/* 3D Products Composition (Seamless blending) */}
+              {/* Socle 3D Cylindre CSS au bas des produits */}
+              <div style={{
+                position: 'absolute',
+                bottom: '40px',
+                width: '480px',
+                height: '110px',
+                background: 'linear-gradient(180deg, #ffffff 0%, #e5e7eb 100%)',
+                borderRadius: '50%',
+                boxShadow: '0 30px 60px rgba(0,0,0,0.08)',
+                pointerEvents: 'none',
+                zIndex: 1,
+              }} />
+
+              {/* Exposition Image Composité Multi-Produits Détourés */}
               <div style={{
                 position: 'relative',
                 width: '100%',
-                maxWidth: '480px',
-                aspectRatio: '1 / 1',
-                zIndex: 1,
+                maxWidth: '520px',
+                height: '520px',
+                zIndex: 2,
               }}>
                 <Image
-                  src="/hero_transparent_3d.jpg"
-                  alt="Accessoires High-Tech SenTech Plus 3D Showcase"
+                  src="/hero_podium_composite.jpg"
+                  alt="Accessoires High-Tech SenTech Plus 3D Render"
                   fill
                   priority
-                  sizes="(max-width: 900px) 100vw, 45vw"
+                  sizes="(max-width: 900px) 100vw, 50vw"
                   style={{
                     objectFit: 'contain',
                     mixBlendMode: 'multiply',
@@ -322,56 +374,55 @@ export default function HomePage() {
                 />
               </div>
 
-              {/* Floating Glassmorphism Payment & Trust Card (Right Edge) */}
+              {/* Floating Payment & Trust Card (Top Right Edge) */}
               <div style={{
                 position: 'absolute',
-                top: '20px',
-                right: '0px',
-                background: 'rgba(255, 255, 255, 0.94)',
+                top: '40px',
+                right: '-20px',
+                background: 'rgba(255, 255, 255, 0.95)',
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255, 255, 255, 0.9)',
                 borderRadius: '20px',
-                padding: '16px 20px',
-                boxShadow: '0 12px 36px rgba(15, 23, 42, 0.1)',
+                padding: '20px 24px',
+                boxShadow: '0 20px 50px rgba(0,0,0,0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.9)',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '12px',
                 zIndex: 10,
-                minWidth: '180px',
+                minWidth: '190px',
               }} className="hero-floating-card">
                 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <div style={{
-                    width: '26px', height: '26px', borderRadius: '50%',
-                    background: 'rgba(27, 117, 188, 0.1)', color: '#1b75bc',
+                    width: '28px', height: '28px', borderRadius: '50%',
+                    background: 'rgba(37, 99, 235, 0.1)', color: '#2563eb',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    <Lock size={13} />
+                    <Lock size={14} />
                   </div>
-                  <span style={{ fontSize: '0.74rem', fontWeight: 700, color: '#0f172a' }}>Paiement sécurisé</span>
+                  <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a' }}>Paiement sécurisé</span>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <div style={{
-                    width: '26px', height: '26px', borderRadius: '50%',
+                    width: '28px', height: '28px', borderRadius: '50%',
                     background: 'rgba(16, 185, 129, 0.1)', color: '#10b981',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    <Wallet size={13} />
+                    <Wallet size={14} />
                   </div>
-                  <span style={{ fontSize: '0.74rem', fontWeight: 700, color: '#0f172a' }}>Paiement à la livraison</span>
+                  <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a' }}>Paiement à la livraison</span>
                 </div>
 
                 <div style={{
-                  paddingTop: '8px',
+                  paddingTop: '10px',
                   borderTop: '1px solid rgba(15, 23, 42, 0.06)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  fontSize: '0.72rem',
+                  fontSize: '0.75rem',
                   fontWeight: 800,
-                  color: '#1b75bc',
                 }}>
                   <span style={{ color: '#ff6600' }}>Orange Money</span>
                   <span style={{ color: '#00a5e4' }}>& Wave</span>
@@ -383,20 +434,20 @@ export default function HomePage() {
           </div>
 
           {/* ═════════════════════════════════════════════════════════════════
-              BARRE DE CATÉGORIES BENTO FLOTTANTE (8 Cartes au bas du Hero)
+              BARRE DE CATÉGORIES BENTO FLOTTANTE (Card background white, border-radius 28px, shadow 0 25px 70px)
           ═════════════════════════════════════════════════════════════════ */}
           <div style={{
             marginTop: '50px',
             background: '#ffffff',
-            borderRadius: '24px',
-            border: '1px solid rgba(15, 23, 42, 0.08)',
-            boxShadow: '0 12px 36px rgba(15, 23, 42, 0.06)',
-            padding: '16px 20px',
+            borderRadius: '28px',
+            padding: '30px',
+            boxShadow: '0 25px 70px rgba(15, 23, 42, 0.08)',
+            border: '1px solid #f1f5f9',
           }}>
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(8, 1fr)',
-              gap: '12px',
+              gap: '14px',
             }} className="bento-category-grid">
 
               {HERO_CATEGORIES.map((cat, idx) => {
@@ -410,10 +461,10 @@ export default function HomePage() {
                     style={{ textDecoration: 'none' }}
                   >
                     <div style={{
-                      height: '92px',
-                      borderRadius: '16px',
-                      background: isLast ? 'rgba(27, 117, 188, 0.06)' : '#ffffff',
-                      border: isLast ? '1px dashed rgba(27, 117, 188, 0.3)' : '1px solid rgba(15, 23, 42, 0.06)',
+                      height: '96px',
+                      borderRadius: '18px',
+                      background: isLast ? 'rgba(37, 99, 235, 0.06)' : '#ffffff',
+                      border: isLast ? '1px dashed rgba(37, 99, 235, 0.3)' : '1px solid #f1f5f9',
                       padding: '12px',
                       display: 'flex',
                       flexDirection: 'column',
@@ -421,28 +472,28 @@ export default function HomePage() {
                       justifyContent: 'center',
                       textAlign: 'center',
                       gap: '6px',
-                      transition: 'all 200ms ease',
+                      transition: 'transform 0.2s ease, boxShadow 0.2s ease',
                       cursor: 'pointer',
                     }} className="bento-cat-card">
                       <div style={{
-                        width: '32px', height: '32px', borderRadius: '10px',
-                        background: isLast ? '#1b75bc' : 'rgba(27, 117, 188, 0.08)',
-                        color: isLast ? '#ffffff' : '#1b75bc',
+                        width: '36px', height: '36px', borderRadius: '12px',
+                        background: isLast ? '#2563eb' : 'rgba(37, 99, 235, 0.08)',
+                        color: isLast ? '#ffffff' : '#2563eb',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                       }}>
-                        <IconComp size={16} />
+                        <IconComp size={18} />
                       </div>
                       <div>
                         <div style={{
-                          fontSize: '0.78rem',
+                          fontSize: '0.8rem',
                           fontWeight: 700,
-                          color: isLast ? '#1b75bc' : '#0f172a',
+                          color: isLast ? '#2563eb' : '#0f172a',
                           lineHeight: '1.2',
                         }}>
                           {cat.name}
                         </div>
                         {cat.count && (
-                          <div style={{ fontSize: '0.68rem', color: '#94a3b8', marginTop: '2px', fontWeight: 500 }}>
+                          <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginTop: '2px', fontWeight: 500 }}>
                             {cat.count}
                           </div>
                         )}
@@ -539,7 +590,7 @@ export default function HomePage() {
                 style={{
                   padding: '10px 18px', borderRadius: '10px', border: 'none', cursor: 'pointer',
                   fontSize: '0.85rem', fontWeight: activeTab === 'bestsellers' ? 700 : 600,
-                  background: activeTab === 'bestsellers' ? '#1b75bc' : 'transparent',
+                  background: activeTab === 'bestsellers' ? '#2563eb' : 'transparent',
                   color: activeTab === 'bestsellers' ? '#ffffff' : '#64748b',
                   transition: 'all 200ms ease',
                 }}
@@ -552,7 +603,7 @@ export default function HomePage() {
                 style={{
                   padding: '10px 18px', borderRadius: '10px', border: 'none', cursor: 'pointer',
                   fontSize: '0.85rem', fontWeight: activeTab === 'promos' ? 700 : 600,
-                  background: activeTab === 'promos' ? '#1b75bc' : 'transparent',
+                  background: activeTab === 'promos' ? '#2563eb' : 'transparent',
                   color: activeTab === 'promos' ? '#ffffff' : '#64748b',
                   transition: 'all 200ms ease',
                 }}
@@ -565,7 +616,7 @@ export default function HomePage() {
                 style={{
                   padding: '10px 18px', borderRadius: '10px', border: 'none', cursor: 'pointer',
                   fontSize: '0.85rem', fontWeight: activeTab === 'new' ? 700 : 600,
-                  background: activeTab === 'new' ? '#1b75bc' : 'transparent',
+                  background: activeTab === 'new' ? '#2563eb' : 'transparent',
                   color: activeTab === 'new' ? '#ffffff' : '#64748b',
                   transition: 'all 200ms ease',
                 }}
@@ -613,7 +664,7 @@ export default function HomePage() {
           }} className="advantages-grid">
 
             <div style={{ background: '#F8FAFC', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: '20px', padding: '28px 24px' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'rgba(27, 117, 188, 0.1)', color: '#1b75bc', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'rgba(37, 99, 235, 0.1)', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
                 <Truck size={24} />
               </div>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>Livraison 24h Express</h3>
@@ -664,12 +715,12 @@ export default function HomePage() {
         <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 24px' }}>
           
           <div style={{
-            background: 'linear-gradient(135deg, #1b75bc 0%, #0d528c 100%)',
+            background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
             borderRadius: '28px',
             padding: '48px 36px',
             color: '#ffffff',
             textAlign: 'center',
-            boxShadow: '0 20px 50px rgba(27, 117, 188, 0.3)',
+            boxShadow: '0 20px 50px rgba(37, 99, 235, 0.3)',
           }}>
             <h2 style={{ fontSize: '1.8rem', fontWeight: 900, fontFamily: 'Outfit, sans-serif', marginBottom: '12px' }}>
               Rejoignez le Club Privé SenTech Plus
@@ -725,13 +776,25 @@ export default function HomePage() {
 
       {/* ── Responsive CSS Rules ── */}
       <style>{`
-        @media (max-width: 992px) {
-          .hero-2col-layout {
+        .hero-btn-primary:hover {
+          transform: translateY(-4px) !important;
+          box-shadow: 0 16px 36px rgba(37, 99, 235, 0.35) !important;
+        }
+        .hero-btn-secondary:hover {
+          transform: translateY(-4px) !important;
+          border-color: #cbd5e1 !important;
+        }
+        .bento-cat-card:hover {
+          transform: translateY(-4px) !important;
+          box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08) !important;
+        }
+        @media (max-width: 1024px) {
+          .hero-master-grid {
             grid-template-columns: 1fr !important;
-            gap: 32px !important;
+            gap: 48px !important;
           }
-          .hero-col-right-seamless {
-            max-width: 440px;
+          .hero-col-right-master {
+            max-width: 480px;
             margin: 0 auto;
           }
           .bento-category-grid {
@@ -745,7 +808,7 @@ export default function HomePage() {
           .bento-category-grid {
             grid-template-columns: repeat(2, 1fr) !important;
           }
-          .hero-trust-badges {
+          .hero-trust-cards {
             grid-template-columns: 1fr !important;
           }
           .advantages-grid {
