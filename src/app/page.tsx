@@ -6,14 +6,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   ArrowRight, ShieldCheck, Truck, Headphones, Star, Flame,
-  Zap, Cable, Smartphone, Watch, BatteryCharging, Gamepad2, Grid, CheckCircle2,
-  Lock, Wallet, PhoneCall, Sparkles, ChevronRight, Award, MessageCircle, Send
+  Zap, Cable, Smartphone, Watch, BatteryCharging, Gamepad2, Grid,
+  Lock, Wallet, ChevronRight, Send
 } from 'lucide-react';
 import { products, type Product } from '@/lib/products';
 import { fetchProducts } from '@/lib/supabase';
 import ProductCard from '@/components/ui/ProductCard';
 import CountdownTimer from '@/components/ui/CountdownTimer';
-import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { useToast } from '@/context/ToastContext';
 
@@ -78,46 +77,35 @@ export default function HomePage() {
     <div style={{ background: '#F8FAFC', minHeight: '100vh', overflowX: 'hidden' }}>
 
       {/* ═════════════════════════════════════════════════════════════════
-          SECTION 1 : HERO BANNER SUBLIMÉ (Strictement conforme au visual mockup)
+          SECTION 1 : HERO BANNER UNIFIÉ (Fond Transparent & Côte à Côte 100%)
       ═════════════════════════════════════════════════════════════════ */}
       <section style={{
         position: 'relative',
-        background: 'linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 60%, #F8FAFC 100%)',
+        background: 'linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 70%, #F8FAFC 100%)',
         paddingTop: '32px',
-        paddingBottom: '80px',
-        overflow: 'hidden',
+        paddingBottom: '60px',
       }}>
-        {/* Glow néon circulaire d'arrière-plan */}
-        <div style={{
-          position: 'absolute',
-          top: '15%', right: '12%',
-          width: '560px', height: '560px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(27,117,188,0.15) 0%, rgba(27,117,188,0.03) 55%, transparent 70%)',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }} />
-
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
-          <div style={{
+          
+          {/* Grille côte à côte desktop 2 colonnes */}
+          <div className="hero-2col-layout" style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(12, 1fr)',
-            gap: '32px',
+            gridTemplateColumns: 'minmax(0, 1.15fr) minmax(0, 0.85fr)',
+            gap: '40px',
             alignItems: 'center',
-          }} className="hero-main-grid">
+          }}>
 
-            {/* ── COLONNE GAUCHE : TEXTE & ACTIONS ── */}
-            <div style={{ gridColumn: 'span 7' }} className="hero-col-left">
+            {/* ── COLONNE GAUCHE : TEXTE, BOUTONS & BADGES ── */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               
               {/* Badge Official Store Senegal */}
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+              <div style={{ marginBottom: '16px' }}>
                 <span style={{
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
                   padding: '6px 14px', borderRadius: '100px',
                   background: '#ffffff', border: '1px solid rgba(15, 23, 42, 0.08)',
                   boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
                   fontSize: '0.78rem', fontWeight: 700, color: '#0f172a',
-                  letterSpacing: '0.3px',
                 }}>
                   <Star size={13} fill="#fbbf24" color="#fbbf24" />
                   BOUTIQUE OFFICIELLE AU SÉNÉGAL 🇸🇳
@@ -149,7 +137,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Main Heading (Exact Match with Image Mockup) */}
+              {/* Main Heading (Match exact avec la maquette) */}
               <h1 style={{
                 fontSize: 'clamp(36px, 4.5vw, 54px)',
                 fontWeight: 900,
@@ -170,7 +158,7 @@ export default function HomePage() {
                 fontSize: '1.05rem',
                 color: '#475569',
                 lineHeight: 1.6,
-                maxWidth: '540px',
+                maxWidth: '520px',
                 marginBottom: '32px',
                 fontWeight: 450,
               }}>
@@ -215,7 +203,8 @@ export default function HomePage() {
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
                 gap: '14px',
-                maxWidth: '600px',
+                width: '100%',
+                maxWidth: '560px',
               }} className="hero-trust-badges">
                 
                 <div style={{
@@ -291,46 +280,65 @@ export default function HomePage() {
 
             </div>
 
-            {/* ── COLONNE DROITE : 3D PRODUCTS SHOWCASE + FLOATING TRUST CARD ── */}
-            <div style={{ gridColumn: 'span 5', position: 'relative' }} className="hero-col-right">
-              
-              {/* Product 3D Showcase Image */}
+            {/* ── COLONNE DROITE : VISUEL PRODUITS 3D FLOTTANT (SANS BOÎTE NI BORDURE) ── */}
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }} className="hero-col-right-seamless">
+
+              {/* Glowing Halo Ring Behind Products */}
+              <div style={{
+                position: 'absolute',
+                width: '440px',
+                height: '440px',
+                borderRadius: '50%',
+                border: '2px solid rgba(27, 117, 188, 0.3)',
+                boxShadow: '0 0 60px rgba(27, 117, 188, 0.25), inset 0 0 40px rgba(27, 117, 188, 0.15)',
+                pointerEvents: 'none',
+                zIndex: 0,
+              }} />
+
+              {/* 3D Products Composition (Seamless blending) */}
               <div style={{
                 position: 'relative',
                 width: '100%',
-                aspectRatio: '4 / 3',
-                borderRadius: '24px',
-                overflow: 'hidden',
-                boxShadow: '0 20px 50px rgba(15, 23, 42, 0.08)',
-                border: '1px solid rgba(255, 255, 255, 0.8)',
+                maxWidth: '480px',
+                aspectRatio: '1 / 1',
+                zIndex: 1,
               }}>
                 <Image
-                  src="/hero_3d_products.jpg"
+                  src="/hero_transparent_3d.jpg"
                   alt="Accessoires High-Tech SenTech Plus 3D Showcase"
                   fill
                   priority
                   sizes="(max-width: 900px) 100vw, 45vw"
-                  style={{ objectFit: 'cover' }}
+                  style={{
+                    objectFit: 'contain',
+                    mixBlendMode: 'multiply',
+                  }}
                 />
               </div>
 
-              {/* Floating Glassmorphism Payment & Trust Card (On right edge as in mockup) */}
+              {/* Floating Glassmorphism Payment & Trust Card (Right Edge) */}
               <div style={{
                 position: 'absolute',
                 top: '20px',
-                right: '-16px',
-                background: 'rgba(255, 255, 255, 0.92)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
+                right: '0px',
+                background: 'rgba(255, 255, 255, 0.94)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
                 border: '1px solid rgba(255, 255, 255, 0.9)',
-                borderRadius: '18px',
-                padding: '16px 18px',
-                boxShadow: '0 12px 32px rgba(15, 23, 42, 0.1)',
+                borderRadius: '20px',
+                padding: '16px 20px',
+                boxShadow: '0 12px 36px rgba(15, 23, 42, 0.1)',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '12px',
-                zIndex: 5,
-                minWidth: '170px',
+                zIndex: 10,
+                minWidth: '180px',
               }} className="hero-floating-card">
                 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -361,7 +369,7 @@ export default function HomePage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  fontSize: '0.7rem',
+                  fontSize: '0.72rem',
                   fontWeight: 800,
                   color: '#1b75bc',
                 }}>
@@ -375,10 +383,10 @@ export default function HomePage() {
           </div>
 
           {/* ═════════════════════════════════════════════════════════════════
-              BARRE DE CATÉGORIES BENTO FLOTTANTE (Exact match from Mockup Bottom)
+              BARRE DE CATÉGORIES BENTO FLOTTANTE (8 Cartes au bas du Hero)
           ═════════════════════════════════════════════════════════════════ */}
           <div style={{
-            marginTop: '60px',
+            marginTop: '50px',
             background: '#ffffff',
             borderRadius: '24px',
             border: '1px solid rgba(15, 23, 42, 0.08)',
@@ -451,7 +459,7 @@ export default function HomePage() {
       </section>
 
       {/* ═════════════════════════════════════════════════════════════════
-          SECTION 2 : COMPTE À REBOURS VENTE FLASH & PROMOTIONS DAKAR
+          SECTION 2 : COMPTE À REBOURS VENTE FLASH & PROMOTIONS
       ═════════════════════════════════════════════════════════════════ */}
       <section style={{ padding: '60px 0', background: '#ffffff', borderBottom: '1px solid rgba(15, 23, 42, 0.06)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
@@ -494,7 +502,7 @@ export default function HomePage() {
       </section>
 
       {/* ═════════════════════════════════════════════════════════════════
-          SECTION 3 : GRILLE DES PRODUITS PAR ONGLETS (Meilleures Ventes / Promos / Nouveautés)
+          SECTION 3 : GRILLE DES PRODUITS PAR ONGLETS
       ═════════════════════════════════════════════════════════════════ */}
       <section style={{ padding: '80px 0', background: '#F8FAFC' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
@@ -584,7 +592,7 @@ export default function HomePage() {
       </section>
 
       {/* ═════════════════════════════════════════════════════════════════
-          SECTION 4 : BENTO GRID DES AVANTAGES SENTECH PLUS
+          SECTION 4 : AVANTAGES & TÉMOIGNAGES
       ═════════════════════════════════════════════════════════════════ */}
       <section style={{ padding: '80px 0', background: '#ffffff', borderTop: '1px solid rgba(15, 23, 42, 0.06)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
@@ -604,16 +612,8 @@ export default function HomePage() {
             gap: '24px',
           }} className="advantages-grid">
 
-            <div style={{
-              background: '#F8FAFC', border: '1px solid rgba(15, 23, 42, 0.08)',
-              borderRadius: '20px', padding: '28px 24px',
-              transition: 'transform 200ms ease',
-            }} className="hover-lift">
-              <div style={{
-                width: '48px', height: '48px', borderRadius: '14px',
-                background: 'rgba(27, 117, 188, 0.1)', color: '#1b75bc',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px',
-              }}>
+            <div style={{ background: '#F8FAFC', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: '20px', padding: '28px 24px' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'rgba(27, 117, 188, 0.1)', color: '#1b75bc', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
                 <Truck size={24} />
               </div>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>Livraison 24h Express</h3>
@@ -622,16 +622,8 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div style={{
-              background: '#F8FAFC', border: '1px solid rgba(15, 23, 42, 0.08)',
-              borderRadius: '20px', padding: '28px 24px',
-              transition: 'transform 200ms ease',
-            }} className="hover-lift">
-              <div style={{
-                width: '48px', height: '48px', borderRadius: '14px',
-                background: 'rgba(16, 185, 129, 0.1)', color: '#10b981',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px',
-              }}>
+            <div style={{ background: '#F8FAFC', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: '20px', padding: '28px 24px' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
                 <ShieldCheck size={24} />
               </div>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>Garantie Officielle 12 Mois</h3>
@@ -640,17 +632,9 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div style={{
-              background: '#F8FAFC', border: '1px solid rgba(15, 23, 42, 0.08)',
-              borderRadius: '20px', padding: '28px 24px',
-              transition: 'transform 200ms ease',
-            }} className="hover-lift">
-              <div style={{
-                width: '48px', height: '48px', borderRadius: '14px',
-                background: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px',
-              }}>
-                <MessageCircle size={24} />
+            <div style={{ background: '#F8FAFC', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: '20px', padding: '28px 24px' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
+                <Headphones size={24} />
               </div>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>Support Client 7j/7</h3>
               <p style={{ color: '#64748b', fontSize: '0.88rem', lineHeight: 1.5 }}>
@@ -658,16 +642,8 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div style={{
-              background: '#F8FAFC', border: '1px solid rgba(15, 23, 42, 0.08)',
-              borderRadius: '20px', padding: '28px 24px',
-              transition: 'transform 200ms ease',
-            }} className="hover-lift">
-              <div style={{
-                width: '48px', height: '48px', borderRadius: '14px',
-                background: 'rgba(139, 92, 246, 0.1)', color: '#8b5cf6',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px',
-              }}>
+            <div style={{ background: '#F8FAFC', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: '20px', padding: '28px 24px' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'rgba(139, 92, 246, 0.1)', color: '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
                 <Wallet size={24} />
               </div>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>Paiement Souple & Sécurisé</h3>
@@ -682,83 +658,9 @@ export default function HomePage() {
       </section>
 
       {/* ═════════════════════════════════════════════════════════════════
-          SECTION 5 : TÉMOIGNAGES CLIENTS CERTIFIÉS SÉNÉGAL
+          SECTION 5 : NEWSLETTER
       ═════════════════════════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 0', background: '#F8FAFC' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
-          
-          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 50px' }}>
-            <h2 className="section-title" style={{ marginBottom: '12px' }}>
-              Ce que disent nos <span className="sentech-gradient-text">clients</span>
-            </h2>
-            <p style={{ color: '#64748b', fontSize: '0.95rem' }}>
-              Avis vérifiés d&apos;acheteurs au Sénégal satisfaits de la qualité SenTech Plus.
-            </p>
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '24px',
-          }} className="testimonials-grid">
-
-            {[
-              {
-                name: 'Moustapha Diop',
-                city: 'Dakar (Mermoz)',
-                comment: 'Le chargeur GaN 65W recharge mon Macbook et mon téléphone à une vitesse incroyable. Livraison livrée en 3h chrono !',
-                rating: 5,
-                product: 'Anker GaN 65W'
-              },
-              {
-                name: 'Awa Ndiaye',
-                city: 'Dakar (Almadies)',
-                comment: 'Excellents écouteurs sans fil. La réduction de bruit ANC fonctionne parfaitement dans le bureau. Vendeur très professionnel.',
-                rating: 5,
-                product: 'Galaxy Buds3 Pro'
-              },
-              {
-                name: 'Ousmane Sow',
-                city: 'Thiès',
-                comment: 'La batterie PowerBank 20000mAh me sauve pendant mes déplacements à l\'intérieur du pays. Produit 100% authentique.',
-                rating: 5,
-                product: 'Anker PowerCore 20k'
-              }
-            ].map((testi, i) => (
-              <div key={i} style={{
-                background: '#ffffff',
-                border: '1px solid rgba(15, 23, 42, 0.08)',
-                borderRadius: '20px',
-                padding: '28px',
-                boxShadow: '0 4px 16px rgba(15, 23, 42, 0.03)',
-              }}>
-                <div style={{ display: 'flex', color: '#fbbf24', marginBottom: '16px' }}>
-                  {[...Array(testi.rating)].map((_, s) => <Star key={s} size={16} fill="#fbbf24" color="#fbbf24" />)}
-                </div>
-                <p style={{ color: '#334155', fontSize: '0.92rem', lineHeight: 1.6, marginBottom: '20px', fontStyle: 'italic' }}>
-                  &quot;{testi.comment}&quot;
-                </p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(15, 23, 42, 0.06)', paddingTop: '16px' }}>
-                  <div>
-                    <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a' }}>{testi.name}</div>
-                    <div style={{ fontSize: '0.78rem', color: '#64748b' }}>{testi.city}</div>
-                  </div>
-                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1b75bc', background: 'rgba(27, 117, 188, 0.08)', padding: '4px 10px', borderRadius: '100px' }}>
-                    {testi.product}
-                  </span>
-                </div>
-              </div>
-            ))}
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* ═════════════════════════════════════════════════════════════════
-          SECTION 6 : NEWSLETTER & INSCRIPTION PROMO EXCLUSIVE
-      ═════════════════════════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 0', background: '#ffffff', borderTop: '1px solid rgba(15, 23, 42, 0.06)' }}>
+      <section style={{ padding: '80px 0', background: '#F8FAFC', borderTop: '1px solid rgba(15, 23, 42, 0.06)' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 24px' }}>
           
           <div style={{
@@ -812,7 +714,6 @@ export default function HomePage() {
                 alignItems: 'center',
                 gap: '8px',
                 whiteSpace: 'nowrap',
-                transition: 'all 200ms ease',
               }}>
                 S&apos;inscrire <Send size={16} />
               </button>
@@ -822,23 +723,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Page Custom Responsive CSS ── */}
+      {/* ── Responsive CSS Rules ── */}
       <style>{`
-        @media (max-width: 1024px) {
-          .hero-main-grid {
+        @media (max-width: 992px) {
+          .hero-2col-layout {
             grid-template-columns: 1fr !important;
-            gap: 40px !important;
+            gap: 32px !important;
           }
-          .hero-col-left {
-            grid-column: span 12 !important;
-            text-align: center;
-          }
-          .hero-col-right {
-            grid-column: span 12 !important;
-            max-width: 500px;
-            margin: 0 auto;
-          }
-          .hero-trust-badges {
+          .hero-col-right-seamless {
+            max-width: 440px;
             margin: 0 auto;
           }
           .bento-category-grid {
@@ -846,9 +739,6 @@ export default function HomePage() {
           }
           .advantages-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-          }
-          .testimonials-grid {
-            grid-template-columns: 1fr !important;
           }
         }
         @media (max-width: 640px) {
