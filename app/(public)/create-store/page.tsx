@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import toast from "react-hot-toast"
 import Loading from "@/components/Loading"
+import { StoreIcon, SparklesIcon, MapPinIcon, PhoneIcon, MailIcon, InfoIcon } from "lucide-react"
 
 export default function CreateStore() {
 
@@ -22,7 +23,7 @@ export default function CreateStore() {
         image: ""
     })
 
-    const onChangeHandler = (e) => {
+    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setStoreInfo({ ...storeInfo, [e.target.name]: e.target.value })
     }
 
@@ -34,8 +35,8 @@ export default function CreateStore() {
                 setAlreadySubmitted(true)
                 setStatus(store.status || 'pending')
                 setMessage(store.status === 'approved' 
-                    ? "🎉 Félicitations ! Votre demande de boutique a été approuvée." 
-                    : "⏳ Votre demande de création de boutique est en cours d'examen par nos équipes.")
+                    ? "🎉 Félicitations ! Votre boutique SenTech Plus a été validée. Accédez à votre espace vendeur pour publier vos produits." 
+                    : "⏳ Votre demande de création de boutique à Dakar est en cours d'examen par notre équipe d'administration.")
             }
         } catch (e) {
             console.error(e)
@@ -44,9 +45,9 @@ export default function CreateStore() {
         }
     }
 
-    const onSubmitHandler = async (e) => {
+    const onSubmitHandler = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (!storeInfo.name || !storeInfo.username || !storeInfo.email) {
+        if (!storeInfo.name || !storeInfo.username || !storeInfo.email || !storeInfo.contact) {
             toast.error("Veuillez remplir tous les champs obligatoires.")
             return
         }
@@ -54,12 +55,12 @@ export default function CreateStore() {
         try {
             const payload = {
                 name: storeInfo.name,
-                username: storeInfo.username,
+                username: storeInfo.username.toLowerCase().replace(/[^a-z0-9]/g, '-'),
                 description: storeInfo.description,
                 email: storeInfo.email,
                 contact: storeInfo.contact,
-                address: storeInfo.address,
-                logo: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500',
+                address: storeInfo.address || 'Dakar, Sénégal',
+                logo: typeof storeInfo.image === 'string' && storeInfo.image ? storeInfo.image : 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500',
                 status: 'pending'
             }
 
@@ -72,10 +73,10 @@ export default function CreateStore() {
             localStorage.setItem('sentech_user_store', JSON.stringify(payload))
             setAlreadySubmitted(true)
             setStatus('pending')
-            setMessage("⏳ Votre demande de création de boutique a été envoyée avec succès ! Elle est en cours d'examen par notre équipe d'administration.")
-            toast.success("Demande de boutique soumise avec succès !")
+            setMessage("⏳ Votre demande de boutique SenTech Plus a été transmise avec succès ! Notre équipe d'administration procède à la validation sous 24h.")
+            toast.success("Demande de boutique enregistrée avec succès !")
         } catch (err) {
-            toast.error("Erreur lors de l'envoi de la demande.")
+            toast.error("Erreur lors de l'enregistrement de votre boutique.")
         }
     }
 
@@ -86,59 +87,93 @@ export default function CreateStore() {
     return !loading ? (
         <>
             {!alreadySubmitted ? (
-                <div className="mx-6 min-h-[70vh] my-16">
-                    <form onSubmit={e => toast.promise(onSubmitHandler(e), { loading: "Envoi des données..." })} className="max-w-7xl mx-auto flex flex-col items-start gap-4 text-slate-600">
-                        {/* Title */}
-                        <div>
-                            <h1 className="text-3xl font-light">Créer Votre <span className="text-slate-900 font-bold">Boutique</span></h1>
-                            <p className="max-w-lg text-slate-500 text-sm mt-1">Pour devenir vendeur sur SenTech Plus, soumettez les détails de votre boutique. Elle sera activée après vérification administrative.</p>
+                <div className="mx-6 min-h-[70vh] my-16 text-slate-800">
+                    <form onSubmit={e => toast.promise(onSubmitHandler(e), { loading: "Validation de votre boutique en cours..." })} className="max-w-3xl mx-auto space-y-6">
+                        
+                        {/* Title Header */}
+                        <div className="space-y-2 border-b border-slate-200 pb-6">
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">
+                                <SparklesIcon size={14} /> Espace Vendeur SaaS SenTech Plus
+                            </div>
+                            <h1 className="text-3xl font-extrabold text-slate-900">
+                                Ouvrir ma Boutique en Ligne au Sénégal
+                            </h1>
+                            <p className="text-slate-500 text-sm leading-relaxed">
+                                Vendez vos accessoires High-Tech sur la plateforme n°1 à Dakar. Remplissez les informations ci-dessous pour soumettre votre candidature vendeur.
+                            </p>
                         </div>
 
-                        <label className="mt-6 cursor-pointer font-medium text-slate-700 text-sm">
-                            Logo de la boutique
-                            <Image src={(storeInfo.image as any) instanceof Blob ? URL.createObjectURL(storeInfo.image as unknown as Blob) : (typeof storeInfo.image === 'string' ? storeInfo.image : assets.upload_area)} className="rounded-xl mt-2 h-20 w-auto border border-slate-200 p-2 bg-slate-50 hover:bg-slate-100 transition" alt="Logo" width={150} height={100} />
+                        {/* Logo Upload */}
+                        <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200/80 space-y-2">
+                            <label className="cursor-pointer font-bold text-slate-900 text-sm block">
+                                Logo ou Visuel de la Boutique
+                            </label>
+                            <p className="text-xs text-slate-500">Format recommandé : PNG, JPG ou WEBP (min. 300x300px)</p>
+                            <div className="flex items-center gap-4 pt-2">
+                                <Image src={(storeInfo.image as any) instanceof Blob ? URL.createObjectURL(storeInfo.image as unknown as Blob) : (typeof storeInfo.image === 'string' && storeInfo.image ? storeInfo.image : assets.upload_area)} className="rounded-2xl h-24 w-24 object-cover border border-slate-200 p-2 bg-white hover:bg-slate-100 transition shadow-xs" alt="Logo Boutique" width={100} height={100} />
+                                <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-4 py-2 rounded-xl border border-blue-200">Choisir une image</span>
+                            </div>
                             <input type="file" accept="image/*" onChange={(e) => setStoreInfo({ ...storeInfo, image: (e.target.files?.[0] || '') as any })} hidden />
-                        </label>
-
-                        <div className="w-full max-w-lg space-y-1">
-                            <p className="font-medium text-slate-700 text-sm">Nom d'utilisateur</p>
-                            <input name="username" onChange={onChangeHandler} value={storeInfo.username} type="text" placeholder="Entrez le nom d'utilisateur de la boutique" className="border border-slate-200 focus:border-blue-500 outline-none w-full p-2.5 rounded-xl text-sm transition" />
                         </div>
 
-                        <div className="w-full max-w-lg space-y-1">
-                            <p className="font-medium text-slate-700 text-sm">Nom de la boutique</p>
-                            <input name="name" onChange={onChangeHandler} value={storeInfo.name} type="text" placeholder="Entrez le nom complet de la boutique" className="border border-slate-200 focus:border-blue-500 outline-none w-full p-2.5 rounded-xl text-sm transition" />
+                        {/* Form Fields */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div className="space-y-1.5">
+                                <label className="font-semibold text-slate-800 text-xs flex items-center gap-1.5">
+                                    <StoreIcon size={14} className="text-blue-600" /> Nom de la boutique *
+                                </label>
+                                <input name="name" onChange={onChangeHandler} value={storeInfo.name} type="text" placeholder="Ex: SenTech Official, Dakar Accessories" className="border border-slate-200 focus:border-blue-500 outline-none w-full p-3 rounded-xl text-xs bg-slate-50/50 transition" required />
+                                <p className="text-[11px] text-slate-400">Le nom officiel visible par vos clients.</p>
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <label className="font-semibold text-slate-800 text-xs flex items-center gap-1.5">
+                                    <InfoIcon size={14} className="text-blue-600" /> Identifiant unique URL (Username) *
+                                </label>
+                                <input name="username" onChange={onChangeHandler} value={storeInfo.username} type="text" placeholder="Ex: sentech-dakar" className="border border-slate-200 focus:border-blue-500 outline-none w-full p-3 rounded-xl text-xs bg-slate-50/50 transition" required />
+                                <p className="text-[11px] text-slate-400">URL : sentechplus.sn/shop/votre-identifiant</p>
+                            </div>
                         </div>
 
-                        <div className="w-full max-w-lg space-y-1">
-                            <p className="font-medium text-slate-700 text-sm">Description</p>
-                            <textarea name="description" onChange={onChangeHandler} value={storeInfo.description} rows={4} placeholder="Décrivez votre boutique et vos produits" className="border border-slate-200 focus:border-blue-500 outline-none w-full p-2.5 rounded-xl text-sm resize-none transition" />
+                        <div className="space-y-1.5">
+                            <label className="font-semibold text-slate-800 text-xs">Description de la boutique & Produits *</label>
+                            <textarea name="description" onChange={onChangeHandler} value={storeInfo.description} rows={4} placeholder="Présentez vos catégories de produits (écouteurs sans fil, chargeurs rapides GaN, montres connectées...) et vos garanties." className="border border-slate-200 focus:border-blue-500 outline-none w-full p-3 rounded-xl text-xs resize-none bg-slate-50/50 transition" required />
                         </div>
 
-                        <div className="w-full max-w-lg space-y-1">
-                            <p className="font-medium text-slate-700 text-sm">Adresse E-mail</p>
-                            <input name="email" onChange={onChangeHandler} value={storeInfo.email} type="email" placeholder="contact@votreboutique.com" className="border border-slate-200 focus:border-blue-500 outline-none w-full p-2.5 rounded-xl text-sm transition" />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div className="space-y-1.5">
+                                <label className="font-semibold text-slate-800 text-xs flex items-center gap-1.5">
+                                    <MailIcon size={14} className="text-blue-600" /> Adresse E-mail Professionnelle *
+                                </label>
+                                <input name="email" onChange={onChangeHandler} value={storeInfo.email} type="email" placeholder="Ex: contact@boutique-dakar.sn" className="border border-slate-200 focus:border-blue-500 outline-none w-full p-3 rounded-xl text-xs bg-slate-50/50 transition" required />
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <label className="font-semibold text-slate-800 text-xs flex items-center gap-1.5">
+                                    <PhoneIcon size={14} className="text-blue-600" /> Téléphone & WhatsApp Sénégal *
+                                </label>
+                                <input name="contact" onChange={onChangeHandler} value={storeInfo.contact} type="text" placeholder="Ex: +221 77 000 00 00" className="border border-slate-200 focus:border-blue-500 outline-none w-full p-3 rounded-xl text-xs bg-slate-50/50 transition" required />
+                            </div>
                         </div>
 
-                        <div className="w-full max-w-lg space-y-1">
-                            <p className="font-medium text-slate-700 text-sm">Numéro de Téléphone</p>
-                            <input name="contact" onChange={onChangeHandler} value={storeInfo.contact} type="text" placeholder="+33 6 12 34 56 78" className="border border-slate-200 focus:border-blue-500 outline-none w-full p-2.5 rounded-xl text-sm transition" />
+                        <div className="space-y-1.5">
+                            <label className="font-semibold text-slate-800 text-xs flex items-center gap-1.5">
+                                <MapPinIcon size={14} className="text-blue-600" /> Adresse Physique / Localisation à Dakar *
+                            </label>
+                            <input name="address" onChange={onChangeHandler} value={storeInfo.address} type="text" placeholder="Ex: Avenue Cheikh Anta Diop, Fann, Dakar" className="border border-slate-200 focus:border-blue-500 outline-none w-full p-3 rounded-xl text-xs bg-slate-50/50 transition" required />
                         </div>
 
-                        <div className="w-full max-w-lg space-y-1">
-                            <p className="font-medium text-slate-700 text-sm">Adresse Physique</p>
-                            <textarea name="address" onChange={onChangeHandler} value={storeInfo.address} rows={3} placeholder="Entrez l'adresse de votre siège ou magasin" className="border border-slate-200 focus:border-blue-500 outline-none w-full p-2.5 rounded-xl text-sm resize-none transition" />
-                        </div>
-
-                        <button className="bg-blue-600 text-white font-medium px-12 py-3 rounded-xl mt-6 mb-40 active:scale-95 hover:bg-blue-700 transition shadow-md shadow-blue-600/20 cursor-pointer">
-                            Soumettre la demande
+                        <button className="w-full bg-blue-600 text-white font-bold text-xs py-4 rounded-xl mt-6 active:scale-98 hover:bg-blue-700 transition shadow-lg shadow-blue-600/25 cursor-pointer">
+                            Soumettre la demande de validation
                         </button>
                     </form>
                 </div>
             ) : (
-                <div className="min-h-[80vh] flex flex-col items-center justify-center">
-                    <p className="sm:text-2xl lg:text-3xl mx-5 font-semibold text-slate-500 text-center max-w-2xl">{message}</p>
-                    {status === "approved" && <p className="mt-5 text-slate-400">Redirection vers le tableau de bord dans <span className="font-semibold">5 secondes</span></p>}
+                <div className="min-h-[80vh] flex flex-col items-center justify-center p-6 text-center">
+                    <div className="p-4 rounded-2xl bg-blue-50 text-blue-600 mb-4">
+                        <StoreIcon size={36} />
+                    </div>
+                    <p className="text-xl sm:text-2xl font-bold text-slate-900 max-w-xl">{message}</p>
                 </div>
             )}
         </>

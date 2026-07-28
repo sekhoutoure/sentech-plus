@@ -10,12 +10,12 @@ export default function AdminSettingsPage() {
     const siteSettings = useSelector((state: any) => state.siteSettings)
 
     const [form, setForm] = useState({
-        siteName: siteSettings.siteName,
-        slogan: siteSettings.slogan,
-        email: siteSettings.email,
-        phone: siteSettings.phone,
-        address: siteSettings.address,
-        currencySymbol: siteSettings.currencySymbol,
+        siteName: siteSettings.siteName || 'SenTech Plus',
+        slogan: siteSettings.slogan || 'Smart Accessories & High-Tech Products Sénégal',
+        email: siteSettings.email || 'contact@sentechplus.sn',
+        phone: siteSettings.phone || '+221 77 000 00 00',
+        address: siteSettings.address || 'Avenue Cheikh Anta Diop, Fann, Dakar, Sénégal',
+        currencySymbol: siteSettings.currencySymbol || '$',
         bannerEnabled: siteSettings.banner?.enabled ?? true,
         bannerText: siteSettings.banner?.text ?? '',
         bannerButtonText: siteSettings.banner?.buttonText ?? '',
