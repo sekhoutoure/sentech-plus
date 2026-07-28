@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { XIcon, MailIcon, LockIcon, UserIcon, ArrowRightIcon, ShieldCheckIcon, StoreIcon, ShoppingBagIcon, SparklesIcon } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
@@ -57,7 +58,6 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                 body: JSON.stringify(payload)
             })
 
-
             const data = await res.json()
 
             if (!res.ok || !data.success) {
@@ -65,24 +65,18 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                 return
             }
 
-            // Sync user session to Redux
-            const userRole = data.user.role || selectedRole
-            dispatch(login({
-                id: data.user.id,
-                name: data.user.name || formData.email.split('@')[0],
-                email: data.user.email,
-                role: userRole,
-            }))
-
-            toast.success(data.message || "Connexion réussie !")
+            toast.success(data.message || "Authentification réussie !")
             onClose()
 
             // Redirect based on validated user role
-            if (userRole === 'admin') {
+            if (data.data?.role === 'admin' || selectedRole === 'admin') {
                 router.push('/admin')
-            } else if (userRole === 'seller') {
+            } else if (data.data?.role === 'seller' || selectedRole === 'seller') {
                 router.push('/store')
+            } else {
+                router.push('/user')
             }
+            router.refresh()
         } catch (err) {
             toast.error("Erreur de connexion au serveur d'authentification.")
         } finally {
@@ -254,6 +248,15 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                             </div>
                         </div>
 
+                        <div className="text-center pt-2">
+                          <Link 
+                            href={mode === 'login' ? '/auth/login' : '/auth/register'} 
+                            onClick={onClose}
+                            className="text-xs text-indigo-600 font-semibold hover:underline"
+                          >
+                            Ouvrir sur une page dédiée →
+                          </Link>
+                        </div>
                         <button 
                             type="submit" 
                             disabled={loading}

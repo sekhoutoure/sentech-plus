@@ -1,29 +1,56 @@
-import type { NextAuthConfig } from 'next-auth'
+import type { NextAuthConfig } from 'next-auth';
 
-// ✅ Configuration Edge-compatible sans PrismaAdapter pour middleware.ts
-export const authConfig: NextAuthConfig = {
-  providers: [],
+export const authConfig = {
   pages: {
-    signIn: '/',
-    error: '/',
-  },
-  session: {
-    strategy: 'jwt',
+    signIn: '/login',
+    newUser: '/register',
+    error: '/login',
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user
-      const pathname = nextUrl.pathname
+      const isLoggedIn = !!auth?.user;
+      const role = auth?.user?.role || 'user';
+      const pathname = nextUrl.pathname;
 
-      const isOnAdmin = pathname.startsWith('/admin')
-      const isOnStore = pathname.startsWith('/store') && pathname !== '/create-store'
-      const isOnOrders = pathname === '/orders'
+      // Protected route rules
+      const isAuthRoute = pathname.startsWith('/login') || 
+                          pathname.startsWith('/register') || 
+                          pathname.startsWith('/forgot-password') || 
+                          pathname.startsWith('/reset-password');
+      
+      const isAdminRoute = pathname.startsWith('/admin');
+      const isSellerRoute = pathname.startsWith('/seller');
+      const isUserDashboardRoute = pathname.startsWith('/user') || pathname.startsWith('/profile');
 
-      if (isOnAdmin || isOnStore || isOnOrders) {
-        if (isLoggedIn) return true
-        return false // Redirige automatiquement vers la page signIn (/)
+      if (isAuthRoute) {
+        if (isLoggedIn) {
+          // Redirect logged in users away from auth pages to their respective dashboards
+          if (role === 'admin') return Response.redirect(new URL('/admin', nextUrl));
+          if (role === 'seller') return Response.redirect(new URL('/seller', nextUrl));
+          return Response.redirect(new URL('/user', nextUrl));
+        }
+        return true;
       }
-      return true
+
+      if (isAdminRoute) {
+        if (!isLoggedIn) return false; // redirect to login
+        if (role !== 'admin') return Response.redirect(new URL('/user', nextUrl));
+        return true;
+      }
+
+      if (isSellerRoute) {
+        if (!isLoggedIn) return false;
+        if (role !== 'seller' && role !== 'admin') return Response.redirect(new URL('/user', nextUrl));
+        return true;
+      }
+
+      if (isUserDashboardRoute) {
+        if (!isLoggedIn) return false;
+        return true;
+      }
+
+      return true;
     },
   },
-}
+  providers: [], // Added in auth.ts
+} satisfies NextAuthConfig;

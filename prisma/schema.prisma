@@ -63,11 +63,23 @@ model Session {
 }
 
 model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+    id        String   @id @default(cuid())
+    email     String
+    token     String   @unique
+    expires   DateTime
+    createdAt DateTime @default(now())
 
-    @@unique([identifier, token])
+    @@unique([email, token])
+}
+
+model PasswordResetToken {
+    id        String   @id @default(cuid())
+    email     String
+    token     String   @unique
+    expires   DateTime
+    createdAt DateTime @default(now())
+
+    @@unique([email, token])
 }
 
 // Required for creating a Product: name, description, mrp, price, images, category, storeId

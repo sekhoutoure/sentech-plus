@@ -129,12 +129,14 @@ const Navbar = () => {
                                         )}
                                     </div>
                                 ) : (
-                                    <button 
-                                        onClick={() => setIsAuthOpen(true)}
-                                        className="px-7 py-2 bg-blue-600 hover:bg-blue-700 transition text-white rounded-full font-medium shadow-sm text-sm cursor-pointer"
-                                    >
-                                        Connexion
-                                    </button>
+                                    <div className="flex items-center gap-2">
+                                        <Link 
+                                            href="/login"
+                                            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 transition text-white rounded-full font-medium shadow-sm text-sm"
+                                        >
+                                            Connexion
+                                        </Link>
+                                    </div>
                                 )}
                             </div>
                         </div>

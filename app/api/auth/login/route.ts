@@ -1,81 +1,62 @@
-import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import bcrypt from 'bcryptjs'
-import { loginSchema } from '@/lib/validations'
-import { checkAuthRateLimit } from '@/lib/ratelimit'
+import { NextResponse } from 'next/server';
+import { signIn } from '@/auth';
+import { loginSchema } from '@/validators/authValidators';
+import { checkRateLimit } from '@/lib/redis';
+import { sanitizeObject } from '@/lib/sanitize';
 
 export async function POST(req: Request) {
   try {
-    // 1. Rate Limiting (10 requests / minute)
-    const ip = req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || 'anonymous-ip'
-    const rateLimit = await checkAuthRateLimit(`login_${ip}`)
-
+    const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
+    const rateLimit = await checkRateLimit(`login:${ip}`);
     if (!rateLimit.success) {
       return NextResponse.json(
-        { 
-          success: false, 
-          message: 'Trop de tentatives de connexion. Limite de 10 requêtes/minute atteinte pour des raisons de sécurité. Veuillez réessayer dans une minute.' 
+        { success: false, message: 'Trop de tentatives. Veuillez réessayer dans quelques instants.' },
+        { status: 429 }
+      );
+    }
+
+    const body = await req.json();
+    const sanitizedBody = sanitizeObject(body);
+    const validation = loginSchema.safeParse(sanitizedBody);
+
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Champs d authentification invalides.',
+          errors: validation.error.flatten().fieldErrors,
         },
-        { 
-          status: 429, 
-          headers: { 
-            'X-RateLimit-Limit': '10', 
-            'X-RateLimit-Remaining': '0' 
-          } 
-        }
-      )
-    }
-
-    // 2. Body Parsing & Server-Side Zod Validation
-    const body = await req.json()
-    const validationResult = loginSchema.safeParse(body)
-
-    if (!validationResult.success) {
-      const errorMessage = validationResult.error.issues[0]?.message || 'Identifiants invalides.'
-      return NextResponse.json(
-        { success: false, message: errorMessage },
         { status: 400 }
-      )
+      );
     }
 
+    const res = await signIn('credentials', {
+      email: validation.data.email,
+      password: validation.data.password,
+      redirect: false,
+    });
 
-    const { email, password } = validationResult.data
-
-    // 3. User Lookup in Supabase PostgreSQL
-    const user = await prisma.user.findUnique({
-      where: { email },
-    })
-
-    if (!user) {
+    if (res?.error) {
       return NextResponse.json(
-        { success: false, message: 'Aucun compte trouvé avec cet e-mail.' },
-        { status: 404 }
-      )
+        { success: false, message: 'Identifiants incorrects.' },
+        { status: 401 }
+      );
     }
-
-    // 4. Password Hash Verification
-    if (user.password) {
-      const isValidPassword = await bcrypt.compare(password, user.password)
-      if (!isValidPassword) {
-        return NextResponse.json(
-          { success: false, message: 'Mot de passe incorrect.' },
-          { status: 401 }
-        )
-      }
-    }
-
-    const { password: _, ...userData } = user
 
     return NextResponse.json({
       success: true,
       message: 'Connexion réussie !',
-      user: userData,
-    })
+    });
   } catch (error: any) {
-    console.error('Login API error:', error)
+    if (error.type === 'CredentialsSignin') {
+      return NextResponse.json(
+        { success: false, message: 'Adresse email ou mot de passe incorrect.' },
+        { status: 401 }
+      );
+    }
     return NextResponse.json(
-      { success: false, message: 'Erreur lors de la connexion.' },
+      { success: false, message: error.message || 'Échec de l authentification.' },
       { status: 500 }
-    )
+    );
   }
 }
