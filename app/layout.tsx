@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import StoreProvider from "@/app/StoreProvider";
 import JsonLd from "@/components/seo/JsonLd";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { defaultMetadata, getOrganizationSchema, getWebSiteSchema } from "@/lib/seo";
 import { GA_TRACKING_ID } from "@/lib/analytics";
 import "./globals.css";
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <StoreProvider>
                     <Toaster />
                     {children}
+                    <WhatsAppButton />
                 </StoreProvider>
 
                 {/* 📈 Vercel Analytics & Speed Insights */}
