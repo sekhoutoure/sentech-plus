@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
 import { login } from '@/lib/features/user/userSlice'
 
+import { registerSchema, loginSchema } from '@/lib/validations'
+
 interface AuthModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -32,16 +34,29 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         setLoading(true)
 
         try {
-            const endpoint = mode === 'register' ? '/api/auth/register' : '/api/auth/login'
+            // Client-Side Zod Validation
+            const schema = mode === 'register' ? registerSchema : loginSchema
             const payload = mode === 'register' 
                 ? { name: formData.name, email: formData.email, password: formData.password, role: selectedRole }
                 : { email: formData.email, password: formData.password }
+
+            const validation = schema.safeParse(payload)
+            if (!validation.success) {
+                const firstError = validation.error.issues[0]?.message || 'Veuillez vérifier les champs du formulaire.'
+                toast.error(firstError)
+                setLoading(false)
+                return
+            }
+
+
+            const endpoint = mode === 'register' ? '/api/auth/register' : '/api/auth/login'
 
             const res = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             })
+
 
             const data = await res.json()
 
