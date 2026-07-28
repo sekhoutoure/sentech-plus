@@ -9,9 +9,11 @@ import { assets } from "@/assets/assets";
 import { openDrawer } from "@/lib/features/cart/cartSlice";
 import { logout } from "@/lib/features/user/userSlice";
 import toast from "react-hot-toast";
-import CartDrawer from "./CartDrawer";
-import AuthModal from "./AuthModal";
+import dynamic from "next/dynamic";
 import Logo from "./Logo";
+
+const CartDrawer = dynamic(() => import("./CartDrawer"), { ssr: false });
+const AuthModal = dynamic(() => import("./AuthModal"), { ssr: false });
 
 const Navbar = () => {
     const router = useRouter();

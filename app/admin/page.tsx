@@ -1,7 +1,12 @@
 'use client'
 import { dummyAdminDashboardData } from "@/assets/assets"
 import Loading from "@/components/Loading"
-import OrdersAreaChart from "@/components/OrdersAreaChart"
+import dynamic from "next/dynamic"
+
+const OrdersAreaChart = dynamic(() => import("@/components/OrdersAreaChart"), {
+    ssr: false,
+    loading: () => <div className="h-64 bg-slate-100/80 animate-pulse rounded-2xl flex items-center justify-center text-xs text-slate-400 font-semibold">Chargement du graphique analytique...</div>
+})
 import { CircleDollarSignIcon, ShoppingBasketIcon, StoreIcon, TagsIcon, PackageIcon, SettingsIcon, PlusIcon, ArrowRightIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import Link from "next/link"
