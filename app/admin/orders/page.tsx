@@ -29,13 +29,19 @@ export default function AdminOrdersPage() {
         fetchOrders()
     }, [])
 
-    const statusMap = {
-        'confirmed': { label: 'Confirmée', color: 'bg-yellow-50 text-yellow-700 border-yellow-200' },
-        'DELIVERED': { label: 'Livrée', color: 'bg-green-50 text-green-700 border-green-200' },
-        'delivered': { label: 'Livrée', color: 'bg-green-50 text-green-700 border-green-200' },
-        'in_transit': { label: 'En transit', color: 'bg-blue-50 text-blue-700 border-blue-200' },
+    const statusMap: Record<string, { label: string; color: string }> = {
+        'PENDING': { label: 'En attente', color: 'bg-amber-50 text-amber-700 border-amber-200' },
+        'CONFIRMED': { label: 'Confirmée', color: 'bg-blue-50 text-blue-700 border-blue-200' },
+        'confirmed': { label: 'Confirmée', color: 'bg-blue-50 text-blue-700 border-blue-200' },
+        'PREPARING': { label: 'Préparation', color: 'bg-purple-50 text-purple-700 border-purple-200' },
+        'SHIPPED': { label: 'Expédiée', color: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
+        'in_transit': { label: 'Expédiée', color: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
+        'DELIVERED': { label: 'Livrée', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+        'delivered': { label: 'Livrée', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+        'CANCELLED': { label: 'Annulée', color: 'bg-red-50 text-red-700 border-red-200' },
         'cancelled': { label: 'Annulée', color: 'bg-red-50 text-red-700 border-red-200' }
     }
+
 
     const handleStatusChange = async (orderId, newStatus) => {
         // ✅ Mise à jour optimiste de l'UI
@@ -187,11 +193,14 @@ export default function AdminOrdersPage() {
                                                     onChange={(e) => handleStatusChange(order.id, e.target.value)}
                                                     className="bg-slate-100 hover:bg-slate-200 border border-slate-300 p-1.5 rounded-lg text-xs font-semibold outline-none cursor-pointer"
                                                 >
-                                                    <option value="confirmed">Confirmée</option>
-                                                    <option value="in_transit">En transit</option>
+                                                    <option value="PENDING">En attente</option>
+                                                    <option value="CONFIRMED">Confirmée</option>
+                                                    <option value="PREPARING">Préparation</option>
+                                                    <option value="SHIPPED">Expédiée</option>
                                                     <option value="DELIVERED">Livrée</option>
-                                                    <option value="cancelled">Annulée</option>
+                                                    <option value="CANCELLED">Annulée</option>
                                                 </select>
+
                                             </td>
                                         </tr>
                                     )
