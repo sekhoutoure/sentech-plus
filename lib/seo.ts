@@ -46,7 +46,7 @@ export const SITE_CONFIG = {
 }
 
 /**
- * ✅ Générateur de métadonnées racine Next.js 15 App Router
+ * ✅ Générateur de métadonnées racine Next.js 15 App Router avec Hreflang fr-SN et fr
  */
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.baseUrl),
@@ -66,6 +66,10 @@ export const defaultMetadata: Metadata = {
   },
   alternates: {
     canonical: './',
+    languages: {
+      'fr-SN': SITE_CONFIG.baseUrl,
+      'fr': SITE_CONFIG.baseUrl,
+    },
   },
   openGraph: {
     type: 'website',
@@ -148,6 +152,37 @@ export function getOrganizationSchema() {
       'https://instagram.com/sentechplus.sn',
       'https://twitter.com/sentechplussn',
     ],
+  }
+}
+
+export function getLocalBusinessSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': `${SITE_CONFIG.baseUrl}/#localbusiness`,
+    name: SITE_CONFIG.name,
+    image: `${SITE_CONFIG.baseUrl}/og-image.jpg`,
+    telephone: SITE_CONFIG.phone,
+    email: SITE_CONFIG.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: SITE_CONFIG.address.streetAddress,
+      addressLocality: SITE_CONFIG.address.addressLocality,
+      addressRegion: SITE_CONFIG.address.addressRegion,
+      postalCode: SITE_CONFIG.address.postalCode,
+      addressCountry: SITE_CONFIG.address.addressCountry,
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: SITE_CONFIG.geo.latitude,
+      longitude: SITE_CONFIG.geo.longitude,
+    },
+    url: SITE_CONFIG.baseUrl,
+    priceRange: 'FCFA',
+    areaServed: {
+      '@type': 'AdministrativeArea',
+      name: 'Sénégal',
+    },
   }
 }
 
@@ -277,5 +312,24 @@ export function getFaqSchema(faqs: { question: string; answer: string }[]) {
         text: faq.answer,
       },
     })),
+  }
+}
+
+export function getReviewSchema(review: { author: string; ratingValue: number; reviewBody: string; datePublished: string }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Review',
+    author: {
+      '@type': 'Person',
+      name: review.author,
+    },
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: review.ratingValue,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    reviewBody: review.reviewBody,
+    datePublished: review.datePublished,
   }
 }
