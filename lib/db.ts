@@ -2,9 +2,7 @@ import { prisma } from '@/lib/prisma'
 import type { Prisma } from '@prisma/client'
 
 // ============================================================
-// ✅ db.ts — Interface Prisma remplaçant db.js in-memory
-// Même API publique que l'ancien db.js pour minimiser les
-// changements dans les routes API existantes.
+// ✅ db.ts — Interface Prisma avec gestion d'erreurs sécurisée
 // ============================================================
 
 export const db = {
@@ -12,24 +10,34 @@ export const db = {
   // Products
   // ─────────────────────────────────────────────
   getProducts: async (category?: string, search?: string, storeId?: string) => {
-    const where: Prisma.ProductWhereInput = {}
-    if (category && category !== 'Tous') {
-      where.category = { equals: category, mode: 'insensitive' }
+    try {
+      const where: Prisma.ProductWhereInput = {}
+      if (category && category !== 'Tous') {
+        where.category = { equals: category, mode: 'insensitive' }
+      }
+      if (search) {
+        where.name = { contains: search, mode: 'insensitive' }
+      }
+      if (storeId) {
+        where.storeId = storeId
+      }
+      return await prisma.product.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+      })
+    } catch (e) {
+      console.error("Prisma getProducts error:", e)
+      return []
     }
-    if (search) {
-      where.name = { contains: search, mode: 'insensitive' }
-    }
-    if (storeId) {
-      where.storeId = storeId
-    }
-    return prisma.product.findMany({
-      where,
-      orderBy: { createdAt: 'desc' },
-    })
   },
 
   getProductById: async (id: string) => {
-    return prisma.product.findUnique({ where: { id } })
+    try {
+      return await prisma.product.findUnique({ where: { id } })
+    } catch (e) {
+      console.error("Prisma getProductById error:", e)
+      return null
+    }
   },
 
   addProduct: async (data: Prisma.ProductCreateInput) => {
@@ -49,25 +57,40 @@ export const db = {
   // Orders
   // ─────────────────────────────────────────────
   getOrders: async () => {
-    return prisma.order.findMany({
-      include: { orderItems: true },
-      orderBy: { createdAt: 'desc' },
-    })
+    try {
+      return await prisma.order.findMany({
+        include: { orderItems: true },
+        orderBy: { createdAt: 'desc' },
+      })
+    } catch (e) {
+      console.error("Prisma getOrders error:", e)
+      return []
+    }
   },
 
   getOrderById: async (id: string) => {
-    return prisma.order.findUnique({
-      where: { id },
-      include: { orderItems: true },
-    })
+    try {
+      return await prisma.order.findUnique({
+        where: { id },
+        include: { orderItems: true },
+      })
+    } catch (e) {
+      console.error("Prisma getOrderById error:", e)
+      return null
+    }
   },
 
   getOrdersByUserId: async (userId: string) => {
-    return prisma.order.findMany({
-      where: { userId },
-      include: { orderItems: true },
-      orderBy: { createdAt: 'desc' },
-    })
+    try {
+      return await prisma.order.findMany({
+        where: { userId },
+        include: { orderItems: true },
+        orderBy: { createdAt: 'desc' },
+      })
+    } catch (e) {
+      console.error("Prisma getOrdersByUserId error:", e)
+      return []
+    }
   },
 
   createOrder: async (data: {
@@ -108,17 +131,27 @@ export const db = {
   // Coupons
   // ─────────────────────────────────────────────
   getCoupons: async () => {
-    return prisma.coupon.findMany({ orderBy: { createdAt: 'desc' } })
+    try {
+      return await prisma.coupon.findMany({ orderBy: { createdAt: 'desc' } })
+    } catch (e) {
+      console.error("Prisma getCoupons error:", e)
+      return []
+    }
   },
 
   validateCoupon: async (code: string) => {
-    return prisma.coupon.findFirst({
-      where: {
-        code: { equals: code.toUpperCase() },
-        isPublic: true,
-        expiresAt: { gte: new Date() },
-      },
-    })
+    try {
+      return await prisma.coupon.findFirst({
+        where: {
+          code: { equals: code.toUpperCase() },
+          isPublic: true,
+          expiresAt: { gte: new Date() },
+        },
+      })
+    } catch (e) {
+      console.error("Prisma validateCoupon error:", e)
+      return null
+    }
   },
 
   addCoupon: async (data: Prisma.CouponCreateInput) => {
@@ -134,11 +167,21 @@ export const db = {
   // Stores
   // ─────────────────────────────────────────────
   getStores: async () => {
-    return prisma.store.findMany({ orderBy: { createdAt: 'desc' } })
+    try {
+      return await prisma.store.findMany({ orderBy: { createdAt: 'desc' } })
+    } catch (e) {
+      console.error("Prisma getStores error:", e)
+      return []
+    }
   },
 
   getStoreByUsername: async (username: string) => {
-    return prisma.store.findUnique({ where: { username } })
+    try {
+      return await prisma.store.findUnique({ where: { username } })
+    } catch (e) {
+      console.error("Prisma getStoreByUsername error:", e)
+      return null
+    }
   },
 
   createStore: async (data: Prisma.StoreCreateInput) => {
@@ -161,17 +204,15 @@ export const db = {
   },
 
   // ─────────────────────────────────────────────
-  // Site Settings (clé unique "global")
+  // Site Settings
   // ─────────────────────────────────────────────
   getSettings: async () => {
-    // On utilise un enregistrement JSON libre dans Prisma via une table settings
-    // Pour l'instant, on retourne les valeurs par défaut si non configuré
     return {
       siteName: 'SenTech Plus',
       slogan: 'Smart Accessories & High-Tech Products',
-      email: 'contact@sentechplus.com',
-      phone: '+1-212-456-7890',
-      address: '794 Francisco Street, San Francisco, CA 94102',
+      email: 'contact@sentechplus.sn',
+      phone: '+221 77 000 00 00',
+      address: 'Avenue Cheikh Anta Diop, Fann, Dakar, Sénégal',
       currencySymbol: '$',
       banner: {
         enabled: true,
@@ -183,7 +224,6 @@ export const db = {
   },
 
   updateSettings: async (newSettings: object) => {
-    // À implémenter avec un modèle Settings dédié en BDD
     return newSettings
   },
 }

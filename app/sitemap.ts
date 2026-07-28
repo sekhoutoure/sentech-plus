@@ -35,7 +35,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     // Dynamic Product routes from Supabase PostgreSQL
-    const products = (await db.getProducts()) || [];
+    let products: any[] = [];
+    try {
+        products = (await db.getProducts()) || [];
+    } catch {
+        products = [];
+    }
+
     const productRoutes: MetadataRoute.Sitemap = products.map((product: any) => ({
         url: `${baseUrl}/product/${product.id}`,
         lastModified: new Date(product.updatedAt || product.createdAt || new Date()),
