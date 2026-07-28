@@ -188,9 +188,9 @@ export const RegisterForm: React.FC = () => {
         Créer mon compte
       </Button>
 
-      <div className="text-center text-xs text-slate-500 dark:text-slate-400 pt-2">
+      <div className="text-center text-xs text-slate-400 pt-2">
         Vous avez déjà un compte ?{' '}
-        <Link href="/auth/login" className="font-semibold text-indigo-600 hover:underline dark:text-indigo-400">
+        <Link href="/login" className="font-semibold text-indigo-400 hover:underline">
           Se connecter
         </Link>
       </div>
