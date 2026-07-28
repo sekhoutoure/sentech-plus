@@ -32,35 +32,49 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         setLoading(true)
 
         try {
-            const userName = formData.name.trim() || formData.email.split('@')[0]
-            
-            // Register / Login User State
-            dispatch(login({
-                name: userName,
-                email: formData.email,
-                role: selectedRole,
-            }))
+            const endpoint = mode === 'register' ? '/api/auth/register' : '/api/auth/login'
+            const payload = mode === 'register' 
+                ? { name: formData.name, email: formData.email, password: formData.password, role: selectedRole }
+                : { email: formData.email, password: formData.password }
 
-            if (mode === 'login') {
-                toast.success(`Connexion réussie ! Bienvenue ${userName}.`)
-            } else {
-                toast.success(`Compte ${selectedRole === 'seller' ? 'Vendeur' : selectedRole === 'admin' ? 'Administrateur' : 'Client'} créé avec succès !`)
+            const res = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+
+            const data = await res.json()
+
+            if (!res.ok || !data.success) {
+                toast.error(data.message || "Échec de l'authentification.")
+                return
             }
 
+            // Sync user session to Redux
+            const userRole = data.user.role || selectedRole
+            dispatch(login({
+                id: data.user.id,
+                name: data.user.name || formData.email.split('@')[0],
+                email: data.user.email,
+                role: userRole,
+            }))
+
+            toast.success(data.message || "Connexion réussie !")
             onClose()
 
-            // Redirect to appropriate SaaS area
-            if (selectedRole === 'admin') {
+            // Redirect based on validated user role
+            if (userRole === 'admin') {
                 router.push('/admin')
-            } else if (selectedRole === 'seller') {
+            } else if (userRole === 'seller') {
                 router.push('/store')
             }
         } catch (err) {
-            toast.error("Échec de l'authentification. Veuillez vérifier vos identifiants.")
+            toast.error("Erreur de connexion au serveur d'authentification.")
         } finally {
             setLoading(false)
         }
     }
+
 
     return (
         <div className="fixed inset-0 z-[100] overflow-y-auto">

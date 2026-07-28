@@ -196,9 +196,14 @@ const Navbar = () => {
                                                 </div>
 
                                                 {/* Client Links */}
+                                                <Link href="/profile" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 font-semibold transition">
+                                                    <UserIcon size={16} className="text-blue-600 shrink-0" /> Mon Profil Client
+                                                </Link>
+
                                                 <Link href="/orders" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 font-semibold transition">
                                                     <PackageIcon size={16} className="text-blue-600 shrink-0" /> Mes Commandes
                                                 </Link>
+
 
                                                 <Link href="/wishlist" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 font-semibold transition">
                                                     <HeartIcon size={16} className="text-red-500 shrink-0" /> Mes Favoris
