@@ -1,22 +1,113 @@
 @import "tailwindcss";
 
-@layer components {
-    @keyframes marqueeScroll {
-        0% {
-            transform: translateX(0%);
-        }
-        100% {
-            transform: translateX(-50%);
-        }
-    }
+:root {
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 @layer base {
-    button {
-        cursor: pointer;
+    html {
+        -webkit-tap-highlight-color: transparent;
+        scroll-behavior: smooth;
+        font-optical-sizing: auto;
     }
+
+    /* Emil Kowalski Rule: Every pressable element must feel responsive with scale(0.97) on :active */
+    button, a[role="button"] {
+        cursor: pointer;
+        transition: transform 160ms var(--ease-out), opacity 160ms var(--ease-out), background-color 160ms var(--ease-out);
+    }
+
+    button:active, a[role="button"]:active {
+        transform: scale(0.97);
+    }
+
+    button:focus-visible, a:focus-visible {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+    }
+}
+
+@layer components {
+    @keyframes marqueeScroll {
+        0% {
+            transform: translate3d(0%, 0, 0);
+        }
+        100% {
+            transform: translate3d(-50%, 0, 0);
+        }
+    }
+    
+    .animate-marquee {
+        animation: marqueeScroll 25s linear infinite;
+        will-change: transform;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translate3d(0, 12px, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
+    
+    .animate-fade-in-up {
+        animation: fadeInUp 400ms var(--ease-out) both;
+    }
+}
+
+/* Apple Material Glassmorphism Utility */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 .no-scrollbar::-webkit-scrollbar {
     display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Desktop-only hover guard (Emil rule: prevent sticky hover state on touch screens) */
+@media (hover: hover) and (pointer: fine) {
+    .hover-lift:hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* ============================================================
+   WCAG 2.3.3 — Animations from Interactions
+   Disable all motion for users who prefer reduced motion.
+   This prevents vestibular disorders and epilepsy triggers.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    /* Preserve state change feedback without motion */
+    button:active, a[role="button"]:active {
+        transform: none !important;
+        opacity: 0.75 !important;
+    }
+
+    .animate-marquee {
+        animation: none !important;
+    }
+
+    .animate-fade-in-up {
+        animation: none !important;
+        opacity: 1 !important;
+    }
 }
