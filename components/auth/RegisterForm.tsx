@@ -13,6 +13,7 @@ import { Input } from './ui/Input';
 import { Button } from './ui/Button';
 import { Checkbox } from './ui/Checkbox';
 import { PasswordStrength } from './PasswordStrength';
+import { SocialLogin } from './SocialLogin';
 
 export const RegisterForm: React.FC = () => {
   const router = useRouter();
@@ -187,6 +188,8 @@ export const RegisterForm: React.FC = () => {
       <Button type="submit" isLoading={loading} icon={<UserPlus className="h-4 w-4" />}>
         Créer mon compte
       </Button>
+
+      <SocialLogin />
 
       <div className="text-center text-xs text-slate-400 pt-2">
         Vous avez déjà un compte ?{' '}
