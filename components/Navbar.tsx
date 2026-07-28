@@ -1,5 +1,5 @@
 'use client'
-import { Search, ShoppingCart, HeartIcon, UserIcon, LogOutIcon, ShieldCheckIcon, StoreIcon, PackageIcon, ChevronDownIcon, Menu, X } from "lucide-react";
+import { Search, ShoppingCart, HeartIcon, UserIcon, LogOutIcon, ShieldCheckIcon, StoreIcon, PackageIcon, ShoppingBagIcon, ChevronDownIcon, Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -177,35 +177,73 @@ const Navbar = () => {
                                         
                                         {/* Mobile User Dropdown */}
                                         {isUserMenuOpen && (
-                                            <div className="absolute right-0 mt-4 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 space-y-1 z-50 text-xs animate-in slide-in-from-top-2">
-                                                <div className="px-3 py-2 border-b border-slate-100">
-                                                    <p className="font-bold text-slate-900">{user.name}</p>
-                                                    <p className="text-[10px] text-slate-400">{user.email}</p>
-                                                    <span className="inline-block mt-1 text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
-                                                        Rôle : {user.role === 'admin' ? 'Administrateur' : user.role === 'seller' ? 'Vendeur' : 'Client'}
-                                                    </span>
+                                            <div className="absolute right-0 mt-4 w-64 bg-white rounded-2xl shadow-2xl border border-slate-200/80 p-2 space-y-1 z-50 text-xs animate-in slide-in-from-top-2">
+                                                <div className="px-3 py-2.5 border-b border-slate-100 bg-slate-50/60 rounded-xl mb-1">
+                                                    <p className="font-extrabold text-slate-900 text-sm leading-tight">{user.name}</p>
+                                                    <p className="text-[11px] text-slate-500 truncate">{user.email}</p>
+                                                    <div className="flex items-center gap-1.5 mt-1.5">
+                                                        <span className={`inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+                                                            user.role === 'admin' 
+                                                                ? 'bg-purple-50 text-purple-700 border-purple-200' 
+                                                                : user.role === 'seller' 
+                                                                ? 'bg-blue-50 text-blue-700 border-blue-200' 
+                                                                : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                                        }`}>
+                                                            {user.role === 'admin' ? <ShieldCheckIcon size={12} /> : user.role === 'seller' ? <StoreIcon size={12} /> : <UserIcon size={12} />}
+                                                            {user.role === 'admin' ? 'Administrateur' : user.role === 'seller' ? 'Vendeur' : 'Client VIP'}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                                <Link href="/orders" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 font-medium transition">
-                                                    <PackageIcon size={15} className="text-blue-600" /> Mes Commandes
+
+                                                {/* Client Links */}
+                                                <Link href="/orders" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 font-semibold transition">
+                                                    <PackageIcon size={16} className="text-blue-600 shrink-0" /> Mes Commandes
                                                 </Link>
+
+                                                <Link href="/wishlist" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 font-semibold transition">
+                                                    <HeartIcon size={16} className="text-red-500 shrink-0" /> Mes Favoris
+                                                </Link>
+
+                                                {/* Seller Section */}
                                                 {(user.role === 'seller' || user.role === 'admin') && (
-                                                    <Link href="/store" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-blue-50 text-blue-700 font-medium transition">
-                                                        <StoreIcon size={15} /> Espace Vendeur
-                                                    </Link>
+                                                    <div className="pt-1 border-t border-slate-100 mt-1">
+                                                        <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest px-3 block mb-1">Espace Vendeur</span>
+                                                        <Link href="/store" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-blue-50 text-blue-700 font-semibold transition">
+                                                            <StoreIcon size={16} className="text-blue-600 shrink-0" /> Tableau de Bord Vendeur
+                                                        </Link>
+                                                        <Link href="/store/manage-product" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-blue-50 text-blue-700 font-semibold transition">
+                                                            <ShoppingBagIcon size={16} className="text-blue-600 shrink-0" /> Gérer mes Produits
+                                                        </Link>
+                                                        <Link href="/store/orders" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-blue-50 text-blue-700 font-semibold transition">
+                                                            <PackageIcon size={16} className="text-blue-600 shrink-0" /> Ventes & Commandes
+                                                        </Link>
+                                                    </div>
                                                 )}
+
+                                                {/* Admin Section */}
                                                 {user.role === 'admin' && (
-                                                    <Link href="/admin" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-900 font-medium transition">
-                                                        <ShieldCheckIcon size={15} className="text-purple-600" /> Panneau Admin
-                                                    </Link>
+                                                    <div className="pt-1 border-t border-slate-100 mt-1">
+                                                        <span className="text-[9px] font-extrabold text-purple-500 uppercase tracking-widest px-3 block mb-1">Administration</span>
+                                                        <Link href="/admin" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-purple-50 text-purple-800 font-semibold transition">
+                                                            <ShieldCheckIcon size={16} className="text-purple-600 shrink-0" /> Panneau Admin
+                                                        </Link>
+                                                        <Link href="/admin/stores" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-purple-50 text-purple-800 font-semibold transition">
+                                                            <StoreIcon size={16} className="text-purple-600 shrink-0" /> Modération Boutiques
+                                                        </Link>
+                                                    </div>
                                                 )}
-                                                <button 
-                                                    onClick={handleLogout}
-                                                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-red-50 text-red-600 font-semibold transition cursor-pointer"
-                                                >
-                                                    <LogOutIcon size={15} /> Déconnexion
-                                                </button>
+
+                                                <div className="pt-1 border-t border-slate-100 mt-1">
+                                                    <button 
+                                                        onClick={handleLogout}
+                                                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-red-50 text-red-600 font-bold transition cursor-pointer"
+                                                    >
+                                                        <LogOutIcon size={16} className="shrink-0" /> Se déconnecter
+                                                    </button>
+                                                </div>
                                             </div>
                                         )}
+
                                     </div>
                                 ) : (
                                     <button 
