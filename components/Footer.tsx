@@ -64,7 +64,7 @@ const Footer: React.FC = () => {
                     {/* Brand Column (2 cols on lg) */}
                     <div className="lg:col-span-2 space-y-4">
                         <Link href="/" className="inline-block transition-transform hover:scale-[1.02]">
-                            <Logo className="brightness-200" />
+                            <Logo isDark={true} />
                         </Link>
                         
                         <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">

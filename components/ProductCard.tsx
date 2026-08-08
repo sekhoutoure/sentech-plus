@@ -49,14 +49,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }
 
     return (
-        <div className='group relative w-full sm:w-64 bg-white dark:bg-slate-800/80 rounded-3xl p-3 sm:p-4 border border-slate-200/80 dark:border-slate-700/80 shadow-sm hover:shadow-xl hover:border-blue-500/30 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5'>
+        <div className='group relative w-full sm:w-64 bg-white rounded-3xl p-3 sm:p-4 border border-slate-200/90 shadow-sm hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5'>
             
             {/* Image & Badges Container */}
-            <div className='relative bg-gradient-to-b from-slate-100/90 to-slate-50 dark:from-slate-700/40 dark:to-slate-800/40 h-44 sm:h-56 rounded-2xl flex items-center justify-center overflow-hidden border border-slate-200/50 dark:border-slate-700/50'>
+            <div className='relative bg-slate-50 rounded-2xl flex items-center justify-center overflow-hidden border border-slate-100 h-48 sm:h-56'>
                 
                 {/* Discount Badge */}
                 {discount > 0 && (
-                    <span className='absolute top-2.5 left-2.5 bg-gradient-to-r from-red-600 to-rose-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full z-10 shadow-sm shadow-red-500/20'>
+                    <span className='absolute top-2.5 left-2.5 bg-gradient-to-r from-red-600 to-rose-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full z-10 shadow-sm'>
                         -{discount}%
                     </span>
                 )}
@@ -68,10 +68,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     className={`absolute top-2.5 right-2.5 z-10 size-8 sm:size-9 rounded-full flex items-center justify-center transition-all duration-200 shadow-sm ${
                         isWishlisted 
                             ? 'bg-rose-500 text-white scale-105' 
-                            : 'bg-white/90 dark:bg-slate-900/90 text-slate-400 hover:text-rose-500 hover:scale-110'
+                            : 'bg-white/95 text-slate-400 hover:text-rose-500 hover:scale-110 border border-slate-200/60'
                     }`}
                 >
-                    <HeartIcon size={16} fill={isWishlisted ? "currentColor" : "none"} />
+                    <HeartIcon size={15} fill={isWishlisted ? "currentColor" : "none"} />
                 </button>
 
                 {/* Product Image Link */}
@@ -79,7 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     <Image 
                         width={280} 
                         height={280} 
-                        className='max-h-32 sm:max-h-40 w-auto object-contain group-hover:scale-108 transition-transform duration-500 ease-out drop-shadow-md' 
+                        className='max-h-36 sm:max-h-44 w-auto object-contain group-hover:scale-108 transition-transform duration-500 ease-out drop-shadow-sm' 
                         src={product.images?.[0] || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500'} 
                         alt={product.name || "Produit High-Tech"} 
                     />
@@ -89,10 +89,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <button
                     onClick={handleQuickAdd}
                     aria-label="Ajout rapide au panier"
-                    className={`absolute bottom-2.5 left-2.5 right-2.5 font-bold text-xs py-2.5 px-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 shadow-md active:scale-95 ${
+                    className={`absolute bottom-2.5 left-2.5 right-2.5 font-bold text-xs py-2.5 px-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 shadow-md active:scale-95 cursor-pointer ${
                         isAdded 
                             ? 'bg-emerald-600 text-white' 
-                            : 'bg-slate-900 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-500 text-white opacity-100 sm:opacity-0 sm:translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0'
+                            : 'bg-slate-900 hover:bg-blue-600 text-white opacity-100 sm:opacity-0 sm:translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0'
                     }`}
                 >
                     {isAdded ? (
@@ -113,26 +113,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <div className='pt-3 space-y-1.5 flex-1 flex flex-col justify-between'>
                 <div>
                     <div className='flex items-center justify-between gap-1'>
-                        <span className='text-[10px] font-bold text-blue-600 dark:text-cyan-400 uppercase tracking-wider'>
+                        <span className='text-[10px] font-bold text-blue-600 uppercase tracking-wider'>
                             {product.category || 'High-Tech'}
                         </span>
                         <div className='flex items-center gap-1'>
-                            <StarIcon size={12} fill="#FACC15" className="text-yellow-400" />
-                            <span className='text-[11px] font-bold text-slate-700 dark:text-slate-300'>{rating}.0</span>
+                            <StarIcon size={12} fill="#F59E0B" className="text-amber-500" />
+                            <span className='text-[11px] font-bold text-slate-700'>{rating}.0</span>
                         </div>
                     </div>
 
                     <Link href={`/product/${product.id}`} className='block mt-0.5'>
-                        <h3 className='text-sm font-bold text-slate-800 dark:text-white line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors'>
+                        <h3 className='text-sm font-bold text-slate-900 line-clamp-1 group-hover:text-blue-600 transition-colors'>
                             {product.name}
                         </h3>
                     </Link>
                 </div>
 
                 {/* Price Display */}
-                <div className='pt-1 flex items-baseline justify-between border-t border-slate-100 dark:border-slate-700/60 mt-2'>
+                <div className='pt-2 flex items-baseline justify-between border-t border-slate-100 mt-2'>
                     <div className='flex items-baseline gap-1.5'>
-                        <span className='text-base sm:text-lg font-black text-slate-900 dark:text-white'>
+                        <span className='text-base sm:text-lg font-black text-slate-900'>
                             {currency}{product.price}
                         </span>
                         {product.mrp && product.mrp > product.price && (
@@ -142,7 +142,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         )}
                     </div>
 
-                    <span className='text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-md'>
+                    <span className='text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60'>
                         En stock
                     </span>
                 </div>

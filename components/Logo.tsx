@@ -1,20 +1,23 @@
-import Link from "next/link";
+import React from "react";
 import Image from "next/image";
 import { assets } from "@/assets/assets";
 
 interface LogoProps {
     className?: string;
+    isDark?: boolean;
 }
 
-const Logo = ({ className = "" }: LogoProps) => {
+const Logo = ({ className = "", isDark = false }: LogoProps) => {
     return (
-        <div className={`flex items-center ${className}`}>
+        <div className={`flex items-center gap-2 ${className}`}>
             <Image 
                 src={assets.sentech_logo} 
                 alt="SenTech Plus" 
-                width={200} 
-                height={55} 
-                className="h-10 sm:h-11 w-auto object-contain mix-blend-multiply contrast-[1.2] drop-shadow-sm transition-transform hover:scale-105" 
+                width={180} 
+                height={50} 
+                className={`h-9 sm:h-10 w-auto object-contain transition-transform hover:scale-105 ${
+                    isDark ? 'brightness-0 invert' : 'mix-blend-multiply'
+                }`} 
                 priority 
             />
         </div>

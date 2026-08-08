@@ -23,8 +23,8 @@ export default function CategoriesMarquee() {
     return (
         <div className="relative w-full max-w-7xl mx-auto overflow-hidden select-none py-2 group">
             {/* Left and Right Gradient Fade Edges */}
-            <div className="absolute left-0 top-0 h-full w-16 sm:w-28 z-10 pointer-events-none bg-gradient-to-r from-slate-50 dark:from-slate-900 to-transparent" />
-            <div className="absolute right-0 top-0 h-full w-16 sm:w-28 z-10 pointer-events-none bg-gradient-to-l from-slate-50 dark:from-slate-900 to-transparent" />
+            <div className="absolute left-0 top-0 h-full w-16 sm:w-28 z-10 pointer-events-none bg-gradient-to-r from-slate-50 to-transparent" />
+            <div className="absolute right-0 top-0 h-full w-16 sm:w-28 z-10 pointer-events-none bg-gradient-to-l from-slate-50 to-transparent" />
 
             {/* Marquee Track */}
             <div className="flex min-w-[200%] animate-[marqueeScroll_32s_linear_infinite] group-hover:[animation-play-state:paused] gap-3 sm:gap-4 will-change-transform py-1">
@@ -34,9 +34,9 @@ export default function CategoriesMarquee() {
                         <button 
                             key={index} 
                             onClick={() => router.push(`/shop?search=${encodeURIComponent(category)}`)}
-                            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs sm:text-sm hover:bg-gradient-to-r hover:from-blue-600 hover:to-indigo-600 hover:text-white dark:hover:text-white transition-all duration-200 cursor-pointer border border-slate-200/80 dark:border-slate-700/80 shadow-xs hover:shadow-md hover:scale-105 active:scale-95 shrink-0 group/pill"
+                            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-white text-slate-800 font-bold text-xs sm:text-sm hover:bg-blue-600 hover:text-white transition-all duration-200 cursor-pointer border border-slate-200 shadow-2xs hover:shadow-md hover:scale-105 active:scale-95 shrink-0 group/pill"
                         >
-                            <IconComponent size={15} className="text-blue-600 dark:text-cyan-400 group-hover/pill:text-white transition-colors" />
+                            <IconComponent size={15} className="text-blue-600 group-hover/pill:text-white transition-colors" />
                             <span>{category}</span>
                         </button>
                     );

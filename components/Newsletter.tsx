@@ -19,7 +19,7 @@ const Newsletter: React.FC = () => {
     }
 
     return (
-        <section className='px-4 sm:px-6 my-20 sm:my-28 max-w-7xl mx-auto'>
+        <section className='px-4 sm:px-6 my-16 sm:my-24 max-w-7xl mx-auto'>
             <div className='relative overflow-hidden rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 p-8 sm:p-14 lg:p-16 text-white border border-white/10 shadow-2xl'>
                 
                 {/* Background Glows */}
@@ -29,16 +29,16 @@ const Newsletter: React.FC = () => {
                 <div className='relative z-10 max-w-2xl mx-auto text-center space-y-4'>
                     
                     {/* Badge Pill */}
-                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-extrabold text-cyan-300 shadow-sm">
-                        <Sparkles size={12} className="text-cyan-400" />
-                        <span>COMMUNAUTÉ PRIVILÈGE SENTECH</span>
+                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-bold text-cyan-300 shadow-sm">
+                        <Sparkles size={13} className="text-cyan-400" />
+                        <span>CLUB PRIVILÈGE SENTECH PLUS</span>
                     </div>
 
                     <h2 className='text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight'>
                         Recevez nos Offres VIP & Bons Plans en Avant-Première
                     </h2>
 
-                    <p className='text-xs sm:text-base text-slate-300 max-w-lg mx-auto leading-relaxed'>
+                    <p className='text-xs sm:text-base text-slate-300 max-w-lg mx-auto leading-relaxed font-normal'>
                         Inscrivez-vous gratuitement et recevez immédiatement un bon de réduction de <strong>20%</strong> valable sur toute la boutique.
                     </p>
 
@@ -50,7 +50,7 @@ const Newsletter: React.FC = () => {
                         </div>
                     ) : (
                         <form onSubmit={handleSubmit} className='pt-4 max-w-lg mx-auto'>
-                            <div className='flex flex-col sm:flex-row items-center gap-2.5 bg-white/10 backdrop-blur-xl p-2 rounded-2xl sm:rounded-full border border-white/20 focus-within:border-cyan-400 focus-within:ring-2 focus-within:ring-cyan-400/20 transition-all shadow-lg'>
+                            <div className='flex flex-col sm:flex-row items-center gap-2 bg-white/10 backdrop-blur-xl p-2 rounded-2xl sm:rounded-full border border-white/20 focus-within:border-cyan-400 focus-within:ring-2 focus-within:ring-cyan-400/20 transition-all shadow-lg'>
                                 <div className="flex items-center gap-2.5 flex-1 px-3 w-full sm:w-auto">
                                     <Mail size={18} className="text-slate-400 shrink-0" />
                                     <input
@@ -75,7 +75,7 @@ const Newsletter: React.FC = () => {
                         </form>
                     )}
 
-                    <p className="text-[11px] text-slate-400 pt-2">
+                    <p className="text-[11px] text-slate-400 pt-2 font-normal">
                         🔒 Respect de votre vie privée. Désabonnement en un clic à tout moment.
                     </p>
                 </div>
