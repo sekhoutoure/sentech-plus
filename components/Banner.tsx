@@ -1,39 +1,70 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { Sparkles, Copy, Check, X } from 'lucide-react';
 
 export default function Banner() {
-    const [isOpen, setIsOpen] = React.useState(true);
-    const banner = useSelector((state: any) => state.siteSettings?.banner)
+    const [isOpen, setIsOpen] = useState(true);
+    const [copied, setCopied] = useState(false);
+    const banner = useSelector((state: any) => state.siteSettings?.banner);
 
     if (!banner?.enabled || !isOpen) return null;
 
+    const couponCode = banner.couponCode || 'NEW20';
+
     const handleClaim = () => {
-        setIsOpen(false);
-        toast.success(`Code promo ${banner.couponCode || 'NEW20'} copié dans le presse-papiers !`);
-        navigator.clipboard.writeText(banner.couponCode || 'NEW20');
+        navigator.clipboard.writeText(couponCode);
+        setCopied(true);
+        toast.success(`Code promo "${couponCode}" copié ! 20% de réduction appliqués.`);
+        setTimeout(() => setCopied(false), 3000);
     };
 
     return (
-        <div className="w-full px-4 sm:px-6 py-2.5 sm:py-2 font-medium text-xs sm:text-sm text-white text-center bg-gradient-to-r from-slate-900 via-blue-800 to-blue-600 shadow-sm relative z-[60]">
-            <div className='flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0 max-w-7xl mx-auto pr-6 sm:pr-0'>
-                <p className="flex items-center justify-center gap-2 text-center w-full sm:w-auto leading-snug">{banner.text}</p>
-                <div className="flex items-center justify-center gap-4 w-full sm:w-auto mt-1 sm:mt-0">
-                    {banner.buttonText && (
-                        <button onClick={handleClaim} type="button" className="font-bold text-slate-900 bg-white hover:bg-blue-50 px-5 py-1.5 rounded-full transition text-[11px] sm:text-xs shadow-sm cursor-pointer whitespace-nowrap">
-                            {banner.buttonText}
-                        </button>
-                    )}
+        <div className="relative z-[60] w-full bg-gradient-to-r from-slate-950 via-blue-950 to-indigo-950 text-white border-b border-blue-500/20 shadow-md">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 text-xs sm:text-sm">
+                
+                {/* Promo message with pulsing sparkles */}
+                <div className="flex items-center gap-2 mx-auto sm:mx-0 font-medium">
+                    <span className="flex items-center justify-center size-6 rounded-full bg-blue-500/20 text-blue-400 shrink-0 animate-pulse">
+                        <Sparkles size={13} />
+                    </span>
+                    <span className="text-slate-200">
+                        {banner.text || "✨ Obtenez 20% de réduction sur votre première commande !"}
+                    </span>
                 </div>
-                {/* Close Button - Absolutely positioned on mobile to avoid breaking the flex column */}
-                <button onClick={() => setIsOpen(false)} type="button" className="absolute right-2 top-2 sm:relative sm:right-auto sm:top-auto font-normal text-white/70 hover:text-white p-1.5 rounded-full cursor-pointer transition">
-                    <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect y="12.532" width="17.498" height="2.1" rx="1.05" transform="rotate(-45.74 0 12.532)" fill="currentColor" />
-                        <rect x="12.533" y="13.915" width="17.498" height="2.1" rx="1.05" transform="rotate(-135.74 12.533 13.915)" fill="currentColor" />
-                    </svg>
+
+                {/* Voucher pill and close action */}
+                <div className="hidden sm:flex items-center gap-3 shrink-0">
+                    <button
+                        onClick={handleClaim}
+                        type="button"
+                        className="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold px-3.5 py-1 rounded-full text-xs shadow-sm hover:shadow-blue-500/25 transition-all duration-200 cursor-pointer border border-blue-400/30 active:scale-95"
+                    >
+                        {copied ? <Check size={13} className="text-emerald-300" /> : <Copy size={13} />}
+                        <span>Code : <span className="underline decoration-dotted">{couponCode}</span></span>
+                    </button>
+
+                    <button
+                        onClick={() => setIsOpen(false)}
+                        type="button"
+                        aria-label="Fermer la bannière"
+                        className="text-slate-400 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors"
+                    >
+                        <X size={15} />
+                    </button>
+                </div>
+
+                {/* Mobile close button */}
+                <button
+                    onClick={() => setIsOpen(false)}
+                    type="button"
+                    aria-label="Fermer la bannière"
+                    className="sm:hidden absolute right-3 top-2.5 text-slate-400 hover:text-white"
+                >
+                    <X size={14} />
                 </button>
             </div>
         </div>
     );
-};
+}

@@ -1,11 +1,66 @@
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import NextAuth from 'next-auth';
+import { authConfig } from './auth.config';
 
-export function middleware(request: NextRequest) {
+const { auth } = NextAuth(authConfig);
+
+export default auth(async function middleware(request) {
   const { pathname } = request.nextUrl;
   const method = request.method;
+  const session = request.auth;
+  const isLoggedIn = !!session?.user;
+  const role = session?.user?.role || 'user';
 
-  // 1. Anti-CSRF Protection for API Mutations
+  // 1. Protection et redirection basées sur les rôles
+  const isAuthRoute =
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/register') ||
+    pathname.startsWith('/forgot-password') ||
+    pathname.startsWith('/reset-password');
+  const isAdminRoute = pathname.startsWith('/admin');
+  const isSellerRoute = pathname.startsWith('/seller') || pathname.startsWith('/store');
+  const isUserDashboardRoute =
+    pathname.startsWith('/profile') || pathname.startsWith('/orders') || pathname.startsWith('/user');
+
+  if (isAuthRoute) {
+    if (isLoggedIn) {
+      if (role === 'admin') return NextResponse.redirect(new URL('/admin', request.nextUrl));
+      if (role === 'seller') return NextResponse.redirect(new URL('/store', request.nextUrl));
+      return NextResponse.redirect(new URL('/profile', request.nextUrl));
+    }
+  }
+
+  if (isAdminRoute) {
+    if (!isLoggedIn) {
+      const loginUrl = new URL('/login', request.nextUrl);
+      loginUrl.searchParams.set('callbackUrl', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    if (role !== 'admin') {
+      return NextResponse.redirect(new URL('/profile', request.nextUrl));
+    }
+  }
+
+  if (isSellerRoute) {
+    if (!isLoggedIn) {
+      const loginUrl = new URL('/login', request.nextUrl);
+      loginUrl.searchParams.set('callbackUrl', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    if (role !== 'seller' && role !== 'admin') {
+      return NextResponse.redirect(new URL('/profile', request.nextUrl));
+    }
+  }
+
+  if (isUserDashboardRoute) {
+    if (!isLoggedIn) {
+      const loginUrl = new URL('/login', request.nextUrl);
+      loginUrl.searchParams.set('callbackUrl', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
+  // 2. Protection Anti-CSRF pour les mutations API
   if (pathname.startsWith('/api/') && ['POST', 'PUT', 'DELETE', 'PATCH'].includes(method)) {
     const origin = request.headers.get('origin');
     const host = request.headers.get('host');
@@ -28,7 +83,7 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // 2. Clone response and attach mandatory Security Headers
+  // 3. En-têtes de sécurité
   const response = NextResponse.next();
 
   response.headers.set('X-Frame-Options', 'SAMEORIGIN');
@@ -42,7 +97,7 @@ export function middleware(request: NextRequest) {
   );
 
   return response;
-}
+});
 
 export const config = {
   matcher: [

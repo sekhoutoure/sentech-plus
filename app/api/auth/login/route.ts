@@ -3,6 +3,7 @@ import { signIn } from '@/auth';
 import { loginSchema } from '@/validators/authValidators';
 import { checkRateLimit } from '@/lib/redis';
 import { sanitizeObject } from '@/lib/sanitize';
+import { prisma } from '@/lib/prisma';
 
 export async function POST(req: Request) {
   try {
@@ -43,9 +44,23 @@ export async function POST(req: Request) {
       );
     }
 
+    const user = await prisma.user.findUnique({
+      where: { email: validation.data.email.toLowerCase().trim() },
+      select: { id: true, name: true, email: true, role: true, image: true },
+    });
+
     return NextResponse.json({
       success: true,
       message: 'Connexion réussie !',
+      data: user
+        ? {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            avatar: user.image,
+          }
+        : undefined,
     });
   } catch (error: any) {
     if (error.type === 'CredentialsSignin') {
