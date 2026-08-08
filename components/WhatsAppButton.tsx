@@ -8,13 +8,13 @@ export default function WhatsAppButton() {
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
 
     return (
-        <aside aria-label="Support WhatsApp" className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40">
+        <aside aria-label="Support WhatsApp" className="fixed bottom-6 right-4 sm:right-6 z-40">
             <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Discutez avec nous sur WhatsApp"
-                className="relative flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-600 text-white p-3 sm:p-3.5 rounded-full shadow-2xl shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all duration-300 group"
+                className="relative flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-600 text-white p-3 sm:p-3.5 rounded-full shadow-2xl shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
             >
                 <div className="relative">
                     <MessageCircleIcon size={24} className="fill-white stroke-emerald-500" />
