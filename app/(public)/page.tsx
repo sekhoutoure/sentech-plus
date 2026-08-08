@@ -1,8 +1,6 @@
 'use client'
-import CategoryNav from "@/components/CategoryNav";
-import OmniboxSearch from "@/components/OmniboxSearch";
-import Hero from "@/components/Hero";
-import CategorySection from "@/components/CategorySection";
+import ShopHeroCollage from "@/components/ShopHeroCollage";
+import ShopRails from "@/components/ShopRails";
 import LatestProducts from "@/components/LatestProducts";
 import PromoBanner from "@/components/PromoBanner";
 import BestSelling from "@/components/BestSelling";
@@ -12,18 +10,29 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function Home() {
     return (
-        <div className="bg-[#F7F9FC] min-h-screen">
-            <CategoryNav />
-            <div className="px-4 sm:px-6 pt-3 pb-1 max-w-[1400px] mx-auto">
-                <OmniboxSearch />
-            </div>
-            <Hero />
-            <CategorySection />
+        <div className="bg-[#FCFCFC] min-h-screen">
+            {/* Centered Hero Collage with Omnibox and Category Pills (Shop.app style) */}
+            <ShopHeroCollage />
+
+            {/* Curated Collection & Brand Showcase Rails (Shop.app style 3-in-1 cards) */}
+            <ShopRails />
+
+            {/* Real Product Catalogue Grids */}
             <LatestProducts />
+
+            {/* Promotional Banner */}
             <PromoBanner />
+
+            {/* Best Sellers */}
             <BestSelling />
+
+            {/* Guarantees & Why SenTech Plus */}
             <OurSpecs />
+
+            {/* Newsletter */}
             <Newsletter />
+
+            {/* WhatsApp Floating Assistance */}
             <WhatsAppButton />
         </div>
     );
