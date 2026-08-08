@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { MessageCircleIcon } from 'lucide-react'
+import { MessageCircle } from 'lucide-react'
 
 export default function WhatsAppButton() {
     const phoneNumber = '221770000000' // Dakar Senegal WhatsApp
@@ -13,19 +13,19 @@ export default function WhatsAppButton() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Discutez avec nous sur WhatsApp"
-                className="relative flex items-center gap-2.5 bg-emerald-500 hover:bg-emerald-600 text-white p-3 sm:p-3.5 rounded-full shadow-2xl shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
+                aria-label="Contactez-nous sur WhatsApp"
+                className="relative flex items-center gap-2.5 bg-[#12B76A] hover:bg-[#0EA25C] text-white px-4 py-3 rounded-full shadow-xl shadow-[#12B76A]/30 hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
             >
                 <div className="relative">
-                    <MessageCircleIcon size={24} className="fill-white stroke-emerald-500" />
-                    <span className="absolute -top-1 -right-1 size-2.5 bg-white rounded-full animate-ping" />
+                    <MessageCircle size={22} className="fill-white stroke-[#12B76A]" />
+                    <span className="absolute -top-1 -right-1 size-2 bg-white rounded-full animate-ping" />
                 </div>
                 
-                {/* Expandable Text on Desktop Hover */}
-                <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 text-xs font-bold pl-0 group-hover:pl-1">
-                    WhatsApp 24/7
-                </span>
+                <div className="flex flex-col text-left pr-1">
+                    <span className="text-[10px] text-emerald-100 font-medium leading-none">Besoin d'aide ?</span>
+                    <span className="text-xs font-bold text-white leading-tight">WhatsApp 24/7</span>
+                </div>
             </a>
         </aside>
-    )
+    );
 }

@@ -4,10 +4,10 @@ export const SITE_CONFIG = {
   name: 'SenTech Plus',
   domain: 'sentechplus.sn',
   baseUrl: process.env.NEXT_PUBLIC_BASE_URL || 'https://sentechplus.sn',
-  defaultTitle: 'SenTech Plus | Boutique High-Tech & Accessoires Smartphone Sénégal (Dakar)',
+  defaultTitle: 'SenTech Plus | Gadgets & Accessoires High-Tech au Sénégal',
   titleTemplate: '%s | SenTech Plus Sénégal',
   description:
-    'Boutique n°1 d’accessoires High-Tech au Sénégal (Dakar). Écouteurs Bluetooth, chargeurs rapides GaN, power banks, montres connectées, câbles USB-C & accessoires smartphone avec livraison express 24h à Dakar et partout au Sénégal.',
+    'Découvrez les gadgets, accessoires et équipements high-tech sélectionnés par SenTech Plus. Livraison au Sénégal.',
   phone: '+221 77 000 00 00',
   email: 'contact@sentechplus.sn',
   address: {

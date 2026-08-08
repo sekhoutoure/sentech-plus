@@ -1,9 +1,11 @@
-import { PlusIcon, SquarePenIcon, XIcon } from 'lucide-react';
+'use client'
+import { Plus, Edit2, X, ShieldCheck } from 'lucide-react';
 import React, { useState } from 'react';
 import AddressModal from './AddressModal';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { formatPrice } from '@/lib/format';
 
 interface OrderItem {
     id: string;
@@ -17,12 +19,8 @@ interface OrderSummaryProps {
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({ totalPrice, items }) => {
-
-    const currency = useSelector((state: any) => state.siteSettings?.currencySymbol || '$');
-
     const router = useRouter();
-
-    const addressList = useSelector((state: any) => state.address.list);
+    const addressList = useSelector((state: any) => state.address?.list || []);
 
     const [paymentMethod, setPaymentMethod] = useState<string>('COD');
     const [selectedAddress, setSelectedAddress] = useState<any>(null);
@@ -71,7 +69,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ totalPrice, items }) => {
             return;
         }
 
-        // ✅ On envoie les IDs produits + quantités (le prix est recalculé côté serveur)
         const orderItems = items.map(item => ({
             productId: item.id,
             quantity: item.quantity
@@ -104,93 +101,124 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ totalPrice, items }) => {
         router.push('/orders');
     }
 
+    const discountAmount = coupon ? (coupon.discount / 100) * totalPrice : 0;
+    const finalTotal = totalPrice - discountAmount;
+
     return (
-        <div className='w-full max-w-lg lg:max-w-[340px] bg-slate-50/30 border border-slate-200 text-slate-500 text-sm rounded-xl p-7'>
-            <h2 className='text-xl font-medium text-slate-600'>Récapitulatif du paiement</h2>
-            <p className='text-slate-400 text-xs my-4'>Moyen de paiement</p>
-            <div className='flex gap-2 items-center'>
-                <input type="radio" id="COD" onChange={() => setPaymentMethod('COD')} checked={paymentMethod === 'COD'} className='accent-gray-500' />
-                <label htmlFor="COD" className='cursor-pointer'>Paiement à la livraison</label>
-            </div>
-            <div className='flex gap-2 items-center mt-1'>
-                <input type="radio" id="STRIPE" name='payment' onChange={() => setPaymentMethod('STRIPE')} checked={paymentMethod === 'STRIPE'} className='accent-gray-500' />
-                <label htmlFor="STRIPE" className='cursor-pointer'>Paiement par carte (Stripe)</label>
-            </div>
-            <div className='my-4 py-4 border-y border-slate-200 text-slate-400'>
-                <p>Adresse de livraison</p>
-                {
-                    selectedAddress ? (
-                        <div className='flex gap-2 items-center'>
-                            <p>{selectedAddress.name}, {selectedAddress.city}, {selectedAddress.state}, {selectedAddress.zip}</p>
-                            <SquarePenIcon onClick={() => setSelectedAddress(null)} className='cursor-pointer' size={18} />
-                        </div>
-                    ) : (
-                        <div>
-                            {
-                                addressList.length > 0 && (
-                                    <select className='border border-slate-400 p-2 w-full my-3 outline-none rounded' onChange={(e) => setSelectedAddress(addressList[Number(e.target.value)])} >
-                                        <option value="">Sélectionner une adresse</option>
-                                        {
-                                            addressList.map((address: any, index: number) => (
-                                                <option key={index} value={index}>{address.name}, {address.city}, {address.state}, {address.zip}</option>
-                                            ))
-                                        }
-                                    </select>
-                                )
-                            }
-                            <button className='flex items-center gap-1 text-slate-600 mt-1' onClick={() => setShowAddressModal(true)} >Ajouter une adresse <PlusIcon size={18} /></button>
-                        </div>
-                    )
-                }
-            </div>
-            <div className='pb-4 border-b border-slate-200'>
-                <div className='flex justify-between'>
-                    <div className='flex flex-col gap-1 text-slate-400'>
-                        <p>Sous-total :</p>
-                        <p>Livraison :</p>
-                        {coupon && <p>Code promo :</p>}
-                    </div>
-                    <div className='flex flex-col gap-1 font-medium text-right'>
-                        <p>{currency}{totalPrice.toLocaleString()}</p>
-                        <p>Gratuite</p>
-                        {coupon && <p>{`-${currency}${(coupon.discount / 100 * totalPrice).toFixed(2)}`}</p>}
-                    </div>
+        <div className='w-full bg-white border border-[#E4E7EC] text-[#101828] text-xs sm:text-sm rounded-2xl p-6 sm:p-7 shadow-2xs space-y-5'>
+            <h2 className='text-lg font-extrabold text-[#101828] pb-3 border-b border-[#E4E7EC]'>
+                Récapitulatif de commande
+            </h2>
+
+            {/* Mode de Paiement */}
+            <div className="space-y-2.5">
+                <p className='text-[11px] font-bold uppercase tracking-wider text-[#667085]'>Moyen de paiement</p>
+                <div className='flex items-center gap-2.5 p-3 rounded-xl bg-[#F7F9FC] border border-[#E4E7EC] cursor-pointer' onClick={() => setPaymentMethod('COD')}>
+                    <input type="radio" id="COD" onChange={() => setPaymentMethod('COD')} checked={paymentMethod === 'COD'} className='accent-[#1769FF] size-4 cursor-pointer' />
+                    <label htmlFor="COD" className='cursor-pointer font-bold text-xs text-[#101828]'>Paiement à la livraison (Dakar)</label>
                 </div>
-                {
-                    !coupon ? (
-                        <form onSubmit={handleCouponCode} className='flex justify-center gap-3 mt-3'>
-                            <input 
-                                onChange={(e) => setCouponCodeInput(e.target.value)} 
-                                value={couponCodeInput} 
-                                type="text" 
-                                placeholder='Code promo' 
-                                className='border border-slate-300 p-2 rounded-xl w-full outline-none text-base sm:text-xs focus:border-blue-500 transition' 
-                            />
-                            <button type="submit" className='bg-blue-600 text-white text-xs font-semibold px-4 py-2 rounded-xl hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20 cursor-pointer shrink-0'>
-                                Appliquer
-                            </button>
-                        </form>
-                    ) : (
-                        <div className='w-full flex items-center justify-between text-xs mt-2 bg-blue-50 p-2.5 rounded-xl border border-blue-100 text-blue-700'>
-                            <div>
-                                <p className='font-bold'>{coupon.code.toUpperCase()} (-{coupon.discount}%)</p>
-                                {coupon.description && <p className='text-[10px] opacity-80'>{coupon.description}</p>}
-                            </div>
-                            <XIcon size={16} onClick={() => setCoupon('')} className='hover:text-red-600 transition cursor-pointer shrink-0' />
+                <div className='flex items-center gap-2.5 p-3 rounded-xl bg-[#F7F9FC] border border-[#E4E7EC] cursor-pointer' onClick={() => setPaymentMethod('STRIPE')}>
+                    <input type="radio" id="STRIPE" name='payment' onChange={() => setPaymentMethod('STRIPE')} checked={paymentMethod === 'STRIPE'} className='accent-[#1769FF] size-4 cursor-pointer' />
+                    <label htmlFor="STRIPE" className='cursor-pointer font-bold text-xs text-[#101828]'>Carte Bancaire / Wave / OM (En ligne)</label>
+                </div>
+            </div>
+
+            {/* Adresse de Livraison */}
+            <div className='py-4 border-y border-[#E4E7EC] space-y-2'>
+                <p className='text-[11px] font-bold uppercase tracking-wider text-[#667085]'>Adresse de livraison</p>
+                {selectedAddress ? (
+                    <div className='flex justify-between items-center bg-[#F7F9FC] p-3 rounded-xl border border-[#E4E7EC]'>
+                        <p className="font-semibold text-xs text-[#101828]">{selectedAddress.name}, {selectedAddress.city}, {selectedAddress.state}</p>
+                        <button onClick={() => setSelectedAddress(null)} className='text-[#1769FF] p-1 cursor-pointer' title="Modifier l'adresse">
+                            <Edit2 size={16} />
+                        </button>
+                    </div>
+                ) : (
+                    <div>
+                        {addressList.length > 0 && (
+                            <select 
+                                className='border border-[#E4E7EC] bg-[#F7F9FC] p-2.5 w-full my-2 outline-none rounded-xl text-xs font-semibold text-[#101828] focus:border-[#1769FF]' 
+                                onChange={(e) => setSelectedAddress(addressList[Number(e.target.value)])} 
+                            >
+                                <option value="">Sélectionner une adresse enregistrée</option>
+                                {addressList.map((address: any, index: number) => (
+                                    <option key={index} value={index}>{address.name}, {address.city}, {address.state}</option>
+                                ))}
+                            </select>
+                        )}
+                        <button 
+                            className='flex items-center gap-1.5 text-xs font-bold text-[#1769FF] hover:underline mt-1 cursor-pointer' 
+                            onClick={() => setShowAddressModal(true)} 
+                        >
+                            <Plus size={15} /> Ajouter une nouvelle adresse
+                        </button>
+                    </div>
+                )}
+            </div>
+
+            {/* Subtotal, Shipping, Coupon */}
+            <div className='space-y-2 pb-4 border-b border-[#E4E7EC]'>
+                <div className='flex justify-between text-xs sm:text-sm text-[#667085]'>
+                    <span>Sous-total</span>
+                    <span className="font-bold text-[#101828]">{formatPrice(totalPrice)}</span>
+                </div>
+                <div className='flex justify-between text-xs sm:text-sm text-[#667085]'>
+                    <span>Livraison à Dakar</span>
+                    <span className="text-[#12B76A] font-bold">Gratuite</span>
+                </div>
+                {coupon && (
+                    <div className='flex justify-between text-xs sm:text-sm text-[#12B76A]'>
+                        <span>Remise promo ({coupon.code})</span>
+                        <span className="font-bold">-{formatPrice(discountAmount)}</span>
+                    </div>
+                )}
+
+                {/* Coupon Input Form */}
+                {!coupon ? (
+                    <form onSubmit={handleCouponCode} className='flex gap-2 pt-2'>
+                        <input 
+                            onChange={(e) => setCouponCodeInput(e.target.value)} 
+                            value={couponCodeInput} 
+                            type="text" 
+                            placeholder='Code promo (ex: NEW20)' 
+                            className='border border-[#E4E7EC] bg-[#F7F9FC] p-2 rounded-xl w-full outline-none text-xs font-semibold focus:border-[#1769FF]' 
+                        />
+                        <button type="submit" className='bg-[#071126] hover:bg-[#1769FF] text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs cursor-pointer shrink-0'>
+                            Appliquer
+                        </button>
+                    </form>
+                ) : (
+                    <div className='w-full flex items-center justify-between text-xs bg-[#EAF3FF] p-2.5 rounded-xl border border-[#1769FF]/20 text-[#1769FF]'>
+                        <div>
+                            <p className='font-bold'>{coupon.code.toUpperCase()} (-{coupon.discount}%)</p>
+                            {coupon.description && <p className='text-[10px] text-slate-500'>{coupon.description}</p>}
                         </div>
-                    )
-                }
+                        <X size={16} onClick={() => setCoupon('')} className='hover:text-red-600 transition cursor-pointer shrink-0' />
+                    </div>
+                )}
             </div>
-            <div className='flex justify-between py-4 text-base font-bold text-slate-900'>
-                <p>Total :</p>
-                <p className='text-blue-600'>{currency}{coupon ? (totalPrice - (coupon.discount / 100 * totalPrice)).toFixed(2) : totalPrice.toLocaleString()}</p>
+
+            {/* Total Final */}
+            <div className='flex justify-between items-baseline pt-1'>
+                <span className="text-base font-bold text-[#101828]">Total à payer :</span>
+                <span className='text-xl font-black text-[#1769FF]'>{formatPrice(finalTotal)}</span>
             </div>
-            <button onClick={handlePlaceOrder} className='w-full bg-slate-900 hover:bg-blue-600 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg cursor-pointer text-sm'>
-                Passer la commande
+
+            {/* CTA Passer la commande */}
+            <button 
+                onClick={handlePlaceOrder} 
+                className='w-full bg-[#1769FF] hover:bg-[#1256D6] text-white font-bold py-3.5 rounded-xl transition-all shadow-md shadow-[#1769FF]/25 cursor-pointer text-xs sm:text-sm active:scale-95'
+            >
+                Confirmer la commande
             </button>
 
-            {showAddressModal && <AddressModal setShowAddressModal={setShowAddressModal} />}
+            {/* Trust Shield Note */}
+            <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#667085] pt-1">
+                <ShieldCheck size={14} className="text-[#12B76A]" />
+                <span>Paiement 100% sécurisé & garanti</span>
+            </div>
 
+            {showAddressModal && <AddressModal setShowAddressModal={setShowAddressModal} />}
         </div>
     )
 }
