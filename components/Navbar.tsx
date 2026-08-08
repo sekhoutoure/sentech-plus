@@ -75,14 +75,14 @@ const Navbar: React.FC = () => {
         <>
             <header className={`sticky top-0 z-50 transition-all duration-300 ${
                 isScrolled 
-                    ? 'bg-white/90 backdrop-blur-xl border-b border-slate-200/90 shadow-sm py-2.5' 
-                    : 'bg-white/95 backdrop-blur-md border-b border-slate-100 py-3.5'
+                    ? 'bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-sm py-2 sm:py-2.5' 
+                    : 'bg-white/95 backdrop-blur-md border-b border-slate-100 py-2.5 sm:py-3.5'
             }`}>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className="flex items-center justify-between gap-4">
+                <div className="max-w-7xl mx-auto px-3.5 sm:px-6">
+                    <div className="flex items-center justify-between gap-3">
 
-                        {/* Brand Logo */}
-                        <Link href="/" className="flex items-center group transition-transform hover:scale-[1.02] active:scale-[0.98]">
+                        {/* Brand Logo - High Resolution */}
+                        <Link href="/" className="flex items-center group transition-transform hover:scale-[1.02] active:scale-[0.98] shrink-0">
                             <Logo />
                         </Link>
 
@@ -124,12 +124,12 @@ const Navbar: React.FC = () => {
                         </form>
 
                         {/* Action Buttons Right */}
-                        <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
 
-                            {/* Wishlist Link */}
+                            {/* Wishlist Link - Desktop only (already in mobile bottom nav) */}
                             <Link
                                 href="/wishlist"
-                                className="relative flex items-center justify-center size-9 sm:size-10 rounded-full bg-slate-100 hover:bg-red-50 text-slate-700 hover:text-red-500 transition border border-slate-200"
+                                className="hidden sm:flex relative items-center justify-center size-9 sm:size-10 rounded-full bg-slate-100 hover:bg-red-50 text-slate-700 hover:text-red-500 transition border border-slate-200"
                                 title="Mes Favoris"
                                 aria-label="Mes Favoris"
                             >
@@ -144,11 +144,11 @@ const Navbar: React.FC = () => {
                             {/* Cart Drawer Trigger */}
                             <button
                                 onClick={() => dispatch(openDrawer())}
-                                className="relative flex items-center gap-2 bg-slate-900 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 shadow-sm hover:shadow-blue-600/25 active:scale-95 cursor-pointer"
+                                className="relative flex items-center gap-1.5 bg-slate-900 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 shadow-sm hover:shadow-blue-600/25 active:scale-95 cursor-pointer"
                                 aria-label="Panier d'achats"
                             >
-                                <ShoppingCart size={16} />
-                                <span className="hidden sm:inline">Panier</span>
+                                <ShoppingCart size={15} />
+                                <span className="hidden md:inline">Panier</span>
                                 <span className="size-4.5 rounded-full bg-blue-500 text-white text-[10px] font-black flex items-center justify-center shadow-2xs">
                                     {cartCount}
                                 </span>
@@ -159,7 +159,7 @@ const Navbar: React.FC = () => {
                                 <div className="relative">
                                     <button
                                         onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                                        className="flex items-center gap-2 p-1 sm:pr-2.5 rounded-full bg-slate-100 hover:bg-slate-200 transition border border-slate-200 cursor-pointer"
+                                        className="flex items-center gap-1.5 p-1 sm:pr-2.5 rounded-full bg-slate-100 hover:bg-slate-200 transition border border-slate-200 cursor-pointer"
                                         aria-label="Menu Utilisateur"
                                     >
                                         <div className="relative size-7 rounded-full overflow-hidden border border-blue-500">
@@ -170,7 +170,7 @@ const Navbar: React.FC = () => {
                                                 className="object-cover"
                                             />
                                         </div>
-                                        <span className="hidden sm:inline text-xs font-bold text-slate-800 max-w-[80px] truncate">
+                                        <span className="hidden md:inline text-xs font-bold text-slate-800 max-w-[80px] truncate">
                                             {user.name?.split(' ')[0]}
                                         </span>
                                         <ChevronDownIcon size={13} className="text-slate-400" />
@@ -227,7 +227,7 @@ const Navbar: React.FC = () => {
                             ) : (
                                 <Link
                                     href="/login"
-                                    className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3.5 sm:px-4 py-2 rounded-full text-xs font-bold transition shadow-xs hover:shadow-blue-600/30 active:scale-95 cursor-pointer"
+                                    className="hidden sm:inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2 rounded-full text-xs font-bold transition shadow-xs hover:shadow-blue-600/30 active:scale-95 cursor-pointer"
                                 >
                                     <UserIcon size={14} />
                                     <span>Connexion</span>
@@ -245,8 +245,8 @@ const Navbar: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Mobile Search Bar below Navbar on Small Screens */}
-                    <div className="md:hidden mt-2.5 pb-1">
+                    {/* Mobile Search Bar below Navbar */}
+                    <div className="md:hidden mt-2 pb-0.5">
                         <form onSubmit={handleSearch} className="relative w-full">
                             <input
                                 type="text"
@@ -263,7 +263,7 @@ const Navbar: React.FC = () => {
 
             {/* Mobile Menu Drawer Overlay */}
             {isMobileMenuOpen && (
-                <div className="fixed inset-0 z-40 lg:hidden">
+                <div className="fixed inset-0 z-50 lg:hidden">
                     <div 
                         className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity" 
                         onClick={() => setIsMobileMenuOpen(false)} 

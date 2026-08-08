@@ -13,7 +13,8 @@ export default function Banner() {
 
     const couponCode = banner.couponCode || 'NEW20';
 
-    const handleClaim = () => {
+    const handleClaim = (e: React.MouseEvent) => {
+        e.stopPropagation();
         navigator.clipboard.writeText(couponCode);
         setCopied(true);
         toast.success(`Code promo "${couponCode}" copié ! 20% de réduction appliqués.`);
@@ -21,20 +22,23 @@ export default function Banner() {
     };
 
     return (
-        <div className="relative z-[60] w-full bg-gradient-to-r from-slate-950 via-blue-950 to-indigo-950 text-white border-b border-blue-500/20 shadow-md">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 text-xs sm:text-sm">
+        <aside aria-label="Bannière promotionnelle" className="relative z-[60] w-full bg-gradient-to-r from-slate-950 via-blue-950 to-indigo-950 text-white border-b border-blue-500/20 shadow-md">
+            <div className="max-w-7xl mx-auto px-3.5 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-2 text-xs sm:text-sm">
                 
-                {/* Promo message with pulsing sparkles */}
-                <div className="flex items-center gap-2 mx-auto sm:mx-0 font-medium">
-                    <span className="flex items-center justify-center size-6 rounded-full bg-blue-500/20 text-blue-400 shrink-0 animate-pulse">
-                        <Sparkles size={13} />
+                {/* Promo message */}
+                <div 
+                    onClick={handleClaim}
+                    className="flex items-center gap-1.5 sm:gap-2 pr-7 sm:pr-0 font-medium cursor-pointer sm:cursor-default truncate"
+                >
+                    <span className="flex items-center justify-center size-5 sm:size-6 rounded-full bg-blue-500/20 text-blue-400 shrink-0 animate-pulse">
+                        <Sparkles size={12} />
                     </span>
-                    <span className="text-slate-200">
-                        {banner.text || "✨ Obtenez 20% de réduction sur votre première commande !"}
+                    <span className="text-slate-200 truncate text-[11px] sm:text-xs md:text-sm">
+                        {banner.text || "✨ -20% sur votre 1ère commande avec le code"} <strong className="text-cyan-300 sm:hidden">{couponCode}</strong>
                     </span>
                 </div>
 
-                {/* Voucher pill and close action */}
+                {/* Voucher pill and close action - Desktop */}
                 <div className="hidden sm:flex items-center gap-3 shrink-0">
                     <button
                         onClick={handleClaim}
@@ -55,16 +59,16 @@ export default function Banner() {
                     </button>
                 </div>
 
-                {/* Mobile close button */}
+                {/* Mobile close button with proper margin */}
                 <button
                     onClick={() => setIsOpen(false)}
                     type="button"
                     aria-label="Fermer la bannière"
-                    className="sm:hidden absolute right-3 top-2.5 text-slate-400 hover:text-white"
+                    className="sm:hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1"
                 >
-                    <X size={14} />
+                    <X size={15} />
                 </button>
             </div>
-        </div>
+        </aside>
     );
 }
