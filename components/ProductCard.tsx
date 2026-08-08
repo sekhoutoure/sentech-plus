@@ -49,14 +49,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }
 
     return (
-        <div className='group relative w-full sm:w-64 bg-white rounded-3xl p-3 sm:p-4 border border-slate-200/90 shadow-sm hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5'>
+        <div className='group relative w-full sm:w-64 bg-white rounded-3xl p-3 sm:p-3.5 border border-slate-200 shadow-sm hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5'>
             
-            {/* Image & Badges Container */}
-            <div className='relative bg-slate-50 rounded-2xl flex items-center justify-center overflow-hidden border border-slate-100 h-48 sm:h-56'>
+            {/* Image Tile with Rounded Framing */}
+            <div className='relative w-full h-48 sm:h-56 rounded-2xl overflow-hidden bg-slate-100 flex items-center justify-center border border-slate-200/60'>
                 
                 {/* Discount Badge */}
                 {discount > 0 && (
-                    <span className='absolute top-2.5 left-2.5 bg-gradient-to-r from-red-600 to-rose-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full z-10 shadow-sm'>
+                    <span className='absolute top-2.5 left-2.5 bg-rose-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full z-10 shadow-sm'>
                         -{discount}%
                     </span>
                 )}
@@ -65,21 +65,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <button
                     onClick={handleWishlistToggle}
                     aria-label={isWishlisted ? "Retirer des favoris" : "Ajouter aux favoris"}
-                    className={`absolute top-2.5 right-2.5 z-10 size-8 sm:size-9 rounded-full flex items-center justify-center transition-all duration-200 shadow-sm ${
+                    className={`absolute top-2.5 right-2.5 z-10 size-8 sm:size-8.5 rounded-full flex items-center justify-center transition-all duration-200 shadow-sm ${
                         isWishlisted 
                             ? 'bg-rose-500 text-white scale-105' 
-                            : 'bg-white/95 text-slate-400 hover:text-rose-500 hover:scale-110 border border-slate-200/60'
+                            : 'bg-white/90 text-slate-400 hover:text-rose-500 hover:scale-110 border border-slate-200/80 backdrop-blur-xs'
                     }`}
                 >
                     <HeartIcon size={15} fill={isWishlisted ? "currentColor" : "none"} />
                 </button>
 
                 {/* Product Image Link */}
-                <Link href={`/product/${product.id}`} className='w-full h-full flex items-center justify-center p-4'>
+                <Link href={`/product/${product.id}`} className='w-full h-full relative block overflow-hidden'>
                     <Image 
-                        width={280} 
-                        height={280} 
-                        className='max-h-36 sm:max-h-44 w-auto object-contain group-hover:scale-108 transition-transform duration-500 ease-out drop-shadow-sm' 
+                        fill
+                        className='object-cover group-hover:scale-108 transition-transform duration-500 ease-out' 
                         src={product.images?.[0] || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500'} 
                         alt={product.name || "Produit High-Tech"} 
                     />
@@ -89,7 +88,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <button
                     onClick={handleQuickAdd}
                     aria-label="Ajout rapide au panier"
-                    className={`absolute bottom-2.5 left-2.5 right-2.5 font-bold text-xs py-2.5 px-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 shadow-md active:scale-95 cursor-pointer ${
+                    className={`absolute bottom-2.5 left-2.5 right-2.5 font-bold text-xs py-2.5 px-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 shadow-md active:scale-95 cursor-pointer z-10 ${
                         isAdded 
                             ? 'bg-emerald-600 text-white' 
                             : 'bg-slate-900 hover:bg-blue-600 text-white opacity-100 sm:opacity-0 sm:translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0'
@@ -113,7 +112,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <div className='pt-3 space-y-1.5 flex-1 flex flex-col justify-between'>
                 <div>
                     <div className='flex items-center justify-between gap-1'>
-                        <span className='text-[10px] font-bold text-blue-600 uppercase tracking-wider'>
+                        <span className='text-[10px] font-black text-blue-600 uppercase tracking-wider'>
                             {product.category || 'High-Tech'}
                         </span>
                         <div className='flex items-center gap-1'>
@@ -142,7 +141,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         )}
                     </div>
 
-                    <span className='text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60'>
+                    <span className='text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200'>
                         En stock
                     </span>
                 </div>

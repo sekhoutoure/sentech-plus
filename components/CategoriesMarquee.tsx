@@ -21,7 +21,7 @@ export default function CategoriesMarquee() {
     const extendedList = [...categories, "Smartphones", "Laptops"];
 
     return (
-        <div className="relative w-full max-w-7xl mx-auto overflow-hidden select-none py-2 group">
+        <div className="relative w-full max-w-7xl mx-auto overflow-hidden select-none py-3 group">
             {/* Left and Right Gradient Fade Edges */}
             <div className="absolute left-0 top-0 h-full w-16 sm:w-28 z-10 pointer-events-none bg-gradient-to-r from-slate-50 to-transparent" />
             <div className="absolute right-0 top-0 h-full w-16 sm:w-28 z-10 pointer-events-none bg-gradient-to-l from-slate-50 to-transparent" />
@@ -34,9 +34,9 @@ export default function CategoriesMarquee() {
                         <button 
                             key={index} 
                             onClick={() => router.push(`/shop?search=${encodeURIComponent(category)}`)}
-                            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-white text-slate-800 font-bold text-xs sm:text-sm hover:bg-blue-600 hover:text-white transition-all duration-200 cursor-pointer border border-slate-200 shadow-2xs hover:shadow-md hover:scale-105 active:scale-95 shrink-0 group/pill"
+                            className="inline-flex items-center gap-2.5 px-5 sm:px-6 py-3 rounded-full bg-white hover:bg-blue-600 text-slate-800 hover:text-white font-extrabold text-xs sm:text-sm transition-all duration-200 cursor-pointer border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-600 hover:scale-105 active:scale-95 shrink-0 group/pill"
                         >
-                            <IconComponent size={15} className="text-blue-600 group-hover/pill:text-white transition-colors" />
+                            <IconComponent size={16} className="text-blue-600 group-hover/pill:text-white transition-colors" />
                             <span>{category}</span>
                         </button>
                     );
