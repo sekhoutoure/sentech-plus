@@ -29,6 +29,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="fr" dir="ltr">
             <head>
+                {/* 📱 PWA Web App Manifest & Mobile Installation */}
+                <link rel="manifest" href="/manifest.json" />
+                <meta name="mobile-web-app-capable" content="yes" />
+                <meta name="apple-mobile-web-app-capable" content="yes" />
+                <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+                <meta name="apple-mobile-web-app-title" content="SenTechPLUS" />
+                <link rel="apple-touch-icon" href="/sentech_icon.png" />
+
                 {/* 🚀 Resource DNS Prefetch Hints for Analytics Acceleration */}
                 <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
                 <link rel="dns-prefetch" href="https://www.google-analytics.com" />
