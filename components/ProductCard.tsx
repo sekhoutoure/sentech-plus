@@ -80,7 +80,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
     }
 
     return (
-        <div className="group relative w-full bg-white rounded-2xl overflow-hidden border border-[#E8EDF3] shadow-[0_4px_15px_rgba(20,40,70,0.05)] hover:shadow-[0_12px_28px_rgba(20,40,70,0.09)] hover:border-[#1677FF]/35 transition-[box-shadow,border-color,background-color] duration-200 ease-out flex flex-col justify-between h-full min-h-[280px] sm:min-h-[360px] [content-visibility:auto] [contain-intrinsic-size:1px_340px]">
+        <div className="group relative w-full bg-white rounded-2xl overflow-hidden border border-[#E8EDF3] shadow-[0_4px_15px_rgba(20,40,70,0.05)] hover:shadow-[0_12px_28px_rgba(20,40,70,0.09)] hover:border-[#1677FF]/35 transition-[box-shadow,border-color,background-color] duration-200 ease-out flex flex-col justify-between h-full min-h-[280px] sm:min-h-[360px]">
 
             {/* Image Container — aspect-square 1:1, object-contain */}
             <div className="relative w-full aspect-square bg-[#F7F9FC] flex items-center justify-center border-b border-[#E8EDF3] overflow-hidden shrink-0">
