@@ -1,5 +1,6 @@
 'use client'
 import ShopHeroCollage from "@/components/ShopHeroCollage";
+import ShopQuadrantGrid from "@/components/ShopQuadrantGrid";
 import ShopRails from "@/components/ShopRails";
 import LatestProducts from "@/components/LatestProducts";
 import PromoBanner from "@/components/PromoBanner";
@@ -11,28 +12,31 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 export default function Home() {
     return (
         <div className="bg-[#FCFCFC] min-h-screen">
-            {/* Centered Hero Collage with Omnibox and Category Pills (Shop.app style) */}
+            {/* 1. Hero with Centered Logo, Floating Gadgets with Ratings & Omnibox */}
             <ShopHeroCollage />
 
-            {/* Curated Collection & Brand Showcase Rails (Shop.app style 3-in-1 cards) */}
+            {/* 2. Shop.app Signature 4-Quadrant Category Tiles (2x2) */}
+            <ShopQuadrantGrid />
+
+            {/* 3. Shop.app Signature 3-in-1 Brand & Collection Rails */}
             <ShopRails />
 
-            {/* Real Product Catalogue Grids */}
+            {/* 4. Real Product Catalogue (Dernières arrivées en FCFA) */}
             <LatestProducts />
 
-            {/* Promotional Banner */}
+            {/* 5. Night Blue Promo Banner */}
             <PromoBanner />
 
-            {/* Best Sellers */}
+            {/* 6. Best Sellers Grid */}
             <BestSelling />
 
-            {/* Guarantees & Why SenTech Plus */}
+            {/* 7. Why SenTech Plus (Dakar Delivery, Guarantees) */}
             <OurSpecs />
 
-            {/* Newsletter */}
+            {/* 8. VIP Newsletter */}
             <Newsletter />
 
-            {/* WhatsApp Floating Assistance */}
+            {/* 9. Floating WhatsApp Assistance */}
             <WhatsAppButton />
         </div>
     );

@@ -2,7 +2,7 @@
 import React, { useRef } from 'react'
 import Link from 'next/link'
 import Image, { StaticImageData } from 'next/image'
-import { ChevronRight, ArrowRight, Sparkles, Flame } from 'lucide-react'
+import { ChevronRight, ArrowRight, Star } from 'lucide-react'
 import { assets } from '@/assets/assets'
 
 interface BrandCard {
@@ -10,7 +10,8 @@ interface BrandCard {
     subtitle: string;
     bgImage: string | StaticImageData;
     query: string;
-    badge?: string;
+    rating: string;
+    reviewsCount: string;
     thumbnails: (string | StaticImageData)[];
 }
 
@@ -29,113 +30,132 @@ export default function ShopRails() {
             exploreQuery: "Smartphones",
             cards: [
                 {
-                    title: "Apple & iOS Gear",
+                    title: "APPLE",
                     subtitle: "iPhone, MagSafe & AirPods",
                     bgImage: assets.product_img8,
                     query: "Smartphones",
-                    badge: "Populaire",
+                    rating: "4.9",
+                    reviewsCount: "48,2 k",
                     thumbnails: [assets.product_img8, assets.product_img3, assets.product_img4]
                 },
                 {
-                    title: "Samsung Galaxy",
-                    subtitle: "Écrans AMOLED & charge rapide",
+                    title: "SAMSUNG",
+                    subtitle: "Galaxy AMOLED & Ultra Series",
                     bgImage: assets.product_img8,
                     query: "Smartphones",
-                    badge: "Certifié",
+                    rating: "4.8",
+                    reviewsCount: "32,4 k",
                     thumbnails: [assets.product_img8, assets.product_img2, assets.product_img5]
                 },
                 {
-                    title: "Protection & Énergie",
-                    subtitle: "Chargeurs rapides & câbles tressés",
+                    title: "SPIGEN",
+                    subtitle: "Protection antichoc & verres 9H",
                     bgImage: assets.product_img2,
                     query: "Accessoires",
-                    thumbnails: [assets.product_img2, assets.product_img1, assets.product_img6]
+                    rating: "4.9",
+                    reviewsCount: "15,8 k",
+                    thumbnails: [assets.product_img2, assets.product_img8, assets.product_img1]
                 },
             ]
         },
         {
-            sectionTitle: "Audio, Casques & Écouteurs",
+            sectionTitle: "Audio & Écouteurs Pro",
             sectionSubtitle: "Immersion sonore haute fidélité & réduction de bruit",
             exploreQuery: "Casques",
             cards: [
                 {
-                    title: "Wireless Pro Audio",
-                    subtitle: "Casques ANC & isolation active",
+                    title: "SONY AUDIO",
+                    subtitle: "Casques ANC & 360 Reality Audio",
                     bgImage: assets.product_img3,
                     query: "Casques",
-                    badge: "Top Vente",
+                    rating: "4.9",
+                    reviewsCount: "62,1 k",
                     thumbnails: [assets.product_img3, assets.product_img5, assets.product_img4]
                 },
                 {
-                    title: "Enceintes Bluetooth",
-                    subtitle: "Son nomade & basses puissantes",
+                    title: "JBL SOUND",
+                    subtitle: "Enceintes Bluetooth & basses profondes",
                     bgImage: assets.product_img5,
                     query: "Enceintes",
+                    rating: "4.8",
+                    reviewsCount: "41,9 k",
                     thumbnails: [assets.product_img5, assets.product_img3, assets.product_img2]
                 },
                 {
-                    title: "Montres & Écouteurs Sport",
-                    subtitle: "Cardio, GPS & étanchéité IP68",
+                    title: "BOSE",
+                    subtitle: "Confort suprême & clarté vocale",
                     bgImage: assets.product_img4,
-                    query: "Montres",
+                    query: "Casques",
+                    rating: "4.9",
+                    reviewsCount: "29,4 k",
                     thumbnails: [assets.product_img4, assets.product_img3, assets.product_img8]
                 },
             ]
         },
         {
             sectionTitle: "Gaming & Setup Pro",
-            sectionSubtitle: "Périphériques haute précision & confort ultime",
+            sectionSubtitle: "Périphériques haute précision & confort esport",
             exploreQuery: "Gaming",
             cards: [
                 {
-                    title: "Souris & Claviers RGB",
-                    subtitle: "Capteurs optiques 16 000 DPI",
+                    title: "RAZER",
+                    subtitle: "Capteurs optiques Chroma RGB",
                     bgImage: assets.product_img1,
                     query: "Gaming",
-                    badge: "Esport",
+                    rating: "4.9",
+                    reviewsCount: "84,0 k",
                     thumbnails: [assets.product_img1, assets.product_img3, assets.product_img7]
                 },
                 {
-                    title: "Laptops & Performances",
-                    subtitle: "Processeurs ultra-rapides & bureautique",
+                    title: "LOGITECH G",
+                    subtitle: "Laptops & bureautique haute performance",
                     bgImage: assets.product_img7,
                     query: "Laptops",
+                    rating: "4.8",
+                    reviewsCount: "53,2 k",
                     thumbnails: [assets.product_img7, assets.product_img1, assets.product_img2]
                 },
                 {
-                    title: "Setup & Accessoires",
-                    subtitle: "Casques gamer & supports",
+                    title: "CORSAIR",
+                    subtitle: "Setup streaming & accessoires",
                     bgImage: assets.product_img3,
                     query: "Gaming",
-                    thumbnails: [assets.product_img3, assets.product_img1, assets.product_img4]
+                    rating: "4.8",
+                    reviewsCount: "21,7 k",
+                    thumbnails: [assets.product_img3, assets.product_img1, assets.product_img6]
                 },
             ]
         },
         {
             sectionTitle: "Maison Intelligente & Énergie",
-            sectionSubtitle: "Chargeurs GaN rapides, power banks & smart home",
+            sectionSubtitle: "Chargeurs GaN rapides, power banks & domotique",
             exploreQuery: "Maison",
             cards: [
                 {
-                    title: "Chargeurs Rapides GaN",
-                    subtitle: "65W à 140W multi-ports",
+                    title: "ANKER",
+                    subtitle: "Chargeurs GaN 65W-140W multi-ports",
                     bgImage: assets.product_img2,
                     query: "Chargeurs",
-                    badge: "Indispensable",
+                    rating: "4.9",
+                    reviewsCount: "95,4 k",
                     thumbnails: [assets.product_img2, assets.product_img8, assets.product_img7]
                 },
                 {
-                    title: "Smart Home & Éclairage",
-                    subtitle: "Lampes connectées & ambiance LED",
+                    title: "XIAOMI HOME",
+                    subtitle: "Lampes connectées & domotique",
                     bgImage: assets.product_img6,
                     query: "Maison",
+                    rating: "4.8",
+                    reviewsCount: "37,6 k",
                     thumbnails: [assets.product_img6, assets.product_img5, assets.product_img4]
                 },
                 {
-                    title: "Power Banks Haute Capacité",
-                    subtitle: "20 000mAh à 50 000mAh nomade",
+                    title: "BASEUS",
+                    subtitle: "Power Banks 30 000mAh & Hubs",
                     bgImage: assets.product_img2,
                     query: "Accessoires",
+                    rating: "4.8",
+                    reviewsCount: "19,8 k",
                     thumbnails: [assets.product_img2, assets.product_img8, assets.product_img1]
                 },
             ]
@@ -143,13 +163,13 @@ export default function ShopRails() {
     ];
 
     return (
-        <div className="space-y-12 sm:space-y-16 max-w-[1400px] mx-auto px-4 sm:px-6 my-8">
+        <div className="space-y-12 sm:space-y-16 max-w-[1400px] mx-auto px-4 sm:px-6 my-10">
             {railSections.map((section, sIdx) => {
                 const scrollContainerRef = useRef<HTMLDivElement>(null)
 
                 const handleScrollRight = () => {
                     if (scrollContainerRef.current) {
-                        scrollContainerRef.current.scrollBy({ left: 320, behavior: 'smooth' })
+                        scrollContainerRef.current.scrollBy({ left: 340, behavior: 'smooth' })
                     }
                 }
 
@@ -161,10 +181,10 @@ export default function ShopRails() {
                             <div>
                                 <Link 
                                     href={`/shop?search=${encodeURIComponent(section.exploreQuery)}`}
-                                    className="group inline-flex items-center gap-1.5 text-lg sm:text-2xl font-extrabold text-[#101828] hover:text-[#1769FF] transition-colors"
+                                    className="group inline-flex items-center gap-1.5 text-lg sm:text-2xl font-black text-[#101828] hover:text-[#1769FF] transition-colors tracking-tight"
                                 >
                                     <span>{section.sectionTitle}</span>
-                                    <ChevronRight size={20} className="text-[#667085] group-hover:text-[#1769FF] group-hover:translate-x-1 transition-transform" />
+                                    <ChevronRight size={22} className="text-[#667085] group-hover:text-[#1769FF] group-hover:translate-x-1 transition-transform" />
                                 </Link>
                                 <p className="text-xs text-[#667085] mt-0.5">
                                     {section.sectionSubtitle}
@@ -180,7 +200,7 @@ export default function ShopRails() {
                             </Link>
                         </div>
 
-                        {/* Rail Cards Container with Right Scroll Arrow (Exact Shop.app style) */}
+                        {/* Rail Cards Carousel (Exact Shop.app 3-in-1 layout) */}
                         <div className="relative group/rail">
                             <div 
                                 ref={scrollContainerRef}
@@ -192,27 +212,25 @@ export default function ShopRails() {
                                         href={`/shop?search=${encodeURIComponent(card.query)}`}
                                         className="relative flex-1 min-w-[280px] sm:min-w-[340px] max-w-[420px] rounded-3xl overflow-hidden bg-white border border-[#EBEBEB] shadow-sm hover:shadow-xl hover:border-[#1769FF]/40 transition-all duration-300 flex flex-col justify-between group/card hover:-translate-y-1"
                                     >
-                                        {/* Top Hero Banner of the Card */}
-                                        <div className="relative h-44 sm:h-52 w-full bg-[#F7F9FC] overflow-hidden flex items-center justify-center p-6">
-                                            {/* Background Image with Zoom */}
+                                        {/* Main Card Image with Rating and Big Centered Wordmark */}
+                                        <div className="relative h-48 sm:h-56 w-full bg-[#F7F9FC] overflow-hidden flex items-center justify-center p-6">
                                             <Image
                                                 src={card.bgImage}
                                                 alt={card.title}
                                                 fill
                                                 className="object-cover group-hover/card:scale-108 transition-transform duration-700 ease-out"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/20" />
 
-                                            {/* Badge Top Left */}
-                                            {card.badge && (
-                                                <span className="absolute top-3.5 left-3.5 bg-white/95 backdrop-blur-md text-[#101828] text-[10px] font-black uppercase px-2.5 py-1 rounded-full shadow-xs">
-                                                    {card.badge}
-                                                </span>
-                                            )}
+                                            {/* Rating Top Left */}
+                                            <div className="absolute top-3.5 left-3.5 flex items-center gap-1 text-white text-[11px] font-bold drop-shadow-md">
+                                                <Star size={12} fill="white" className="text-white" />
+                                                <span>{card.rating} ({card.reviewsCount})</span>
+                                            </div>
 
-                                            {/* Title Center Overlay */}
+                                            {/* Big Bold Brand Name Center */}
                                             <div className="relative z-10 text-center text-white space-y-1">
-                                                <h3 className="text-xl sm:text-2xl font-black tracking-tight drop-shadow-md">
+                                                <h3 className="text-2xl sm:text-3xl font-black tracking-widest uppercase drop-shadow-lg">
                                                     {card.title}
                                                 </h3>
                                                 <p className="text-xs text-slate-200 font-medium line-clamp-1 drop-shadow-sm">
@@ -221,8 +239,8 @@ export default function ShopRails() {
                                             </div>
                                         </div>
 
-                                        {/* Bottom Row of 3 Thumbnails (Exact Shop.app Signature Feature) */}
-                                        <div className="p-3 bg-white grid grid-cols-3 gap-2 border-t border-[#EBEBEB]">
+                                        {/* 3 Product Thumbnails (Exact Shop.app Feature) */}
+                                        <div className="p-3 bg-white grid grid-cols-3 gap-2.5 border-t border-[#EBEBEB]">
                                             {card.thumbnails.map((thumbSrc, tIdx) => (
                                                 <div
                                                     key={tIdx}
@@ -241,13 +259,13 @@ export default function ShopRails() {
                                 ))}
                             </div>
 
-                            {/* Floating Right Scroll Arrow Button (Shop.app style) */}
+                            {/* Floating Right Scroll Arrow Button */}
                             <button
                                 onClick={handleScrollRight}
                                 aria-label="Faire défiler vers la droite"
-                                className="hidden sm:flex absolute -right-3 top-1/2 -translate-y-1/2 size-10 rounded-full bg-white text-[#101828] shadow-xl border border-[#EBEBEB] items-center justify-center hover:bg-[#1769FF] hover:text-white transition-all duration-200 opacity-0 group-hover/rail:opacity-100 z-20 cursor-pointer"
+                                className="hidden sm:flex absolute -right-3 top-1/2 -translate-y-1/2 size-11 rounded-full bg-white text-[#101828] shadow-2xl border border-[#EBEBEB] items-center justify-center hover:bg-[#1769FF] hover:text-white transition-all duration-200 opacity-0 group-hover/rail:opacity-100 z-20 cursor-pointer"
                             >
-                                <ChevronRight size={20} />
+                                <ChevronRight size={22} />
                             </button>
                         </div>
 
