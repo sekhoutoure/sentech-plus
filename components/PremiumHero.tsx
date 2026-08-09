@@ -187,11 +187,11 @@ export default function PremiumHero() {
                 {/* ═══ CARTES SECONDAIRES (Masquées sur mobile: hidden lg:grid) ═══ */}
                 <div className="hidden lg:grid lg:col-span-4 grid-cols-1 gap-6">
                     {/* Carte 1: Audio */}
-                    <div className="relative bg-white rounded-3xl p-7 border border-[#EBEBEB] shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group overflow-hidden min-h-[200px]">
-                        <div className="absolute -right-6 -bottom-6 size-40 bg-[#EAF3FF] rounded-full pointer-events-none" />
+                    <div className="relative bg-white rounded-3xl p-7 border border-[#E5E9F0] shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group overflow-hidden min-h-[200px]">
+                        <div className="absolute -right-6 -bottom-6 size-40 bg-[#EAF5FF] rounded-full pointer-events-none" />
 
                         <div className="relative z-10 space-y-1">
-                            <div className="size-10 rounded-2xl bg-[#EAF3FF] text-[#1769FF] flex items-center justify-center">
+                            <div className="size-10 rounded-2xl bg-[#EAF5FF] text-[#007BFF] flex items-center justify-center">
                                 <Headphones size={20} />
                             </div>
                             <h3 className="text-xl font-black text-[#101828] leading-tight pt-0.5">
@@ -202,14 +202,14 @@ export default function PremiumHero() {
                         <div className="relative z-10 pt-4">
                             <Link
                                 href="/shop?search=Casques"
-                                className="inline-flex items-center gap-1 text-xs font-black text-[#1769FF]"
+                                className="inline-flex items-center gap-1 text-xs font-black text-[#007BFF]"
                             >
                                 <span>Explorer</span>
                                 <ArrowRight size={11} />
                             </Link>
                         </div>
 
-                        <div className="absolute right-3 bottom-3 size-28 rounded-2xl bg-[#F7F9FC] border border-[#EBEBEB] overflow-hidden flex items-center justify-center">
+                        <div className="absolute right-3 bottom-3 size-28 rounded-2xl bg-[#F6F8FB] border border-[#E5E9F0] overflow-hidden flex items-center justify-center">
                             <Image
                                 src={assets.product_img3}
                                 alt="Audio & Casques"
@@ -220,10 +220,10 @@ export default function PremiumHero() {
                     </div>
 
                     {/* Carte 2: Bon Plan */}
-                    <div className="relative bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 rounded-3xl p-7 text-white shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group overflow-hidden min-h-[200px]">
+                    <div className="relative bg-gradient-to-br from-[#007BFF] via-[#0088D8] to-[#0B2342] rounded-3xl p-7 text-white shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group overflow-hidden min-h-[200px]">
                         <div className="relative z-10 space-y-1">
-                            <span className="inline-flex items-center gap-1 bg-white text-amber-900 text-[10px] font-black uppercase px-3 py-0.5 rounded-full">
-                                <Flame size={9} className="text-orange-500" />
+                            <span className="inline-flex items-center gap-1 bg-white/20 backdrop-blur-md text-white text-[10px] font-black uppercase px-3 py-0.5 rounded-full border border-white/20">
+                                <Flame size={9} className="text-white" />
                                 BON PLAN
                             </span>
                             <h3 className="text-3xl font-black tracking-tight text-white leading-none pt-0.5">
@@ -234,14 +234,14 @@ export default function PremiumHero() {
                         <div className="relative z-10 pt-4">
                             <Link
                                 href="/shop?search=Promo"
-                                className="inline-flex items-center gap-1 bg-white text-amber-950 font-extrabold text-xs px-3 py-1.5 rounded-lg shadow-xs"
+                                className="inline-flex items-center gap-1 bg-white text-[#071426] hover:bg-[#EAF5FF] font-extrabold text-xs px-3 py-1.5 rounded-lg shadow-2xs transition-all"
                             >
                                 <span>Profiter</span>
                                 <ArrowRight size={10} />
                             </Link>
                         </div>
 
-                        <div className="absolute right-3 bottom-3 size-28 rounded-2xl bg-white/20 border border-white/30 backdrop-blur-md overflow-hidden flex items-center justify-center">
+                        <div className="absolute right-3 bottom-3 size-28 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md overflow-hidden flex items-center justify-center">
                             <Image
                                 src={assets.product_img4}
                                 alt="Bon Plan"
