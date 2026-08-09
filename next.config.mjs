@@ -37,6 +37,9 @@ const securityHeaders = [
 
 const nextConfig = {
     compress: true,
+    experimental: {
+        optimizePackageImports: ['lucide-react', 'react-hot-toast'],
+    },
     images: {
         formats: ['image/avif', 'image/webp'],
         imageSizes: [16, 32, 48, 64, 96, 128, 180, 240, 320, 384],
