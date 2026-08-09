@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
     }
 
     return (
-        <header className="sticky top-0 z-50 bg-white border-b border-[#E5E9F0] shadow-2xs">
+        <header className="sticky top-0 z-50 bg-white border-b border-[#E8EDF3] shadow-2xs">
             
             {/* Main Header Container */}
             <div className="max-w-[1400px] mx-auto px-3 sm:px-6 py-2.5 sm:py-4">
@@ -96,19 +96,19 @@ const Navbar: React.FC = () => {
 
                     {/* [BARRE DE RECHERCHE] Large Omnibox */}
                     <form onSubmit={handleSearch} className="flex-1 max-w-2xl relative">
-                        <div className="relative w-full flex items-center bg-[#F6F8FB] hover:bg-slate-100/80 focus-within:bg-white px-4 py-3 rounded-full border border-[#E5E9F0] focus-within:border-[#007BFF] focus-within:ring-2 focus-within:ring-[#007BFF]/15 transition-all duration-200">
+                        <div className="relative w-full flex items-center bg-[#F5F7FA] hover:bg-[#EEF1F5] focus-within:bg-white px-4 py-3 rounded-full border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all duration-200">
                             <Search size={18} className="text-[#667085] shrink-0 mr-3" />
                             <input
                                 type="text"
                                 placeholder="Rechercher un produit, une marque ou une catégorie..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#101828] placeholder:text-[#667085]"
+                                className="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#182230] placeholder:text-[#667085]"
                             />
                             <button
                                 type="submit"
                                 aria-label="Rechercher"
-                                className="bg-[#007BFF] hover:bg-[#0069D9] text-white text-xs font-extrabold px-5 py-2 rounded-full transition-all duration-200 shrink-0 shadow-2xs cursor-pointer active:scale-95 ml-2"
+                                className="bg-[#1677FF] hover:bg-[#0F67E5] text-white text-xs font-extrabold px-5 py-2 rounded-full transition-all duration-200 shrink-0 shadow-2xs cursor-pointer active:scale-95 ml-2"
                             >
                                 Rechercher
                             </button>
@@ -120,9 +120,9 @@ const Navbar: React.FC = () => {
                         {/* Account */}
                         <Link
                             href={isLoggedIn ? "/orders" : "/login"}
-                            className="flex items-center gap-2 text-xs font-extrabold text-[#101828] hover:text-[#007BFF] transition-colors group"
+                            className="flex items-center gap-2 text-xs font-extrabold text-[#182230] hover:text-[#1677FF] transition-colors group"
                         >
-                            <div className="size-9 rounded-full bg-[#F6F8FB] group-hover:bg-[#EAF5FF] border border-[#E5E9F0] flex items-center justify-center text-[#667085] group-hover:text-[#007BFF] transition-colors">
+                            <div className="size-9 rounded-full bg-[#F5F7FA] group-hover:bg-[#EAF3FF] border border-[#E8EDF3] flex items-center justify-center text-[#667085] group-hover:text-[#1677FF] transition-colors">
                                 <User size={18} />
                             </div>
                             <div className="flex flex-col text-left">
@@ -134,13 +134,13 @@ const Navbar: React.FC = () => {
                         {/* Favoris */}
                         <Link
                             href="/wishlist"
-                            className="relative flex items-center gap-2 text-xs font-extrabold text-[#101828] hover:text-[#007BFF] transition-colors group"
+                            className="relative flex items-center gap-2 text-xs font-extrabold text-[#182230] hover:text-[#1677FF] transition-colors group"
                             aria-label="Favoris"
                         >
-                            <div className="relative size-9 rounded-full bg-[#F6F8FB] group-hover:bg-[#EAF5FF] border border-[#E5E9F0] flex items-center justify-center text-[#667085] group-hover:text-[#FF3B30] transition-colors">
+                            <div className="relative size-9 rounded-full bg-[#F5F7FA] group-hover:bg-[#EAF3FF] border border-[#E8EDF3] flex items-center justify-center text-[#667085] group-hover:text-[#FF6B35] transition-colors">
                                 <Heart size={18} />
                                 {wishlistCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 size-4 bg-[#FF3B30] text-white text-[9px] font-black rounded-full flex items-center justify-center">
+                                    <span className="absolute -top-1 -right-1 size-4 bg-[#FF6B35] text-white text-[9px] font-black rounded-full flex items-center justify-center">
                                         {wishlistCount}
                                     </span>
                                 )}
@@ -151,13 +151,13 @@ const Navbar: React.FC = () => {
                         {/* Panier */}
                         <button
                             onClick={() => dispatch(openDrawer())}
-                            className="relative flex items-center gap-2.5 bg-[#071426] hover:bg-[#007BFF] text-white font-extrabold text-xs px-4 py-2.5 rounded-full transition-all duration-200 shadow-md cursor-pointer active:scale-95"
+                            className="relative flex items-center gap-2.5 bg-[#1677FF] hover:bg-[#0F67E5] text-white font-extrabold text-xs px-4 py-2.5 rounded-full transition-all duration-200 shadow-md cursor-pointer active:scale-95"
                             aria-label="Panier"
                         >
                             <div className="relative">
                                 <ShoppingCart size={17} />
                                 {cartCount > 0 && (
-                                    <span className="absolute -top-2 -right-2.5 size-4 bg-[#007BFF] border border-[#071426] text-white text-[9px] font-black rounded-full flex items-center justify-center">
+                                    <span className="absolute -top-2 -right-2.5 size-4 bg-white text-[#1677FF] text-[9px] font-black rounded-full flex items-center justify-center">
                                         {cartCount}
                                     </span>
                                 )}
@@ -168,12 +168,12 @@ const Navbar: React.FC = () => {
 
                 </div>
 
-                {/* Mobile Header Row (Épuré & Sans doublons d'icônes avec le Dock inférieur) */}
+                {/* Mobile Header Row */}
                 <div className="flex lg:hidden items-center justify-between gap-2 h-11">
                     <div className="flex items-center gap-1.5">
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="size-[42px] rounded-xl text-[#101828] hover:bg-[#F6F8FB] active:bg-[#EAF5FF] transition cursor-pointer flex items-center justify-center shrink-0 border border-transparent hover:border-[#E5E9F0]"
+                            className="size-[42px] rounded-xl text-[#182230] hover:bg-[#F5F7FA] active:bg-[#EAF3FF] transition cursor-pointer flex items-center justify-center shrink-0 border border-transparent hover:border-[#E8EDF3]"
                             aria-label="Menu de navigation"
                             aria-expanded={isMobileMenuOpen}
                             aria-controls="mobile-drawer-menu"
@@ -191,9 +191,9 @@ const Navbar: React.FC = () => {
                             href="https://wa.me/221770000000"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 bg-[#16B364]/10 hover:bg-[#16B364]/20 text-[#16B364] text-[11px] font-extrabold px-2.5 py-1.5 rounded-full transition-all border border-[#16B364]/20"
+                            className="inline-flex items-center gap-1 bg-[#16B979]/10 hover:bg-[#16B979]/20 text-[#16B979] text-[11px] font-extrabold px-2.5 py-1.5 rounded-full transition-all border border-[#16B979]/20"
                         >
-                            <span className="size-1.5 rounded-full bg-[#16B364] animate-pulse" />
+                            <span className="size-1.5 rounded-full bg-[#16B979] animate-pulse" />
                             <span>Aide 24/7</span>
                         </a>
                     </div>
@@ -202,14 +202,14 @@ const Navbar: React.FC = () => {
                 {/* Mobile Header Row 2 (Barre de Recherche Omnibox 44px) */}
                 <div className="lg:hidden mt-1.5">
                     <form onSubmit={handleSearch} className="relative w-full">
-                        <div className="relative h-[44px] flex items-center bg-[#F6F8FB] px-3.5 rounded-xl border border-[#E5E9F0] focus-within:border-[#007BFF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#007BFF]/15 transition-all">
+                        <div className="relative h-[44px] flex items-center bg-[#F5F7FA] px-3.5 rounded-xl border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all">
                             <Search size={16} className="text-[#667085] mr-2 shrink-0" />
                             <input
                                 type="text"
                                 placeholder="Rechercher un produit, une marque..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="w-full bg-transparent outline-none text-xs font-semibold text-[#101828] placeholder:text-[#667085]"
+                                className="w-full bg-transparent outline-none text-xs font-semibold text-[#182230] placeholder:text-[#667085]"
                             />
                         </div>
                     </form>
@@ -217,8 +217,8 @@ const Navbar: React.FC = () => {
 
             </div>
 
-            {/* Sub-Header Categories Navigation Bar (Barre horizontale compacte) */}
-            <div className="w-full bg-[#F6F8FB] border-t border-[#E5E9F0]">
+            {/* Sub-Header Categories Navigation Bar */}
+            <div className="w-full bg-[#F3F7FC] border-t border-[#E8EDF3]">
                 <div className="max-w-[1400px] mx-auto px-3 sm:px-6">
                     <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto py-1.5 sm:py-2.5 no-scrollbar scroll-smooth">
                         {categories.map((cat, idx) => {
@@ -227,7 +227,7 @@ const Navbar: React.FC = () => {
                                 <Link
                                     key={idx}
                                     href={`/shop?search=${encodeURIComponent(cat.query)}`}
-                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold text-[#101828] hover:text-[#007BFF] hover:bg-white transition-all duration-200 shrink-0 border border-transparent hover:border-[#E5E9F0]"
+                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold text-[#182230] hover:text-[#1677FF] hover:bg-white transition-all duration-200 shrink-0 border border-transparent hover:border-[#E8EDF3]"
                                 >
                                     <Icon size={13} className="text-[#667085] shrink-0" />
                                     <span className="whitespace-nowrap">{cat.label}</span>

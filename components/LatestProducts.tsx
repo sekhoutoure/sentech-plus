@@ -21,20 +21,20 @@ const LatestProducts: React.FC = () => {
         <section className="px-3 sm:px-6 my-4 sm:my-8 lg:my-12 max-w-[1400px] mx-auto @container">
 
             {/* Section Header */}
-            <div className="flex items-end justify-between gap-3 mb-4 sm:mb-8 pb-3 border-b border-[#E5E9F0]">
+            <div className="flex items-end justify-between gap-3 mb-4 sm:mb-8 pb-3 border-b border-[#E8EDF3]">
                 <div className="space-y-1">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 sm:py-1 rounded-full bg-[#EAF5FF] text-[#007BFF] text-[10px] sm:text-xs font-extrabold uppercase tracking-wider">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 sm:py-1 rounded-full bg-[#EAF3FF] text-[#1677FF] text-[10px] sm:text-xs font-extrabold uppercase tracking-wider border border-[#1677FF]/20">
                         <Sparkles size={12} />
                         NOUVEAUTÉS HIGH-TECH 2026
                     </div>
-                    <h2 className="text-lg sm:text-2xl lg:text-3xl font-black text-[#101828] tracking-tight">
+                    <h2 className="text-lg sm:text-2xl lg:text-3xl font-black text-[#182230] tracking-tight">
                         Dernières arrivées
                     </h2>
                 </div>
 
                 <Link
                     href="/shop"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#007BFF] hover:underline shrink-0"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#1677FF] hover:underline shrink-0"
                 >
                     <span>Voir tout</span>
                     <ArrowRight size={13} />

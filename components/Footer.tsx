@@ -60,33 +60,33 @@ const Footer: React.FC = () => {
     ]
 
     return (
-        <footer className="bg-[#071426] text-white border-t border-[#0B2342]">
+        <footer className="bg-[#F3F6FA] text-[#182230] border-t border-[#E8EDF3]">
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
 
                 {/* Main Footer Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-10 lg:gap-12 py-6 sm:py-12 lg:py-16 border-b border-[#0B2342]">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-10 lg:gap-12 py-6 sm:py-12 lg:py-16 border-b border-[#E8EDF3]">
 
                     {/* Brand Column */}
                     <div className="lg:col-span-2 space-y-3 sm:space-y-5">
                         <Link href="/" className="inline-block">
-                            <Logo isDark={true} />
+                            <Logo isDark={false} />
                         </Link>
 
-                        <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-xs font-normal">
+                        <p className="text-[#667085] text-xs sm:text-sm leading-relaxed max-w-xs font-normal">
                             La technologie qui simplifie votre quotidien. La boutique high-tech de référence au Sénégal.
                         </p>
 
-                        <div className="space-y-2 text-xs sm:text-sm text-slate-400">
-                            <a href="tel:+221770000000" className="flex items-center gap-2 hover:text-white transition-colors">
-                                <Phone size={14} className="text-[#007BFF] shrink-0" />
+                        <div className="space-y-2 text-xs sm:text-sm text-[#475467]">
+                            <a href="tel:+221770000000" className="flex items-center gap-2 hover:text-[#1677FF] transition-colors">
+                                <Phone size={14} className="text-[#1677FF] shrink-0" />
                                 <span>{siteSettings?.phone && !siteSettings.phone.includes('+1-212') ? siteSettings.phone : "+221 77 000 00 00"}</span>
                             </a>
-                            <a href="mailto:contact@sentechplus.sn" className="flex items-center gap-2 hover:text-white transition-colors">
-                                <Mail size={14} className="text-[#007BFF] shrink-0" />
+                            <a href="mailto:contact@sentechplus.sn" className="flex items-center gap-2 hover:text-[#1677FF] transition-colors">
+                                <Mail size={14} className="text-[#1677FF] shrink-0" />
                                 <span>{siteSettings?.email && !siteSettings.email.includes('sentechplus.com') ? siteSettings.email : "contact@sentechplus.sn"}</span>
                             </a>
                             <p className="flex items-start gap-2">
-                                <MapPin size={14} className="text-[#007BFF] mt-0.5 shrink-0" />
+                                <MapPin size={14} className="text-[#1677FF] mt-0.5 shrink-0" />
                                 <span>{siteSettings?.address && !siteSettings.address.includes('Francisco') ? siteSettings.address : "Avenue Cheikh Anta Diop, Dakar, Sénégal"}</span>
                             </p>
                         </div>
@@ -102,7 +102,7 @@ const Footer: React.FC = () => {
                                         target={social.external ? "_blank" : undefined}
                                         rel={social.external ? "noopener noreferrer" : undefined}
                                         aria-label={social.label}
-                                        className="size-8 rounded-lg bg-[#0B2342] hover:bg-[#007BFF] border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-white transition-all"
+                                        className="size-8 rounded-lg bg-white hover:bg-[#1677FF] border border-[#E8EDF3] flex items-center justify-center text-[#475467] hover:text-white transition-all shadow-2xs"
                                     >
                                         <Icon size={14} />
                                     </a>
@@ -111,19 +111,19 @@ const Footer: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Catalogue (Accordéon Mobile / Toujours ouvert Desktop) */}
-                    <div className="border-b border-slate-800/80 lg:border-none pb-3 lg:pb-0">
+                    {/* Catalogue */}
+                    <div className="border-b border-[#E8EDF3] lg:border-none pb-3 lg:pb-0">
                         <button
                             onClick={() => toggleSection('catalogue')}
                             className="w-full flex items-center justify-between text-left lg:pointer-events-none"
                         >
-                            <h3 className="text-xs font-black tracking-widest text-white uppercase">CATALOGUE</h3>
-                            <ChevronDown size={16} className={`text-slate-400 lg:hidden transition-transform duration-200 ${openSections.catalogue ? 'rotate-180' : ''}`} />
+                            <h3 className="text-xs font-black tracking-widest text-[#182230] uppercase">CATALOGUE</h3>
+                            <ChevronDown size={16} className={`text-[#667085] lg:hidden transition-transform duration-200 ${openSections.catalogue ? 'rotate-180' : ''}`} />
                         </button>
                         <ul className={`mt-2.5 lg:mt-3 space-y-2 text-xs sm:text-sm lg:block ${openSections.catalogue ? 'block' : 'hidden'}`}>
                             {catalogLinks.map((link, i) => (
                                 <li key={i}>
-                                    <Link href={link.path} className="text-slate-400 hover:text-white transition-colors block py-0.5">
+                                    <Link href={link.path} className="text-[#475467] hover:text-[#1677FF] transition-colors block py-0.5 font-medium">
                                         {link.text}
                                     </Link>
                                 </li>
@@ -131,19 +131,19 @@ const Footer: React.FC = () => {
                         </ul>
                     </div>
 
-                    {/* Informations (Accordéon Mobile / Toujours ouvert Desktop) */}
-                    <div className="border-b border-slate-800/80 lg:border-none pb-3 lg:pb-0">
+                    {/* Informations */}
+                    <div className="border-b border-[#E8EDF3] lg:border-none pb-3 lg:pb-0">
                         <button
                             onClick={() => toggleSection('informations')}
                             className="w-full flex items-center justify-between text-left lg:pointer-events-none"
                         >
-                            <h3 className="text-xs font-black tracking-widest text-white uppercase">INFORMATIONS</h3>
-                            <ChevronDown size={16} className={`text-slate-400 lg:hidden transition-transform duration-200 ${openSections.informations ? 'rotate-180' : ''}`} />
+                            <h3 className="text-xs font-black tracking-widest text-[#182230] uppercase">INFORMATIONS</h3>
+                            <ChevronDown size={16} className={`text-[#667085] lg:hidden transition-transform duration-200 ${openSections.informations ? 'rotate-180' : ''}`} />
                         </button>
                         <ul className={`mt-2.5 lg:mt-3 space-y-2 text-xs sm:text-sm lg:block ${openSections.informations ? 'block' : 'hidden'}`}>
                             {infoLinks.map((link, i) => (
                                 <li key={i}>
-                                    <Link href={link.path} className="text-slate-400 hover:text-white transition-colors block py-0.5">
+                                    <Link href={link.path} className="text-[#475467] hover:text-[#1677FF] transition-colors block py-0.5 font-medium">
                                         {link.text}
                                     </Link>
                                 </li>
@@ -151,14 +151,14 @@ const Footer: React.FC = () => {
                         </ul>
                     </div>
 
-                    {/* Support (Accordéon Mobile / Toujours ouvert Desktop) */}
-                    <div className="border-b border-slate-800/80 lg:border-none pb-3 lg:pb-0">
+                    {/* Support */}
+                    <div className="border-b border-[#E8EDF3] lg:border-none pb-3 lg:pb-0">
                         <button
                             onClick={() => toggleSection('support')}
                             className="w-full flex items-center justify-between text-left lg:pointer-events-none"
                         >
-                            <h3 className="text-xs font-black tracking-widest text-white uppercase">SUPPORT</h3>
-                            <ChevronDown size={16} className={`text-slate-400 lg:hidden transition-transform duration-200 ${openSections.support ? 'rotate-180' : ''}`} />
+                            <h3 className="text-xs font-black tracking-widest text-[#182230] uppercase">SUPPORT</h3>
+                            <ChevronDown size={16} className={`text-[#667085] lg:hidden transition-transform duration-200 ${openSections.support ? 'rotate-180' : ''}`} />
                         </button>
                         <ul className={`mt-2.5 lg:mt-3 space-y-2 text-xs sm:text-sm lg:block ${openSections.support ? 'block' : 'hidden'}`}>
                             {supportLinks.map((link, i) => (
@@ -167,7 +167,7 @@ const Footer: React.FC = () => {
                                         href={link.path}
                                         target={link.external ? "_blank" : undefined}
                                         rel={link.external ? "noopener noreferrer" : undefined}
-                                        className="text-slate-400 hover:text-white transition-colors block py-0.5"
+                                        className="text-[#475467] hover:text-[#1677FF] transition-colors block py-0.5 font-medium"
                                     >
                                         {link.text}
                                     </Link>
@@ -179,12 +179,12 @@ const Footer: React.FC = () => {
                             href="https://wa.me/221770000000"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-3 flex items-center gap-2 bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/30 text-[#25D366] rounded-xl px-3 py-2 transition-all group"
+                            className="mt-3 flex items-center gap-2 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/25 text-[#16B979] rounded-xl px-3 py-2 transition-all group"
                         >
                             <MessageCircle size={15} />
                             <div>
                                 <div className="text-[10px] font-black">Réponse en &lt;5 min</div>
-                                <div className="text-[9px] text-[#25D366]/70 font-medium">7j/7 sur WhatsApp</div>
+                                <div className="text-[9px] text-[#16B979]/80 font-medium">7j/7 sur WhatsApp</div>
                             </div>
                         </a>
                     </div>
@@ -192,11 +192,11 @@ const Footer: React.FC = () => {
 
                 {/* Bottom Bar */}
                 <div className="py-4 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-                    <p className="text-[11px] sm:text-xs text-slate-500">
-                        © 2026 <span className="text-slate-300 font-bold">SenTech Plus</span>. Tous droits réservés.
+                    <p className="text-[11px] sm:text-xs text-[#667085]">
+                        © 2026 <span className="text-[#182230] font-bold">SenTechPLUS</span>. Tous droits réservés.
                     </p>
 
-                    <p className="text-[11px] sm:text-xs text-slate-500 font-medium">
+                    <p className="text-[11px] sm:text-xs text-[#667085] font-medium">
                         Made with ❤️ in Sénégal 🇸🇳
                     </p>
 
@@ -204,7 +204,7 @@ const Footer: React.FC = () => {
                         {paymentBadges.map((badge, i) => (
                             <span
                                 key={i}
-                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-[9px] sm:text-[10px] font-bold text-slate-300"
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white border border-[#E8EDF3] text-[9px] sm:text-[10px] font-bold text-[#182230] shadow-2xs"
                             >
                                 <span>{badge.icon}</span>
                                 <span>{badge.label}</span>

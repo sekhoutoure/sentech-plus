@@ -10,34 +10,33 @@
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
     --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     
-    /* Official SenTech Plus Color System */
-    --brand-navy: #071426;
-    --brand-deep-blue: #0B2342;
-    --brand-electric: #007BFF;
-    --brand-logo-blue: #0088D8;
-    --brand-ice: #EAF5FF;
-    --brand-silver: #C8CDD3;
-    --brand-metal: #8D98A5;
-    --brand-bg: #F6F8FB;
-    --brand-text: #101828;
+    /* Official SenTechPLUS Light Theme System */
+    --brand-blue: #1677FF;
+    --brand-blue-hover: #0F67E5;
+    --brand-ice: #EAF3FF;
+    --brand-fog: #F3F7FC;
+    --brand-white: #FFFFFF;
+    --brand-silver: #D9DEE7;
+    --brand-border: #E8EDF3;
+    --brand-border-hover: #D9DEE7;
+    --brand-bg: #F3F7FC;
+    --brand-text: #182230;
     --brand-text-muted: #667085;
-    --brand-border: #E5E9F0;
-    --brand-border-hover: #C8CDD3;
-    --brand-success: #16B364;
-    --brand-promo: #FF3B30;
+    --brand-success: #16B979;
+    --brand-promo: #FF6B35;
     
     /* Shadows */
-    --shadow-card: 0 2px 8px rgba(7, 20, 38, 0.04), 0 1px 3px rgba(7, 20, 38, 0.03);
-    --shadow-card-hover: 0 16px 36px rgba(7, 20, 38, 0.08), 0 4px 12px rgba(7, 20, 38, 0.04);
-    --shadow-blue: 0 8px 24px rgba(0, 123, 255, 0.25);
-    --shadow-blue-lg: 0 12px 32px rgba(0, 123, 255, 0.35);
+    --shadow-card: 0 4px 15px rgba(20, 40, 70, 0.05);
+    --shadow-card-hover: 0 12px 28px rgba(20, 40, 70, 0.09);
+    --shadow-blue: 0 8px 24px rgba(22, 119, 255, 0.25);
+    --shadow-blue-lg: 0 12px 32px rgba(22, 119, 255, 0.35);
 }
 
 @layer base {
     html {
         scroll-behavior: smooth;
         -webkit-tap-highlight-color: transparent;
-        accent-color: #007BFF;
+        accent-color: #1677FF;
         overscroll-behavior-y: contain;
         interpolate-size: allow-keywords;
     }

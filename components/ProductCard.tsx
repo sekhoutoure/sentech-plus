@@ -80,10 +80,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
     }
 
     return (
-        <div className="group relative w-full bg-white rounded-2xl overflow-hidden border border-[#EBEBEB] shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] hover:border-[#1769FF]/25 transition-all duration-300 ease-out flex flex-col justify-between">
+        <div className="group relative w-full bg-white rounded-2xl overflow-hidden border border-[#E8EDF3] shadow-[0_4px_15px_rgba(20,40,70,0.05)] hover:shadow-[0_12px_28px_rgba(20,40,70,0.09)] hover:border-[#1677FF]/35 transition-all duration-300 ease-out flex flex-col justify-between">
 
             {/* Image Container — aspect-square 1:1, object-contain */}
-            <div className="relative w-full aspect-square bg-[#F7F9FC] flex items-center justify-center border-b border-[#EBEBEB]/60 overflow-hidden">
+            <div className="relative w-full aspect-square bg-[#F5F7FA] flex items-center justify-center border-b border-[#E8EDF3] overflow-hidden">
 
                 {/* Rank Badge */}
                 {rank && rank <= 3 && (
@@ -98,19 +98,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
 
                 {/* Discount Badge */}
                 {discount > 0 && (
-                    <span className="absolute top-2 left-2 z-20 bg-[#FF3B30] text-white text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full shadow-2xs">
+                    <span className="absolute top-2 left-2 z-20 bg-[#FF6B35] text-white text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full shadow-2xs">
                         -{discount}%
                     </span>
                 )}
 
-                {/* Wishlist Button (Min 40x40px touch zone) */}
+                {/* Wishlist Button */}
                 <button
                     onClick={handleWishlistToggle}
                     aria-label={isWishlisted ? "Retirer des favoris" : "Ajouter aux favoris"}
                     className={`absolute top-1.5 right-1.5 z-20 size-8 sm:size-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs ${
                         isWishlisted
-                            ? 'bg-[#FF3B30] text-white scale-105'
-                            : 'bg-white/95 backdrop-blur-md text-[#667085] hover:text-[#FF3B30] border border-[#E5E9F0]'
+                            ? 'bg-[#FF6B35] text-white scale-105'
+                            : 'bg-white/95 backdrop-blur-md text-[#667085] hover:text-[#FF6B35] border border-[#E8EDF3]'
                     }`}
                 >
                     <Heart size={14} fill={isWishlisted ? "currentColor" : "none"} className="sm:hidden" />
@@ -120,9 +120,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                 {/* Product Image */}
                 <Link href={`/product/${productId}`} className="relative w-full h-full block p-2">
                     {imgError ? (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-[#F6F8FB]">
-                            <ImageOff size={22} className="text-[#007BFF]/40" />
-                            <span className="text-[9px] font-extrabold text-[#667085] uppercase tracking-wider">SenTech Plus</span>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-[#F5F7FA]">
+                            <ImageOff size={22} className="text-[#1677FF]/40" />
+                            <span className="text-[9px] font-extrabold text-[#667085] uppercase tracking-wider">SenTechPLUS</span>
                         </div>
                     ) : (
                         <Image
@@ -136,64 +136,64 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                                     setImgError(true)
                                 }
                             }}
-                            alt={product?.name || "Produit SenTech Plus"}
+                            alt={product?.name || "Produit SenTechPLUS"}
                             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         />
                     )}
                 </Link>
             </div>
 
-            {/* Content Area — Padding ~10px sur mobile */}
+            {/* Content Area */}
             <div className="p-2.5 sm:p-4 flex flex-col flex-1 justify-between gap-1.5 bg-white">
 
                 <div className="space-y-1">
                     {/* Category & Rating */}
                     <div className="flex items-center justify-between gap-1">
-                        <span className="text-[10px] sm:text-[11px] font-extrabold text-[#007BFF] uppercase tracking-wider truncate">
+                        <span className="text-[10px] sm:text-[11px] font-extrabold text-[#1677FF] uppercase tracking-wider truncate">
                             {product?.category || 'High-Tech'}
                         </span>
                         <div className="flex items-center gap-0.5 shrink-0">
                             <Star size={11} fill="#F59E0B" className="text-amber-400" />
-                            <span className="text-[11px] font-extrabold text-[#101828]">{avgRating}</span>
+                            <span className="text-[11px] font-extrabold text-[#182230]">{avgRating}</span>
                         </div>
                     </div>
 
-                    {/* Product Name (Max 2 lignes, 12-14px) */}
+                    {/* Product Name */}
                     <Link href={`/product/${productId}`} className="block">
-                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#101828] line-clamp-2 leading-snug group-hover:text-[#007BFF] transition-colors">
-                            {product?.name || 'Équipement SenTech Plus'}
+                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#182230] line-clamp-2 leading-snug group-hover:text-[#1677FF] transition-colors">
+                            {product?.name || 'Équipement SenTechPLUS'}
                         </h3>
                     </Link>
                 </div>
 
                 <div className="space-y-2 pt-1">
-                    {/* Pricing & Stock (Prix 14-16px, très lisible) */}
+                    {/* Pricing & Stock */}
                     <div className="flex items-baseline justify-between gap-1">
-                        <span className="text-[14px] sm:text-[17px] font-black text-[#101828] leading-none">
+                        <span className="text-[14px] sm:text-[17px] font-black text-[#182230] leading-none">
                             {formatPrice(price)}
                         </span>
                         {isOutOfStock ? (
-                            <span className="text-[8px] sm:text-[10px] font-bold text-[#FF3B30] bg-[#FF3B30]/10 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] sm:text-[10px] font-bold text-[#FF6B35] bg-[#FF6B35]/10 px-1.5 py-0.5 rounded shrink-0">
                                 Rupture
                             </span>
                         ) : (
-                            <span className="text-[8px] sm:text-[10px] font-bold text-[#16B364] bg-[#16B364]/10 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] sm:text-[10px] font-bold text-[#16B979] bg-[#16B979]/10 px-1.5 py-0.5 rounded shrink-0">
                                 En stock
                             </span>
                         )}
                     </div>
 
-                    {/* Add to Cart Button (Min 40px height, rounded-xl) */}
+                    {/* Add to Cart Button */}
                     <button
                         onClick={handleQuickAdd}
                         disabled={isOutOfStock}
                         aria-label="Ajouter au panier"
                         className={`w-full font-extrabold text-[11px] sm:text-xs h-[40px] py-2 px-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer ${
                             isOutOfStock
-                                ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
+                                ? 'bg-[#EEF1F5] text-slate-400 cursor-not-allowed border border-[#E8EDF3]'
                                 : isAdded
-                                ? 'bg-[#16B364] text-white shadow-2xs'
-                                : 'bg-[#071426] hover:bg-[#007BFF] text-white shadow-2xs'
+                                ? 'bg-[#16B979] text-white shadow-2xs'
+                                : 'bg-[#1677FF] hover:bg-[#0F67E5] text-white shadow-2xs'
                         }`}
                     >
                         {isOutOfStock ? (

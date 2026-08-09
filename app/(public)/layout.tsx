@@ -6,7 +6,7 @@ import SidebarDock from "@/components/SidebarDock";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="min-h-screen flex flex-col justify-between bg-[#FCFCFC] text-[#101828]">
+        <div className="min-h-screen flex flex-col justify-between bg-[#F3F7FC] text-[#182230]">
             <div className="w-full">
                 <Banner />
                 <Navbar />

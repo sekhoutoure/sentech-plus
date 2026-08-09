@@ -9,7 +9,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function Home() {
     return (
-        <div className="bg-[#F6F8FB] min-h-screen space-y-4 sm:space-y-8 lg:space-y-10">
+        <div className="bg-[#F3F7FC] min-h-screen space-y-4 sm:space-y-8 lg:space-y-10">
             {/* 1. HERO (Compact sur mobile 200-250px, sans cartes secondaires) */}
             <PremiumHero />
 
