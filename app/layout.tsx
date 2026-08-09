@@ -32,14 +32,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 {/* 🏷️ Global Schema.org Structured Data */}
                 <JsonLd data={[getOrganizationSchema(), getWebSiteSchema()]} />
 
-                {/* 📊 Google Analytics GA4 Script */}
+                {/* 📊 Google Analytics GA4 Script (Lazy Load for Maximum LCP/FCP) */}
                 <Script
-                    strategy="afterInteractive"
+                    strategy="lazyOnload"
                     src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
                 />
                 <Script
                     id="gtag-init"
-                    strategy="afterInteractive"
+                    strategy="lazyOnload"
                     dangerouslySetInnerHTML={{
                         __html: `
                             window.dataLayer = window.dataLayer || [];
