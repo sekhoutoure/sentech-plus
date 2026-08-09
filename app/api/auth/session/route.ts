@@ -5,21 +5,24 @@ export async function GET() {
   try {
     const session = await auth();
     if (!session?.user) {
-      return NextResponse.json(
-        { success: false, message: 'Aucune session active found.' },
-        { status: 401 }
-      );
+      return NextResponse.json({
+        success: true,
+        authenticated: false,
+        user: null,
+      }, { status: 200 });
     }
 
     return NextResponse.json({
       success: true,
-      message: 'Session récupérée avec succès.',
+      authenticated: true,
       data: session.user,
-    });
+      user: session.user,
+    }, { status: 200 });
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, message: 'Erreur lors de la récupération de la session.' },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      success: false,
+      authenticated: false,
+      user: null,
+    }, { status: 200 });
   }
 }
