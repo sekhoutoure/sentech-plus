@@ -84,7 +84,7 @@ export default function PremiumHero() {
                                                 alt="Produit High-Tech SenTechPLUS"
                                                 fill
                                                 className="object-contain drop-shadow-[0_10px_20px_rgba(20,40,70,0.12)]"
-                                                priority={index === 0}
+                                                loading={index === 0 ? "eager" : "lazy"}
                                             />
                                         </div>
                                     </div>
