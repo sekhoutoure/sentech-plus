@@ -73,6 +73,8 @@ const Newsletter: React.FC = () => {
                                 <div className="flex items-center gap-2 flex-1 pl-2.5">
                                     <Mail size={16} className="text-[#667085] shrink-0" />
                                     <input
+                                        id="newsletter-email-input"
+                                        name="email"
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}

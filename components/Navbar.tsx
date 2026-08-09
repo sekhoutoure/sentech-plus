@@ -99,10 +99,13 @@ const Navbar: React.FC = () => {
                         <div className="relative w-full flex items-center bg-[#F5F7FA] hover:bg-[#EEF1F5] focus-within:bg-white px-4 py-3 rounded-full border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all duration-200">
                             <Search size={18} className="text-[#667085] shrink-0 mr-3" />
                             <input
+                                id="desktop-search-input"
+                                name="search"
                                 type="text"
                                 placeholder="Rechercher un produit, une marque ou une catégorie..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
+                                aria-label="Rechercher un produit, une marque ou une catégorie"
                                 className="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#182230] placeholder:text-[#667085]"
                             />
                             <button
@@ -205,10 +208,13 @@ const Navbar: React.FC = () => {
                         <div className="relative h-[44px] flex items-center bg-[#F5F7FA] px-3.5 rounded-xl border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all">
                             <Search size={16} className="text-[#667085] mr-2 shrink-0" />
                             <input
+                                id="mobile-search-input"
+                                name="mobile_search"
                                 type="text"
                                 placeholder="Rechercher un produit, une marque..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
+                                aria-label="Rechercher un produit ou une marque"
                                 className="w-full bg-transparent outline-none text-xs font-semibold text-[#182230] placeholder:text-[#667085]"
                             />
                         </div>
