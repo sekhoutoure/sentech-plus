@@ -1,42 +1,38 @@
 'use client'
-import ShopHeroCollage from "@/components/ShopHeroCollage";
-import ShopQuadrantGrid from "@/components/ShopQuadrantGrid";
-import ShopRails from "@/components/ShopRails";
+import PremiumHero from "@/components/PremiumHero";
+import PremiumCollections from "@/components/PremiumCollections";
 import LatestProducts from "@/components/LatestProducts";
-import PromoBanner from "@/components/PromoBanner";
 import BestSelling from "@/components/BestSelling";
+import PromoBanner from "@/components/PromoBanner";
 import OurSpecs from "@/components/OurSpec";
 import Newsletter from "@/components/Newsletter";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function Home() {
     return (
-        <div className="bg-[#FCFCFC] min-h-screen">
-            {/* 1. Hero with Centered Logo, Floating Gadgets with Ratings & Omnibox */}
-            <ShopHeroCollage />
+        <div className="bg-[#FCFCFC] min-h-screen space-y-4 sm:space-y-6">
+            {/* 1. HERO (70% main card, 30% secondary cards) */}
+            <PremiumHero />
 
-            {/* 2. Shop.app Signature 4-Quadrant Category Tiles (2x2) */}
-            <ShopQuadrantGrid />
+            {/* 2. CATÉGORIES / COLLECTIONS (Clean 6 cards with 1 strong main image each) */}
+            <PremiumCollections />
 
-            {/* 3. Shop.app Signature 3-in-1 Brand & Collection Rails */}
-            <ShopRails />
-
-            {/* 4. Real Product Catalogue (Dernières arrivées en FCFA) */}
+            {/* 3. NOUVEAUTÉS (Max 4 cards per row, spacious grid) */}
             <LatestProducts />
 
-            {/* 5. Night Blue Promo Banner */}
-            <PromoBanner />
-
-            {/* 6. Best Sellers Grid */}
+            {/* 4. MEILLEURES VENTES */}
             <BestSelling />
 
-            {/* 7. Why SenTech Plus (Dakar Delivery, Guarantees) */}
+            {/* 5. PROMOTION (Impactful banner with 3 floating products) */}
+            <PromoBanner />
+
+            {/* 6. AVANTAGES (Pourquoi SenTech Plus) */}
             <OurSpecs />
 
-            {/* 8. VIP Newsletter */}
+            {/* 7. NEWSLETTER (Single large composition) */}
             <Newsletter />
 
-            {/* 9. Floating WhatsApp Assistance */}
+            {/* 8. WHATSAPP BUTTON */}
             <WhatsAppButton />
         </div>
     );
