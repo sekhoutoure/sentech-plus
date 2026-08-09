@@ -67,7 +67,7 @@ const Navbar: React.FC = () => {
         <header className="sticky top-0 z-50 bg-white border-b border-[#EBEBEB] shadow-xs">
             
             {/* Main Header Container */}
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-4 sm:py-4">
+            <div className="max-w-[1400px] mx-auto px-3 sm:px-6 py-2.5 sm:py-4">
                 
                 {/* Desktop Header Row */}
                 <div className="hidden lg:flex items-center justify-between gap-8">
@@ -151,11 +151,11 @@ const Navbar: React.FC = () => {
 
                 </div>
 
-                {/* Mobile Header Row (Ligne 1: Menu - Logo - Panier) */}
-                <div className="flex lg:hidden items-center justify-between gap-3">
+                {/* Mobile Header Row (Hauteur ~55-60px avec zones tactiles 44x44px) */}
+                <div className="flex lg:hidden items-center justify-between gap-2 h-12">
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="p-2 rounded-xl text-[#101828] hover:bg-slate-100 transition cursor-pointer"
+                        className="min-w-[44px] min-h-[44px] rounded-xl text-[#101828] hover:bg-slate-100 transition cursor-pointer flex items-center justify-center"
                         aria-label="Menu"
                     >
                         {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -165,24 +165,39 @@ const Navbar: React.FC = () => {
                         <Logo className="h-8 w-auto" />
                     </Link>
 
-                    <button
-                        onClick={() => dispatch(openDrawer())}
-                        className="relative p-2 rounded-xl text-[#101828] hover:text-[#1769FF] transition cursor-pointer"
-                        aria-label="Panier"
-                    >
-                        <ShoppingCart size={22} />
-                        {cartCount > 0 && (
-                            <span className="absolute top-1 right-1 size-4 bg-[#1769FF] text-white text-[9px] font-black rounded-full flex items-center justify-center">
-                                {cartCount}
-                            </span>
-                        )}
-                    </button>
+                    <div className="flex items-center gap-1">
+                        <Link
+                            href="/wishlist"
+                            className="relative min-w-[44px] min-h-[44px] rounded-xl text-[#101828] hover:text-[#F04438] transition flex items-center justify-center"
+                            aria-label="Favoris"
+                        >
+                            <Heart size={20} />
+                            {wishlistCount > 0 && (
+                                <span className="absolute top-1.5 right-1.5 size-4 bg-[#F04438] text-white text-[9px] font-black rounded-full flex items-center justify-center">
+                                    {wishlistCount}
+                                </span>
+                            )}
+                        </Link>
+
+                        <button
+                            onClick={() => dispatch(openDrawer())}
+                            className="relative min-w-[44px] min-h-[44px] rounded-xl text-[#101828] hover:text-[#1769FF] transition flex items-center justify-center cursor-pointer"
+                            aria-label="Panier"
+                        >
+                            <ShoppingCart size={20} />
+                            {cartCount > 0 && (
+                                <span className="absolute top-1.5 right-1.5 size-4 bg-[#1769FF] text-white text-[9px] font-black rounded-full flex items-center justify-center">
+                                    {cartCount}
+                                </span>
+                            )}
+                        </button>
+                    </div>
                 </div>
 
-                {/* Mobile Header Row 2 (Barre de Recherche) */}
-                <div className="lg:hidden mt-2.5">
+                {/* Mobile Header Row 2 (Barre de Recherche Omnibox) */}
+                <div className="lg:hidden mt-2">
                     <form onSubmit={handleSearch} className="relative w-full">
-                        <div className="relative flex items-center bg-[#F7F9FC] px-3.5 py-2 rounded-full border border-[#EBEBEB] focus-within:border-[#1769FF]">
+                        <div className="relative flex items-center bg-[#F7F9FC] px-3.5 py-2 rounded-full border border-[#EBEBEB] focus-within:border-[#1769FF] focus-within:bg-white transition-all">
                             <Search size={16} className="text-[#667085] mr-2 shrink-0" />
                             <input
                                 type="text"
@@ -197,19 +212,19 @@ const Navbar: React.FC = () => {
 
             </div>
 
-            {/* Sub-Header Categories Navigation Bar (Scroll Horizontal sur Mobile) */}
+            {/* Sub-Header Categories Navigation Bar (Barre horizontale compacte) */}
             <div className="w-full bg-[#F7F9FC] border-t border-[#EBEBEB]">
-                <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-                    <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto py-3 no-scrollbar scroll-smooth">
+                <div className="max-w-[1400px] mx-auto px-3 sm:px-6">
+                    <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto py-1.5 sm:py-2.5 no-scrollbar scroll-smooth">
                         {categories.map((cat, idx) => {
                             const Icon = cat.icon
                             return (
                                 <Link
                                     key={idx}
                                     href={`/shop?search=${encodeURIComponent(cat.query)}`}
-                                    className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold text-[#101828] hover:text-[#1769FF] hover:bg-white transition-all duration-200 shrink-0 border border-transparent hover:border-[#EBEBEB]"
+                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold text-[#101828] hover:text-[#1769FF] hover:bg-white transition-all duration-200 shrink-0 border border-transparent hover:border-[#EBEBEB]"
                                 >
-                                    <Icon size={14} className="text-[#667085] shrink-0" />
+                                    <Icon size={13} className="text-[#667085] shrink-0" />
                                     <span className="whitespace-nowrap">{cat.label}</span>
                                 </Link>
                             )

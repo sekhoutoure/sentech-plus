@@ -2,11 +2,22 @@
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import Logo from "@/components/Logo";
-import React from "react";
-import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, MessageCircle } from "lucide-react";
+import React, { useState } from "react";
+import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, MessageCircle, ChevronDown } from "lucide-react";
 
 const Footer: React.FC = () => {
     const siteSettings = useSelector((state: any) => state.siteSettings)
+
+    // Accordion state for mobile (open by default on desktop)
+    const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
+        catalogue: false,
+        informations: false,
+        support: false,
+    })
+
+    const toggleSection = (section: string) => {
+        setOpenSections(prev => ({ ...prev, [section]: !prev[section] }))
+    }
 
     const catalogLinks = [
         { text: "Smartphones", path: '/shop?search=Smartphones' },
@@ -52,8 +63,8 @@ const Footer: React.FC = () => {
         <footer className="bg-[#071126] text-white border-t border-slate-800/60">
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
 
-                {/* Main Footer Grid — Compact vertical rhythm */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-10 lg:gap-12 py-8 sm:py-12 lg:py-16 border-b border-slate-800/60">
+                {/* Main Footer Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-10 lg:gap-12 py-8 sm:py-12 lg:py-16 border-b border-slate-800/60">
 
                     {/* Brand Column */}
                     <div className="lg:col-span-2 space-y-3 sm:space-y-5">
@@ -100,13 +111,19 @@ const Footer: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Catalogue */}
-                    <div className="space-y-2.5">
-                        <h3 className="text-xs font-black tracking-widest text-white uppercase">CATALOGUE</h3>
-                        <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
+                    {/* Catalogue (Accordéon Mobile / Toujours ouvert Desktop) */}
+                    <div className="border-b border-slate-800/80 lg:border-none pb-3 lg:pb-0">
+                        <button
+                            onClick={() => toggleSection('catalogue')}
+                            className="w-full flex items-center justify-between text-left lg:pointer-events-none"
+                        >
+                            <h3 className="text-xs font-black tracking-widest text-white uppercase">CATALOGUE</h3>
+                            <ChevronDown size={16} className={`text-slate-400 lg:hidden transition-transform duration-200 ${openSections.catalogue ? 'rotate-180' : ''}`} />
+                        </button>
+                        <ul className={`mt-2.5 lg:mt-3 space-y-2 text-xs sm:text-sm lg:block ${openSections.catalogue ? 'block' : 'hidden'}`}>
                             {catalogLinks.map((link, i) => (
                                 <li key={i}>
-                                    <Link href={link.path} className="text-slate-400 hover:text-white transition-colors block">
+                                    <Link href={link.path} className="text-slate-400 hover:text-white transition-colors block py-0.5">
                                         {link.text}
                                     </Link>
                                 </li>
@@ -114,13 +131,19 @@ const Footer: React.FC = () => {
                         </ul>
                     </div>
 
-                    {/* Informations */}
-                    <div className="space-y-2.5">
-                        <h3 className="text-xs font-black tracking-widest text-white uppercase">INFORMATIONS</h3>
-                        <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
+                    {/* Informations (Accordéon Mobile / Toujours ouvert Desktop) */}
+                    <div className="border-b border-slate-800/80 lg:border-none pb-3 lg:pb-0">
+                        <button
+                            onClick={() => toggleSection('informations')}
+                            className="w-full flex items-center justify-between text-left lg:pointer-events-none"
+                        >
+                            <h3 className="text-xs font-black tracking-widest text-white uppercase">INFORMATIONS</h3>
+                            <ChevronDown size={16} className={`text-slate-400 lg:hidden transition-transform duration-200 ${openSections.informations ? 'rotate-180' : ''}`} />
+                        </button>
+                        <ul className={`mt-2.5 lg:mt-3 space-y-2 text-xs sm:text-sm lg:block ${openSections.informations ? 'block' : 'hidden'}`}>
                             {infoLinks.map((link, i) => (
                                 <li key={i}>
-                                    <Link href={link.path} className="text-slate-400 hover:text-white transition-colors block">
+                                    <Link href={link.path} className="text-slate-400 hover:text-white transition-colors block py-0.5">
                                         {link.text}
                                     </Link>
                                 </li>
@@ -128,17 +151,23 @@ const Footer: React.FC = () => {
                         </ul>
                     </div>
 
-                    {/* Support */}
-                    <div className="space-y-2.5">
-                        <h3 className="text-xs font-black tracking-widest text-white uppercase">SUPPORT</h3>
-                        <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
+                    {/* Support (Accordéon Mobile / Toujours ouvert Desktop) */}
+                    <div className="border-b border-slate-800/80 lg:border-none pb-3 lg:pb-0">
+                        <button
+                            onClick={() => toggleSection('support')}
+                            className="w-full flex items-center justify-between text-left lg:pointer-events-none"
+                        >
+                            <h3 className="text-xs font-black tracking-widest text-white uppercase">SUPPORT</h3>
+                            <ChevronDown size={16} className={`text-slate-400 lg:hidden transition-transform duration-200 ${openSections.support ? 'rotate-180' : ''}`} />
+                        </button>
+                        <ul className={`mt-2.5 lg:mt-3 space-y-2 text-xs sm:text-sm lg:block ${openSections.support ? 'block' : 'hidden'}`}>
                             {supportLinks.map((link, i) => (
                                 <li key={i}>
                                     <Link
                                         href={link.path}
                                         target={link.external ? "_blank" : undefined}
                                         rel={link.external ? "noopener noreferrer" : undefined}
-                                        className="text-slate-400 hover:text-white transition-colors block"
+                                        className="text-slate-400 hover:text-white transition-colors block py-0.5"
                                     >
                                         {link.text}
                                     </Link>
@@ -150,7 +179,7 @@ const Footer: React.FC = () => {
                             href="https://wa.me/221770000000"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-2 flex items-center gap-2 bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/30 text-[#25D366] rounded-xl px-3 py-2 transition-all group"
+                            className="mt-3 flex items-center gap-2 bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/30 text-[#25D366] rounded-xl px-3 py-2 transition-all group"
                         >
                             <MessageCircle size={15} />
                             <div>

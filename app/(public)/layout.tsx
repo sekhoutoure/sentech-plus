@@ -2,6 +2,7 @@
 import Banner from "@/components/Banner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SidebarDock from "@/components/SidebarDock";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -9,11 +10,14 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <div className="w-full">
                 <Banner />
                 <Navbar />
-                <main id="main-content" className="w-full">
+                {/* Safe padding-bottom for fixed mobile dock navigation bar */}
+                <main id="main-content" className="w-full pb-[85px] lg:pb-0">
                     {children}
                 </main>
             </div>
             <Footer />
+            {/* Fixed Mobile Dock Navigation Bar */}
+            <SidebarDock />
         </div>
     );
 }

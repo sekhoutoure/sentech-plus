@@ -18,47 +18,47 @@ export default function PremiumCollections() {
     const collections: CollectionCard[] = [
         {
             title: "Smartphones",
-            description: "iPhone, Samsung & téléphones récents",
+            description: "iPhone, Samsung & récents",
             query: "Smartphones",
             image: assets.product_img8,
-            badge: "Top Vente",
+            badge: "Top",
             bgGradient: "from-[#071126] via-[#0D1F42] to-[#071126]"
         },
         {
             title: "Audio & Casques",
-            description: "Réduction de bruit ANC & son immersif",
+            description: "Réduction de bruit ANC",
             query: "Casques",
             image: assets.product_img3,
             badge: "Populaire",
             bgGradient: "from-[#0B1A3A] via-[#122A5C] to-[#0B1A3A]"
         },
         {
-            title: "Montres connectées",
-            description: "Suivi santé, sport & écrans AMOLED",
+            title: "Montres",
+            description: "Suivi santé & AMOLED",
             query: "Montres",
             image: assets.product_img4,
             badge: "Tendance",
             bgGradient: "from-[#110B2A] via-[#21164C] to-[#110B2A]"
         },
         {
-            title: "Gaming & Setup",
-            description: "Souris, claviers RGB & performance",
+            title: "Gaming",
+            description: "Souris & claviers RGB",
             query: "Gaming",
             image: assets.product_img1,
             badge: "Esport",
             bgGradient: "from-[#2A0B12] via-[#4C1623] to-[#2A0B12]"
         },
         {
-            title: "Ordinateurs & Laptops",
-            description: "Processeurs puissants & bureautique",
+            title: "Laptops",
+            description: "Processeurs puissants",
             query: "Laptops",
             image: assets.product_img7,
-            badge: "Performance",
+            badge: "Pro",
             bgGradient: "from-[#0B2A24] via-[#164C42] to-[#0B2A24]"
         },
         {
-            title: "Maison & Énergie",
-            description: "Chargeurs GaN & smart home",
+            title: "Smart Home",
+            description: "Chargeurs & énergie",
             query: "Maison",
             image: assets.product_img2,
             badge: "Énergie",
@@ -69,7 +69,7 @@ export default function PremiumCollections() {
     return (
         <section className="px-3 sm:px-6 my-6 sm:my-14 lg:my-20 max-w-[1400px] mx-auto">
             {/* Header */}
-            <div className="flex items-end justify-between gap-4 mb-4 sm:mb-8 pb-3 border-b border-[#EBEBEB]">
+            <div className="flex items-end justify-between gap-4 mb-3 sm:mb-8 pb-2.5 border-b border-[#EBEBEB]">
                 <div>
                     <span className="text-[10px] sm:text-[11px] font-extrabold text-[#1769FF] uppercase tracking-widest block mb-0.5">
                         NOS COLLECTIONS EXCLUSIVES
@@ -80,55 +80,52 @@ export default function PremiumCollections() {
                 </div>
                 <Link
                     href="/shop"
-                    className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-[#1769FF] hover:underline"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#1769FF] hover:underline"
                 >
                     <span>Voir tout</span>
-                    <ArrowRight size={14} />
+                    <ArrowRight size={13} />
                 </Link>
             </div>
 
-            {/* Grid — 1 col mobile compact (h-auto / min-h-[140px]), 2 cols tablet, 3 cols desktop */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 lg:gap-6">
+            {/* Grid — 2 COLONNES sur mobile, 3 colonnes sur desktop, hauteur 115-130px sur mobile */}
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-5 lg:gap-6">
                 {collections.map((col, idx) => (
                     <Link
                         key={idx}
                         href={`/shop?search=${encodeURIComponent(col.query)}`}
-                        className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-gradient-to-br ${col.bgGradient} text-white shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 border border-white/10
-                            h-36 xs:h-40 sm:h-64 lg:h-72 p-4 sm:p-7`}
+                        className={`group relative rounded-xl sm:rounded-3xl overflow-hidden bg-gradient-to-br ${col.bgGradient} text-white shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 border border-white/10
+                            h-[115px] xs:h-[130px] sm:h-64 lg:h-72 p-3 sm:p-7`}
                     >
-                        {/* Ambient Glow */}
-                        <div className="absolute top-0 right-0 size-32 sm:size-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-
                         {/* Left Info */}
-                        <div className="relative z-10 space-y-1 max-w-[65%]">
+                        <div className="relative z-10 space-y-0.5 max-w-[62%]">
                             {col.badge && (
-                                <span className="inline-block bg-white/15 backdrop-blur-md text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full border border-white/20">
+                                <span className="inline-block bg-white/15 backdrop-blur-md text-white text-[8px] xs:text-[9px] font-black uppercase px-1.5 py-0.5 rounded-full border border-white/20">
                                     {col.badge}
                                 </span>
                             )}
-                            <h3 className="text-base xs:text-lg sm:text-[22px] lg:text-[26px] font-black tracking-tight text-white leading-tight">
+                            <h3 className="text-xs xs:text-sm sm:text-[22px] lg:text-[26px] font-black tracking-tight text-white leading-snug">
                                 {col.title}
                             </h3>
-                            <p className="text-xs text-slate-300 font-normal leading-relaxed line-clamp-2 hidden sm:block">
+                            <p className="text-xs text-slate-300 font-normal leading-relaxed line-clamp-1 hidden sm:block">
                                 {col.description}
                             </p>
                         </div>
 
                         {/* CTA Bottom Left */}
-                        <div className="relative z-10 pt-1">
-                            <span className="inline-flex items-center gap-1 bg-white text-[#101828] text-[10px] sm:text-xs font-extrabold px-3 py-1 sm:py-2 rounded-lg sm:rounded-xl group-hover:bg-[#1769FF] group-hover:text-white transition-all shadow-xs">
+                        <div className="relative z-10">
+                            <span className="inline-flex items-center gap-1 bg-white text-[#101828] text-[9px] xs:text-[10px] sm:text-xs font-extrabold px-2 xs:px-2.5 sm:px-4 py-0.5 sm:py-2 rounded sm:rounded-xl group-hover:bg-[#1769FF] group-hover:text-white transition-all shadow-xs">
                                 <span>Explorer</span>
-                                <ArrowRight size={11} />
+                                <ArrowRight size={10} />
                             </span>
                         </div>
 
                         {/* Product Image Right */}
-                        <div className="absolute right-2 bottom-2 sm:right-4 sm:bottom-4 size-20 xs:size-24 sm:size-32 lg:size-40 rounded-xl sm:rounded-2xl bg-white p-1.5 sm:p-3 group-hover:scale-105 transition-transform duration-500 ease-out pointer-events-none shadow-lg flex items-center justify-center border border-white/20 overflow-hidden">
+                        <div className="absolute right-1.5 bottom-1.5 sm:right-4 sm:bottom-4 size-14 xs:size-18 sm:size-32 lg:size-40 rounded-lg sm:rounded-2xl bg-white p-1 sm:p-3 group-hover:scale-105 transition-transform duration-500 ease-out pointer-events-none shadow-md flex items-center justify-center border border-white/20 overflow-hidden">
                             <Image
                                 src={col.image}
                                 alt={col.title}
                                 fill
-                                className="object-contain p-1"
+                                className="object-contain p-0.5 sm:p-1"
                             />
                         </div>
                     </Link>

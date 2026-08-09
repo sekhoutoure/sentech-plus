@@ -25,37 +25,37 @@ const Newsletter: React.FC = () => {
     ]
 
     return (
-        <section className="px-4 sm:px-6 my-16 sm:my-24 max-w-[1400px] mx-auto">
-            <div className="relative overflow-hidden rounded-3xl bg-[#071126] p-8 sm:p-14 lg:p-16 text-white border border-slate-800/80 shadow-2xl">
+        <section className="px-3 sm:px-6 my-8 sm:my-20 max-w-[1400px] mx-auto">
+            <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[#071126] p-5 sm:p-14 lg:p-16 text-white border border-slate-800/80 shadow-xl">
 
-                {/* Ambient Background Glows */}
-                <div className="absolute -top-40 -right-40 size-[500px] bg-[#1769FF]/20 rounded-full blur-[120px] pointer-events-none" />
-                <div className="absolute -bottom-40 -left-40 size-[400px] bg-purple-700/15 rounded-full blur-[100px] pointer-events-none" />
+                {/* Ambient Glows */}
+                <div className="absolute -top-40 -right-40 size-[300px] sm:size-[500px] bg-[#1769FF]/20 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none" />
+                <div className="absolute -bottom-40 -left-40 size-[250px] sm:size-[400px] bg-purple-700/15 rounded-full blur-[70px] sm:blur-[100px] pointer-events-none" />
 
-                {/* Inner Glassmorphism Container */}
-                <div className="relative z-10 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 sm:p-12 max-w-2xl mx-auto text-center">
+                {/* Inner Container */}
+                <div className="relative z-10 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-3xl p-5 sm:p-12 max-w-2xl mx-auto text-center">
 
                     {/* Badge */}
-                    <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-extrabold text-cyan-300 shadow-inner mb-5">
-                        <Sparkles size={12} className="text-cyan-400" />
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[10px] sm:text-xs font-extrabold text-cyan-300 mb-3">
+                        <Sparkles size={11} className="text-cyan-400" />
                         <span>CLUB PRIVILÈGE SENTECH PLUS</span>
                     </div>
 
                     {/* Title */}
-                    <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight mb-3" style={{ textWrap: 'balance' } as React.CSSProperties}>
+                    <h2 className="text-xl sm:text-4xl font-black text-white tracking-tight leading-snug mb-2">
                         Recevez nos offres VIP & bons plans
                     </h2>
 
                     {/* Description */}
-                    <p className="text-sm sm:text-base text-slate-300 max-w-md mx-auto leading-relaxed font-normal mb-6" style={{ textWrap: 'pretty' } as React.CSSProperties}>
-                        Inscrivez-vous gratuitement pour recevoir nos nouveautés, promotions exclusives et bons plans en avant-première.
+                    <p className="text-xs sm:text-base text-slate-300 max-w-md mx-auto leading-relaxed font-normal mb-4">
+                        Inscrivez-vous gratuitement pour recevoir nos nouveautés et réductions VIP.
                     </p>
 
                     {/* Benefit Pills */}
-                    <div className="flex items-center justify-center gap-2.5 flex-wrap mb-7">
+                    <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 flex-wrap mb-5">
                         {benefits.map(({ icon: Icon, label }, i) => (
-                            <span key={i} className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/10 text-[11px] font-bold text-slate-200">
-                                <Icon size={12} className="text-cyan-400" />
+                            <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/10 border border-white/10 text-[10px] sm:text-[11px] font-bold text-slate-200">
+                                <Icon size={11} className="text-cyan-400" />
                                 {label}
                             </span>
                         ))}
@@ -63,15 +63,15 @@ const Newsletter: React.FC = () => {
 
                     {/* Form or Success */}
                     {isSubscribed ? (
-                        <div className="inline-flex items-center gap-2.5 bg-[#12B76A]/20 text-emerald-300 px-6 py-4 rounded-2xl border border-[#12B76A]/40 text-sm font-bold">
-                            <CheckCircle2 size={20} className="shrink-0" />
-                            <span>Merci ! Votre coupon de bienvenue est en route 🎉</span>
+                        <div className="inline-flex items-center gap-2 bg-[#12B76A]/20 text-emerald-300 px-4 py-3 rounded-xl border border-[#12B76A]/40 text-xs sm:text-sm font-bold">
+                            <CheckCircle2 size={18} className="shrink-0" />
+                            <span>Bienvenue ! Votre coupon est activé 🎉</span>
                         </div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-                            <div className="flex flex-col sm:flex-row items-stretch gap-2 bg-white/10 backdrop-blur-xl p-2 rounded-2xl border border-white/15 focus-within:border-[#1769FF]/60 focus-within:ring-2 focus-within:ring-[#1769FF]/30 transition-all">
-                                <div className="flex items-center gap-2.5 flex-1 pl-3">
-                                    <Mail size={17} className="text-slate-400 shrink-0" />
+                        <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-2">
+                            <div className="flex flex-col xs:flex-row items-stretch gap-2 bg-white/10 backdrop-blur-xl p-1.5 rounded-xl border border-white/15 focus-within:border-[#1769FF]/60 transition-all">
+                                <div className="flex items-center gap-2 flex-1 pl-2.5">
+                                    <Mail size={16} className="text-slate-400 shrink-0" />
                                     <input
                                         type="email"
                                         value={email}
@@ -79,18 +79,18 @@ const Newsletter: React.FC = () => {
                                         placeholder="Votre adresse email..."
                                         aria-label="Adresse email pour la newsletter"
                                         required
-                                        className="w-full bg-transparent outline-none text-sm text-white placeholder:text-slate-400 font-medium py-2"
+                                        className="w-full bg-transparent outline-none text-xs sm:text-sm text-white placeholder:text-slate-400 font-medium py-2"
                                     />
                                 </div>
                                 <button
                                     type="submit"
-                                    className="inline-flex items-center justify-center gap-2 bg-[#1769FF] hover:bg-[#1256D6] text-white font-bold text-sm px-6 py-3 rounded-xl shadow-lg shadow-[#1769FF]/30 active:scale-95 transition-all duration-200 cursor-pointer shrink-0"
+                                    className="inline-flex items-center justify-center gap-1.5 bg-[#1769FF] hover:bg-[#1256D6] text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-lg sm:rounded-xl shadow-md active:scale-95 transition-all cursor-pointer shrink-0"
                                 >
                                     S'inscrire →
                                 </button>
                             </div>
-                            <p className="text-[11px] text-slate-500 mt-3 font-normal">
-                                Pas de spam. Désinscription à tout moment. Promis.
+                            <p className="text-[10px] text-slate-400 font-normal">
+                                Pas de spam. Désinscription à tout moment.
                             </p>
                         </form>
                     )}

@@ -23,7 +23,7 @@ export default function PremiumHero() {
     }, [featuredImages.length])
 
     return (
-        <section className="px-3 sm:px-6 pt-3 pb-5 sm:py-10 max-w-[1400px] mx-auto">
+        <section className="px-3 sm:px-6 pt-3 pb-4 sm:py-10 max-w-[1400px] mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-6 items-stretch">
 
                 {/* ═══ GRANDE CARTE HERO ═══ */}
@@ -33,7 +33,7 @@ export default function PremiumHero() {
                     <div className="absolute -top-24 -right-24 size-[300px] sm:size-[420px] bg-[#1769FF]/20 rounded-full blur-[80px] sm:blur-[110px] pointer-events-none" />
                     <div className="absolute -bottom-24 -left-24 size-[260px] sm:size-[380px] bg-cyan-500/10 rounded-full blur-[70px] sm:blur-[100px] pointer-events-none" />
 
-                    {/* ── MOBILE layout: Image produit très visible (240px) + Texte compact ── */}
+                    {/* ── MOBILE layout: Image produit (220-250px) + Texte clamp ── */}
                     <div className="flex flex-col lg:hidden flex-1 p-4 pb-5">
                         {/* Badge top */}
                         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[10px] font-bold text-cyan-300 w-fit mb-2">
@@ -41,7 +41,7 @@ export default function PremiumHero() {
                             <span>COLLECTION HIGH-TECH 2026</span>
                         </div>
 
-                        {/* Grande zone image produit héroique */}
+                        {/* Zone Image Produit Mobile */}
                         <div className="relative w-full h-[220px] xs:h-[250px] flex items-center justify-center my-1">
                             {featuredImages.map((src, index) => (
                                 <div
@@ -81,9 +81,16 @@ export default function PremiumHero() {
 
                         {/* Title & Actions */}
                         <div className="relative z-10 space-y-2.5 pt-1 text-center">
-                            <h1 className="text-xl xs:text-2xl font-black tracking-tight text-white leading-snug">
+                            <h1 
+                                className="font-black tracking-tight text-white leading-snug"
+                                style={{ fontSize: 'clamp(20px, 5.5vw, 30px)' }}
+                            >
                                 Des accessoires intelligents pour simplifier votre quotidien.
                             </h1>
+
+                            <p className="text-slate-300 text-xs xs:text-sm font-normal leading-relaxed max-w-sm mx-auto">
+                                Gadgets, accessoires et équipements high-tech sélectionnés pour vous.
+                            </p>
 
                             <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full w-fit mx-auto">
                                 <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -93,13 +100,13 @@ export default function PremiumHero() {
                             <div className="flex items-center gap-2 pt-1">
                                 <Link
                                     href="/shop"
-                                    className="flex-1 text-center inline-flex items-center justify-center gap-2 bg-[#1769FF] hover:bg-[#1256D6] text-white font-extrabold text-xs py-3 px-4 rounded-xl shadow-md shadow-[#1769FF]/30 active:scale-95 transition-all"
+                                    className="flex-1 text-center inline-flex items-center justify-center gap-2 bg-[#1769FF] hover:bg-[#1256D6] text-white font-extrabold text-xs xs:text-sm py-3 px-4 rounded-xl shadow-md shadow-[#1769FF]/30 active:scale-95 transition-all"
                                 >
                                     Acheter maintenant →
                                 </Link>
                                 <Link
                                     href="/shop"
-                                    className="inline-flex items-center gap-1 bg-white/10 hover:bg-white/20 text-white font-bold text-xs py-3 px-3.5 rounded-xl border border-white/20 transition-all"
+                                    className="inline-flex items-center gap-1 bg-white/10 hover:bg-white/20 text-white font-bold text-xs xs:text-sm py-3 px-3.5 rounded-xl border border-white/20 transition-all"
                                 >
                                     Catalogue
                                 </Link>

@@ -18,50 +18,42 @@ const LatestProducts: React.FC = () => {
         .slice(0, displayQuantity)
 
     return (
-        <section className="px-3 sm:px-6 my-10 sm:my-16 lg:my-24 max-w-[1400px] mx-auto @container">
+        <section className="px-3 sm:px-6 my-6 sm:my-14 lg:my-20 max-w-[1400px] mx-auto @container">
 
             {/* Section Header */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-5 sm:mb-8">
-                <div className="space-y-2">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF3FF] text-[#1769FF] text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+            <div className="flex items-end justify-between gap-3 mb-4 sm:mb-8 pb-3 border-b border-[#EBEBEB]">
+                <div className="space-y-1">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 sm:py-1 rounded-full bg-[#EAF3FF] text-[#1769FF] text-[10px] sm:text-xs font-bold uppercase tracking-wider">
                         <Sparkles size={12} />
                         NOUVEAUTÉS HIGH-TECH 2026
                     </div>
-                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-[#101828] tracking-tight" style={{ textWrap: 'balance' } as React.CSSProperties}>
+                    <h2 className="text-lg sm:text-2xl lg:text-3xl font-black text-[#101828] tracking-tight">
                         Dernières arrivées
                     </h2>
-                    <p className="text-xs sm:text-sm text-[#667085] max-w-md font-normal hidden sm:block" style={{ textWrap: 'pretty' } as React.CSSProperties}>
-                        Les produits les plus récents, soigneusement sélectionnés par notre équipe.
-                    </p>
                 </div>
 
                 <Link
                     href="/shop"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1769FF] border-2 border-[#1769FF] bg-transparent hover:bg-[#1769FF] hover:text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-full transition-all duration-300 self-start sm:self-auto shrink-0"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#1769FF] hover:underline shrink-0"
                 >
                     <span>Voir tout</span>
-                    <ArrowRight size={14} />
+                    <ArrowRight size={13} />
                 </Link>
             </div>
 
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-[#EBEBEB] to-transparent mb-5 sm:mb-8" />
-
-            {/* Grid */}
+            {/* Grid — 2 COLONNES sur mobile avec gap 8-10px */}
             {latest.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-5 lg:gap-6">
                     {latest.map((product: Product) => (
                         <ProductCard key={product.id || product.name} product={product} />
                     ))}
                 </div>
             ) : (
-                <div className="flex flex-col items-center justify-center py-16 gap-4 text-center border-2 border-dashed border-[#EBEBEB] rounded-2xl sm:rounded-3xl bg-[#F7F9FC]/50">
-                    <div className="size-14 rounded-2xl bg-white shadow-sm border border-[#EBEBEB] flex items-center justify-center">
-                        <Sparkles size={24} className="text-[#1769FF]" />
-                    </div>
-                    <h3 className="text-base font-bold text-[#101828]">Aucun produit disponible</h3>
-                    <p className="text-xs text-[#667085] max-w-xs">Revenez plus tard pour découvrir nos nouveautés high-tech.</p>
-                    <Link href="/shop" className="mt-1 inline-flex items-center gap-2 text-xs font-bold text-white bg-[#1769FF] hover:bg-[#071126] px-5 py-2.5 rounded-xl transition-colors">
-                        Parcourir le catalogue <ArrowRight size={14} />
+                <div className="flex flex-col items-center justify-center py-12 gap-3 text-center border-2 border-dashed border-[#EBEBEB] rounded-2xl bg-[#F7F9FC]/50">
+                    <Sparkles size={24} className="text-[#1769FF]" />
+                    <h3 className="text-sm font-bold text-[#101828]">Aucun produit disponible</h3>
+                    <Link href="/shop" className="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#1769FF] px-4 py-2 rounded-xl">
+                        Parcourir le catalogue <ArrowRight size={13} />
                     </Link>
                 </div>
             )}
