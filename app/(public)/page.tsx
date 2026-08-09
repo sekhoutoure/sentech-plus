@@ -1,5 +1,4 @@
 'use client'
-import CategoryNav from "@/components/CategoryNav";
 import PremiumHero from "@/components/PremiumHero";
 import BestSelling from "@/components/BestSelling";
 import PromoBanner from "@/components/PromoBanner";
@@ -11,10 +10,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 export default function Home() {
     return (
         <div className="bg-[#FCFCFC] min-h-screen space-y-6 sm:space-y-12 lg:space-y-16">
-            {/* 1. CATÉGORIES (Scroll horizontal compact sur mobile) */}
-            <CategoryNav />
-
-            {/* 2. HERO (Compact sur mobile 200-250px, sans cartes secondaires) */}
+            {/* 1. HERO (Compact sur mobile 200-250px, sans cartes secondaires) */}
             <PremiumHero />
 
             {/* 3. MEILLEURES VENTES */}
