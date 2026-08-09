@@ -2,13 +2,14 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Star, Heart, ShoppingCart, Check, ImageOff } from 'lucide-react'
+import { Star, Heart, ShoppingCart, Check, ImageOff, Eye } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '@/lib/features/cart/cartSlice'
 import { toggleWishlist } from '@/lib/features/wishlist/wishlistSlice'
 import { formatPrice } from '@/lib/format'
 import { getProductImage, FALLBACK_PRODUCT_IMAGE } from '@/lib/image-utils'
 import toast from 'react-hot-toast'
+import QuickViewModal from './QuickViewModal'
 
 export interface Product {
     id: string;
@@ -34,6 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
     const dispatch = useDispatch()
     const wishlist = useSelector((state: any) => state.wishlist?.items || [])
     const [isAdded, setIsAdded] = useState(false)
+    const [isQuickViewOpen, setIsQuickViewOpen] = useState(false)
     const [imgSrc, setImgSrc] = useState(() => getProductImage(product, 0))
     const [imgError, setImgError] = useState(false)
 
@@ -63,7 +65,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
         setIsAdded(true)
         toast.success(`"${product?.name || 'Produit'}" ajouté au panier !`, {
             icon: '🛒',
-            style: { fontWeight: '600', fontSize: '13px' }
+            style: { borderRadius: '12px', background: '#182230', color: '#fff', fontSize: '13px' }
         })
         setTimeout(() => setIsAdded(false), 2000)
     }
@@ -103,18 +105,35 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                     </span>
                 )}
 
-                {/* Wishlist Button */}
-                <button
-                    onClick={handleWishlistToggle}
-                    aria-label={isWishlisted ? "Retirer des favoris" : "Ajouter aux favoris"}
-                    className={`absolute top-1.5 right-1.5 z-20 size-8 sm:size-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs ${
-                        isWishlisted
-                            ? 'bg-[#D9450F] text-white'
-                            : 'bg-white/90 text-[#475467] hover:text-[#D9450F] hover:bg-white'
-                    }`}
-                >
-                    <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
-                </button>
+                {/* Action Buttons Top Right: Aperçu Rapide & Favoris */}
+                <div className="absolute top-1.5 right-1.5 z-20 flex items-center gap-1.5">
+                    {/* Quick View Button */}
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            setIsQuickViewOpen(true)
+                        }}
+                        aria-label="Aperçu rapide du produit"
+                        title="Aperçu rapide"
+                        className="size-8 sm:size-9 rounded-full bg-white/90 hover:bg-white text-[#475467] hover:text-[#1677FF] flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs border border-[#E8EDF3] active:scale-95"
+                    >
+                        <Eye size={16} />
+                    </button>
+
+                    {/* Wishlist Button */}
+                    <button
+                        onClick={handleWishlistToggle}
+                        aria-label={isWishlisted ? "Retirer des favoris" : "Ajouter aux favoris"}
+                        className={`size-8 sm:size-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 ${
+                            isWishlisted
+                                ? 'bg-[#D9450F] text-white'
+                                : 'bg-white/90 text-[#475467] hover:text-[#D9450F] hover:bg-white border border-[#E8EDF3]'
+                        }`}
+                    >
+                        <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
+                    </button>
+                </div>
 
                 {/* Product Image */}
                 <Link href={`/product/${productId}`} className="relative w-full h-full block p-2">
@@ -213,6 +232,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                 </div>
 
             </div>
+
+            {/* Quick View Interactive Modal */}
+            <QuickViewModal
+                product={product}
+                isOpen={isQuickViewOpen}
+                onClose={() => setIsQuickViewOpen(false)}
+            />
         </div>
     )
 }
