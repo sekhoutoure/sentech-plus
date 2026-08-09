@@ -32,7 +32,7 @@ export default function PremiumHero() {
             {/* Desktop 70% / 30% Layout Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
                 
-                {/* 1. GRANDE CARTE HERO (70% - 8/12 ou 9/12 => lg:col-span-8) */}
+                {/* 1. GRANDE CARTE HERO (70% - lg:col-span-8) */}
                 <div className="lg:col-span-8 relative flex flex-col justify-between bg-gradient-to-br from-[#071126] via-[#0B1E3F] to-[#071126] rounded-3xl p-6 sm:p-10 lg:p-12 text-white overflow-hidden border border-slate-800/80 shadow-2xl min-h-[480px] sm:min-h-[520px] group">
                     
                     {/* Subtle Ambient Lighting Orbs */}
@@ -84,54 +84,57 @@ export default function PremiumHero() {
                             </div>
                         </div>
 
-                        {/* Right: Grande Image Produit High-Tech Premium */}
-                        <div className="md:col-span-5 relative h-64 sm:h-80 lg:h-full flex items-center justify-center">
-                            {featuredImages.map((src, index) => (
-                                <div
-                                    key={index}
-                                    className={`absolute inset-0 flex items-center justify-center transition-all duration-700 ease-out ${
-                                        index === currentImgIndex
-                                            ? 'opacity-100 scale-100 translate-y-0'
-                                            : 'opacity-0 scale-90 translate-y-4 pointer-events-none'
-                                    }`}
-                                >
-                                    <div className="relative w-full h-full min-h-[240px] sm:min-h-[280px]">
-                                        <Image
-                                            src={src}
-                                            alt="Produit High-Tech SenTech Plus"
-                                            fill
-                                            className="object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] group-hover:scale-105 transition-transform duration-700"
-                                            priority={index === 0}
-                                        />
-                                    </div>
-                                </div>
-                            ))}
-
-                            {/* Carousel Indicators */}
-                            <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-20">
-                                {featuredImages.map((_, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => setCurrentImgIndex(idx)}
-                                        className={`h-1.5 rounded-full transition-all duration-300 ${
-                                            idx === currentImgIndex ? 'w-6 bg-[#1769FF]' : 'w-1.5 bg-white/30'
+                        {/* Right: Grande Image Produit High-Tech Premium dans une carte conteneur très propre */}
+                        <div className="md:col-span-5 relative h-64 sm:h-80 lg:h-full flex items-center justify-center p-2">
+                            {/* Card Background Wrapper for Product Image */}
+                            <div className="relative w-full h-full min-h-[260px] sm:min-h-[300px] rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md p-4 flex items-center justify-center overflow-hidden">
+                                {featuredImages.map((src, index) => (
+                                    <div
+                                        key={index}
+                                        className={`absolute inset-0 flex items-center justify-center p-4 transition-all duration-700 ease-out ${
+                                            index === currentImgIndex
+                                                ? 'opacity-100 scale-100 translate-y-0'
+                                                : 'opacity-0 scale-90 translate-y-4 pointer-events-none'
                                         }`}
-                                    />
+                                    >
+                                        <div className="relative w-full h-full">
+                                            <Image
+                                                src={src}
+                                                alt="Produit High-Tech SenTech Plus"
+                                                fill
+                                                className="object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform duration-700"
+                                                priority={index === 0}
+                                            />
+                                        </div>
+                                    </div>
                                 ))}
+
+                                {/* Carousel Indicators */}
+                                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-20">
+                                    {featuredImages.map((_, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setCurrentImgIndex(idx)}
+                                            className={`h-1.5 rounded-full transition-all duration-300 ${
+                                                idx === currentImgIndex ? 'w-6 bg-[#1769FF]' : 'w-1.5 bg-white/30'
+                                            }`}
+                                        />
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
 
-                {/* 2. DEUX CARTES SECONDAIRES (30% - 4/12 => lg:col-span-4) */}
+                {/* 2. DEUX CARTES SECONDAIRES (30% - lg:col-span-4) */}
                 <div className="lg:col-span-4 flex flex-col gap-5 sm:gap-6 justify-between">
                     
                     {/* Carte Secondaire 1: Audio & Casques */}
                     <div className="relative flex-1 bg-white rounded-3xl p-6 sm:p-7 border border-[#EBEBEB] shadow-sm hover:shadow-xl hover:border-[#1769FF]/30 transition-all duration-300 flex flex-col justify-between group overflow-hidden min-h-[220px]">
                         <div className="absolute -right-8 -bottom-8 size-40 bg-[#EAF3FF] rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-500" />
                         
-                        <div className="relative z-10 space-y-2 max-w-[65%]">
+                        <div className="relative z-10 space-y-2 max-w-[60%]">
                             <div className="size-10 rounded-2xl bg-[#EAF3FF] text-[#1769FF] flex items-center justify-center font-bold">
                                 <Headphones size={20} />
                             </div>
@@ -153,12 +156,13 @@ export default function PremiumHero() {
                             </Link>
                         </div>
 
-                        <div className="absolute right-2 bottom-2 size-32 sm:size-36 opacity-90 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 pointer-events-none">
+                        {/* Image conteneur avec fond clair propre */}
+                        <div className="absolute right-3 bottom-3 size-28 sm:size-32 rounded-2xl bg-[#F7F9FC] border border-[#EBEBEB] p-2 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
                             <Image
                                 src={assets.product_img3}
                                 alt="Audio & Casques"
                                 fill
-                                className="object-contain"
+                                className="object-contain p-1"
                             />
                         </div>
                     </div>
@@ -167,7 +171,7 @@ export default function PremiumHero() {
                     <div className="relative flex-1 bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 rounded-3xl p-6 sm:p-7 text-white shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group overflow-hidden min-h-[220px]">
                         <div className="absolute top-0 right-0 size-36 bg-white/10 rounded-full blur-xl pointer-events-none" />
 
-                        <div className="relative z-10 space-y-2 max-w-[65%]">
+                        <div className="relative z-10 space-y-2 max-w-[60%]">
                             <span className="inline-flex items-center gap-1 bg-white text-amber-900 text-[10px] font-black uppercase px-3 py-1 rounded-full shadow-xs">
                                 <Flame size={12} className="text-orange-500" />
                                 BON PLAN
@@ -190,12 +194,13 @@ export default function PremiumHero() {
                             </Link>
                         </div>
 
-                        <div className="absolute -right-2 -bottom-2 size-32 sm:size-36 opacity-95 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 pointer-events-none">
+                        {/* Image conteneur avec fond clair propre */}
+                        <div className="absolute right-3 bottom-3 size-28 sm:size-32 rounded-2xl bg-white/20 border border-white/30 backdrop-blur-md p-2 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
                             <Image
                                 src={assets.product_img4}
                                 alt="Bon Plan"
                                 fill
-                                className="object-contain"
+                                className="object-contain p-1"
                             />
                         </div>
                     </div>

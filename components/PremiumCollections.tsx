@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image, { StaticImageData } from 'next/image'
-import { ArrowRight, ChevronRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { assets } from '@/assets/assets'
 
 interface CollectionCard {
@@ -98,7 +98,7 @@ export default function PremiumCollections() {
                         <div className="absolute top-0 right-0 size-48 bg-white/10 rounded-full blur-2xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
 
                         {/* Top Info */}
-                        <div className="relative z-10 space-y-2 max-w-[65%]">
+                        <div className="relative z-10 space-y-2 max-w-[60%]">
                             {col.badge && (
                                 <span className="inline-block bg-white/15 backdrop-blur-md text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full border border-white/20">
                                     {col.badge}
@@ -120,13 +120,13 @@ export default function PremiumCollections() {
                             </span>
                         </div>
 
-                        {/* 1 Single Strong Main Image Right */}
-                        <div className="absolute right-2 bottom-2 size-40 sm:size-48 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 ease-out pointer-events-none drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)]">
+                        {/* 1 Single Strong Main Image inside a sleek product container card */}
+                        <div className="absolute right-4 bottom-4 size-32 sm:size-40 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 p-3 group-hover:scale-105 transition-transform duration-500 ease-out pointer-events-none shadow-xl flex items-center justify-center">
                             <Image
                                 src={col.image}
                                 alt={col.title}
                                 fill
-                                className="object-contain"
+                                className="object-contain p-2"
                             />
                         </div>
                     </Link>
