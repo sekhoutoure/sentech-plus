@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
     }
 
     return (
-        <header className="sticky top-0 z-50 bg-white border-b border-[#E8EDF3] shadow-2xs">
+        <header className="sticky top-0 z-50 bg-[#F8FAFC]/95 backdrop-blur-md border-b border-[#E5EAF0] shadow-xs">
             
             {/* Main Header Container */}
             <div className="max-w-[1400px] mx-auto px-3 sm:px-6 py-2.5 sm:py-4">
@@ -96,7 +96,7 @@ const Navbar: React.FC = () => {
 
                     {/* [BARRE DE RECHERCHE] Large Omnibox */}
                     <form onSubmit={handleSearch} className="flex-1 max-w-2xl relative">
-                        <div className="relative w-full flex items-center bg-[#F5F7FA] hover:bg-[#EEF1F5] focus-within:bg-white px-4 py-3 rounded-full border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all duration-200">
+                        <div className="relative w-full flex items-center bg-white hover:bg-[#F5F7FA] focus-within:bg-white px-4 py-3 rounded-full border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all duration-200 shadow-2xs">
                             <Search size={18} className="text-[#475467] shrink-0 mr-3" />
                             <input
                                 id="desktop-search-input"
@@ -125,11 +125,11 @@ const Navbar: React.FC = () => {
                             href={isLoggedIn ? "/orders" : "/login"}
                             className="flex items-center gap-2 text-xs font-extrabold text-[#182230] hover:text-[#1677FF] transition-colors group"
                         >
-                            <div className="size-9 rounded-full bg-[#F5F7FA] group-hover:bg-[#EAF3FF] border border-[#E8EDF3] flex items-center justify-center text-[#475467] group-hover:text-[#1677FF] transition-colors">
+                            <div className="size-9 rounded-full bg-white group-hover:bg-[#EAF3FF] border border-[#E5EAF0] flex items-center justify-center text-[#475467] group-hover:text-[#1677FF] transition-colors shadow-2xs">
                                 <User size={18} />
                             </div>
                             <div className="flex flex-col text-left">
-                                <span className="text-[10px] text-[#667085] font-medium leading-none">Bonjour</span>
+                                <span className="text-[10px] text-[#475467] font-medium leading-none">Bonjour</span>
                                 <span className="text-xs font-bold leading-tight">{isLoggedIn ? (user?.name?.split(' ')[0] || "Compte") : "Connexion"}</span>
                             </div>
                         </Link>
@@ -140,7 +140,7 @@ const Navbar: React.FC = () => {
                             className="relative flex items-center gap-2 text-xs font-extrabold text-[#182230] hover:text-[#1677FF] transition-colors group"
                             aria-label="Favoris"
                         >
-                            <div className="relative size-9 rounded-full bg-[#F5F7FA] group-hover:bg-[#EAF3FF] border border-[#E8EDF3] flex items-center justify-center text-[#667085] group-hover:text-[#FF6B35] transition-colors">
+                            <div className="relative size-9 rounded-full bg-white group-hover:bg-[#EAF3FF] border border-[#E5EAF0] flex items-center justify-center text-[#475467] group-hover:text-[#FF6B35] transition-colors shadow-2xs">
                                 <Heart size={18} />
                                 {wishlistCount > 0 && (
                                     <span className="absolute -top-1 -right-1 size-4 bg-[#FF6B35] text-white text-[9px] font-black rounded-full flex items-center justify-center">
@@ -173,7 +173,7 @@ const Navbar: React.FC = () => {
 
                 {/* Mobile Header Row */}
                 <div className="flex lg:hidden items-center justify-between gap-2 h-11">
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-2">
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className="size-[42px] rounded-xl text-[#182230] hover:bg-[#F5F7FA] active:bg-[#EAF3FF] transition cursor-pointer flex items-center justify-center shrink-0 border border-transparent hover:border-[#E8EDF3]"
@@ -205,8 +205,8 @@ const Navbar: React.FC = () => {
                 {/* Mobile Header Row 2 (Barre de Recherche Omnibox 44px) */}
                 <div className="lg:hidden mt-1.5">
                     <form onSubmit={handleSearch} className="relative w-full">
-                        <div className="relative h-[44px] flex items-center bg-[#F5F7FA] px-3.5 rounded-xl border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all">
-                            <Search size={16} className="text-[#667085] mr-2 shrink-0" />
+                        <div className="relative h-[44px] flex items-center bg-white px-3.5 rounded-xl border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-2xs">
+                            <Search size={16} className="text-[#475467] mr-2 shrink-0" />
                             <input
                                 id="mobile-search-input"
                                 name="mobile_search"
@@ -215,7 +215,7 @@ const Navbar: React.FC = () => {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 aria-label="Rechercher un produit ou une marque"
-                                className="w-full bg-transparent outline-none text-xs font-semibold text-[#182230] placeholder:text-[#667085]"
+                                className="w-full bg-transparent outline-none text-xs font-semibold text-[#182230] placeholder:text-[#475467]"
                             />
                         </div>
                     </form>
