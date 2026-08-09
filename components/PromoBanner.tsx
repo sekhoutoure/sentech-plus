@@ -81,6 +81,7 @@ export default function PromoBanner() {
                                         src={deal.img}
                                         alt={deal.title}
                                         fill
+                                        sizes="(max-width: 640px) 40px, 64px"
                                         className="object-contain p-0.5"
                                     />
                                 </div>

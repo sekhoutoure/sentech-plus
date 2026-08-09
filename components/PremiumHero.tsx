@@ -83,6 +83,7 @@ export default function PremiumHero() {
                                                 src={src}
                                                 alt="Produit High-Tech SenTechPLUS"
                                                 fill
+                                                sizes="(max-width: 640px) 160px, 240px"
                                                 className="object-contain drop-shadow-[0_10px_20px_rgba(20,40,70,0.12)]"
                                                 loading={index === 0 ? "eager" : "lazy"}
                                             />
@@ -162,6 +163,7 @@ export default function PremiumHero() {
                                                 src={src}
                                                 alt="Produit High-Tech SenTechPLUS"
                                                 fill
+                                                sizes="(max-width: 1024px) 300px, 420px"
                                                 className="object-contain drop-shadow-[0_15px_30px_rgba(20,40,70,0.12)]"
                                                 priority={index === 0}
                                             />
@@ -215,6 +217,7 @@ export default function PremiumHero() {
                                 src={assets.product_img3}
                                 alt="Audio & Casques"
                                 fill
+                                sizes="112px"
                                 className="object-contain p-1"
                             />
                         </div>
@@ -247,6 +250,7 @@ export default function PremiumHero() {
                                 src={assets.product_img4}
                                 alt="Bon Plan"
                                 fill
+                                sizes="112px"
                                 className="object-contain p-1"
                             />
                         </div>

@@ -137,7 +137,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                                 }
                             }}
                             alt={product?.name || "Produit SenTechPLUS"}
-                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                            sizes="(max-width: 480px) 180px, (max-width: 768px) 240px, (max-width: 1280px) 280px, 320px"
                         />
                     )}
                 </Link>
