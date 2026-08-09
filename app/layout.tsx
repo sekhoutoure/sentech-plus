@@ -29,6 +29,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="fr" dir="ltr">
             <head>
+                {/* 🚀 Resource Preconnect Hints for Critical Path Acceleration */}
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+                <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+
                 {/* 🏷️ Global Schema.org Structured Data */}
                 <JsonLd data={[getOrganizationSchema(), getWebSiteSchema()]} />
 
