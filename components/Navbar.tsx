@@ -195,9 +195,9 @@ const Navbar: React.FC = () => {
                             href="https://wa.me/221770000000"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 bg-[#16B979]/10 hover:bg-[#16B979]/20 text-[#16B979] text-[11px] font-extrabold px-2.5 py-1.5 rounded-full transition-all border border-[#16B979]/20"
+                            className="inline-flex items-center gap-1 bg-[#0D8956]/10 hover:bg-[#0D8956]/20 text-[#0D8956] text-[11px] font-extrabold px-2.5 py-1.5 rounded-full transition-all border border-[#0D8956]/20"
                         >
-                            <span className="size-1.5 rounded-full bg-[#16B979] animate-pulse" />
+                            <span className="size-1.5 rounded-full bg-[#0D8956] animate-pulse" />
                             <span>Aide 24/7</span>
                         </a>
                     </div>

@@ -98,7 +98,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
 
                 {/* Discount Badge */}
                 {discount > 0 && (
-                    <span className="absolute top-2 left-2 z-20 bg-[#FF6B35] text-white text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full shadow-2xs">
+                    <span className="absolute top-2 left-2 z-20 bg-[#D9450F] text-white text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full shadow-2xs">
                         -{discount}%
                     </span>
                 )}
@@ -109,19 +109,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                     aria-label={isWishlisted ? "Retirer des favoris" : "Ajouter aux favoris"}
                     className={`absolute top-1.5 right-1.5 z-20 size-8 sm:size-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs ${
                         isWishlisted
-                            ? 'bg-[#FF6B35] text-white scale-105'
-                            : 'bg-white/95 backdrop-blur-md text-[#475467] hover:text-[#FF6B35] border border-[#E8EDF3]'
+                            ? 'bg-[#D9450F] text-white'
+                            : 'bg-white/90 text-[#475467] hover:text-[#D9450F] hover:bg-white'
                     }`}
                 >
-                    <Heart size={14} fill={isWishlisted ? "currentColor" : "none"} className="sm:hidden" />
-                    <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} className="hidden sm:block" />
+                    <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
                 </button>
 
                 {/* Product Image */}
                 <Link href={`/product/${productId}`} className="relative w-full h-full block p-2">
                     {imgError ? (
                         <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-[#F7F9FC]">
-                            <ImageOff size={22} className="text-[#1677FF]/40" />
+                            <ImageOff size={22} className="text-[#0B54C2]/40" />
                             <span className="text-[9px] font-extrabold text-[#475467] uppercase tracking-wider">SenTechPLUS</span>
                         </div>
                     ) : (
@@ -149,7 +148,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                 <div className="space-y-1">
                     {/* Category & Rating */}
                     <div className="flex items-center justify-between gap-1">
-                        <span className="text-[10px] sm:text-[11px] font-extrabold text-[#1677FF] uppercase tracking-wider truncate">
+                        <span className="text-[10px] sm:text-[11px] font-extrabold text-[#0B54C2] uppercase tracking-wider truncate">
                             {product?.category || 'High-Tech'}
                         </span>
                         <div className="flex items-center gap-0.5 shrink-0">
@@ -160,7 +159,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
 
                     {/* Product Name */}
                     <Link href={`/product/${productId}`} className="block">
-                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#182230] line-clamp-2 leading-snug group-hover:text-[#1677FF] transition-colors h-[34px] sm:h-[40px] overflow-hidden">
+                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#182230] line-clamp-2 leading-snug group-hover:text-[#0B54C2] transition-colors h-[34px] sm:h-[40px] overflow-hidden">
                             {product?.name || 'Équipement SenTechPLUS'}
                         </h3>
                     </Link>
@@ -180,11 +179,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                             )}
                         </div>
                         {isOutOfStock ? (
-                            <span className="text-[8px] sm:text-[10px] font-bold text-[#FF6B35] bg-[#FF6B35]/10 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] sm:text-[10px] font-bold text-[#D9450F] bg-[#D9450F]/10 px-1.5 py-0.5 rounded shrink-0">
                                 Rupture
                             </span>
                         ) : (
-                            <span className="text-[8px] sm:text-[10px] font-bold text-[#16B979] bg-[#16B979]/10 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] sm:text-[10px] font-bold text-[#0D8956] bg-[#0D8956]/10 px-1.5 py-0.5 rounded shrink-0">
                                 En stock
                             </span>
                         )}
