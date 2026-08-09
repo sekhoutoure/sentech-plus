@@ -110,7 +110,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                     className={`absolute top-1.5 right-1.5 z-20 size-8 sm:size-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs ${
                         isWishlisted
                             ? 'bg-[#FF6B35] text-white scale-105'
-                            : 'bg-white/95 backdrop-blur-md text-[#667085] hover:text-[#FF6B35] border border-[#E8EDF3]'
+                            : 'bg-white/95 backdrop-blur-md text-[#475467] hover:text-[#FF6B35] border border-[#E8EDF3]'
                     }`}
                 >
                     <Heart size={14} fill={isWishlisted ? "currentColor" : "none"} className="sm:hidden" />
@@ -122,7 +122,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                     {imgError ? (
                         <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-[#F7F9FC]">
                             <ImageOff size={22} className="text-[#1677FF]/40" />
-                            <span className="text-[9px] font-extrabold text-[#667085] uppercase tracking-wider">SenTechPLUS</span>
+                            <span className="text-[9px] font-extrabold text-[#475467] uppercase tracking-wider">SenTechPLUS</span>
                         </div>
                     ) : (
                         <Image
@@ -174,7 +174,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                                 {formatPrice(price)}
                             </span>
                             {mrp && mrp > price && (
-                                <span className="text-[10px] sm:text-[12px] font-semibold text-[#667085] line-through leading-none">
+                                <span className="text-[10px] sm:text-[12px] font-semibold text-[#475467] line-through leading-none">
                                     {formatPrice(mrp)}
                                 </span>
                             )}

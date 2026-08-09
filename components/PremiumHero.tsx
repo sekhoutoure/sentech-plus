@@ -125,7 +125,7 @@ export default function PremiumHero() {
                                 Des accessoires <span className="text-[#1677FF]">intelligents</span> pour simplifier votre quotidien.
                             </h1>
 
-                            <p className="text-[#667085] text-[15px] sm:text-[16px] font-normal leading-relaxed max-w-md">
+                            <p className="text-[#475467] text-[15px] sm:text-[16px] font-normal leading-relaxed max-w-md">
                                 Découvrez une sélection de gadgets et accessoires high-tech pensés pour votre quotidien.
                             </p>
 

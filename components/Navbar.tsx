@@ -97,7 +97,7 @@ const Navbar: React.FC = () => {
                     {/* [BARRE DE RECHERCHE] Large Omnibox */}
                     <form onSubmit={handleSearch} className="flex-1 max-w-2xl relative">
                         <div className="relative w-full flex items-center bg-[#F5F7FA] hover:bg-[#EEF1F5] focus-within:bg-white px-4 py-3 rounded-full border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all duration-200">
-                            <Search size={18} className="text-[#667085] shrink-0 mr-3" />
+                            <Search size={18} className="text-[#475467] shrink-0 mr-3" />
                             <input
                                 id="desktop-search-input"
                                 name="search"
@@ -106,7 +106,7 @@ const Navbar: React.FC = () => {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 aria-label="Rechercher un produit, une marque ou une catégorie"
-                                className="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#182230] placeholder:text-[#667085]"
+                                className="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#182230] placeholder:text-[#475467]"
                             />
                             <button
                                 type="submit"
@@ -125,7 +125,7 @@ const Navbar: React.FC = () => {
                             href={isLoggedIn ? "/orders" : "/login"}
                             className="flex items-center gap-2 text-xs font-extrabold text-[#182230] hover:text-[#1677FF] transition-colors group"
                         >
-                            <div className="size-9 rounded-full bg-[#F5F7FA] group-hover:bg-[#EAF3FF] border border-[#E8EDF3] flex items-center justify-center text-[#667085] group-hover:text-[#1677FF] transition-colors">
+                            <div className="size-9 rounded-full bg-[#F5F7FA] group-hover:bg-[#EAF3FF] border border-[#E8EDF3] flex items-center justify-center text-[#475467] group-hover:text-[#1677FF] transition-colors">
                                 <User size={18} />
                             </div>
                             <div className="flex flex-col text-left">
