@@ -18,7 +18,7 @@ const LatestProducts: React.FC = () => {
         .slice(0, displayQuantity)
 
     return (
-        <section className="px-3 sm:px-6 my-4 sm:my-8 lg:my-12 max-w-[1400px] mx-auto @container">
+        <section className="px-1.5 sm:px-6 my-3 sm:my-8 lg:my-12 max-w-[1400px] mx-auto w-full @container">
 
             {/* Section Header */}
             <div className="flex items-end justify-between gap-3 mb-4 sm:mb-8 pb-3 border-b border-[#E8EDF3]">

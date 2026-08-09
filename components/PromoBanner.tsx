@@ -31,7 +31,7 @@ const promoDeals = [
 
 export default function PromoBanner() {
     return (
-        <section className="px-3 sm:px-6 my-4 sm:my-8 lg:my-12 max-w-[1400px] mx-auto">
+        <section className="px-1.5 sm:px-6 my-3 sm:my-8 lg:my-12 max-w-[1400px] mx-auto w-full">
             <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#EAF3FF] via-white to-[#F8FBFF] text-[#182230] border border-[#E8EDF3] shadow-xs">
 
                 {/* Subtle Ambient Glow */}

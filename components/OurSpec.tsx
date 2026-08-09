@@ -47,7 +47,7 @@ const OurSpecs: React.FC = () => {
     ]
 
     return (
-        <section className="px-3 sm:px-6 py-4 sm:py-8 lg:py-12 max-w-[1400px] mx-auto">
+        <section className="px-1.5 sm:px-6 py-3 sm:py-8 lg:py-12 max-w-[1400px] mx-auto w-full">
 
             {/* Section Header */}
             <div className="text-center space-y-1.5 mb-6 sm:mb-12">

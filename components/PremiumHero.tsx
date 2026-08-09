@@ -23,7 +23,7 @@ export default function PremiumHero() {
     }, [featuredImages.length])
 
     return (
-        <section className="px-3 sm:px-6 pt-1 pb-2 sm:py-6 max-w-[1400px] mx-auto">
+        <section className="px-1.5 sm:px-6 pt-1 pb-2 sm:py-6 max-w-[1400px] mx-auto w-full">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-6 items-stretch">
 
                 {/* ═══ GRANDE CARTE HERO LUMINEUSE ═══ */}

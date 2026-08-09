@@ -39,15 +39,21 @@
         accent-color: #1677FF;
         overscroll-behavior-y: contain;
         interpolate-size: allow-keywords;
+        width: 100%;
+        overflow-x: hidden;
     }
 
     body {
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100dvh;
         font-feature-settings: "cv02", "cv03", "cv04", "cv11";
         -webkit-font-smoothing: antialiased;
         font-smooth: antialiased;
         background-color: var(--brand-bg);
         color: var(--brand-text);
         overflow-x: hidden;
+        touch-action: manipulation;
     }
 
     h1, h2, h3, h4, h5, h6 {

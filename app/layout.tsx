@@ -10,9 +10,20 @@ import { defaultMetadata, getOrganizationSchema, getWebSiteSchema } from "@/lib/
 import { GA_TRACKING_ID } from "@/lib/analytics";
 import "./globals.css";
 
+import type { Viewport } from "next";
+
 const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], display: "swap" });
 
 export const metadata = defaultMetadata;
+
+export const viewport: Viewport = {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: "cover",
+    themeColor: "#FFFFFF",
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
