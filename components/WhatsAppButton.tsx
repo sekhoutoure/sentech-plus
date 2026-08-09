@@ -11,15 +11,12 @@ export default function WhatsAppButton() {
             aria-label="Support WhatsApp" 
             className="fixed bottom-[calc(76px+env(safe-area-inset-bottom,0px))] sm:bottom-6 right-4 sm:right-6 z-40 group"
         >
-            {/* Pulse rings */}
-            <div className="absolute inset-0 rounded-full bg-[#25D366]/20 animate-ping pointer-events-none" />
-
             <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Contactez-nous sur WhatsApp"
-                className="relative flex items-center bg-[#25D366] hover:bg-[#1EBD58] text-white rounded-full shadow-lg shadow-[#25D366]/35 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer
+                className="relative flex items-center justify-center bg-[#25D366] hover:bg-[#1EBD58] text-white rounded-full shadow-lg shadow-[#25D366]/40 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer
                     size-[48px] sm:size-auto p-0 sm:pl-3 sm:pr-4 sm:py-2.5"
             >
                 {/* WhatsApp Icon */}

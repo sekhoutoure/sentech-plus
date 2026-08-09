@@ -77,17 +77,17 @@ const Footer: React.FC = () => {
                         </p>
 
                         <div className="space-y-2 text-xs sm:text-sm text-slate-400">
-                            <a href={`tel:${siteSettings?.phone || '+221770000000'}`} className="flex items-center gap-2 hover:text-white transition-colors">
+                            <a href="tel:+221770000000" className="flex items-center gap-2 hover:text-white transition-colors">
                                 <Phone size={14} className="text-[#1769FF] shrink-0" />
-                                <span>{siteSettings?.phone || "+221 77 000 00 00"}</span>
+                                <span>{siteSettings?.phone && !siteSettings.phone.includes('+1-212') ? siteSettings.phone : "+221 77 000 00 00"}</span>
                             </a>
-                            <a href={`mailto:${siteSettings?.email || 'contact@sentechplus.sn'}`} className="flex items-center gap-2 hover:text-white transition-colors">
+                            <a href="mailto:contact@sentechplus.sn" className="flex items-center gap-2 hover:text-white transition-colors">
                                 <Mail size={14} className="text-[#1769FF] shrink-0" />
-                                <span>{siteSettings?.email || "contact@sentechplus.sn"}</span>
+                                <span>{siteSettings?.email && !siteSettings.email.includes('sentechplus.com') ? siteSettings.email : "contact@sentechplus.sn"}</span>
                             </a>
                             <p className="flex items-start gap-2">
                                 <MapPin size={14} className="text-[#1769FF] mt-0.5 shrink-0" />
-                                <span>{siteSettings?.address || "Avenue Cheikh Anta Diop, Dakar, Sénégal"}</span>
+                                <span>{siteSettings?.address && !siteSettings.address.includes('Francisco') ? siteSettings.address : "Avenue Cheikh Anta Diop, Dakar, Sénégal"}</span>
                             </p>
                         </div>
 
