@@ -80,6 +80,7 @@ const Newsletter: React.FC = () => {
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="Votre adresse email..."
                                         aria-label="Adresse email pour la newsletter"
+                                        autoComplete="email"
                                         required
                                         className="w-full bg-transparent outline-none text-xs sm:text-sm text-[#182230] placeholder:text-[#667085] font-medium py-2"
                                     />

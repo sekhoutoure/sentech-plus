@@ -106,6 +106,7 @@ const Navbar: React.FC = () => {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 aria-label="Rechercher un produit, une marque ou une catégorie"
+                                autoComplete="off"
                                 className="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#182230] placeholder:text-[#475467]"
                             />
                             <button
@@ -215,6 +216,7 @@ const Navbar: React.FC = () => {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 aria-label="Rechercher un produit ou une marque"
+                                autoComplete="off"
                                 className="w-full bg-transparent outline-none text-xs font-semibold text-[#182230] placeholder:text-[#475467]"
                             />
                         </div>
