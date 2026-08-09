@@ -80,10 +80,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
     }
 
     return (
-        <div className="group relative w-full bg-white rounded-2xl overflow-hidden border border-[#E8EDF3] shadow-[0_4px_15px_rgba(20,40,70,0.05)] hover:shadow-[0_12px_28px_rgba(20,40,70,0.09)] hover:border-[#1677FF]/35 transition-all duration-300 ease-out flex flex-col justify-between">
+        <div className="group relative w-full bg-white rounded-2xl overflow-hidden border border-[#E8EDF3] shadow-[0_4px_15px_rgba(20,40,70,0.05)] hover:shadow-[0_12px_28px_rgba(20,40,70,0.09)] hover:border-[#1677FF]/35 transition-all duration-300 ease-out flex flex-col justify-between h-full min-h-[280px] sm:min-h-[360px]">
 
             {/* Image Container — aspect-square 1:1, object-contain */}
-            <div className="relative w-full aspect-square bg-[#F7F9FC] flex items-center justify-center border-b border-[#E8EDF3] overflow-hidden">
+            <div className="relative w-full aspect-square bg-[#F7F9FC] flex items-center justify-center border-b border-[#E8EDF3] overflow-hidden shrink-0">
 
                 {/* Rank Badge */}
                 {rank && rank <= 3 && (
@@ -160,7 +160,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
 
                     {/* Product Name */}
                     <Link href={`/product/${productId}`} className="block">
-                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#182230] line-clamp-2 leading-snug group-hover:text-[#1677FF] transition-colors min-h-[34px]">
+                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#182230] line-clamp-2 leading-snug group-hover:text-[#1677FF] transition-colors h-[34px] sm:h-[40px] overflow-hidden">
                             {product?.name || 'Équipement SenTechPLUS'}
                         </h3>
                     </Link>
