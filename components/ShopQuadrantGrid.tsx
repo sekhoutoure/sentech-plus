@@ -65,13 +65,13 @@ export default function ShopQuadrantGrid() {
         <section className="max-w-[1400px] mx-auto px-4 sm:px-6 my-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {quadrants.map((quad, idx) => (
-                    <div key={idx} className="bg-white rounded-3xl p-4 border border-[#EBEBEB] shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+                    <div key={idx} className="bg-white rounded-3xl p-4 border border-[#EBEBEB] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] hover:scale-[1.01] hover:border-[#CBD5E1] transition-all duration-300 flex flex-col justify-between">
                         
                         {/* Title with Arrow */}
                         <div className="flex items-center justify-between pb-3 px-1">
                             <Link 
                                 href={`/shop?search=${encodeURIComponent(quad.query)}`}
-                                className="group flex items-center gap-1 text-base font-extrabold text-[#101828] hover:text-[#1769FF] transition-colors"
+                                className="group flex items-center gap-1 text-xl font-black text-[#101828] hover:text-[#1769FF] transition-colors"
                             >
                                 <span>{quad.title}</span>
                                 <ChevronRight size={18} className="text-[#667085] group-hover:text-[#1769FF] group-hover:translate-x-1 transition-transform" />
@@ -79,12 +79,12 @@ export default function ShopQuadrantGrid() {
                         </div>
 
                         {/* 2x2 Sub-Cards Grid (Exact Shop.app Quadrant Pattern) */}
-                        <div className="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden">
+                        <div className="grid grid-cols-2 gap-3 rounded-2xl overflow-hidden">
                             {quad.subCategories.map((sub, sIdx) => (
                                 <Link
                                     key={sIdx}
                                     href={`/shop?search=${encodeURIComponent(sub.query)}`}
-                                    className="group/sub relative h-28 sm:h-32 rounded-xl overflow-hidden bg-[#F7F9FC] border border-[#EBEBEB]/80 flex flex-col justify-end p-2 transition-all hover:border-[#1769FF]/40"
+                                    className="group/sub relative h-28 sm:h-32 rounded-2xl overflow-hidden bg-[#F7F9FC] border border-[#EBEBEB]/80 flex flex-col justify-end p-3 transition-all hover:border-[#1769FF]/40"
                                 >
                                     <Image
                                         src={sub.image}
@@ -92,8 +92,8 @@ export default function ShopQuadrantGrid() {
                                         fill
                                         className="object-cover group-hover/sub:scale-110 transition-transform duration-500"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                                    <span className="relative z-10 text-[11px] font-bold text-white leading-none drop-shadow-sm truncate">
+                                    <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-black/65 to-transparent pointer-events-none" />
+                                    <span className="relative z-10 text-[12px] font-extrabold text-white leading-none drop-shadow-md truncate">
                                         {sub.title}
                                     </span>
                                 </Link>

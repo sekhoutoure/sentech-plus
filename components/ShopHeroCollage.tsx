@@ -23,13 +23,13 @@ export default function ShopHeroCollage() {
     const [search, setSearch] = useState('')
 
     const categories = [
-        { label: "Smartphones", query: "Smartphones", dotColor: "bg-blue-600" },
-        { label: "Audio & Casques", query: "Casques", dotColor: "bg-indigo-600" },
-        { label: "Montres connectées", query: "Montres", dotColor: "bg-purple-600" },
-        { label: "Ordinateurs & Laptops", query: "Laptops", dotColor: "bg-emerald-600" },
-        { label: "Gaming", query: "Gaming", dotColor: "bg-rose-600" },
-        { label: "Accessoires & Hubs", query: "Accessoires", dotColor: "bg-amber-600" },
-        { label: "Smart Home", query: "Maison", dotColor: "bg-teal-600" },
+        { label: "Smartphones", query: "Smartphones", dotColor: "bg-blue-600", hoverColor: "hover:bg-blue-50" },
+        { label: "Audio & Casques", query: "Casques", dotColor: "bg-indigo-600", hoverColor: "hover:bg-indigo-50" },
+        { label: "Montres connectées", query: "Montres", dotColor: "bg-purple-600", hoverColor: "hover:bg-purple-50" },
+        { label: "Ordinateurs & Laptops", query: "Laptops", dotColor: "bg-emerald-600", hoverColor: "hover:bg-emerald-50" },
+        { label: "Gaming", query: "Gaming", dotColor: "bg-rose-600", hoverColor: "hover:bg-rose-50" },
+        { label: "Accessoires & Hubs", query: "Accessoires", dotColor: "bg-amber-600", hoverColor: "hover:bg-amber-50" },
+        { label: "Smart Home", query: "Maison", dotColor: "bg-teal-600", hoverColor: "hover:bg-teal-50" },
     ]
 
     const handleSearch = (e: React.FormEvent) => {
@@ -43,15 +43,16 @@ export default function ShopHeroCollage() {
         <section className="relative w-full pt-4 pb-8 sm:py-10 flex flex-col items-center justify-center overflow-hidden">
             
             {/* Ambient Lighting */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-gradient-to-tr from-[#1769FF]/10 via-[#EAF3FF]/40 to-transparent rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-500/20 rounded-full blur-[100px] pointer-events-none translate-x-1/3 -translate-y-1/3" />
+            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-500/20 rounded-full blur-[100px] pointer-events-none -translate-x-1/3 translate-y-1/3" />
 
-            <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center space-y-6">
+            <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center space-y-6 animate-fade-in-up">
                 
                 {/* Floating Product Cards (Shop.app Top Hero Style) */}
                 <div className="relative w-full flex items-center justify-center py-2 min-h-[140px] sm:min-h-[160px]">
                     
                     {/* Floating Product Card Top-Left with Rating */}
-                    <div className="hidden md:flex absolute left-4 lg:left-10 top-0 flex-col items-center bg-white rounded-2xl p-2.5 shadow-xl border border-[#EBEBEB] rotate-[-6deg] hover:rotate-0 transition-transform duration-300 animate-float">
+                    <div className="hidden md:flex absolute left-4 lg:left-10 top-0 flex-col items-center bg-white/95 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] rounded-2xl border border-white/60 p-2.5 rotate-[-6deg] hover:rotate-0 transition-transform duration-300 animate-float">
                         <div className="relative size-16 lg:size-20 rounded-xl bg-[#F7F9FC] overflow-hidden mb-1.5">
                             <Image src={assets.product_img3} alt="Wireless Headphone" fill className="object-contain p-1" />
                         </div>
@@ -73,7 +74,7 @@ export default function ShopHeroCollage() {
                     </div>
 
                     {/* Floating Product Card Top-Right with Rating */}
-                    <div className="hidden md:flex absolute right-4 lg:right-10 top-0 flex-col items-center bg-white rounded-2xl p-2.5 shadow-xl border border-[#EBEBEB] rotate-[6deg] hover:rotate-0 transition-transform duration-300 animate-float" style={{ animationDelay: '1.5s' }}>
+                    <div className="hidden md:flex absolute right-4 lg:right-10 top-0 flex-col items-center bg-white/95 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] rounded-2xl border border-white/60 p-2.5 rotate-[6deg] hover:rotate-0 transition-transform duration-300 animate-float" style={{ animationDelay: '1.5s' }}>
                         <div className="relative size-16 lg:size-20 rounded-xl bg-[#F7F9FC] overflow-hidden mb-1.5">
                             <Image src={assets.product_img4} alt="Smartwatch" fill className="object-contain p-1" />
                         </div>
@@ -88,7 +89,7 @@ export default function ShopHeroCollage() {
 
                 {/* Big Centered Omnibox Search Bar */}
                 <form onSubmit={handleSearch} className="w-full max-w-2xl relative">
-                    <div className="relative flex items-center bg-white rounded-[32px] p-2 shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-[#EBEBEB] focus-within:border-[#1769FF] focus-within:ring-4 focus-within:ring-[#1769FF]/15 transition-all duration-300">
+                    <div className="relative flex items-center bg-white rounded-[32px] p-2 shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-[#EBEBEB] focus-within:border-[#1769FF] focus-within:ring-4 focus-within:ring-[#1769FF]/20 focus-within:shadow-[0_0_0_4px_rgba(23,105,255,0.12)] transition-all duration-300">
                         <Search size={20} className="text-[#667085] ml-4 shrink-0" />
                         <input
                             type="text"
@@ -113,7 +114,7 @@ export default function ShopHeroCollage() {
                         <Link
                             key={idx}
                             href={`/shop?search=${encodeURIComponent(cat.query)}`}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-[#101828] bg-white hover:bg-[#F7F9FC] border border-[#EBEBEB] transition-all duration-200 shrink-0 hover:scale-105 active:scale-95 shadow-2xs"
+                            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-[#101828] bg-white ${cat.hoverColor} border border-[#EBEBEB] transition-all duration-200 shrink-0 hover:scale-105 active:scale-95 shadow-2xs`}
                         >
                             <span className={`size-2.5 rounded-full ${cat.dotColor}`} />
                             <span>{cat.label}</span>

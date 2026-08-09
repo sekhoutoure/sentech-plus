@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import { Mail, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react'
+import { Mail, Sparkles, CheckCircle2, Gift, Tag, Zap } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 const Newsletter: React.FC = () => {
@@ -14,75 +14,90 @@ const Newsletter: React.FC = () => {
             return
         }
         setIsSubscribed(true)
-        toast.success('Félicitations ! Vous êtes inscrit aux offres exclusives SenTech Plus.')
+        toast.success('Bienvenue dans le Club SenTech Plus ! 🎉')
         setEmail('')
     }
 
+    const benefits = [
+        { icon: Gift, label: "Offres exclusives" },
+        { icon: Zap, label: "Avant-premières" },
+        { icon: Tag, label: "Réductions VIP" },
+    ]
+
     return (
-        <section className='px-4 sm:px-6 my-16 sm:my-24 max-w-[1400px] mx-auto'>
-            <div className='relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#071126] via-[#0B1E40] to-[#071126] p-8 sm:p-14 lg:p-16 text-white border border-slate-800 shadow-2xl'>
-                
-                {/* Background Glows */}
-                <div className="absolute top-0 right-0 w-96 h-96 bg-[#1769FF]/20 rounded-full blur-[100px] pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#1769FF]/15 rounded-full blur-[90px] pointer-events-none" />
-                
-                <div className='relative z-10 max-w-2xl mx-auto text-center space-y-4'>
-                    
+        <section className="px-4 sm:px-6 my-16 sm:my-24 max-w-[1400px] mx-auto">
+            <div className="relative overflow-hidden rounded-3xl bg-[#071126] p-8 sm:p-14 lg:p-16 text-white border border-slate-800/80 shadow-2xl">
+
+                {/* Ambient Background Glows */}
+                <div className="absolute -top-40 -right-40 size-[500px] bg-[#1769FF]/20 rounded-full blur-[120px] pointer-events-none" />
+                <div className="absolute -bottom-40 -left-40 size-[400px] bg-purple-700/15 rounded-full blur-[100px] pointer-events-none" />
+
+                {/* Inner Glassmorphism Container */}
+                <div className="relative z-10 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 sm:p-12 max-w-2xl mx-auto text-center">
+
                     {/* Badge */}
-                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-bold text-cyan-300 shadow-sm">
-                        <Sparkles size={13} className="text-cyan-400" />
+                    <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-extrabold text-cyan-300 shadow-inner mb-5">
+                        <Sparkles size={12} className="text-cyan-400" />
                         <span>CLUB PRIVILÈGE SENTECH PLUS</span>
                     </div>
 
                     {/* Title */}
-                    <h2 className='text-2xl sm:text-4xl lg:text-[40px] font-extrabold text-white tracking-tight leading-tight'>
+                    <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight mb-3" style={{ textWrap: 'balance' } as React.CSSProperties}>
                         Recevez nos offres VIP & bons plans
                     </h2>
 
                     {/* Description */}
-                    <p className='text-xs sm:text-base text-slate-300 max-w-lg mx-auto leading-relaxed font-normal'>
-                        Inscrivez-vous gratuitement pour recevoir nos nouveautés, promotions et offres exclusives en avant-première.
+                    <p className="text-sm sm:text-base text-slate-300 max-w-md mx-auto leading-relaxed font-normal mb-6" style={{ textWrap: 'pretty' } as React.CSSProperties}>
+                        Inscrivez-vous gratuitement pour recevoir nos nouveautés, promotions exclusives et bons plans en avant-première.
                     </p>
 
-                    {/* Subscription Form */}
+                    {/* Benefit Pills */}
+                    <div className="flex items-center justify-center gap-2.5 flex-wrap mb-7">
+                        {benefits.map(({ icon: Icon, label }, i) => (
+                            <span key={i} className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/10 text-[11px] font-bold text-slate-200">
+                                <Icon size={12} className="text-cyan-400" />
+                                {label}
+                            </span>
+                        ))}
+                    </div>
+
+                    {/* Form or Success */}
                     {isSubscribed ? (
-                        <div className="inline-flex items-center gap-2 bg-[#12B76A]/20 text-emerald-300 px-6 py-3.5 rounded-full border border-[#12B76A]/40 text-sm font-bold animate-in zoom-in-95">
-                            <CheckCircle2 size={18} />
-                            <span>Merci ! Votre coupon de bienvenue a été envoyé par email.</span>
+                        <div className="inline-flex items-center gap-2.5 bg-[#12B76A]/20 text-emerald-300 px-6 py-4 rounded-2xl border border-[#12B76A]/40 text-sm font-bold">
+                            <CheckCircle2 size={20} className="shrink-0" />
+                            <span>Merci ! Votre coupon de bienvenue est en route 🎉</span>
                         </div>
                     ) : (
-                        <form onSubmit={handleSubmit} className='pt-4 max-w-lg mx-auto'>
-                            <div className='flex flex-col sm:flex-row items-center gap-2 bg-white/10 backdrop-blur-xl p-2 rounded-2xl sm:rounded-full border border-white/20 focus-within:border-[#1769FF] focus-within:ring-2 focus-within:ring-[#1769FF]/30 transition-all shadow-lg'>
-                                <div className="flex items-center gap-2.5 flex-1 px-3 w-full sm:w-auto">
-                                    <Mail size={18} className="text-slate-400 shrink-0" />
+                        <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+                            <div className="flex flex-col sm:flex-row items-stretch gap-2 bg-white/10 backdrop-blur-xl p-2 rounded-2xl border border-white/15 focus-within:border-[#1769FF]/60 focus-within:ring-2 focus-within:ring-[#1769FF]/30 transition-all">
+                                <div className="flex items-center gap-2.5 flex-1 pl-3">
+                                    <Mail size={17} className="text-slate-400 shrink-0" />
                                     <input
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="Entrez votre adresse email..."
-                                        aria-label="Adresse email"
+                                        placeholder="Votre adresse email..."
+                                        aria-label="Adresse email pour la newsletter"
                                         required
-                                        className="w-full bg-transparent outline-none text-xs sm:text-sm text-white placeholder:text-slate-400 font-medium py-1"
+                                        className="w-full bg-transparent outline-none text-sm text-white placeholder:text-slate-400 font-medium py-2"
                                     />
                                 </div>
-
                                 <button
                                     type="submit"
-                                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#1769FF] hover:bg-[#1256D6] text-white font-bold text-xs sm:text-sm px-7 py-3 rounded-xl sm:rounded-full shadow-md shadow-[#1769FF]/30 active:scale-95 transition-all duration-200 cursor-pointer shrink-0"
+                                    className="inline-flex items-center justify-center gap-2 bg-[#1769FF] hover:bg-[#1256D6] text-white font-bold text-sm px-6 py-3 rounded-xl shadow-lg shadow-[#1769FF]/30 active:scale-95 transition-all duration-200 cursor-pointer shrink-0"
                                 >
-                                    <span>S'inscrire →</span>
+                                    S'inscrire →
                                 </button>
                             </div>
+                            <p className="text-[11px] text-slate-500 mt-3 font-normal">
+                                Pas de spam. Désinscription à tout moment. Promis.
+                            </p>
                         </form>
                     )}
-
-                    <p className="text-[11px] text-slate-400 pt-2 font-normal">
-                        Pas de spam. Désinscription à tout moment.
-                    </p>
                 </div>
             </div>
         </section>
-    );
-};
+    )
+}
 
-export default Newsletter;
+export default Newsletter
