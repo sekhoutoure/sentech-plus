@@ -116,6 +116,28 @@
         }
     }
 
+    @keyframes slideInFromLeft {
+        0% {
+            opacity: 0;
+            transform: translateX(-100%);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes scaleIn {
+        0% {
+            opacity: 0;
+            transform: scale(0.96) translateY(8px);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
     @keyframes pulse-glow {
         0% { box-shadow: 0 0 0 0 rgba(23, 105, 255, 0.4); }
         70% { box-shadow: 0 0 0 10px rgba(23, 105, 255, 0); }
@@ -146,6 +168,15 @@
 
     .animate-slide-in-right {
         animation: slideInRight 0.5s var(--ease-out-expo) forwards;
+    }
+
+    /* Alias for mobile drawer slide-in (used in Navbar) */
+    .animate-slide-in {
+        animation: slideInFromLeft 0.35s var(--ease-out-expo) forwards;
+    }
+
+    .animate-scale-in {
+        animation: scaleIn 0.3s var(--ease-out-expo) forwards;
     }
 
     .card-clean {

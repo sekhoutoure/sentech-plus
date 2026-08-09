@@ -67,19 +67,19 @@ const Navbar: React.FC = () => {
         <header className="sticky top-0 z-50 bg-white border-b border-[#EBEBEB] shadow-xs">
             
             {/* Main Header Container */}
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3 sm:py-3.5">
+            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-4 sm:py-4">
                 
                 {/* Desktop Header Row */}
                 <div className="hidden lg:flex items-center justify-between gap-8">
                     
                     {/* [LOGO] SenTech Plus */}
                     <Link href="/" className="flex items-center group transition-transform hover:scale-[1.02] active:scale-[0.98] shrink-0">
-                        <Logo className="h-9 w-auto" />
+                        <Logo className="h-10 w-auto" />
                     </Link>
 
                     {/* [BARRE DE RECHERCHE] Large Omnibox */}
                     <form onSubmit={handleSearch} className="flex-1 max-w-2xl relative">
-                        <div className="relative w-full flex items-center bg-[#F7F9FC] hover:bg-slate-100/80 focus-within:bg-white px-4 py-2.5 rounded-full border border-[#EBEBEB] focus-within:border-[#1769FF] focus-within:ring-2 focus-within:ring-[#1769FF]/15 transition-all duration-200">
+                        <div className="relative w-full flex items-center bg-[#F7F9FC] hover:bg-slate-100/80 focus-within:bg-white px-4 py-3 rounded-full border border-[#EBEBEB] focus-within:border-[#1769FF] focus-within:ring-2 focus-within:ring-[#1769FF]/15 transition-all duration-200">
                             <Search size={18} className="text-[#667085] shrink-0 mr-3" />
                             <input
                                 type="text"
@@ -200,7 +200,7 @@ const Navbar: React.FC = () => {
             {/* Sub-Header Categories Navigation Bar (Scroll Horizontal sur Mobile) */}
             <div className="w-full bg-[#F7F9FC] border-t border-[#EBEBEB]">
                 <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-                    <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto py-2.5 no-scrollbar scroll-smooth">
+                    <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto py-3 no-scrollbar scroll-smooth">
                         {categories.map((cat, idx) => {
                             const Icon = cat.icon
                             return (

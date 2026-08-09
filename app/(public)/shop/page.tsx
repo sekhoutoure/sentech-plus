@@ -12,6 +12,7 @@ import { getBreadcrumbSchema } from "@/lib/seo"
 function ShopContent() {
     const searchParams = useSearchParams()
     const search = searchParams.get('search')
+    const categoryParam = searchParams.get('category')
     const router = useRouter()
 
     const breadcrumbs = [
@@ -20,7 +21,7 @@ function ShopContent() {
     ]
 
     const products = useSelector((state: any) => state.product?.list || [])
-    const [selectedCategory, setSelectedCategory] = useState("Tous")
+    const [selectedCategory, setSelectedCategory] = useState(categoryParam || "Tous")
     const [sortBy, setSortBy] = useState("default")
 
     const categoryList = ["Tous", ...categories, "Smartphones", "Laptops", "Gaming"]
@@ -38,8 +39,9 @@ function ShopContent() {
         }
 
         // Category filter
-        if (selectedCategory !== "Tous") {
-            list = list.filter(p => p.category?.toLowerCase() === selectedCategory.toLowerCase())
+        const targetCategory = selectedCategory !== "Tous" ? selectedCategory : categoryParam
+        if (targetCategory && targetCategory !== "Tous") {
+            list = list.filter(p => p.category?.toLowerCase() === targetCategory.toLowerCase())
         }
 
         // Sorting

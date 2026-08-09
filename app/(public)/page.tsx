@@ -10,7 +10,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function Home() {
     return (
-        <div className="bg-[#FCFCFC] min-h-screen space-y-4 sm:space-y-6">
+        <div className="bg-[#FCFCFC] min-h-screen">
             {/* 1. HERO (70% main card, 30% secondary cards) */}
             <PremiumHero />
 
