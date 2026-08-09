@@ -64,7 +64,7 @@ const Footer: React.FC = () => {
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
 
                 {/* Main Footer Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-10 lg:gap-12 py-8 sm:py-12 lg:py-16 border-b border-slate-800/60">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-10 lg:gap-12 py-6 sm:py-12 lg:py-16 border-b border-slate-800/60">
 
                     {/* Brand Column */}
                     <div className="lg:col-span-2 space-y-3 sm:space-y-5">

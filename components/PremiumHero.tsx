@@ -23,94 +23,88 @@ export default function PremiumHero() {
     }, [featuredImages.length])
 
     return (
-        <section className="px-3 sm:px-6 pt-3 pb-4 sm:py-10 max-w-[1400px] mx-auto">
+        <section className="px-3 sm:px-6 pt-1 pb-2 sm:py-10 max-w-[1400px] mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-6 items-stretch">
 
                 {/* ═══ GRANDE CARTE HERO ═══ */}
-                <div className="lg:col-span-8 relative flex flex-col bg-gradient-to-br from-[#071126] via-[#0B1E3F] to-[#071126] rounded-2xl sm:rounded-3xl text-white overflow-hidden border border-slate-800/80 shadow-xl group">
+                <div className="lg:col-span-8 relative flex flex-col bg-gradient-to-br from-[#071126] via-[#0B1E3F] to-[#071126] rounded-2xl sm:rounded-3xl text-white overflow-hidden border border-slate-800/80 shadow-lg group">
 
                     {/* Ambient Orbs */}
-                    <div className="absolute -top-24 -right-24 size-[300px] sm:size-[420px] bg-[#1769FF]/20 rounded-full blur-[80px] sm:blur-[110px] pointer-events-none" />
-                    <div className="absolute -bottom-24 -left-24 size-[260px] sm:size-[380px] bg-cyan-500/10 rounded-full blur-[70px] sm:blur-[100px] pointer-events-none" />
+                    <div className="absolute -top-24 -right-24 size-[250px] sm:size-[420px] bg-[#1769FF]/20 rounded-full blur-[70px] sm:blur-[110px] pointer-events-none" />
+                    <div className="absolute -bottom-24 -left-24 size-[220px] sm:size-[380px] bg-cyan-500/10 rounded-full blur-[60px] sm:blur-[100px] pointer-events-none" />
 
-                    {/* ── MOBILE layout: Image produit (220-250px) + Texte clamp ── */}
-                    <div className="flex flex-col lg:hidden flex-1 p-4 pb-5">
-                        {/* Badge top */}
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[10px] font-bold text-cyan-300 w-fit mb-2">
-                            <Sparkles size={11} className="text-cyan-400" />
-                            <span>COLLECTION HIGH-TECH 2026</span>
+                    {/* ── MOBILE layout: Ultra-compact (200-240px) avec composition équilibrée ── */}
+                    <div className="flex lg:hidden flex-col justify-between p-3.5 sm:p-5 relative z-10 min-h-[220px] max-h-[260px]">
+                        {/* Top Row: Badge + Delivery */}
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[9px] font-extrabold text-cyan-300">
+                                <Sparkles size={10} className="text-cyan-400" />
+                                <span>COLLECTION HIGH-TECH</span>
+                            </div>
+                            <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+                                🚚 Express Sénégal
+                            </span>
                         </div>
 
-                        {/* Zone Image Produit Mobile */}
-                        <div className="relative w-full h-[220px] xs:h-[250px] flex items-center justify-center my-1">
-                            {featuredImages.map((src, index) => (
-                                <div
-                                    key={index}
-                                    className={`absolute inset-0 flex items-center justify-center transition-all duration-700 ease-out ${
-                                        index === currentImgIndex
-                                            ? 'opacity-100 scale-100'
-                                            : 'opacity-0 scale-90 pointer-events-none'
-                                    }`}
-                                >
-                                    <div className="relative w-56 h-56 xs:w-60 xs:h-60">
-                                        <Image
-                                            src={src}
-                                            alt="Produit High-Tech SenTech Plus"
-                                            fill
-                                            className="object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
-                                            priority={index === 0}
-                                        />
-                                    </div>
+                        {/* Mid Row: 45% Text Left, 55% Image Right */}
+                        <div className="grid grid-cols-12 gap-2 items-center my-1.5">
+                            {/* Left Text (5 cols) */}
+                            <div className="col-span-7 space-y-1">
+                                <h1 className="text-[20px] xs:text-[24px] font-black tracking-tight text-white leading-tight">
+                                    Technologie.<br />
+                                    <span className="text-[#1769FF]">Simplicité.</span>
+                                </h1>
+                                <p className="text-[11px] text-slate-300 font-normal line-clamp-2 leading-snug">
+                                    Découvrez nos produits high-tech sélectionnés.
+                                </p>
+                                <div className="pt-1">
+                                    <Link
+                                        href="/shop"
+                                        className="inline-flex items-center gap-1 bg-[#1769FF] hover:bg-[#1256D6] text-white font-extrabold text-xs py-2 px-3.5 rounded-xl shadow-md active:scale-95 transition-all"
+                                    >
+                                        <span>Découvrir</span>
+                                        <ArrowRight size={12} />
+                                    </Link>
                                 </div>
-                            ))}
+                            </div>
 
-                            {/* Carousel Indicators */}
-                            <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
-                                {featuredImages.map((_, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => setCurrentImgIndex(idx)}
-                                        aria-label={`Diapositive ${idx + 1}`}
-                                        className={`h-1 rounded-full transition-all duration-300 ${
-                                            idx === currentImgIndex ? 'w-5 bg-[#1769FF]' : 'w-1.5 bg-white/30'
+                            {/* Right Image (5 cols) */}
+                            <div className="col-span-5 relative h-[120px] xs:h-[140px] flex items-center justify-center">
+                                {featuredImages.map((src, index) => (
+                                    <div
+                                        key={index}
+                                        className={`absolute inset-0 flex items-center justify-center transition-all duration-700 ease-out ${
+                                            index === currentImgIndex
+                                                ? 'opacity-100 scale-100'
+                                                : 'opacity-0 scale-90 pointer-events-none'
                                         }`}
-                                    />
+                                    >
+                                        <div className="relative w-full h-full">
+                                            <Image
+                                                src={src}
+                                                alt="Produit High-Tech SenTech Plus"
+                                                fill
+                                                className="object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.5)]"
+                                                priority={index === 0}
+                                            />
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         </div>
 
-                        {/* Title & Actions */}
-                        <div className="relative z-10 space-y-2.5 pt-1 text-center">
-                            <h1 
-                                className="font-black tracking-tight text-white leading-snug"
-                                style={{ fontSize: 'clamp(20px, 5.5vw, 30px)' }}
-                            >
-                                Des accessoires intelligents pour simplifier votre quotidien.
-                            </h1>
-
-                            <p className="text-slate-300 text-xs xs:text-sm font-normal leading-relaxed max-w-sm mx-auto">
-                                Gadgets, accessoires et équipements high-tech sélectionnés pour vous.
-                            </p>
-
-                            <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full w-fit mx-auto">
-                                <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                                <span>Livraison express au Sénégal</span>
-                            </div>
-
-                            <div className="flex items-center gap-2 pt-1">
-                                <Link
-                                    href="/shop"
-                                    className="flex-1 text-center inline-flex items-center justify-center gap-2 bg-[#1769FF] hover:bg-[#1256D6] text-white font-extrabold text-xs xs:text-sm py-3 px-4 rounded-xl shadow-md shadow-[#1769FF]/30 active:scale-95 transition-all"
-                                >
-                                    Acheter maintenant →
-                                </Link>
-                                <Link
-                                    href="/shop"
-                                    className="inline-flex items-center gap-1 bg-white/10 hover:bg-white/20 text-white font-bold text-xs xs:text-sm py-3 px-3.5 rounded-xl border border-white/20 transition-all"
-                                >
-                                    Catalogue
-                                </Link>
-                            </div>
+                        {/* Carousel Indicators */}
+                        <div className="flex justify-center gap-1 pt-0.5">
+                            {featuredImages.map((_, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => setCurrentImgIndex(idx)}
+                                    aria-label={`Diapositive ${idx + 1}`}
+                                    className={`h-1 rounded-full transition-all duration-300 ${
+                                        idx === currentImgIndex ? 'w-4 bg-[#1769FF]' : 'w-1 bg-white/30'
+                                    }`}
+                                />
+                            ))}
                         </div>
                     </div>
 
@@ -190,33 +184,32 @@ export default function PremiumHero() {
                     </div>
                 </div>
 
-                {/* ═══ CARTES SECONDAIRES ═══ */}
-                <div className="lg:col-span-4 grid grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4 lg:gap-6">
+                {/* ═══ CARTES SECONDAIRES (Masquées sur mobile: hidden lg:grid) ═══ */}
+                <div className="hidden lg:grid lg:col-span-4 grid-cols-1 gap-6">
                     {/* Carte 1: Audio */}
-                    <div className="relative bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 border border-[#EBEBEB] shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group overflow-hidden min-h-[145px] sm:min-h-[200px]">
-                        <div className="absolute -right-6 -bottom-6 size-28 sm:size-40 bg-[#EAF3FF] rounded-full pointer-events-none" />
+                    <div className="relative bg-white rounded-3xl p-7 border border-[#EBEBEB] shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group overflow-hidden min-h-[200px]">
+                        <div className="absolute -right-6 -bottom-6 size-40 bg-[#EAF3FF] rounded-full pointer-events-none" />
 
                         <div className="relative z-10 space-y-1">
-                            <div className="size-7 sm:size-10 rounded-lg sm:rounded-2xl bg-[#EAF3FF] text-[#1769FF] flex items-center justify-center">
-                                <Headphones size={15} className="sm:hidden" />
-                                <Headphones size={20} className="hidden sm:block" />
+                            <div className="size-10 rounded-2xl bg-[#EAF3FF] text-[#1769FF] flex items-center justify-center">
+                                <Headphones size={20} />
                             </div>
-                            <h3 className="text-xs xs:text-sm sm:text-xl font-black text-[#101828] leading-tight pt-0.5">
+                            <h3 className="text-xl font-black text-[#101828] leading-tight pt-0.5">
                                 Audio & Casques
                             </h3>
                         </div>
 
-                        <div className="relative z-10 pt-1.5 sm:pt-4">
+                        <div className="relative z-10 pt-4">
                             <Link
                                 href="/shop?search=Casques"
-                                className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-black text-[#1769FF]"
+                                className="inline-flex items-center gap-1 text-xs font-black text-[#1769FF]"
                             >
                                 <span>Explorer</span>
                                 <ArrowRight size={11} />
                             </Link>
                         </div>
 
-                        <div className="absolute right-1.5 bottom-1.5 sm:right-3 sm:bottom-3 size-14 xs:size-16 sm:size-28 rounded-lg sm:rounded-2xl bg-[#F7F9FC] border border-[#EBEBEB] overflow-hidden flex items-center justify-center">
+                        <div className="absolute right-3 bottom-3 size-28 rounded-2xl bg-[#F7F9FC] border border-[#EBEBEB] overflow-hidden flex items-center justify-center">
                             <Image
                                 src={assets.product_img3}
                                 alt="Audio & Casques"
@@ -227,28 +220,28 @@ export default function PremiumHero() {
                     </div>
 
                     {/* Carte 2: Bon Plan */}
-                    <div className="relative bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 text-white shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group overflow-hidden min-h-[145px] sm:min-h-[200px]">
+                    <div className="relative bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 rounded-3xl p-7 text-white shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group overflow-hidden min-h-[200px]">
                         <div className="relative z-10 space-y-1">
-                            <span className="inline-flex items-center gap-1 bg-white text-amber-900 text-[8px] xs:text-[9px] sm:text-[10px] font-black uppercase px-1.5 sm:px-3 py-0.5 rounded-full">
+                            <span className="inline-flex items-center gap-1 bg-white text-amber-900 text-[10px] font-black uppercase px-3 py-0.5 rounded-full">
                                 <Flame size={9} className="text-orange-500" />
                                 BON PLAN
                             </span>
-                            <h3 className="text-sm xs:text-lg sm:text-3xl font-black tracking-tight text-white leading-none pt-0.5">
+                            <h3 className="text-3xl font-black tracking-tight text-white leading-none pt-0.5">
                                 Jusqu'à -20%
                             </h3>
                         </div>
 
-                        <div className="relative z-10 pt-1.5 sm:pt-4">
+                        <div className="relative z-10 pt-4">
                             <Link
                                 href="/shop?search=Promo"
-                                className="inline-flex items-center gap-1 bg-white text-amber-950 font-extrabold text-[10px] sm:text-xs px-2.5 py-1 rounded-md sm:rounded-lg shadow-xs"
+                                className="inline-flex items-center gap-1 bg-white text-amber-950 font-extrabold text-xs px-3 py-1.5 rounded-lg shadow-xs"
                             >
                                 <span>Profiter</span>
                                 <ArrowRight size={10} />
                             </Link>
                         </div>
 
-                        <div className="absolute right-1.5 bottom-1.5 sm:right-3 sm:bottom-3 size-14 xs:size-16 sm:size-28 rounded-lg sm:rounded-2xl bg-white/20 border border-white/30 backdrop-blur-md overflow-hidden flex items-center justify-center">
+                        <div className="absolute right-3 bottom-3 size-28 rounded-2xl bg-white/20 border border-white/30 backdrop-blur-md overflow-hidden flex items-center justify-center">
                             <Image
                                 src={assets.product_img4}
                                 alt="Bon Plan"

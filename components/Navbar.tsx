@@ -168,31 +168,33 @@ const Navbar: React.FC = () => {
 
                 </div>
 
-                {/* Mobile Header Row (Hauteur ~55-60px avec zones tactiles 44x44px) */}
-                <div className="flex lg:hidden items-center justify-between gap-2 h-12">
-                    <button
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="min-w-[44px] min-h-[44px] rounded-xl text-[#101828] hover:bg-slate-100 transition cursor-pointer flex items-center justify-center"
-                        aria-label="Menu de navigation"
-                        aria-expanded={isMobileMenuOpen}
-                        aria-controls="mobile-drawer-menu"
-                    >
-                        {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-                    </button>
-
-                    <Link href="/" className="flex items-center group shrink-0">
-                        <Logo className="h-8 w-auto" />
-                    </Link>
-
+                {/* Mobile Header Row (Hauteur compacte 48px avec zones tactiles 44x44px) */}
+                <div className="flex lg:hidden items-center justify-between gap-1.5 h-11">
                     <div className="flex items-center gap-1">
+                        <button
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            className="size-[42px] rounded-xl text-[#101828] hover:bg-[#F7F9FC] transition cursor-pointer flex items-center justify-center shrink-0"
+                            aria-label="Menu de navigation"
+                            aria-expanded={isMobileMenuOpen}
+                            aria-controls="mobile-drawer-menu"
+                        >
+                            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                        </button>
+
+                        <Link href="/" className="flex items-center group shrink-0 ml-0.5">
+                            <Logo className="h-7 w-auto" />
+                        </Link>
+                    </div>
+
+                    <div className="flex items-center gap-0.5">
                         <Link
                             href="/wishlist"
-                            className="relative min-w-[44px] min-h-[44px] rounded-xl text-[#101828] hover:text-[#F04438] transition flex items-center justify-center"
+                            className="relative size-[42px] rounded-xl text-[#101828] hover:text-[#F04438] hover:bg-[#F7F9FC] transition flex items-center justify-center shrink-0"
                             aria-label="Favoris"
                         >
-                            <Heart size={20} />
+                            <Heart size={19} />
                             {wishlistCount > 0 && (
-                                <span className="absolute top-1.5 right-1.5 size-4 bg-[#F04438] text-white text-[9px] font-black rounded-full flex items-center justify-center">
+                                <span className="absolute top-1 right-1 size-4 bg-[#F04438] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-xs">
                                     {wishlistCount}
                                 </span>
                             )}
@@ -200,12 +202,12 @@ const Navbar: React.FC = () => {
 
                         <button
                             onClick={() => dispatch(openDrawer())}
-                            className="relative min-w-[44px] min-h-[44px] rounded-xl text-[#101828] hover:text-[#1769FF] transition flex items-center justify-center cursor-pointer"
+                            className="relative size-[42px] rounded-xl text-[#101828] hover:text-[#1769FF] hover:bg-[#F7F9FC] transition flex items-center justify-center cursor-pointer shrink-0"
                             aria-label="Panier"
                         >
-                            <ShoppingCart size={20} />
+                            <ShoppingCart size={19} />
                             {cartCount > 0 && (
-                                <span className="absolute top-1.5 right-1.5 size-4 bg-[#1769FF] text-white text-[9px] font-black rounded-full flex items-center justify-center">
+                                <span className="absolute top-1 right-1 size-4 bg-[#1769FF] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-xs">
                                     {cartCount}
                                 </span>
                             )}
@@ -213,10 +215,10 @@ const Navbar: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Mobile Header Row 2 (Barre de Recherche Omnibox) */}
-                <div className="lg:hidden mt-2">
+                {/* Mobile Header Row 2 (Barre de Recherche Omnibox 44px) */}
+                <div className="lg:hidden mt-1.5">
                     <form onSubmit={handleSearch} className="relative w-full">
-                        <div className="relative flex items-center bg-[#F7F9FC] px-3.5 py-2 rounded-full border border-[#EBEBEB] focus-within:border-[#1769FF] focus-within:bg-white transition-all">
+                        <div className="relative h-[44px] flex items-center bg-[#F7F9FC] px-3.5 rounded-xl border border-[#EBEBEB] focus-within:border-[#1769FF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1769FF]/15 transition-all">
                             <Search size={16} className="text-[#667085] mr-2 shrink-0" />
                             <input
                                 type="text"

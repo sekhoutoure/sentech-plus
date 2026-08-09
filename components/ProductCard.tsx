@@ -80,14 +80,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
     }
 
     return (
-        <div className="group relative w-full bg-white rounded-xl sm:rounded-3xl overflow-hidden border border-[#EBEBEB] shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.12)] hover:border-[#1769FF]/25 transition-all duration-300 ease-out flex flex-col justify-between">
+        <div className="group relative w-full bg-white rounded-2xl overflow-hidden border border-[#EBEBEB] shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] hover:border-[#1769FF]/25 transition-all duration-300 ease-out flex flex-col justify-between">
 
             {/* Image Container — aspect-square 1:1, object-contain */}
             <div className="relative w-full aspect-square bg-[#F7F9FC] flex items-center justify-center border-b border-[#EBEBEB]/60 overflow-hidden">
 
                 {/* Rank Badge */}
                 {rank && rank <= 3 && (
-                    <div className={`absolute top-2 left-2 z-20 size-6 sm:size-8 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-black shadow-md ${
+                    <div className={`absolute top-2 left-2 z-20 size-6 sm:size-7 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-black shadow-md ${
                         rank === 1 ? 'bg-amber-400 text-amber-950' :
                         rank === 2 ? 'bg-slate-300 text-slate-800' :
                         'bg-amber-700 text-amber-100'
@@ -98,7 +98,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
 
                 {/* Discount Badge */}
                 {discount > 0 && (
-                    <span className="absolute top-2 left-2 z-20 bg-[#F04438] text-white text-[9px] sm:text-xs font-black px-1.5 sm:px-3 py-0.5 rounded-full shadow-md shadow-[#F04438]/30">
+                    <span className="absolute top-2 left-2 z-20 bg-[#F04438] text-white text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full shadow-xs">
                         -{discount}%
                     </span>
                 )}
@@ -107,27 +107,27 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                 <button
                     onClick={handleWishlistToggle}
                     aria-label={isWishlisted ? "Retirer des favoris" : "Ajouter aux favoris"}
-                    className={`absolute top-1.5 right-1.5 z-20 size-8 sm:size-10 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-xs ${
+                    className={`absolute top-1.5 right-1.5 z-20 size-8 sm:size-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs ${
                         isWishlisted
                             ? 'bg-[#F04438] text-white scale-105'
                             : 'bg-white/95 backdrop-blur-md text-[#667085] hover:text-[#F04438] border border-[#EBEBEB]'
                     }`}
                 >
                     <Heart size={14} fill={isWishlisted ? "currentColor" : "none"} className="sm:hidden" />
-                    <Heart size={17} fill={isWishlisted ? "currentColor" : "none"} className="hidden sm:block" />
+                    <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} className="hidden sm:block" />
                 </button>
 
                 {/* Product Image */}
                 <Link href={`/product/${productId}`} className="relative w-full h-full block p-2">
                     {imgError ? (
                         <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-[#F7F9FC]">
-                            <ImageOff size={20} className="text-[#1769FF]/30" />
-                            <span className="text-[8px] font-bold text-[#667085] uppercase">Sans image</span>
+                            <ImageOff size={22} className="text-[#1769FF]/40" />
+                            <span className="text-[9px] font-extrabold text-[#667085] uppercase tracking-wider">SenTech Plus</span>
                         </div>
                     ) : (
                         <Image
                             fill
-                            className="object-contain group-hover:scale-105 transition-transform duration-500 ease-out p-1"
+                            className="object-contain group-hover:scale-105 transition-transform duration-500 ease-out p-1.5"
                             src={imgSrc}
                             onError={() => {
                                 if (imgSrc !== FALLBACK_PRODUCT_IMAGE) {
@@ -143,56 +143,56 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                 </Link>
             </div>
 
-            {/* Content Area — Padding ~8px sur mobile */}
-            <div className="p-2 sm:p-5 flex flex-col flex-1 justify-between gap-1.5 sm:gap-3 bg-white">
+            {/* Content Area — Padding ~10px sur mobile */}
+            <div className="p-2.5 sm:p-4 flex flex-col flex-1 justify-between gap-1.5 bg-white">
 
                 <div className="space-y-1">
                     {/* Category & Rating */}
                     <div className="flex items-center justify-between gap-1">
-                        <span className="text-[10px] sm:text-[12px] font-extrabold text-[#1769FF] uppercase tracking-wider truncate">
+                        <span className="text-[10px] sm:text-[11px] font-extrabold text-[#1769FF] uppercase tracking-wider truncate">
                             {product?.category || 'High-Tech'}
                         </span>
                         <div className="flex items-center gap-0.5 shrink-0">
                             <Star size={11} fill="#F59E0B" className="text-amber-400" />
-                            <span className="text-[11px] sm:text-[13px] font-extrabold text-[#101828]">{avgRating}</span>
+                            <span className="text-[11px] font-extrabold text-[#101828]">{avgRating}</span>
                         </div>
                     </div>
 
                     {/* Product Name (Max 2 lignes, 12-14px) */}
                     <Link href={`/product/${productId}`} className="block">
-                        <h3 className="text-[12px] sm:text-[15px] font-bold text-[#101828] line-clamp-2 leading-snug group-hover:text-[#1769FF] transition-colors">
+                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#101828] line-clamp-2 leading-snug group-hover:text-[#1769FF] transition-colors">
                             {product?.name || 'Équipement SenTech Plus'}
                         </h3>
                     </Link>
                 </div>
 
-                <div className="space-y-2 pt-0.5">
+                <div className="space-y-2 pt-1">
                     {/* Pricing & Stock (Prix 14-16px, très lisible) */}
                     <div className="flex items-baseline justify-between gap-1">
-                        <span className="text-[14px] xs:text-[15px] sm:text-[18px] font-black text-[#101828] leading-none">
+                        <span className="text-[14px] sm:text-[17px] font-black text-[#101828] leading-none">
                             {formatPrice(price)}
                         </span>
                         {isOutOfStock ? (
-                            <span className="text-[8px] sm:text-xs font-bold text-[#F04438] bg-rose-50 px-1 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] sm:text-[10px] font-bold text-[#F04438] bg-rose-50 px-1.5 py-0.5 rounded shrink-0">
                                 Rupture
                             </span>
                         ) : (
-                            <span className="text-[8px] sm:text-xs font-bold text-[#12B76A] bg-emerald-50 px-1 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] sm:text-[10px] font-bold text-[#12B76A] bg-emerald-50 px-1.5 py-0.5 rounded shrink-0">
                                 En stock
                             </span>
                         )}
                     </div>
 
-                    {/* Add to Cart Button (Min 40px height) */}
+                    {/* Add to Cart Button (Min 40px height, rounded-xl) */}
                     <button
                         onClick={handleQuickAdd}
                         disabled={isOutOfStock}
                         aria-label="Ajouter au panier"
-                        className={`w-full font-bold text-[11px] sm:text-sm min-h-[40px] py-2.5 sm:py-3 px-2 rounded-lg sm:rounded-2xl transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer ${
+                        className={`w-full font-extrabold text-[11px] sm:text-xs h-[40px] py-2 px-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer ${
                             isOutOfStock
                                 ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
                                 : isAdded
-                                ? 'bg-[#12B76A] text-white shadow-sm'
+                                ? 'bg-[#12B76A] text-white shadow-xs'
                                 : 'bg-[#071126] hover:bg-[#1769FF] text-white shadow-2xs'
                         }`}
                     >
