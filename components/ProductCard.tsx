@@ -83,7 +83,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
         <div className="group relative w-full bg-white rounded-2xl overflow-hidden border border-[#E8EDF3] shadow-[0_4px_15px_rgba(20,40,70,0.05)] hover:shadow-[0_12px_28px_rgba(20,40,70,0.09)] hover:border-[#1677FF]/35 transition-all duration-300 ease-out flex flex-col justify-between">
 
             {/* Image Container — aspect-square 1:1, object-contain */}
-            <div className="relative w-full aspect-square bg-[#F5F7FA] flex items-center justify-center border-b border-[#E8EDF3] overflow-hidden">
+            <div className="relative w-full aspect-square bg-[#F7F9FC] flex items-center justify-center border-b border-[#E8EDF3] overflow-hidden">
 
                 {/* Rank Badge */}
                 {rank && rank <= 3 && (
@@ -120,7 +120,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                 {/* Product Image */}
                 <Link href={`/product/${productId}`} className="relative w-full h-full block p-2">
                     {imgError ? (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-[#F5F7FA]">
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-[#F7F9FC]">
                             <ImageOff size={22} className="text-[#1677FF]/40" />
                             <span className="text-[9px] font-extrabold text-[#667085] uppercase tracking-wider">SenTechPLUS</span>
                         </div>
@@ -143,7 +143,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                 </Link>
             </div>
 
-            {/* Content Area */}
+            {/* Content Area — Equal Height Container */}
             <div className="p-2.5 sm:p-4 flex flex-col flex-1 justify-between gap-1.5 bg-white">
 
                 <div className="space-y-1">
@@ -160,18 +160,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
 
                     {/* Product Name */}
                     <Link href={`/product/${productId}`} className="block">
-                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#182230] line-clamp-2 leading-snug group-hover:text-[#1677FF] transition-colors">
+                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#182230] line-clamp-2 leading-snug group-hover:text-[#1677FF] transition-colors min-h-[34px]">
                             {product?.name || 'Équipement SenTechPLUS'}
                         </h3>
                     </Link>
                 </div>
 
                 <div className="space-y-2 pt-1">
-                    {/* Pricing & Stock */}
-                    <div className="flex items-baseline justify-between gap-1">
-                        <span className="text-[14px] sm:text-[17px] font-black text-[#182230] leading-none">
-                            {formatPrice(price)}
-                        </span>
+                    {/* Pricing & Stock (Prix + Ancien Prix Barré si disponible) */}
+                    <div className="flex items-baseline justify-between gap-1 flex-wrap min-h-[22px]">
+                        <div className="flex items-baseline gap-1.5 flex-wrap">
+                            <span className="text-[14px] sm:text-[17px] font-black text-[#182230] leading-none">
+                                {formatPrice(price)}
+                            </span>
+                            {mrp && mrp > price && (
+                                <span className="text-[10px] sm:text-[12px] font-semibold text-[#667085] line-through leading-none">
+                                    {formatPrice(mrp)}
+                                </span>
+                            )}
+                        </div>
                         {isOutOfStock ? (
                             <span className="text-[8px] sm:text-[10px] font-bold text-[#FF6B35] bg-[#FF6B35]/10 px-1.5 py-0.5 rounded shrink-0">
                                 Rupture
@@ -183,12 +190,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                         )}
                     </div>
 
-                    {/* Add to Cart Button */}
+                    {/* Add to Cart Button (Compact 40px-42px) */}
                     <button
                         onClick={handleQuickAdd}
                         disabled={isOutOfStock}
                         aria-label="Ajouter au panier"
-                        className={`w-full font-extrabold text-[11px] sm:text-xs h-[40px] py-2 px-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer ${
+                        className={`w-full font-extrabold text-[11px] sm:text-xs h-[40px] sm:h-[42px] py-2 px-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer ${
                             isOutOfStock
                                 ? 'bg-[#EEF1F5] text-slate-400 cursor-not-allowed border border-[#E8EDF3]'
                                 : isAdded
@@ -201,7 +208,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                         ) : isAdded ? (
                             <><Check size={14} /><span>Ajouté !</span></>
                         ) : (
-                            <><ShoppingCart size={14} /><span>Ajouter</span></>
+                            <><ShoppingCart size={14} /><span className="hidden sm:inline">Ajouter au panier</span><span className="sm:hidden">Ajouter</span></>
                         )}
                     </button>
                 </div>

@@ -49,10 +49,10 @@ const LatestProducts: React.FC = () => {
                     ))}
                 </div>
             ) : (
-                <div className="flex flex-col items-center justify-center py-12 gap-3 text-center border-2 border-dashed border-[#E5E9F0] rounded-2xl bg-[#F6F8FB]/50">
-                    <Sparkles size={24} className="text-[#007BFF]" />
-                    <h3 className="text-sm font-bold text-[#101828]">Aucun produit disponible</h3>
-                    <Link href="/shop" className="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#007BFF] hover:bg-[#0069D9] px-4 py-2 rounded-xl">
+                <div className="flex flex-col items-center justify-center py-12 gap-3 text-center border-2 border-dashed border-[#E8EDF3] rounded-2xl bg-[#F3F7FC]/50">
+                    <Sparkles size={24} className="text-[#1677FF]" />
+                    <h3 className="text-sm font-bold text-[#182230]">Aucun produit disponible</h3>
+                    <Link href="/shop" className="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#1677FF] hover:bg-[#0F67E5] px-4 py-2 rounded-xl">
                         Parcourir le catalogue <ArrowRight size={13} />
                     </Link>
                 </div>
