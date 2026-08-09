@@ -3,116 +3,110 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import Logo from "@/components/Logo";
 import React from "react";
-import { Mail, Phone, MapPin, Facebook, Instagram, Twitter, Linkedin, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, MessageCircle } from "lucide-react";
 
 const Footer: React.FC = () => {
     const siteSettings = useSelector((state: any) => state.siteSettings)
 
     const catalogLinks = [
         { text: "Smartphones", path: '/shop?search=Smartphones' },
-        { text: "Ordinateurs", path: '/shop?search=Laptops' },
+        { text: "Ordinateurs & Laptops", path: '/shop?search=Laptops' },
         { text: "Casques & Écouteurs", path: '/shop?search=Casques' },
         { text: "Montres connectées", path: '/shop?search=Montres' },
         { text: "Gaming", path: '/shop?search=Gaming' },
         { text: "Accessoires", path: '/shop?search=Accessoires' },
-    ];
+    ]
 
     const infoLinks = [
         { text: "À propos de SenTech Plus", path: '/about' },
         { text: "Livraison & Expédition", path: '/pricing' },
-        { text: "Moyens de Paiement", path: '/pricing' },
-        { text: "Politique de confidentialité", path: '/pricing' },
+        { text: "Wave & Orange Money", path: '/pricing' },
+        { text: "Confidentialité", path: '/pricing' },
         { text: "Conditions générales", path: '/pricing' },
-        { text: "Retours & Échanges sous 7j", path: '/pricing' },
-    ];
+        { text: "Retours sous 7 jours", path: '/pricing' },
+    ]
 
     const supportLinks = [
         { text: "Centre d'aide & FAQ", path: '/pricing' },
-        { text: "Assistance WhatsApp 24/7", path: 'https://wa.me/221770000000', external: true },
-        { text: "Page de Contact", path: '/contact' },
+        { text: "WhatsApp 24/7", path: 'https://wa.me/221770000000', external: true },
+        { text: "Contact", path: '/contact' },
         { text: "Suivi de commande", path: '/orders' },
-    ];
-
-    const paymentBadges = [
-        { label: "Wave", emoji: "🌊" },
-        { label: "Orange Money", emoji: "🟠" },
-        { label: "Visa", emoji: "💳" },
-        { label: "Mastercard", emoji: "💳" },
-        { label: "Cash on Delivery", emoji: "📦" }
-    ];
+    ]
 
     const socialLinks = [
         { icon: Instagram, href: "#", label: "Instagram" },
         { icon: Facebook, href: "#", label: "Facebook" },
-        { icon: Twitter, href: "#", label: "Twitter" },
-        { icon: MessageCircle, href: "#", label: "WhatsApp" },
-    ];
+        { icon: Twitter, href: "#", label: "Twitter / X" },
+        { icon: MessageCircle, href: "https://wa.me/221770000000", label: "WhatsApp", external: true },
+    ]
+
+    const paymentBadges = [
+        { icon: "🌊", label: "Wave" },
+        { icon: "🟠", label: "Orange Money" },
+        { icon: "💳", label: "Visa" },
+        { icon: "💳", label: "Mastercard" },
+        { icon: "💵", label: "Cash à la livraison" },
+    ]
 
     return (
-        <footer className="bg-[#071126] text-white border-t border-slate-800 pt-16 sm:pt-24 pb-8 overflow-hidden relative">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[1px] bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
-            
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative z-10">
-                
-                {/* Top 4-Column Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16 border-b border-white/10">
-                    
+        <footer className="bg-[#071126] text-white border-t border-slate-800/60">
+            <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+
+                {/* Main Footer Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12 py-14 sm:py-16 border-b border-slate-800/60">
+
                     {/* Brand Column */}
-                    <div className="lg:col-span-4 space-y-6">
-                        <Link href="/" className="inline-block transition-transform hover:scale-[1.02] active:scale-95 duration-300">
+                    <div className="lg:col-span-2 space-y-5">
+                        <Link href="/" className="inline-block transition-transform hover:scale-[1.02]">
                             <Logo isDark={true} />
                         </Link>
-                        
-                        <p className="text-slate-400 text-sm leading-relaxed max-w-sm font-normal [text-wrap:pretty]">
-                            Votre boutique high-tech au Sénégal pour découvrir les meilleurs gadgets et accessoires technologiques.
+
+                        <p className="text-slate-400 text-sm leading-relaxed max-w-xs font-normal" style={{ textWrap: 'pretty' } as React.CSSProperties}>
+                            La technologie qui simplifie votre quotidien. La boutique high-tech de référence au Sénégal.
                         </p>
 
-                        <div className="space-y-3 pt-2 text-sm text-slate-300">
-                            <div className="flex items-center gap-3 group">
-                                <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#1769FF]/20 group-hover:border-[#1769FF]/30 group-hover:text-[#1769FF] transition-colors">
-                                    <Phone size={14} className="shrink-0" />
-                                </div>
+                        <div className="space-y-2.5 text-sm text-slate-400">
+                            <a href={`tel:${siteSettings?.phone || '+221770000000'}`} className="flex items-center gap-2.5 hover:text-white transition-colors group">
+                                <Phone size={15} className="text-[#1769FF] group-hover:scale-110 transition-transform shrink-0" />
                                 <span>{siteSettings?.phone || "+221 77 000 00 00"}</span>
-                            </div>
-                            <div className="flex items-center gap-3 group">
-                                <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#1769FF]/20 group-hover:border-[#1769FF]/30 group-hover:text-[#1769FF] transition-colors">
-                                    <Mail size={14} className="shrink-0" />
-                                </div>
+                            </a>
+                            <a href={`mailto:${siteSettings?.email || 'contact@sentechplus.sn'}`} className="flex items-center gap-2.5 hover:text-white transition-colors group">
+                                <Mail size={15} className="text-[#1769FF] group-hover:scale-110 transition-transform shrink-0" />
                                 <span>{siteSettings?.email || "contact@sentechplus.sn"}</span>
-                            </div>
-                            <div className="flex items-center gap-3 group">
-                                <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#1769FF]/20 group-hover:border-[#1769FF]/30 group-hover:text-[#1769FF] transition-colors">
-                                    <MapPin size={14} className="shrink-0" />
-                                </div>
+                            </a>
+                            <p className="flex items-start gap-2.5">
+                                <MapPin size={15} className="text-[#1769FF] mt-0.5 shrink-0" />
                                 <span>{siteSettings?.address || "Avenue Cheikh Anta Diop, Dakar, Sénégal"}</span>
-                            </div>
+                            </p>
                         </div>
 
-                        {/* Social Links */}
-                        <div className="flex items-center gap-3 pt-4">
-                            {socialLinks.map((social, idx) => {
-                                const Icon = social.icon;
+                        {/* Social Icons */}
+                        <div className="flex items-center gap-2.5 pt-1">
+                            {socialLinks.map((social, i) => {
+                                const Icon = social.icon
                                 return (
-                                    <Link key={idx} href={social.href} aria-label={social.label} className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-white/10 hover:text-white hover:border-white/20 transition-all hover:scale-110 active:scale-95">
-                                        <Icon size={18} />
-                                    </Link>
+                                    <a
+                                        key={i}
+                                        href={social.href}
+                                        target={social.external ? "_blank" : undefined}
+                                        rel={social.external ? "noopener noreferrer" : undefined}
+                                        aria-label={social.label}
+                                        className="size-9 rounded-xl bg-slate-800 hover:bg-[#1769FF] border border-slate-700 hover:border-[#1769FF] flex items-center justify-center text-slate-400 hover:text-white transition-all duration-200"
+                                    >
+                                        <Icon size={16} />
+                                    </a>
                                 )
                             })}
                         </div>
                     </div>
 
-                    {/* COLONNE CATALOGUE */}
-                    <div className="lg:col-span-2 space-y-6 lg:ml-auto">
-                        <h3 className="text-sm font-black tracking-widest text-white uppercase">
-                            Catalogue
-                        </h3>
-                        <ul className="space-y-3.5 text-sm">
+                    {/* Catalogue */}
+                    <div className="space-y-4">
+                        <h3 className="text-xs font-black tracking-widest text-white uppercase">CATALOGUE</h3>
+                        <ul className="space-y-2.5">
                             {catalogLinks.map((link, i) => (
                                 <li key={i}>
-                                    <Link
-                                        href={link.path}
-                                        className="text-slate-400 hover:text-[#1769FF] transition-colors inline-block hover:translate-x-1 transform duration-200"
-                                    >
+                                    <Link href={link.path} className="text-slate-400 hover:text-white text-sm transition-colors hover:pl-1 duration-200 block">
                                         {link.text}
                                     </Link>
                                 </li>
@@ -120,18 +114,13 @@ const Footer: React.FC = () => {
                         </ul>
                     </div>
 
-                    {/* COLONNE INFORMATIONS */}
-                    <div className="lg:col-span-3 space-y-6 lg:ml-auto">
-                        <h3 className="text-sm font-black tracking-widest text-white uppercase">
-                            Informations
-                        </h3>
-                        <ul className="space-y-3.5 text-sm">
+                    {/* Informations */}
+                    <div className="space-y-4">
+                        <h3 className="text-xs font-black tracking-widest text-white uppercase">INFORMATIONS</h3>
+                        <ul className="space-y-2.5">
                             {infoLinks.map((link, i) => (
                                 <li key={i}>
-                                    <Link
-                                        href={link.path}
-                                        className="text-slate-400 hover:text-[#1769FF] transition-colors inline-block hover:translate-x-1 transform duration-200"
-                                    >
+                                    <Link href={link.path} className="text-slate-400 hover:text-white text-sm transition-colors hover:pl-1 duration-200 block">
                                         {link.text}
                                     </Link>
                                 </li>
@@ -139,55 +128,66 @@ const Footer: React.FC = () => {
                         </ul>
                     </div>
 
-                    {/* COLONNE SUPPORT */}
-                    <div className="lg:col-span-3 space-y-6 lg:ml-auto">
-                        <h3 className="text-sm font-black tracking-widest text-white uppercase">
-                            Support
-                        </h3>
-                        <ul className="space-y-3.5 text-sm">
+                    {/* Support */}
+                    <div className="space-y-4">
+                        <h3 className="text-xs font-black tracking-widest text-white uppercase">SUPPORT</h3>
+                        <ul className="space-y-2.5">
                             {supportLinks.map((link, i) => (
                                 <li key={i}>
                                     <Link
                                         href={link.path}
                                         target={link.external ? "_blank" : undefined}
                                         rel={link.external ? "noopener noreferrer" : undefined}
-                                        className="text-slate-400 hover:text-[#1769FF] transition-colors inline-flex items-center gap-2 hover:translate-x-1 transform duration-200"
+                                        className="text-slate-400 hover:text-white text-sm transition-colors hover:pl-1 duration-200 block"
                                     >
                                         {link.text}
-                                        {link.external && <span className="text-[10px] bg-white/10 px-1.5 py-0.5 rounded-sm">↗</span>}
                                     </Link>
                                 </li>
                             ))}
                         </ul>
-                    </div>
 
+                        {/* WhatsApp CTA Card */}
+                        <a
+                            href="https://wa.me/221770000000"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-4 flex items-center gap-2.5 bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/30 text-[#25D366] rounded-xl px-3.5 py-2.5 transition-all duration-200 group"
+                        >
+                            <MessageCircle size={16} className="group-hover:scale-110 transition-transform" />
+                            <div>
+                                <div className="text-[11px] font-black">Réponse en &lt;5 min</div>
+                                <div className="text-[10px] text-[#25D366]/70 font-medium">7j/7 sur WhatsApp</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
 
-                {/* Bottom Bar: Copyright & Payment Methods */}
-                <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-slate-500">
-                    <p className="flex items-center gap-2">
-                        © {new Date().getFullYear()} SenTech Plus.
-                        <span className="hidden sm:inline">|</span> 
-                        <span className="text-slate-400">Made in Sénégal 🇸🇳</span>
+                {/* Bottom Bar */}
+                <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="text-xs text-slate-500">
+                        © 2026 <span className="text-slate-300 font-bold">SenTech Plus</span>. Tous droits réservés.
                     </p>
 
-                    {/* Payment Chips */}
-                    <div className="flex flex-wrap items-center justify-center gap-2">
+                    <p className="text-xs text-slate-500 font-medium">
+                        Made with ❤️ in Sénégal 🇸🇳
+                    </p>
+
+                    {/* Payment Methods */}
+                    <div className="flex flex-wrap items-center justify-end gap-1.5">
                         {paymentBadges.map((badge, i) => (
-                            <div
+                            <span
                                 key={i}
-                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-slate-300 hover:bg-white/10 transition-colors cursor-default"
-                                title={badge.label}
+                                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-[10px] font-bold text-slate-300"
                             >
-                                <span>{badge.emoji}</span>
+                                <span>{badge.icon}</span>
                                 <span>{badge.label}</span>
-                            </div>
+                            </span>
                         ))}
                     </div>
                 </div>
             </div>
         </footer>
-    );
-};
+    )
+}
 
-export default Footer;
+export default Footer
