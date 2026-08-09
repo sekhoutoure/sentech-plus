@@ -1,8 +1,10 @@
 'use client'
+import dynamic from "next/dynamic";
 import Banner from "@/components/Banner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import SidebarDock from "@/components/SidebarDock";
+
+const SidebarDock = dynamic(() => import("@/components/SidebarDock"), { ssr: false });
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
     return (

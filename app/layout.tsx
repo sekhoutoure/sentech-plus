@@ -1,14 +1,16 @@
 import { Outfit } from "next/font/google";
-import { Toaster } from "react-hot-toast";
 import Script from "next/script";
+import dynamic from "next/dynamic";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import StoreProvider from "@/app/StoreProvider";
 import JsonLd from "@/components/seo/JsonLd";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import { defaultMetadata, getOrganizationSchema, getWebSiteSchema } from "@/lib/seo";
 import { GA_TRACKING_ID } from "@/lib/analytics";
 import "./globals.css";
+
+const WhatsAppButton = dynamic(() => import("@/components/WhatsAppButton"));
+const Toaster = dynamic(() => import("react-hot-toast").then((mod) => mod.Toaster));
 
 import type { Viewport } from "next";
 
