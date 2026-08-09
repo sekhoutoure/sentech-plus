@@ -2,7 +2,7 @@
 import React, { useRef } from 'react'
 import Link from 'next/link'
 import Image, { StaticImageData } from 'next/image'
-import { ChevronRight, ArrowRight, Sparkles, Flame, Star } from 'lucide-react'
+import { ChevronRight, ArrowRight, Sparkles, Flame } from 'lucide-react'
 import { assets } from '@/assets/assets'
 
 interface BrandCard {
@@ -39,14 +39,14 @@ export default function ShopRails() {
                 {
                     title: "Samsung Galaxy",
                     subtitle: "Écrans AMOLED & charge rapide",
-                    bgImage: assets.product_img7,
+                    bgImage: assets.product_img8,
                     query: "Smartphones",
                     badge: "Certifié",
-                    thumbnails: [assets.product_img7, assets.product_img2, assets.product_img5]
+                    thumbnails: [assets.product_img8, assets.product_img2, assets.product_img5]
                 },
                 {
-                    title: "Protection & Coques",
-                    subtitle: "Verres trempés & étuis antichoc",
+                    title: "Protection & Énergie",
+                    subtitle: "Chargeurs rapides & câbles tressés",
                     bgImage: assets.product_img2,
                     query: "Accessoires",
                     thumbnails: [assets.product_img2, assets.product_img1, assets.product_img6]
@@ -60,7 +60,7 @@ export default function ShopRails() {
             cards: [
                 {
                     title: "Wireless Pro Audio",
-                    subtitle: "Casques ANC & isolation totale",
+                    subtitle: "Casques ANC & isolation active",
                     bgImage: assets.product_img3,
                     query: "Casques",
                     badge: "Top Vente",
@@ -74,11 +74,11 @@ export default function ShopRails() {
                     thumbnails: [assets.product_img5, assets.product_img3, assets.product_img2]
                 },
                 {
-                    title: "Écouteurs Sport & Fit",
-                    subtitle: "Résistants à l'eau & maintien parfait",
+                    title: "Montres & Écouteurs Sport",
+                    subtitle: "Cardio, GPS & étanchéité IP68",
                     bgImage: assets.product_img4,
-                    query: "Casques",
-                    thumbnails: [assets.product_img4, assets.product_img8, assets.product_img1]
+                    query: "Montres",
+                    thumbnails: [assets.product_img4, assets.product_img3, assets.product_img8]
                 },
             ]
         },
@@ -103,11 +103,11 @@ export default function ShopRails() {
                     thumbnails: [assets.product_img7, assets.product_img1, assets.product_img2]
                 },
                 {
-                    title: "Manettes & Accessoires",
-                    subtitle: "Compatibles PC, PS5 & Xbox",
-                    bgImage: assets.product_img6,
+                    title: "Setup & Accessoires",
+                    subtitle: "Casques gamer & supports",
+                    bgImage: assets.product_img3,
                     query: "Gaming",
-                    thumbnails: [assets.product_img6, assets.product_img4, assets.product_img5]
+                    thumbnails: [assets.product_img3, assets.product_img1, assets.product_img4]
                 },
             ]
         },
@@ -118,7 +118,7 @@ export default function ShopRails() {
             cards: [
                 {
                     title: "Chargeurs Rapides GaN",
-                    subtitle: "65W à 140W pour tous vos appareils",
+                    subtitle: "65W à 140W multi-ports",
                     bgImage: assets.product_img2,
                     query: "Chargeurs",
                     badge: "Indispensable",
@@ -126,7 +126,7 @@ export default function ShopRails() {
                 },
                 {
                     title: "Smart Home & Éclairage",
-                    subtitle: "Lampes connectées & domotique",
+                    subtitle: "Lampes connectées & ambiance LED",
                     bgImage: assets.product_img6,
                     query: "Maison",
                     thumbnails: [assets.product_img6, assets.product_img5, assets.product_img4]
@@ -134,9 +134,9 @@ export default function ShopRails() {
                 {
                     title: "Power Banks Haute Capacité",
                     subtitle: "20 000mAh à 50 000mAh nomade",
-                    bgImage: assets.product_img5,
+                    bgImage: assets.product_img2,
                     query: "Accessoires",
-                    thumbnails: [assets.product_img5, assets.product_img2, assets.product_img1]
+                    thumbnails: [assets.product_img2, assets.product_img8, assets.product_img1]
                 },
             ]
         }
