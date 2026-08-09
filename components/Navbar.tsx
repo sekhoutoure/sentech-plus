@@ -1,7 +1,8 @@
 'use client'
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { 
     Search, 
     ShoppingCart, 
@@ -18,11 +19,14 @@ import {
     Speaker,
     Plug,
     Home,
-    ChevronRight
+    ChevronRight,
+    ArrowRight
 } from 'lucide-react'
 import { useSelector, useDispatch } from 'react-redux'
 import { openDrawer } from '@/lib/features/cart/cartSlice'
 import { logout } from '@/lib/features/user/userSlice'
+import { formatPrice } from '@/lib/format'
+import { getProductImage } from '@/lib/image-utils'
 import toast from 'react-hot-toast'
 import Logo from './Logo'
 
@@ -44,14 +48,40 @@ const Navbar: React.FC = () => {
 
     const [search, setSearch] = useState('')
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    const [isSearchFocused, setIsSearchFocused] = useState(false)
+    const searchContainerRef = useRef<HTMLDivElement>(null)
 
     const cartCount = useSelector((state: any) => state.cart?.itemCount || 0)
     const wishlistCount = useSelector((state: any) => state.wishlist?.items?.length || 0)
     const { isLoggedIn, user } = useSelector((state: any) => state.user || { isLoggedIn: false, user: null })
+    const products = useSelector((state: any) => state.product?.list || [])
 
-    // Auto-fermeture du menu mobile lors d'un changement de page / navigation
+    // Filtrer les résultats de recherche instantanée (Live Search)
+    const searchResults = React.useMemo(() => {
+        const query = search.trim().toLowerCase()
+        if (!query) return []
+        return products.filter((p: any) => 
+            (p.name && p.name.toLowerCase().includes(query)) ||
+            (p.category && p.category.toLowerCase().includes(query)) ||
+            (p.description && p.description.toLowerCase().includes(query))
+        ).slice(0, 5)
+    }, [search, products])
+
+    // Détection clic à l'extérieur pour fermer le menu déroulant
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+                setIsSearchFocused(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
+
+    // Auto-fermeture du menu mobile et des recherches lors d'un changement de page
     useEffect(() => {
         setIsMobileMenuOpen(false)
+        setIsSearchFocused(false)
     }, [pathname])
 
     // Bloquer le défilement de l'arrière-plan quand le tiroir mobile est ouvert
@@ -94,30 +124,99 @@ const Navbar: React.FC = () => {
                         <Logo className="h-10 w-auto" />
                     </Link>
 
-                    {/* [BARRE DE RECHERCHE] Large Omnibox */}
-                    <form onSubmit={handleSearch} className="flex-1 max-w-2xl relative">
-                        <div className="relative w-full flex items-center bg-white hover:bg-[#F5F7FA] focus-within:bg-white px-4 py-3 rounded-full border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all duration-200 shadow-2xs">
-                            <Search size={18} className="text-[#475467] shrink-0 mr-3" />
-                            <input
-                                id="desktop-search-input"
-                                name="search"
-                                type="text"
-                                placeholder="Rechercher un produit, une marque ou une catégorie..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                aria-label="Rechercher un produit, une marque ou une catégorie"
-                                autoComplete="off"
-                                className="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#182230] placeholder:text-[#475467]"
-                            />
-                            <button
-                                type="submit"
-                                aria-label="Rechercher"
-                                className="bg-[#1677FF] hover:bg-[#0F67E5] text-white text-xs font-extrabold px-5 py-2 rounded-full transition-all duration-200 shrink-0 shadow-2xs cursor-pointer active:scale-95 ml-2"
-                            >
-                                Rechercher
-                            </button>
-                        </div>
-                    </form>
+                    {/* [BARRE DE RECHERCHE] Large Omnibox avec Autocomplétion Live */}
+                    <div ref={searchContainerRef} className="flex-1 max-w-2xl relative">
+                        <form onSubmit={handleSearch} className="w-full relative">
+                            <div className="relative w-full flex items-center bg-white hover:bg-[#F5F7FA] focus-within:bg-white px-4 py-3 rounded-full border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all duration-200 shadow-2xs">
+                                <Search size={18} className="text-[#475467] shrink-0 mr-3" />
+                                <input
+                                    id="desktop-search-input"
+                                    name="search"
+                                    type="text"
+                                    placeholder="Rechercher un produit, une marque ou une catégorie..."
+                                    value={search}
+                                    onChange={(e) => {
+                                        setSearch(e.target.value)
+                                        setIsSearchFocused(true)
+                                    }}
+                                    onFocus={() => setIsSearchFocused(true)}
+                                    aria-label="Rechercher un produit, une marque ou une catégorie"
+                                    autoComplete="off"
+                                    className="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#182230] placeholder:text-[#475467]"
+                                />
+                                <button
+                                    type="submit"
+                                    aria-label="Rechercher"
+                                    className="bg-[#1677FF] hover:bg-[#0F67E5] text-white text-xs font-extrabold px-5 py-2 rounded-full transition-all duration-200 shrink-0 shadow-2xs cursor-pointer active:scale-95 ml-2"
+                                >
+                                    Rechercher
+                                </button>
+                            </div>
+                        </form>
+
+                        {/* Dropdown de Résultats Live Autocomplete */}
+                        {isSearchFocused && search.trim().length > 0 && (
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-[#E5EAF0] shadow-xl z-50 overflow-hidden">
+                                {searchResults.length > 0 ? (
+                                    <div>
+                                        <div className="px-4 py-2 bg-[#F8FAFC] border-b border-[#E5EAF0] text-[10px] font-extrabold text-[#475467] uppercase tracking-wider flex items-center justify-between">
+                                            <span>Suggérés pour vous</span>
+                                            <span className="text-[#0B54C2] font-black">{searchResults.length} produit(s)</span>
+                                        </div>
+                                        <div className="divide-y divide-[#E5EAF0] max-h-[360px] overflow-y-auto">
+                                            {searchResults.map((product: any) => {
+                                                const img = getProductImage(product, 0)
+                                                const price = product.price || 0
+                                                const productId = product.id || product._id || 'prod'
+                                                return (
+                                                    <Link
+                                                        key={productId}
+                                                        href={`/product/${productId}`}
+                                                        onClick={() => setIsSearchFocused(false)}
+                                                        className="flex items-center gap-3 p-3 hover:bg-[#F3F7FC] transition-colors group"
+                                                    >
+                                                        <div className="relative size-12 rounded-xl bg-[#F7F9FC] border border-[#E8EDF3] overflow-hidden shrink-0">
+                                                            <Image
+                                                                src={img}
+                                                                alt={product.name || "Produit"}
+                                                                fill
+                                                                className="object-contain p-1"
+                                                            />
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <span className="text-[10px] font-extrabold text-[#0B54C2] uppercase block leading-none mb-0.5">
+                                                                {product.category || 'High-Tech'}
+                                                            </span>
+                                                            <h4 className="text-xs font-bold text-[#182230] truncate group-hover:text-[#1677FF] transition-colors">
+                                                                {product.name}
+                                                            </h4>
+                                                            <span className="text-xs font-black text-[#182230]">
+                                                                {formatPrice(price)}
+                                                            </span>
+                                                        </div>
+                                                        <ChevronRight size={16} className="text-[#475467] group-hover:text-[#1677FF] transition-colors shrink-0" />
+                                                    </Link>
+                                                )
+                                            })}
+                                        </div>
+                                        <button
+                                            onClick={handleSearch}
+                                            type="button"
+                                            className="w-full p-3 bg-[#F8FAFC] hover:bg-[#EAF3FF] text-[#1677FF] text-xs font-extrabold text-center transition-colors border-t border-[#E5EAF0] flex items-center justify-center gap-1.5 cursor-pointer"
+                                        >
+                                            <span>Voir tous les résultats pour "{search}"</span>
+                                            <ArrowRight size={13} />
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="p-6 text-center">
+                                        <p className="text-xs font-bold text-[#182230] mb-1">Aucun résultat trouvé pour "{search}"</p>
+                                        <p className="text-[11px] text-[#475467]">Essayez avec d'autres mots-clés (ex: iPhone, Casque, Montre...)</p>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
 
                     {/* [ACTIONS DROITE] Compte | Favoris | Panier */}
                     <div className="flex items-center gap-5 shrink-0">
@@ -204,7 +303,7 @@ const Navbar: React.FC = () => {
                 </div>
 
                 {/* Mobile Header Row 2 (Barre de Recherche Omnibox 44px) */}
-                <div className="lg:hidden mt-1.5">
+                <div className="lg:hidden mt-1.5 relative">
                     <form onSubmit={handleSearch} className="relative w-full">
                         <div className="relative h-[44px] flex items-center bg-white px-3.5 rounded-xl border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-2xs">
                             <Search size={16} className="text-[#475467] mr-2 shrink-0" />
@@ -214,7 +313,11 @@ const Navbar: React.FC = () => {
                                 type="text"
                                 placeholder="Rechercher un produit, une marque..."
                                 value={search}
-                                onChange={(e) => setSearch(e.target.value)}
+                                onChange={(e) => {
+                                    setSearch(e.target.value)
+                                    setIsSearchFocused(true)
+                                }}
+                                onFocus={() => setIsSearchFocused(true)}
                                 aria-label="Rechercher un produit ou une marque"
                                 autoComplete="off"
                                 className="w-full bg-transparent outline-none text-xs font-semibold text-[#182230] placeholder:text-[#475467]"
