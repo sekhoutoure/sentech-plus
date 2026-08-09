@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 :root {
-    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-    /* SenTech Plus Official Color System */
+    /* SenTech Plus Modern Color System */
     --brand-navy: #071126;
     --brand-electric: #1769FF;
     --brand-blue: #2563EB;
     --brand-ice: #EAF3FF;
     --brand-white: #FFFFFF;
-    --brand-bg: #F7F9FC;
+    --brand-bg: #FCFCFC;
     --brand-text: #101828;
     --brand-text-muted: #667085;
-    --brand-border: #E4E7EC;
+    --brand-border: #EBEBEB;
     --brand-success: #12B76A;
     --brand-promo: #F04438;
 }
@@ -24,22 +24,40 @@
         -webkit-tap-highlight-color: transparent;
         scroll-behavior: smooth;
         font-optical-sizing: auto;
+        accent-color: var(--brand-electric);
+        overscroll-behavior-y: contain;
     }
 
     body {
         background-color: var(--brand-bg);
         color: var(--brand-text);
         overflow-x: hidden;
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        text-wrap: balance;
+        letter-spacing: -0.02em;
+    }
+
+    p, li {
+        text-wrap: pretty;
+    }
+
+    /* Sleek Native Scrollbars */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 0, 0, 0.12) transparent;
     }
 
     /* Buttons & Interactive Elements */
     button, a[role="button"], .interactive-btn {
         cursor: pointer;
-        transition: transform 180ms var(--ease-out), opacity 180ms var(--ease-out), background-color 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
+        transition: transform 200ms var(--ease-out), opacity 200ms var(--ease-out), background-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
     }
 
     button:active, a[role="button"]:active, .interactive-btn:active {
-        transform: scale(0.98);
+        transform: scale(0.97);
     }
 
     button:focus-visible, a:focus-visible {
@@ -69,18 +87,18 @@
             transform: translateY(0px);
         }
         50% {
-            transform: translateY(-6px);
+            transform: translateY(-8px);
         }
     }
 
     .animate-float {
-        animation: floatSlow 5s ease-in-out infinite;
+        animation: floatSlow 4.5s ease-in-out infinite;
     }
 
     @keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(12px);
+            transform: translateY(16px);
         }
         to {
             opacity: 1;
@@ -92,66 +110,60 @@
         animation: fadeInUp 0.4s var(--ease-out) forwards;
     }
 
-    /* Clean Card Utilities (18px to 24px radius, subtle border & shadow) */
+    /* Clean Card Utilities */
     .card-clean {
         background-color: #FFFFFF;
         border: 1px solid var(--brand-border);
-        border-radius: 1.25rem; /* 20px */
-        box-shadow: 0 1px 3px 0 rgba(16, 24, 40, 0.04), 0 1px 2px -1px rgba(16, 24, 40, 0.02);
+        border-radius: 1.5rem; /* 24px */
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
         transition: all 250ms var(--ease-out);
     }
 
     .card-clean:hover {
         border-color: #CBD5E1;
-        box-shadow: 0 10px 25px -5px rgba(16, 24, 40, 0.08), 0 8px 10px -6px rgba(16, 24, 40, 0.04);
+        box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.06), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
         transform: translateY(-2px);
     }
 
-    /* Electric Primary Button */
+    /* Electric Button */
     .btn-electric {
         background-color: var(--brand-electric);
         color: #FFFFFF;
-        font-weight: 600;
-        border-radius: 0.875rem;
+        font-weight: 700;
+        border-radius: 1rem;
+        padding: 0.75rem 1.5rem;
         transition: all 200ms var(--ease-out);
-        box-shadow: 0 4px 12px rgba(23, 105, 255, 0.25);
+        box-shadow: 0 4px 14px 0 rgba(23, 105, 255, 0.35);
     }
 
     .btn-electric:hover {
         background-color: #1256D6;
-        box-shadow: 0 6px 16px rgba(23, 105, 255, 0.35);
+        box-shadow: 0 6px 20px 0 rgba(23, 105, 255, 0.45);
         transform: translateY(-1px);
     }
 
-    /* Secondary Clean Button */
     .btn-secondary-clean {
         background-color: #FFFFFF;
         color: var(--brand-text);
-        border: 1px solid var(--brand-border);
         font-weight: 600;
-        border-radius: 0.875rem;
+        border: 1px solid var(--brand-border);
+        border-radius: 1rem;
+        padding: 0.75rem 1.5rem;
         transition: all 200ms var(--ease-out);
     }
 
     .btn-secondary-clean:hover {
-        background-color: #F8FAFC;
+        background-color: #F7F9FC;
         border-color: #CBD5E1;
+        color: var(--brand-electric);
     }
 }
 
-/* Hide scrollbars cleanly */
+/* Custom Scrollbar Utility */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
 .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, ::before, ::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
 }
