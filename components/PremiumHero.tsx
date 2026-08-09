@@ -95,16 +95,20 @@ export default function PremiumHero() {
                         </div>
 
                         {/* Bottom Row: Indicator dots */}
-                        <div className="flex items-center justify-center gap-1">
+                        <div className="flex items-center justify-center gap-0.5">
                             {featuredImages.map((_, idx) => (
                                 <button
                                     key={idx}
                                     onClick={() => setCurrentImgIndex(idx)}
                                     aria-label={`Diapositive ${idx + 1}`}
-                                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                                        idx === currentImgIndex ? 'w-5 bg-[#1677FF]' : 'w-1.5 bg-[#D9DEE7]'
-                                    }`}
-                                />
+                                    className="p-2 cursor-pointer min-w-[28px] min-h-[28px] flex items-center justify-center"
+                                >
+                                    <span
+                                        className={`h-1.5 rounded-full transition-all duration-300 block ${
+                                            idx === currentImgIndex ? 'w-5 bg-[#1677FF]' : 'w-1.5 bg-[#D9DEE7]'
+                                        }`}
+                                    />
+                                </button>
                             ))}
                         </div>
                     </div>
@@ -172,16 +176,20 @@ export default function PremiumHero() {
                                         </div>
                                     </div>
                                 ))}
-                                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-20">
+                                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-0.5 z-20">
                                     {featuredImages.map((_, idx) => (
                                         <button
                                             key={idx}
                                             onClick={() => setCurrentImgIndex(idx)}
                                             aria-label={`Diapositive ${idx + 1}`}
-                                            className={`h-1.5 rounded-full transition-all duration-300 ${
-                                                idx === currentImgIndex ? 'w-6 bg-[#1677FF]' : 'w-1.5 bg-[#D9DEE7]'
-                                            }`}
-                                        />
+                                            className="p-2 cursor-pointer min-w-[28px] min-h-[28px] flex items-center justify-center"
+                                        >
+                                            <span
+                                                className={`h-1.5 rounded-full transition-all duration-300 block ${
+                                                    idx === currentImgIndex ? 'w-6 bg-[#1677FF]' : 'w-1.5 bg-[#D9DEE7]'
+                                                }`}
+                                            />
+                                        </button>
                                     ))}
                                 </div>
                             </div>
