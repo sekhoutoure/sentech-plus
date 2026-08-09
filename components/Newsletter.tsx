@@ -25,7 +25,7 @@ const Newsletter: React.FC = () => {
     ]
 
     return (
-        <section className="px-3 sm:px-6 my-4 sm:my-20 max-w-[1400px] mx-auto">
+        <section className="px-3 sm:px-6 my-4 sm:my-10 lg:my-14 max-w-[1400px] mx-auto">
             <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[#071426] p-3.5 sm:p-14 lg:p-16 text-white border border-[#0B2342] shadow-lg">
 
                 {/* Ambient Glows */}

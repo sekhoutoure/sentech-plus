@@ -50,17 +50,18 @@ export default function PremiumHero() {
                         <div className="grid grid-cols-12 gap-2 items-center my-1.5">
                             {/* Left Text (5 cols) */}
                             <div className="col-span-7 space-y-1">
-                                <h1 className="text-[20px] xs:text-[24px] font-black tracking-tight text-white leading-tight">
+                                <h1 className="text-[18px] xs:text-[22px] font-black tracking-tight text-white leading-tight">
                                     Technologie.<br />
-                                    <span className="text-[#007BFF]">Simplicité.</span>
+                                    Simplicité.<br />
+                                    <span className="text-[#007BFF]">Performance.</span>
                                 </h1>
-                                <p className="text-[11px] text-slate-300 font-normal line-clamp-2 leading-snug">
-                                    Découvrez nos produits high-tech sélectionnés.
+                                <p className="text-[10px] text-slate-300 font-normal line-clamp-2 leading-snug">
+                                    Gadgets & accessoires high-tech pensés pour votre quotidien.
                                 </p>
                                 <div className="pt-1">
                                     <Link
                                         href="/shop"
-                                        className="inline-flex items-center gap-1 bg-[#007BFF] hover:bg-[#0069D9] text-white font-extrabold text-xs py-2 px-3.5 rounded-xl shadow-md active:scale-95 transition-all"
+                                        className="inline-flex items-center gap-1 bg-[#007BFF] hover:bg-[#0069D9] text-white font-extrabold text-xs py-2 px-3 rounded-xl shadow-md active:scale-95 transition-all"
                                     >
                                         <span>Découvrir</span>
                                         <ArrowRight size={12} />
@@ -79,7 +80,7 @@ export default function PremiumHero() {
                                                 : 'opacity-0 scale-90 pointer-events-none'
                                         }`}
                                     >
-                                        <div className="relative w-full h-full">
+                                        <div className="relative w-full h-full flex items-center justify-center p-1">
                                             <Image
                                                 src={src}
                                                 alt="Produit High-Tech SenTech Plus"
@@ -109,19 +110,20 @@ export default function PremiumHero() {
                     </div>
 
                     {/* ── DESKTOP layout ── */}
-                    <div className="hidden lg:grid grid-cols-12 gap-6 lg:gap-8 items-center flex-1 p-12">
+                    <div className="hidden lg:grid grid-cols-12 gap-6 lg:gap-8 items-center flex-1 p-10 xl:p-12">
                         <div className="col-span-7 space-y-4">
-                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-bold text-[#0088D8] shadow-2xs">
+                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-extrabold text-[#0088D8] shadow-2xs">
                                 <Sparkles size={13} className="text-[#007BFF]" />
                                 <span>COLLECTION HIGH-TECH 2026</span>
                             </div>
 
-                            <h1 className="text-[42px] xl:text-[50px] font-black tracking-tight text-white leading-[1.08]">
-                                Des accessoires intelligents pour simplifier votre quotidien.
+                            <h1 className="text-[38px] xl:text-[46px] font-black tracking-tight text-white leading-[1.08]">
+                                Technologie. Simplicité.<br />
+                                <span className="text-[#007BFF]">Performance.</span>
                             </h1>
 
-                            <p className="text-slate-300 text-[16px] font-normal leading-relaxed max-w-md">
-                                Découvrez notre sélection de gadgets, accessoires et équipements high-tech soigneusement sélectionnés pour vous.
+                            <p className="text-slate-300 text-[15px] sm:text-[16px] font-normal leading-relaxed max-w-md">
+                                Découvrez une sélection de gadgets et accessoires high-tech pensés pour votre quotidien.
                             </p>
 
                             <div className="flex items-center gap-2 text-xs font-bold text-[#16B364] bg-[#16B364]/10 border border-[#16B364]/20 px-3.5 py-1.5 rounded-full w-fit">
@@ -129,18 +131,19 @@ export default function PremiumHero() {
                                 <span>Livraison rapide au Sénégal</span>
                             </div>
 
-                            <div className="pt-1 flex flex-wrap items-center gap-3 sm:gap-4">
+                            <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
                                 <Link
                                     href="/shop"
                                     className="inline-flex items-center gap-2.5 bg-[#007BFF] hover:bg-[#0069D9] text-white font-extrabold text-sm py-3.5 px-7 rounded-2xl shadow-xl shadow-[#007BFF]/30 hover:scale-[1.02] active:scale-95 transition-all duration-200 cursor-pointer"
                                 >
-                                    <span>Acheter maintenant →</span>
+                                    <span>Découvrir la collection</span>
+                                    <ArrowRight size={15} />
                                 </Link>
                                 <Link
-                                    href="/shop"
+                                    href="/shop?search=Promo"
                                     className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold text-sm py-3.5 px-6 rounded-2xl border border-white/20 backdrop-blur-sm transition-all duration-200 cursor-pointer"
                                 >
-                                    <span>Découvrir le catalogue</span>
+                                    <span>Voir les offres</span>
                                 </Link>
                             </div>
                         </div>

@@ -24,8 +24,8 @@ const BestSelling: React.FC = () => {
         .slice(0, displayQuantity);
 
     return (
-        <section className='bg-[#F6F8FB] py-6 sm:py-16 lg:py-24'>
-            <div className='px-3 sm:px-6 max-w-[1400px] mx-auto @container'>
+        <section className='bg-[#F6F8FB] py-4 sm:py-8 lg:py-12'>
+            <div className='px-3 sm:px-6 max-w-[1400px] mx-auto'>
                 {/* Section Header */}
                 <div className='flex items-end justify-between gap-3 mb-4 sm:mb-8 pb-3 border-b border-[#E5E9F0]'>
                     <div className='space-y-1'>
