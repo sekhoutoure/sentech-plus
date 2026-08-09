@@ -72,7 +72,7 @@ const Footer: React.FC = () => {
                             <Logo isDark={false} />
                         </Link>
 
-                        <p className="text-[#667085] text-xs sm:text-sm leading-relaxed max-w-xs font-normal">
+                        <p className="text-[#475467] text-xs sm:text-sm leading-relaxed max-w-xs font-normal">
                             La technologie qui simplifie votre quotidien. La boutique high-tech de référence au Sénégal.
                         </p>
 
@@ -118,7 +118,7 @@ const Footer: React.FC = () => {
                             className="w-full flex items-center justify-between text-left lg:pointer-events-none"
                         >
                             <h3 className="text-xs font-black tracking-widest text-[#182230] uppercase">CATALOGUE</h3>
-                            <ChevronDown size={16} className={`text-[#667085] lg:hidden transition-transform duration-200 ${openSections.catalogue ? 'rotate-180' : ''}`} />
+                            <ChevronDown size={16} className={`text-[#475467] lg:hidden transition-transform duration-200 ${openSections.catalogue ? 'rotate-180' : ''}`} />
                         </button>
                         <ul className={`mt-2.5 lg:mt-3 space-y-2 text-xs sm:text-sm lg:block ${openSections.catalogue ? 'block' : 'hidden'}`}>
                             {catalogLinks.map((link, i) => (
@@ -138,7 +138,7 @@ const Footer: React.FC = () => {
                             className="w-full flex items-center justify-between text-left lg:pointer-events-none"
                         >
                             <h3 className="text-xs font-black tracking-widest text-[#182230] uppercase">INFORMATIONS</h3>
-                            <ChevronDown size={16} className={`text-[#667085] lg:hidden transition-transform duration-200 ${openSections.informations ? 'rotate-180' : ''}`} />
+                            <ChevronDown size={16} className={`text-[#475467] lg:hidden transition-transform duration-200 ${openSections.informations ? 'rotate-180' : ''}`} />
                         </button>
                         <ul className={`mt-2.5 lg:mt-3 space-y-2 text-xs sm:text-sm lg:block ${openSections.informations ? 'block' : 'hidden'}`}>
                             {infoLinks.map((link, i) => (
@@ -158,7 +158,7 @@ const Footer: React.FC = () => {
                             className="w-full flex items-center justify-between text-left lg:pointer-events-none"
                         >
                             <h3 className="text-xs font-black tracking-widest text-[#182230] uppercase">SUPPORT</h3>
-                            <ChevronDown size={16} className={`text-[#667085] lg:hidden transition-transform duration-200 ${openSections.support ? 'rotate-180' : ''}`} />
+                            <ChevronDown size={16} className={`text-[#475467] lg:hidden transition-transform duration-200 ${openSections.support ? 'rotate-180' : ''}`} />
                         </button>
                         <ul className={`mt-2.5 lg:mt-3 space-y-2 text-xs sm:text-sm lg:block ${openSections.support ? 'block' : 'hidden'}`}>
                             {supportLinks.map((link, i) => (
@@ -192,11 +192,11 @@ const Footer: React.FC = () => {
 
                 {/* Bottom Bar */}
                 <div className="py-4 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-                    <p className="text-[11px] sm:text-xs text-[#667085]">
+                    <p className="text-[11px] sm:text-xs text-[#475467]">
                         © 2026 <span className="text-[#182230] font-bold">SenTechPLUS</span>. Tous droits réservés.
                     </p>
 
-                    <p className="text-[11px] sm:text-xs text-[#667085] font-medium">
+                    <p className="text-[11px] sm:text-xs text-[#475467] font-medium">
                         Made with ❤️ in Sénégal 🇸🇳
                     </p>
 
