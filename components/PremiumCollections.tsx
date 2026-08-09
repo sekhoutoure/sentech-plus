@@ -53,13 +53,15 @@ export default function PremiumCollections() {
             description: "Processeurs puissants & bureautique",
             query: "Laptops",
             image: assets.product_img7,
+            badge: "Performance",
             bgGradient: "from-[#0B2A24] via-[#164C42] to-[#0B2A24]"
         },
         {
             title: "Maison & Énergie",
             description: "Chargeurs GaN & smart home",
             query: "Maison",
-            image: assets.product_img6,
+            image: assets.product_img2,
+            badge: "Énergie",
             bgGradient: "from-[#1F2937] via-[#374151] to-[#1F2937]"
         }
     ];
@@ -120,8 +122,8 @@ export default function PremiumCollections() {
                             </span>
                         </div>
 
-                        {/* 1 Single Strong Main Image inside a sleek product container card */}
-                        <div className="absolute right-4 bottom-4 size-32 sm:size-40 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 p-3 group-hover:scale-105 transition-transform duration-500 ease-out pointer-events-none shadow-xl flex items-center justify-center">
+                        {/* Single Strong Main Image inside a white card box for 100% contrast */}
+                        <div className="absolute right-4 bottom-4 size-32 sm:size-40 rounded-2xl bg-white p-3 group-hover:scale-105 transition-transform duration-500 ease-out pointer-events-none shadow-xl flex items-center justify-center border border-white/20">
                             <Image
                                 src={col.image}
                                 alt={col.title}
