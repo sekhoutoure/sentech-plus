@@ -42,21 +42,28 @@ const LatestProducts: React.FC = () => {
             </div>
 
             {/* Grid — 2 COLONNES sur mobile avec gap 8-10px */}
-            {latest.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-5 lg:gap-6">
-                    {latest.map((product: Product) => (
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-5 lg:gap-6">
+                {latest.length > 0 ? (
+                    latest.map((product: Product) => (
                         <ProductCard key={product.id || product.name} product={product} />
-                    ))}
-                </div>
-            ) : (
-                <div className="flex flex-col items-center justify-center py-12 gap-3 text-center border-2 border-dashed border-[#E8EDF3] rounded-2xl bg-[#F3F7FC]/50">
-                    <Sparkles size={24} className="text-[#1677FF]" />
-                    <h3 className="text-sm font-bold text-[#182230]">Aucun produit disponible</h3>
-                    <Link href="/shop" className="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#1677FF] hover:bg-[#0F67E5] px-4 py-2 rounded-xl">
-                        Parcourir le catalogue <ArrowRight size={13} />
-                    </Link>
-                </div>
-            )}
+                    ))
+                ) : (
+                    Array.from({ length: 8 }).map((_, index) => (
+                        <div 
+                            key={index}
+                            className="w-full bg-white rounded-2xl border border-[#E8EDF3] p-3 flex flex-col justify-between min-h-[280px] sm:min-h-[360px] animate-pulse"
+                        >
+                            <div className="w-full aspect-square bg-[#F5F7FA] rounded-xl mb-3" />
+                            <div className="space-y-2">
+                                <div className="h-3 bg-[#F5F7FA] rounded w-1/3" />
+                                <div className="h-4 bg-[#F5F7FA] rounded w-3/4" />
+                                <div className="h-4 bg-[#F5F7FA] rounded w-1/2" />
+                            </div>
+                            <div className="h-10 bg-[#F5F7FA] rounded-xl mt-3" />
+                        </div>
+                    ))
+                )}
+            </div>
         </section>
     )
 }

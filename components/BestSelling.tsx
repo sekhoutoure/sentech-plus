@@ -48,13 +48,30 @@ const BestSelling: React.FC = () => {
                 
                 {/* Products Grid — 2 COLONNES sur mobile avec gap 8-10px */}
                 <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-5 lg:gap-6'>
-                    {bestProducts.map((product: Product, index: number) => (
-                        <ProductCard 
-                            key={product.id || product.name} 
-                            product={product} 
-                            rank={index + 1}
-                        />
-                    ))}
+                    {bestProducts.length > 0 ? (
+                        bestProducts.map((product: Product, index: number) => (
+                            <ProductCard 
+                                key={product.id || product.name} 
+                                product={product} 
+                                rank={index + 1}
+                            />
+                        ))
+                    ) : (
+                        Array.from({ length: 8 }).map((_, index) => (
+                            <div 
+                                key={index}
+                                className="w-full bg-white rounded-2xl border border-[#E8EDF3] p-3 flex flex-col justify-between min-h-[280px] sm:min-h-[360px] animate-pulse"
+                            >
+                                <div className="w-full aspect-square bg-[#F5F7FA] rounded-xl mb-3" />
+                                <div className="space-y-2">
+                                    <div className="h-3 bg-[#F5F7FA] rounded w-1/3" />
+                                    <div className="h-4 bg-[#F5F7FA] rounded w-3/4" />
+                                    <div className="h-4 bg-[#F5F7FA] rounded w-1/2" />
+                                </div>
+                                <div className="h-10 bg-[#F5F7FA] rounded-xl mt-3" />
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </section>
