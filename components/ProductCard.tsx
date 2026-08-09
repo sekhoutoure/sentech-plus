@@ -98,7 +98,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
 
                 {/* Discount Badge */}
                 {discount > 0 && (
-                    <span className="absolute top-2 left-2 z-20 bg-[#F04438] text-white text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full shadow-xs">
+                    <span className="absolute top-2 left-2 z-20 bg-[#FF3B30] text-white text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full shadow-2xs">
                         -{discount}%
                     </span>
                 )}
@@ -109,8 +109,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                     aria-label={isWishlisted ? "Retirer des favoris" : "Ajouter aux favoris"}
                     className={`absolute top-1.5 right-1.5 z-20 size-8 sm:size-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs ${
                         isWishlisted
-                            ? 'bg-[#F04438] text-white scale-105'
-                            : 'bg-white/95 backdrop-blur-md text-[#667085] hover:text-[#F04438] border border-[#EBEBEB]'
+                            ? 'bg-[#FF3B30] text-white scale-105'
+                            : 'bg-white/95 backdrop-blur-md text-[#667085] hover:text-[#FF3B30] border border-[#E5E9F0]'
                     }`}
                 >
                     <Heart size={14} fill={isWishlisted ? "currentColor" : "none"} className="sm:hidden" />
@@ -120,8 +120,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                 {/* Product Image */}
                 <Link href={`/product/${productId}`} className="relative w-full h-full block p-2">
                     {imgError ? (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-[#F7F9FC]">
-                            <ImageOff size={22} className="text-[#1769FF]/40" />
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-[#F6F8FB]">
+                            <ImageOff size={22} className="text-[#007BFF]/40" />
                             <span className="text-[9px] font-extrabold text-[#667085] uppercase tracking-wider">SenTech Plus</span>
                         </div>
                     ) : (
@@ -149,7 +149,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                 <div className="space-y-1">
                     {/* Category & Rating */}
                     <div className="flex items-center justify-between gap-1">
-                        <span className="text-[10px] sm:text-[11px] font-extrabold text-[#1769FF] uppercase tracking-wider truncate">
+                        <span className="text-[10px] sm:text-[11px] font-extrabold text-[#007BFF] uppercase tracking-wider truncate">
                             {product?.category || 'High-Tech'}
                         </span>
                         <div className="flex items-center gap-0.5 shrink-0">
@@ -160,7 +160,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
 
                     {/* Product Name (Max 2 lignes, 12-14px) */}
                     <Link href={`/product/${productId}`} className="block">
-                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#101828] line-clamp-2 leading-snug group-hover:text-[#1769FF] transition-colors">
+                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#101828] line-clamp-2 leading-snug group-hover:text-[#007BFF] transition-colors">
                             {product?.name || 'Équipement SenTech Plus'}
                         </h3>
                     </Link>
@@ -173,11 +173,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                             {formatPrice(price)}
                         </span>
                         {isOutOfStock ? (
-                            <span className="text-[8px] sm:text-[10px] font-bold text-[#F04438] bg-rose-50 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] sm:text-[10px] font-bold text-[#FF3B30] bg-[#FF3B30]/10 px-1.5 py-0.5 rounded shrink-0">
                                 Rupture
                             </span>
                         ) : (
-                            <span className="text-[8px] sm:text-[10px] font-bold text-[#12B76A] bg-emerald-50 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] sm:text-[10px] font-bold text-[#16B364] bg-[#16B364]/10 px-1.5 py-0.5 rounded shrink-0">
                                 En stock
                             </span>
                         )}
@@ -192,8 +192,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                             isOutOfStock
                                 ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
                                 : isAdded
-                                ? 'bg-[#12B76A] text-white shadow-xs'
-                                : 'bg-[#071126] hover:bg-[#1769FF] text-white shadow-2xs'
+                                ? 'bg-[#16B364] text-white shadow-2xs'
+                                : 'bg-[#071426] hover:bg-[#007BFF] text-white shadow-2xs'
                         }`}
                     >
                         {isOutOfStock ? (

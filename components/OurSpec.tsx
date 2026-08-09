@@ -8,36 +8,36 @@ const OurSpecs: React.FC = () => {
             title: "Livraison express",
             description: "Jour même à Dakar, sous 24h partout au Sénégal.",
             icon: Truck,
-            gradient: "from-[#1769FF] to-cyan-400",
-            glow: "rgba(23, 105, 255, 0.25)",
-            accent: "#1769FF",
+            gradient: "from-[#007BFF] to-[#0088D8]",
+            glow: "rgba(0, 123, 255, 0.25)",
+            accent: "#007BFF",
             pill: "Dakar J+0"
         },
         {
             title: "Produits certifiés",
             description: "Équipements tech certifiés avec vraie garantie.",
             icon: ShieldCheck,
-            gradient: "from-[#12B76A] to-teal-400",
-            glow: "rgba(18, 183, 106, 0.25)",
-            accent: "#12B76A",
+            gradient: "from-[#071426] to-[#0B2342]",
+            glow: "rgba(7, 20, 38, 0.25)",
+            accent: "#071426",
             pill: "Certifié SenTech"
         },
         {
             title: "Retours sous 7j",
             description: "Processus de retour simple et 100% gratuit.",
             icon: RefreshCw,
-            gradient: "from-amber-500 to-orange-400",
-            glow: "rgba(245, 158, 11, 0.25)",
-            accent: "#F59E0B",
+            gradient: "from-[#007BFF] to-[#0088D8]",
+            glow: "rgba(0, 123, 255, 0.25)",
+            accent: "#007BFF",
             pill: "Garantie 7 jours"
         },
         {
             title: "Support WhatsApp",
             description: "Assistance réactive 7j/7 sur WhatsApp.",
             icon: MessageCircle,
-            gradient: "from-purple-600 to-indigo-500",
-            glow: "rgba(124, 58, 237, 0.25)",
-            accent: "#7C3AED",
+            gradient: "from-[#16B364] to-emerald-600",
+            glow: "rgba(22, 179, 100, 0.25)",
+            accent: "#16B364",
             pill: "Réponse < 5 min"
         },
     ]
@@ -47,7 +47,7 @@ const OurSpecs: React.FC = () => {
 
             {/* Section Header */}
             <div className="text-center space-y-1.5 mb-6 sm:mb-12">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF3FF] text-[#1769FF] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest border border-[#1769FF]/20">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF5FF] text-[#007BFF] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest border border-[#007BFF]/20">
                     🌟 NOS ENGAGEMENTS
                 </div>
                 <h2 className="text-lg sm:text-3xl lg:text-4xl font-black text-[#101828] tracking-tight">
@@ -65,7 +65,7 @@ const OurSpecs: React.FC = () => {
                     return (
                         <div
                             key={index}
-                            className="group relative p-3 sm:p-7 rounded-xl sm:rounded-3xl bg-white border border-[#EBEBEB] shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between gap-2.5 overflow-hidden"
+                            className="group relative p-3 sm:p-7 rounded-xl sm:rounded-3xl bg-white border border-[#E5E9F0] shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col justify-between gap-2.5 overflow-hidden"
                         >
                             {/* Top glow strip */}
                             <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${item.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-xl sm:rounded-t-3xl`} />
@@ -90,8 +90,8 @@ const OurSpecs: React.FC = () => {
                             </div>
 
                             {/* Bottom Pill */}
-                            <div className="pt-1.5 sm:pt-3 border-t border-[#EBEBEB]">
-                                <span className="inline-flex items-center gap-1 text-[9px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#EAF3FF] text-[#1769FF]">
+                            <div className="pt-1.5 sm:pt-3 border-t border-[#E5E9F0]">
+                                <span className="inline-flex items-center gap-1 text-[9px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#EAF5FF] text-[#007BFF]">
                                     <span>✓</span>
                                     <span>{item.pill}</span>
                                 </span>

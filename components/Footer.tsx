@@ -60,11 +60,11 @@ const Footer: React.FC = () => {
     ]
 
     return (
-        <footer className="bg-[#071126] text-white border-t border-slate-800/60">
+        <footer className="bg-[#071426] text-white border-t border-[#0B2342]">
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
 
                 {/* Main Footer Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-10 lg:gap-12 py-6 sm:py-12 lg:py-16 border-b border-slate-800/60">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-10 lg:gap-12 py-6 sm:py-12 lg:py-16 border-b border-[#0B2342]">
 
                     {/* Brand Column */}
                     <div className="lg:col-span-2 space-y-3 sm:space-y-5">
@@ -78,15 +78,15 @@ const Footer: React.FC = () => {
 
                         <div className="space-y-2 text-xs sm:text-sm text-slate-400">
                             <a href="tel:+221770000000" className="flex items-center gap-2 hover:text-white transition-colors">
-                                <Phone size={14} className="text-[#1769FF] shrink-0" />
+                                <Phone size={14} className="text-[#007BFF] shrink-0" />
                                 <span>{siteSettings?.phone && !siteSettings.phone.includes('+1-212') ? siteSettings.phone : "+221 77 000 00 00"}</span>
                             </a>
                             <a href="mailto:contact@sentechplus.sn" className="flex items-center gap-2 hover:text-white transition-colors">
-                                <Mail size={14} className="text-[#1769FF] shrink-0" />
+                                <Mail size={14} className="text-[#007BFF] shrink-0" />
                                 <span>{siteSettings?.email && !siteSettings.email.includes('sentechplus.com') ? siteSettings.email : "contact@sentechplus.sn"}</span>
                             </a>
                             <p className="flex items-start gap-2">
-                                <MapPin size={14} className="text-[#1769FF] mt-0.5 shrink-0" />
+                                <MapPin size={14} className="text-[#007BFF] mt-0.5 shrink-0" />
                                 <span>{siteSettings?.address && !siteSettings.address.includes('Francisco') ? siteSettings.address : "Avenue Cheikh Anta Diop, Dakar, Sénégal"}</span>
                             </p>
                         </div>
@@ -102,7 +102,7 @@ const Footer: React.FC = () => {
                                         target={social.external ? "_blank" : undefined}
                                         rel={social.external ? "noopener noreferrer" : undefined}
                                         aria-label={social.label}
-                                        className="size-8 rounded-lg bg-slate-800 hover:bg-[#1769FF] border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition-all"
+                                        className="size-8 rounded-lg bg-[#0B2342] hover:bg-[#007BFF] border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-white transition-all"
                                     >
                                         <Icon size={14} />
                                     </a>

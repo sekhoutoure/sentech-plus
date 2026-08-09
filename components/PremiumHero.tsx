@@ -27,21 +27,21 @@ export default function PremiumHero() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-6 items-stretch">
 
                 {/* ═══ GRANDE CARTE HERO ═══ */}
-                <div className="lg:col-span-8 relative flex flex-col bg-gradient-to-br from-[#071126] via-[#0B1E3F] to-[#071126] rounded-2xl sm:rounded-3xl text-white overflow-hidden border border-slate-800/80 shadow-lg group">
+                <div className="lg:col-span-8 relative flex flex-col bg-gradient-to-br from-[#071426] via-[#0B2342] to-[#071426] rounded-2xl sm:rounded-3xl text-white overflow-hidden border border-[#0B2342] shadow-lg group">
 
                     {/* Ambient Orbs */}
-                    <div className="absolute -top-24 -right-24 size-[250px] sm:size-[420px] bg-[#1769FF]/20 rounded-full blur-[70px] sm:blur-[110px] pointer-events-none" />
-                    <div className="absolute -bottom-24 -left-24 size-[220px] sm:size-[380px] bg-cyan-500/10 rounded-full blur-[60px] sm:blur-[100px] pointer-events-none" />
+                    <div className="absolute -top-24 -right-24 size-[250px] sm:size-[420px] bg-[#007BFF]/20 rounded-full blur-[70px] sm:blur-[110px] pointer-events-none" />
+                    <div className="absolute -bottom-24 -left-24 size-[220px] sm:size-[380px] bg-[#0088D8]/10 rounded-full blur-[60px] sm:blur-[100px] pointer-events-none" />
 
                     {/* ── MOBILE layout: Ultra-compact (200-240px) avec composition équilibrée ── */}
                     <div className="flex lg:hidden flex-col justify-between p-3.5 sm:p-5 relative z-10 min-h-[220px] max-h-[260px]">
                         {/* Top Row: Badge + Delivery */}
                         <div className="flex items-center justify-between gap-2">
-                            <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[9px] font-extrabold text-cyan-300">
-                                <Sparkles size={10} className="text-cyan-400" />
+                            <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[9px] font-extrabold text-[#0088D8]">
+                                <Sparkles size={10} className="text-[#007BFF]" />
                                 <span>COLLECTION HIGH-TECH</span>
                             </div>
-                            <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+                            <span className="text-[9px] font-bold text-[#16B364] bg-[#16B364]/10 border border-[#16B364]/20 px-2 py-0.5 rounded-full">
                                 🚚 Express Sénégal
                             </span>
                         </div>
@@ -52,7 +52,7 @@ export default function PremiumHero() {
                             <div className="col-span-7 space-y-1">
                                 <h1 className="text-[20px] xs:text-[24px] font-black tracking-tight text-white leading-tight">
                                     Technologie.<br />
-                                    <span className="text-[#1769FF]">Simplicité.</span>
+                                    <span className="text-[#007BFF]">Simplicité.</span>
                                 </h1>
                                 <p className="text-[11px] text-slate-300 font-normal line-clamp-2 leading-snug">
                                     Découvrez nos produits high-tech sélectionnés.
@@ -60,7 +60,7 @@ export default function PremiumHero() {
                                 <div className="pt-1">
                                     <Link
                                         href="/shop"
-                                        className="inline-flex items-center gap-1 bg-[#1769FF] hover:bg-[#1256D6] text-white font-extrabold text-xs py-2 px-3.5 rounded-xl shadow-md active:scale-95 transition-all"
+                                        className="inline-flex items-center gap-1 bg-[#007BFF] hover:bg-[#0069D9] text-white font-extrabold text-xs py-2 px-3.5 rounded-xl shadow-md active:scale-95 transition-all"
                                     >
                                         <span>Découvrir</span>
                                         <ArrowRight size={12} />
@@ -84,7 +84,7 @@ export default function PremiumHero() {
                                                 src={src}
                                                 alt="Produit High-Tech SenTech Plus"
                                                 fill
-                                                className="object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.5)]"
+                                                className="object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
                                                 priority={index === 0}
                                             />
                                         </div>
@@ -93,26 +93,26 @@ export default function PremiumHero() {
                             </div>
                         </div>
 
-                        {/* Carousel Indicators */}
-                        <div className="flex justify-center gap-1 pt-0.5">
+                        {/* Bottom Row: Indicator dots */}
+                        <div className="flex items-center justify-center gap-1">
                             {featuredImages.map((_, idx) => (
                                 <button
                                     key={idx}
                                     onClick={() => setCurrentImgIndex(idx)}
                                     aria-label={`Diapositive ${idx + 1}`}
-                                    className={`h-1 rounded-full transition-all duration-300 ${
-                                        idx === currentImgIndex ? 'w-4 bg-[#1769FF]' : 'w-1 bg-white/30'
+                                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                                        idx === currentImgIndex ? 'w-5 bg-[#007BFF]' : 'w-1.5 bg-white/30'
                                     }`}
                                 />
                             ))}
                         </div>
                     </div>
 
-                    {/* ── DESKTOP layout: côte-à-côte ── */}
+                    {/* ── DESKTOP layout ── */}
                     <div className="hidden lg:grid grid-cols-12 gap-6 lg:gap-8 items-center flex-1 p-12">
                         <div className="col-span-7 space-y-4">
-                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-bold text-cyan-300 shadow-sm">
-                                <Sparkles size={13} className="text-cyan-400" />
+                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-bold text-[#0088D8] shadow-2xs">
+                                <Sparkles size={13} className="text-[#007BFF]" />
                                 <span>COLLECTION HIGH-TECH 2026</span>
                             </div>
 
@@ -124,15 +124,15 @@ export default function PremiumHero() {
                                 Découvrez notre sélection de gadgets, accessoires et équipements high-tech soigneusement sélectionnés pour vous.
                             </p>
 
-                            <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 rounded-full w-fit">
-                                <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+                            <div className="flex items-center gap-2 text-xs font-bold text-[#16B364] bg-[#16B364]/10 border border-[#16B364]/20 px-3.5 py-1.5 rounded-full w-fit">
+                                <span className="size-2 rounded-full bg-[#16B364] animate-pulse" />
                                 <span>Livraison rapide au Sénégal</span>
                             </div>
 
                             <div className="pt-1 flex flex-wrap items-center gap-3 sm:gap-4">
                                 <Link
                                     href="/shop"
-                                    className="inline-flex items-center gap-2.5 bg-[#1769FF] hover:bg-[#1256D6] text-white font-extrabold text-sm py-3.5 px-7 rounded-2xl shadow-xl shadow-[#1769FF]/30 hover:scale-[1.02] active:scale-95 transition-all duration-200 cursor-pointer"
+                                    className="inline-flex items-center gap-2.5 bg-[#007BFF] hover:bg-[#0069D9] text-white font-extrabold text-sm py-3.5 px-7 rounded-2xl shadow-xl shadow-[#007BFF]/30 hover:scale-[1.02] active:scale-95 transition-all duration-200 cursor-pointer"
                                 >
                                     <span>Acheter maintenant →</span>
                                 </Link>
@@ -174,7 +174,7 @@ export default function PremiumHero() {
                                             onClick={() => setCurrentImgIndex(idx)}
                                             aria-label={`Diapositive ${idx + 1}`}
                                             className={`h-1.5 rounded-full transition-all duration-300 ${
-                                                idx === currentImgIndex ? 'w-6 bg-[#1769FF]' : 'w-1.5 bg-white/30'
+                                                idx === currentImgIndex ? 'w-6 bg-[#007BFF]' : 'w-1.5 bg-white/30'
                                             }`}
                                         />
                                     ))}

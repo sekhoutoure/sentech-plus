@@ -22,7 +22,7 @@ export default function Banner() {
     };
 
     return (
-        <aside aria-label="Bannière promotionnelle" className="relative z-[60] w-full bg-[#071126] text-white border-b border-slate-800/80">
+        <aside aria-label="Bannière promotionnelle" className="relative z-[60] w-full bg-[#071426] text-white border-b border-[#0B2342]">
             <div className="max-w-[1400px] mx-auto px-3 sm:px-6 py-1 min-h-[28px] flex items-center justify-between gap-2 text-[11px] sm:text-xs">
                 
                 {/* Promo Message */}
@@ -30,7 +30,7 @@ export default function Banner() {
                     onClick={handleClaim}
                     className="flex items-center gap-1.5 cursor-pointer sm:cursor-default truncate"
                 >
-                    <span className="flex items-center justify-center size-4 rounded-full bg-[#1769FF]/20 text-[#1769FF] shrink-0">
+                    <span className="flex items-center justify-center size-4 rounded-full bg-[#007BFF]/20 text-[#007BFF] shrink-0">
                         <Sparkles size={10} />
                     </span>
                     <span className="text-slate-200 font-semibold truncate">
@@ -43,7 +43,7 @@ export default function Banner() {
                     <button
                         onClick={handleClaim}
                         type="button"
-                        className="inline-flex items-center gap-1 bg-[#1769FF] hover:bg-[#1256D6] text-white font-extrabold px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs transition-all duration-200 cursor-pointer shadow-2xs active:scale-95"
+                        className="inline-flex items-center gap-1 bg-[#007BFF] hover:bg-[#0069D9] text-white font-extrabold px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs transition-all duration-200 cursor-pointer shadow-2xs active:scale-95"
                     >
                         {copied ? <Check size={11} className="text-white" /> : <Copy size={11} />}
                         <span>Code: <span className="underline underline-offset-2">{couponCode}</span></span>

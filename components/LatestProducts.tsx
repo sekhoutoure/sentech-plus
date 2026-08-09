@@ -21,9 +21,9 @@ const LatestProducts: React.FC = () => {
         <section className="px-3 sm:px-6 my-6 sm:my-14 lg:my-20 max-w-[1400px] mx-auto @container">
 
             {/* Section Header */}
-            <div className="flex items-end justify-between gap-3 mb-4 sm:mb-8 pb-3 border-b border-[#EBEBEB]">
+            <div className="flex items-end justify-between gap-3 mb-4 sm:mb-8 pb-3 border-b border-[#E5E9F0]">
                 <div className="space-y-1">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 sm:py-1 rounded-full bg-[#EAF3FF] text-[#1769FF] text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 sm:py-1 rounded-full bg-[#EAF5FF] text-[#007BFF] text-[10px] sm:text-xs font-extrabold uppercase tracking-wider">
                         <Sparkles size={12} />
                         NOUVEAUTÉS HIGH-TECH 2026
                     </div>
@@ -34,7 +34,7 @@ const LatestProducts: React.FC = () => {
 
                 <Link
                     href="/shop"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#1769FF] hover:underline shrink-0"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#007BFF] hover:underline shrink-0"
                 >
                     <span>Voir tout</span>
                     <ArrowRight size={13} />
@@ -49,10 +49,10 @@ const LatestProducts: React.FC = () => {
                     ))}
                 </div>
             ) : (
-                <div className="flex flex-col items-center justify-center py-12 gap-3 text-center border-2 border-dashed border-[#EBEBEB] rounded-2xl bg-[#F7F9FC]/50">
-                    <Sparkles size={24} className="text-[#1769FF]" />
+                <div className="flex flex-col items-center justify-center py-12 gap-3 text-center border-2 border-dashed border-[#E5E9F0] rounded-2xl bg-[#F6F8FB]/50">
+                    <Sparkles size={24} className="text-[#007BFF]" />
                     <h3 className="text-sm font-bold text-[#101828]">Aucun produit disponible</h3>
-                    <Link href="/shop" className="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#1769FF] px-4 py-2 rounded-xl">
+                    <Link href="/shop" className="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#007BFF] hover:bg-[#0069D9] px-4 py-2 rounded-xl">
                         Parcourir le catalogue <ArrowRight size={13} />
                     </Link>
                 </div>

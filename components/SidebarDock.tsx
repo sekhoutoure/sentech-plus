@@ -162,14 +162,14 @@ export default function SidebarDock() {
             </aside>
 
             {/* Mobile Bottom Dock (Shop.app style rounded-top bottom bar) */}
-            <nav 
+                    <nav 
                 aria-label="Barre de navigation mobile"
-                className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[#EBEBEB] px-2 py-1.5 pb-safe flex items-center justify-around shadow-[0_-4px_20px_rgba(0,0,0,0.06)] rounded-t-[24px]"
+                className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[#E5E9F0] px-2 py-1.5 pb-safe flex items-center justify-around shadow-[0_-4px_20px_rgba(7,20,38,0.06)] rounded-t-[24px]"
             >
                 <Link
                     href="/"
                     className={`flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-2 py-1 rounded-xl transition-all duration-200 active:scale-90 ${
-                        pathname === '/' ? 'text-[#1769FF] font-black' : 'text-[#667085] hover:text-[#101828]'
+                        pathname === '/' ? 'text-[#007BFF] font-black' : 'text-[#667085] hover:text-[#101828]'
                     }`}
                 >
                     <Home size={20} className="stroke-[2.2]" />
@@ -179,7 +179,7 @@ export default function SidebarDock() {
                 <Link
                     href="/shop"
                     className={`flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-2 py-1 rounded-xl transition-all duration-200 active:scale-90 ${
-                        pathname === '/shop' ? 'text-[#1769FF] font-black' : 'text-[#667085] hover:text-[#101828]'
+                        pathname === '/shop' ? 'text-[#007BFF] font-black' : 'text-[#667085] hover:text-[#101828]'
                     }`}
                 >
                     <Grid size={20} className="stroke-[2.2]" />
@@ -195,7 +195,7 @@ export default function SidebarDock() {
                     <div className="relative">
                         <ShoppingCart size={20} className="stroke-[2.2]" />
                         {cartCount > 0 && (
-                            <span className="absolute -top-1.5 -right-2 size-4 bg-[#1769FF] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-xs animate-pulse">
+                            <span className="absolute -top-1.5 -right-2 size-4 bg-[#007BFF] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-2xs animate-pulse">
                                 {cartCount}
                             </span>
                         )}
@@ -206,13 +206,13 @@ export default function SidebarDock() {
                 <Link
                     href="/wishlist"
                     className={`relative flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-2 py-1 rounded-xl transition-all duration-200 active:scale-90 ${
-                        pathname === '/wishlist' ? 'text-[#F04438] font-black' : 'text-[#667085] hover:text-[#101828]'
+                        pathname === '/wishlist' ? 'text-[#FF3B30] font-black' : 'text-[#667085] hover:text-[#101828]'
                     }`}
                 >
                     <div className="relative">
                         <Heart size={20} className="stroke-[2.2]" />
                         {wishlistCount > 0 && (
-                            <span className="absolute -top-1.5 -right-2 size-4 bg-[#F04438] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-xs">
+                            <span className="absolute -top-1.5 -right-2 size-4 bg-[#FF3B30] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-2xs">
                                 {wishlistCount}
                             </span>
                         )}
@@ -223,7 +223,7 @@ export default function SidebarDock() {
                 <Link
                     href={isLoggedIn ? "/orders" : "/login"}
                     className={`flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-2 py-1 rounded-xl transition-all duration-200 active:scale-90 ${
-                        pathname === '/login' || pathname === '/orders' ? 'text-[#1769FF] font-black' : 'text-[#667085] hover:text-[#101828]'
+                        pathname === '/login' || pathname === '/orders' ? 'text-[#007BFF] font-black' : 'text-[#667085] hover:text-[#101828]'
                     }`}
                 >
                     <User size={20} className="stroke-[2.2]" />
