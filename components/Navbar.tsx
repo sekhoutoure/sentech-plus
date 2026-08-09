@@ -1,7 +1,7 @@
 'use client'
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
     Search, 
     ShoppingCart, 
@@ -48,6 +48,23 @@ const Navbar: React.FC = () => {
     const cartCount = useSelector((state: any) => state.cart?.itemCount || 0)
     const wishlistCount = useSelector((state: any) => state.wishlist?.items?.length || 0)
     const { isLoggedIn, user } = useSelector((state: any) => state.user || { isLoggedIn: false, user: null })
+
+    // Auto-fermeture du menu mobile lors d'un changement de page / navigation
+    useEffect(() => {
+        setIsMobileMenuOpen(false)
+    }, [pathname])
+
+    // Bloquer le défilement de l'arrière-plan quand le tiroir mobile est ouvert
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = ''
+        }
+        return () => {
+            document.body.style.overflow = ''
+        }
+    }, [isMobileMenuOpen])
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault()
@@ -156,7 +173,9 @@ const Navbar: React.FC = () => {
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         className="min-w-[44px] min-h-[44px] rounded-xl text-[#101828] hover:bg-slate-100 transition cursor-pointer flex items-center justify-center"
-                        aria-label="Menu"
+                        aria-label="Menu de navigation"
+                        aria-expanded={isMobileMenuOpen}
+                        aria-controls="mobile-drawer-menu"
                     >
                         {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
                     </button>
@@ -237,10 +256,17 @@ const Navbar: React.FC = () => {
             {isMobileMenuOpen && (
                 <div className="fixed inset-0 z-50">
                     <div 
-                        className="fixed inset-0 bg-black/50 backdrop-blur-xs" 
+                        className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity" 
                         onClick={() => setIsMobileMenuOpen(false)} 
+                        aria-hidden="true"
                     />
-                    <div className="fixed top-0 left-0 bottom-0 w-4/5 max-w-xs bg-white p-6 shadow-2xl flex flex-col justify-between z-50 border-r border-[#EBEBEB] animate-slide-in">
+                    <div 
+                        id="mobile-drawer-menu"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Navigation mobile"
+                        className="fixed top-0 left-0 bottom-0 w-4/5 max-w-xs bg-white p-6 shadow-2xl flex flex-col justify-between z-50 border-r border-[#EBEBEB] animate-slide-in"
+                    >
                         <div className="space-y-6">
                             <div className="flex items-center justify-between pb-4 border-b border-[#EBEBEB]">
                                 <Logo className="h-7 w-auto" />
