@@ -9,7 +9,7 @@ export default function Banner() {
     const [copied, setCopied] = useState(false);
     const banner = useSelector((state: any) => state.siteSettings?.banner);
 
-    if (!banner?.enabled || !isOpen) return null;
+    if (banner?.enabled === false || !isOpen) return null;
 
     const couponCode = banner.couponCode || 'NEW20';
 
