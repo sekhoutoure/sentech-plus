@@ -168,12 +168,12 @@ const Navbar: React.FC = () => {
 
                 </div>
 
-                {/* Mobile Header Row (Hauteur compacte 48px avec zones tactiles 44x44px) */}
-                <div className="flex lg:hidden items-center justify-between gap-1.5 h-11">
-                    <div className="flex items-center gap-1">
+                {/* Mobile Header Row (Épuré & Sans doublons d'icônes avec le Dock inférieur) */}
+                <div className="flex lg:hidden items-center justify-between gap-2 h-11">
+                    <div className="flex items-center gap-1.5">
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="size-[42px] rounded-xl text-[#101828] hover:bg-[#F7F9FC] transition cursor-pointer flex items-center justify-center shrink-0"
+                            className="size-[42px] rounded-xl text-[#101828] hover:bg-[#F7F9FC] active:bg-[#EAF3FF] transition cursor-pointer flex items-center justify-center shrink-0 border border-transparent hover:border-[#EBEBEB]"
                             aria-label="Menu de navigation"
                             aria-expanded={isMobileMenuOpen}
                             aria-controls="mobile-drawer-menu"
@@ -181,37 +181,21 @@ const Navbar: React.FC = () => {
                             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
                         </button>
 
-                        <Link href="/" className="flex items-center group shrink-0 ml-0.5">
+                        <Link href="/" className="flex items-center group shrink-0">
                             <Logo className="h-7 w-auto" />
                         </Link>
                     </div>
 
-                    <div className="flex items-center gap-0.5">
-                        <Link
-                            href="/wishlist"
-                            className="relative size-[42px] rounded-xl text-[#101828] hover:text-[#F04438] hover:bg-[#F7F9FC] transition flex items-center justify-center shrink-0"
-                            aria-label="Favoris"
+                    <div className="flex items-center gap-1">
+                        <a
+                            href="https://wa.me/221770000000"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#1EBD58] text-[11px] font-extrabold px-2.5 py-1.5 rounded-full transition-all border border-[#25D366]/20"
                         >
-                            <Heart size={19} />
-                            {wishlistCount > 0 && (
-                                <span className="absolute top-1 right-1 size-4 bg-[#F04438] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-xs">
-                                    {wishlistCount}
-                                </span>
-                            )}
-                        </Link>
-
-                        <button
-                            onClick={() => dispatch(openDrawer())}
-                            className="relative size-[42px] rounded-xl text-[#101828] hover:text-[#1769FF] hover:bg-[#F7F9FC] transition flex items-center justify-center cursor-pointer shrink-0"
-                            aria-label="Panier"
-                        >
-                            <ShoppingCart size={19} />
-                            {cartCount > 0 && (
-                                <span className="absolute top-1 right-1 size-4 bg-[#1769FF] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-xs">
-                                    {cartCount}
-                                </span>
-                            )}
-                        </button>
+                            <span className="size-1.5 rounded-full bg-[#25D366] animate-pulse" />
+                            <span>Aide 24/7</span>
+                        </a>
                     </div>
                 </div>
 
