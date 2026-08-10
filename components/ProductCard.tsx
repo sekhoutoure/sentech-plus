@@ -36,10 +36,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
     const wishlist = useSelector((state: any) => state.wishlist?.items || [])
     const [isAdded, setIsAdded] = useState(false)
     const [isQuickViewOpen, setIsQuickViewOpen] = useState(false)
+    const [activeImgIndex, setActiveImgIndex] = useState(0)
     const [imgSrc, setImgSrc] = useState(() => getProductImage(product, 0))
     const [imgError, setImgError] = useState(false)
 
+    const touchStartX = React.useRef<number | null>(null)
+    const touchStartY = React.useRef<number | null>(null)
+
+    const imagesList = Array.isArray(product?.images) && product.images.length > 0
+        ? product.images
+        : [getProductImage(product, 0)]
+
     useEffect(() => {
+        setActiveImgIndex(0)
         setImgSrc(getProductImage(product, 0))
         setImgError(false)
     }, [product])
@@ -56,6 +65,40 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
     const mrp = product?.mrp
     const discount = mrp && mrp > price ? Math.round(((mrp - price) / mrp) * 100) : 0
     const isOutOfStock = product?.inStock === false || product?.stock === 0
+
+    // Touch Gestures: Swipe horizontal pour changer les photos sur mobile
+    const handleTouchStart = (e: React.TouchEvent) => {
+        touchStartX.current = e.touches[0].clientX
+        touchStartY.current = e.touches[0].clientY
+    }
+
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        if (touchStartX.current === null || touchStartY.current === null) return
+
+        const deltaX = e.changedTouches[0].clientX - touchStartX.current
+        const deltaY = e.changedTouches[0].clientY - touchStartY.current
+
+        if (Math.abs(deltaX) > 35 && Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX < 0) {
+                // Swipe Left -> Image Suivante
+                if (imagesList.length > 1) {
+                    const nextIdx = (activeImgIndex + 1) % imagesList.length
+                    setActiveImgIndex(nextIdx)
+                    setImgSrc(getProductImage(product, nextIdx))
+                }
+            } else {
+                // Swipe Right -> Image Précédente
+                if (imagesList.length > 1) {
+                    const prevIdx = (activeImgIndex - 1 + imagesList.length) % imagesList.length
+                    setActiveImgIndex(prevIdx)
+                    setImgSrc(getProductImage(product, prevIdx))
+                }
+            }
+        }
+
+        touchStartX.current = null
+        touchStartY.current = null
+    }
 
     const handleQuickAdd = (e: React.MouseEvent) => {
         e.preventDefault()
@@ -84,8 +127,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
     return (
         <div className="group relative w-full bg-white rounded-2xl overflow-hidden border border-[#E8EDF3] shadow-[0_4px_15px_rgba(20,40,70,0.05)] hover:shadow-[0_12px_28px_rgba(20,40,70,0.09)] hover:border-[#1677FF]/35 transition-[box-shadow,border-color,background-color] duration-200 ease-out flex flex-col justify-between h-full min-h-[280px] sm:min-h-[360px]">
 
-            {/* Image Container — aspect-square 1:1, object-contain */}
-            <div className="relative w-full aspect-square bg-[#F7F9FC] flex items-center justify-center border-b border-[#E8EDF3] overflow-hidden shrink-0">
+            {/* Image Container avec Touch Swipe Gestures */}
+            <div 
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                className="relative w-full aspect-square bg-[#F7F9FC] flex items-center justify-center border-b border-[#E8EDF3] overflow-hidden shrink-0 touch-pan-y"
+            >
 
                 {/* Rank Badge */}
                 {rank && rank <= 3 && (
@@ -159,6 +206,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                         />
                     )}
                 </Link>
+
+                {/* Mobile Touch Swipe Image Dots Indicator */}
+                {imagesList.length > 1 && (
+                    <div className="absolute bottom-1.5 left-0 right-0 z-20 flex justify-center items-center gap-1 pointer-events-none">
+                        {imagesList.map((_: any, idx: number) => (
+                            <span
+                                key={idx}
+                                className={`size-1.5 rounded-full transition-all duration-300 ${
+                                    idx === activeImgIndex ? 'bg-[#0B54C2] w-3' : 'bg-slate-300/80'
+                                }`}
+                            />
+                        ))}
+                    </div>
+                )}
             </div>
 
             {/* Content Area — Equal Height Container */}
