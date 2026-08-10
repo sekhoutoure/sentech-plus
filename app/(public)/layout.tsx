@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import Banner from "@/components/Banner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import CompareFloatingBar from "@/components/CompareFloatingBar";
 
 const SidebarDock = dynamic(() => import("@/components/SidebarDock"), { ssr: false });
 
@@ -19,8 +18,6 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 </main>
             </div>
             <Footer />
-            {/* Persistent Product Comparison Bar */}
-            <CompareFloatingBar />
             {/* Fixed Mobile Dock Navigation Bar */}
             <SidebarDock />
         </div>
