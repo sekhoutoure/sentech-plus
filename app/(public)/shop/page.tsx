@@ -2,6 +2,7 @@
 import { Suspense, useState, useMemo } from "react"
 import ProductCard from "@/components/ProductCard"
 import { ProductGridSkeleton } from "@/components/SkeletonLoader"
+import MobileFilterDrawer from "@/components/MobileFilterDrawer"
 import { MoveLeft, SlidersHorizontal, X, ArrowUpDown, Sparkles } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useSelector } from "react-redux"
@@ -23,10 +24,12 @@ function ShopContent() {
     const products = useSelector((state: any) => state.product?.list || [])
     const [selectedCategory, setSelectedCategory] = useState(categoryParam || "Tous")
     const [sortBy, setSortBy] = useState("default")
+    const [priceRange, setPriceRange] = useState("all")
+    const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false)
 
     const categoryList = ["Tous", ...categories, "Smartphones", "Laptops", "Gaming"]
 
-    // Category & Search Filtering + Sorting
+    // Category & Search Filtering + Price Range + Sorting
     const filteredProducts = useMemo(() => {
         let list = [...products]
 
@@ -44,6 +47,15 @@ function ShopContent() {
             list = list.filter(p => p.category?.toLowerCase() === targetCategory.toLowerCase())
         }
 
+        // Price Range filter
+        if (priceRange === "under-50k") {
+            list = list.filter(p => Number(p.price || 0) < 50000)
+        } else if (priceRange === "50k-150k") {
+            list = list.filter(p => Number(p.price || 0) >= 50000 && Number(p.price || 0) <= 150000)
+        } else if (priceRange === "over-150k") {
+            list = list.filter(p => Number(p.price || 0) > 150000)
+        }
+
         // Sorting
         if (sortBy === "price-low") {
             list.sort((a: any, b: any) => Number(a.price) - Number(b.price))
@@ -54,11 +66,12 @@ function ShopContent() {
         }
 
         return list
-    }, [products, search, selectedCategory, sortBy])
+    }, [products, search, selectedCategory, priceRange, sortBy])
 
     const resetFilters = () => {
         setSelectedCategory("Tous")
         setSortBy("default")
+        setPriceRange("all")
         if (search) {
             router.push('/shop')
         }
@@ -84,15 +97,29 @@ function ShopContent() {
                     </p>
                 </div>
 
-                {/* Sort Selector Dropdown */}
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl text-xs sm:text-sm text-[#667085] border border-[#E4E7EC] shadow-2xs">
-                        <ArrowUpDown size={14} className="text-[#1769FF]" />
+                {/* Sort Selector Dropdown + Mobile Filter Trigger */}
+                <div className="flex items-center gap-2">
+                    {/* Mobile Filter Bottom-Sheet Trigger Button */}
+                    <button
+                        onClick={() => setIsMobileFilterOpen(true)}
+                        className="lg:hidden flex items-center gap-1.5 bg-[#0B54C2] hover:bg-[#09449E] text-white px-3.5 py-2 rounded-xl text-xs font-extrabold shadow-sm cursor-pointer active:scale-95 shrink-0 transition-all"
+                    >
+                        <SlidersHorizontal size={14} />
+                        <span>Filtres</span>
+                        {(selectedCategory !== "Tous" || sortBy !== "default" || priceRange !== "all") && (
+                            <span className="size-4 bg-white text-[#0B54C2] font-black text-[10px] rounded-full flex items-center justify-center">
+                                {(selectedCategory !== "Tous" ? 1 : 0) + (sortBy !== "default" ? 1 : 0) + (priceRange !== "all" ? 1 : 0)}
+                            </span>
+                        )}
+                    </button>
+
+                    <div className="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl text-xs sm:text-sm text-[#475467] border border-[#E4E7EC] shadow-2xs">
+                        <ArrowUpDown size={14} className="text-[#0B54C2]" />
                         <span className="font-semibold hidden sm:inline">Trier par :</span>
                         <select 
                             value={sortBy} 
                             onChange={(e) => setSortBy(e.target.value)}
-                            className="bg-transparent outline-none cursor-pointer font-bold text-[#101828]"
+                            className="bg-transparent outline-none cursor-pointer font-bold text-[#182230]"
                         >
                             <option value="default">Populaires</option>
                             <option value="price-low">Prix : Moins cher</option>
@@ -105,7 +132,7 @@ function ShopContent() {
 
             {/* Categories Filter Pills Horizontal Bar */}
             <div className="flex items-center gap-2 my-6 overflow-x-auto pb-2 no-scrollbar">
-                <span className="text-xs font-bold text-[#667085] uppercase tracking-wider shrink-0 flex items-center gap-1">
+                <span className="text-xs font-bold text-[#475467] uppercase tracking-wider shrink-0 flex items-center gap-1">
                     <SlidersHorizontal size={14} /> Rayons :
                 </span>
                 {categoryList.map((cat, idx) => (
@@ -114,18 +141,18 @@ function ShopContent() {
                         onClick={() => setSelectedCategory(cat)}
                         className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer shrink-0 ${
                             selectedCategory === cat
-                                ? 'bg-[#1769FF] text-white shadow-md shadow-[#1769FF]/20 scale-105'
-                                : 'bg-white text-[#101828] hover:bg-slate-100 border border-[#E4E7EC]'
+                                ? 'bg-[#0B54C2] text-white shadow-md scale-105'
+                                : 'bg-white text-[#182230] hover:bg-slate-100 border border-[#E4E7EC]'
                         }`}
                     >
                         {cat}
                     </button>
                 ))}
 
-                {(selectedCategory !== "Tous" || search || sortBy !== "default") && (
+                {(selectedCategory !== "Tous" || search || sortBy !== "default" || priceRange !== "all") && (
                     <button
                         onClick={resetFilters}
-                        className="ml-auto shrink-0 text-xs text-[#F04438] hover:text-red-700 font-bold flex items-center gap-1 bg-rose-50 hover:bg-rose-100 px-3.5 py-2 rounded-full transition border border-rose-200 cursor-pointer"
+                        className="ml-auto shrink-0 text-xs text-[#C4320A] hover:text-red-700 font-bold flex items-center gap-1 bg-rose-50 hover:bg-rose-100 px-3.5 py-2 rounded-full transition border border-rose-200 cursor-pointer"
                     >
                         <X size={13} /> Réinitialiser
                     </button>
@@ -135,13 +162,13 @@ function ShopContent() {
             {/* Product Grid */}
             {filteredProducts.length === 0 ? (
                 <div className="my-16 text-center py-20 bg-white rounded-3xl border border-dashed border-[#E4E7EC] max-w-lg mx-auto p-6 space-y-4">
-                    <p className="text-xl font-bold text-[#101828]">Aucun produit trouvé</p>
-                    <p className="text-xs text-[#667085]">
+                    <p className="text-xl font-bold text-[#182230]">Aucun produit trouvé</p>
+                    <p className="text-xs text-[#475467]">
                         Aucun équipement ne correspond à vos filtres actuels. Réinitialisez vos critères pour voir tout le stock SenTech Plus.
                     </p>
                     <button
                         onClick={resetFilters}
-                        className="px-6 py-2.5 bg-[#1769FF] hover:bg-[#1256D6] text-white font-bold text-xs rounded-full shadow-md transition cursor-pointer"
+                        className="px-6 py-2.5 bg-[#0B54C2] hover:bg-[#09449E] text-white font-bold text-xs rounded-full shadow-md transition cursor-pointer"
                     >
                         Voir tous les produits
                     </button>
@@ -153,6 +180,20 @@ function ShopContent() {
                     ))}
                 </div>
             )}
+
+            {/* Mobile Filter & Sort Bottom-Sheet Drawer */}
+            <MobileFilterDrawer
+                isOpen={isMobileFilterOpen}
+                onClose={() => setIsMobileFilterOpen(false)}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+                totalResults={filteredProducts.length}
+                onReset={resetFilters}
+            />
         </div>
     )
 }
