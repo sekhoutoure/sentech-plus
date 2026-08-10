@@ -60,7 +60,7 @@ export default function SidebarDock() {
                 <Link
                     href="/"
                     className={`flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-2 py-1 rounded-xl transition-all duration-200 active:scale-90 ${
-                        pathname === '/' ? 'text-[#1677FF] font-black' : 'text-[#475467] hover:text-[#182230]'
+                        pathname === '/' ? 'text-[#0B54C2] font-black' : 'text-[#475467] hover:text-[#182230]'
                     }`}
                 >
                     <Home size={20} className="stroke-[2.2]" />
@@ -70,7 +70,7 @@ export default function SidebarDock() {
                 <Link
                     href="/shop"
                     className={`flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-2 py-1 rounded-xl transition-all duration-200 active:scale-90 ${
-                        pathname === '/shop' ? 'text-[#1677FF] font-black' : 'text-[#475467] hover:text-[#182230]'
+                        pathname === '/shop' ? 'text-[#0B54C2] font-black' : 'text-[#475467] hover:text-[#182230]'
                     }`}
                 >
                     <Grid size={20} className="stroke-[2.2]" />
@@ -86,7 +86,7 @@ export default function SidebarDock() {
                     <div className="relative">
                         <ShoppingCart size={20} className="stroke-[2.2]" />
                         {cartCount > 0 && (
-                            <span className="absolute -top-1.5 -right-2 size-4 bg-[#1677FF] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-2xs">
+                            <span className="absolute -top-1.5 -right-2 size-4 bg-[#0B54C2] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-2xs">
                                 {cartCount}
                             </span>
                         )}
@@ -97,13 +97,13 @@ export default function SidebarDock() {
                 <Link
                     href="/wishlist"
                     className={`relative flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-2 py-1 rounded-xl transition-all duration-200 active:scale-90 ${
-                        pathname === '/wishlist' ? 'text-[#FF6B35] font-black' : 'text-[#475467] hover:text-[#182230]'
+                        pathname === '/wishlist' ? 'text-[#C4320A] font-black' : 'text-[#475467] hover:text-[#182230]'
                     }`}
                 >
                     <div className="relative">
                         <Heart size={20} className="stroke-[2.2]" />
                         {wishlistCount > 0 && (
-                            <span className="absolute -top-1.5 -right-2 size-4 bg-[#FF6B35] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-2xs">
+                            <span className="absolute -top-1.5 -right-2 size-4 bg-[#C4320A] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-2xs">
                                 {wishlistCount}
                             </span>
                         )}
@@ -114,7 +114,7 @@ export default function SidebarDock() {
                 <Link
                     href={isLoggedIn ? "/orders" : "/login"}
                     className={`flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-2 py-1 rounded-xl transition-all duration-200 active:scale-90 ${
-                        pathname === '/login' || pathname === '/orders' ? 'text-[#1677FF] font-black' : 'text-[#475467] hover:text-[#182230]'
+                        pathname === '/login' || pathname === '/orders' ? 'text-[#0B54C2] font-black' : 'text-[#475467] hover:text-[#182230]'
                     }`}
                 >
                     <User size={20} className="stroke-[2.2]" />

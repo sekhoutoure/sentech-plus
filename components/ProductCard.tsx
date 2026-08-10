@@ -100,7 +100,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
 
                 {/* Discount Badge */}
                 {discount > 0 && (
-                    <span className="absolute top-2 left-2 z-20 bg-[#D9450F] text-white text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full shadow-2xs">
+                    <span className="absolute top-2 left-2 z-20 bg-[#C4320A] text-white text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full shadow-2xs">
                         -{discount}%
                     </span>
                 )}
@@ -116,7 +116,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                         }}
                         aria-label="Aperçu rapide du produit"
                         title="Aperçu rapide"
-                        className="size-8 sm:size-9 rounded-full bg-white/90 hover:bg-white text-[#475467] hover:text-[#1677FF] flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs border border-[#E8EDF3] active:scale-95"
+                        className="size-8 sm:size-9 rounded-full bg-white/90 hover:bg-white text-[#475467] hover:text-[#0B54C2] flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs border border-[#E8EDF3] active:scale-95"
                     >
                         <Eye size={16} />
                     </button>
@@ -127,8 +127,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                         aria-label={isWishlisted ? "Retirer des favoris" : "Ajouter aux favoris"}
                         className={`size-8 sm:size-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 ${
                             isWishlisted
-                                ? 'bg-[#D9450F] text-white'
-                                : 'bg-white/90 text-[#475467] hover:text-[#D9450F] hover:bg-white border border-[#E8EDF3]'
+                                ? 'bg-[#C4320A] text-white'
+                                : 'bg-white/90 text-[#475467] hover:text-[#C4320A] hover:bg-white border border-[#E8EDF3]'
                         }`}
                     >
                         <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
@@ -198,11 +198,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                             )}
                         </div>
                         {isOutOfStock ? (
-                            <span className="text-[8px] sm:text-[10px] font-bold text-[#D9450F] bg-[#D9450F]/10 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] sm:text-[10px] font-bold text-[#C4320A] bg-[#C4320A]/10 px-1.5 py-0.5 rounded shrink-0">
                                 Rupture
                             </span>
                         ) : (
-                            <span className="text-[8px] sm:text-[10px] font-bold text-[#0D8956] bg-[#0D8956]/10 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] sm:text-[10px] font-bold text-[#085D38] bg-[#085D38]/10 px-1.5 py-0.5 rounded shrink-0">
                                 En stock
                             </span>
                         )}
@@ -217,8 +217,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                             isOutOfStock
                                 ? 'bg-[#EEF1F5] text-slate-400 cursor-not-allowed border border-[#E8EDF3]'
                                 : isAdded
-                                ? 'bg-[#16B979] text-white shadow-2xs'
-                                : 'bg-[#1677FF] hover:bg-[#0F67E5] text-white shadow-2xs'
+                                ? 'bg-[#085D38] text-white shadow-2xs'
+                                : 'bg-[#0B54C2] hover:bg-[#09449E] text-white shadow-2xs'
                         }`}
                     >
                         {isOutOfStock ? (

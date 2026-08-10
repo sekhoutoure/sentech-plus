@@ -43,7 +43,7 @@ export default function Banner() {
                     <button
                         onClick={handleClaim}
                         type="button"
-                        className="inline-flex items-center gap-1 bg-[#1677FF] hover:bg-[#0F67E5] text-white font-extrabold px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs transition-all duration-200 cursor-pointer shadow-2xs active:scale-95"
+                        className="inline-flex items-center gap-1 bg-[#0B54C2] hover:bg-[#09449E] text-white font-extrabold px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs transition-all duration-200 cursor-pointer shadow-2xs active:scale-95"
                     >
                         {copied ? <Check size={11} className="text-white" /> : <Copy size={11} />}
                         <span>Code: <span className="underline underline-offset-2">{couponCode}</span></span>
@@ -53,7 +53,7 @@ export default function Banner() {
                         onClick={() => setIsOpen(false)}
                         type="button"
                         aria-label="Fermer la bannière"
-                        className="text-slate-400 hover:text-white p-0.5 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+                        className="text-[#475467] hover:text-[#182230] p-0.5 rounded-full hover:bg-white/40 transition-colors cursor-pointer"
                     >
                         <X size={13} />
                     </button>

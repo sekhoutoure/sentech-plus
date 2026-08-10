@@ -42,8 +42,8 @@ export default function PromoBanner() {
 
                     {/* Left Copy */}
                     <div className="lg:col-span-6 space-y-2 sm:space-y-5 text-center lg:text-left">
-                        <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white border border-[#1677FF]/20 text-[9px] sm:text-xs font-extrabold text-[#1677FF]">
-                            <Flame size={11} className="text-[#FF6B35]" />
+                        <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white border border-[#1677FF]/20 text-[9px] sm:text-xs font-extrabold text-[#0B54C2]">
+                            <Flame size={11} className="text-[#C4320A]" />
                             <span>OFFRES DU MOMENT</span>
                         </div>
 
@@ -51,7 +51,7 @@ export default function PromoBanner() {
                             Jusqu'à -30% sur la High-Tech
                         </h2>
 
-                        <p className="text-[11px] sm:text-base text-[#667085] max-w-md mx-auto lg:mx-0 leading-relaxed font-normal">
+                        <p className="text-[11px] sm:text-base text-[#475467] max-w-md mx-auto lg:mx-0 leading-relaxed font-normal">
                             Sélection de réductions exclusives et livraison rapide.
                         </p>
 
@@ -59,7 +59,7 @@ export default function PromoBanner() {
                         <div className="pt-0.5 flex items-center justify-center lg:justify-start gap-2">
                             <Link
                                 href="/shop"
-                                className="inline-flex items-center justify-center gap-1 bg-[#1677FF] hover:bg-[#0F67E5] text-white font-extrabold text-xs sm:text-sm py-2 sm:py-3.5 px-4 sm:px-7 rounded-xl sm:rounded-2xl shadow-md active:scale-95 transition-all"
+                                className="inline-flex items-center justify-center gap-1 bg-[#0B54C2] hover:bg-[#09449E] text-white font-extrabold text-xs sm:text-sm py-2 sm:py-3.5 px-4 sm:px-7 rounded-xl sm:rounded-2xl shadow-md active:scale-95 transition-all"
                             >
                                 <span>Découvrir les offres</span>
                                 <ArrowRight size={12} />
@@ -87,7 +87,7 @@ export default function PromoBanner() {
                                 </div>
 
                                 <div className="text-left flex-1 min-w-0">
-                                    <span className="bg-[#FF6B35] text-white text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded-full inline-block mb-0.5">
+                                    <span className="bg-[#C4320A] text-white text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded-full inline-block mb-0.5">
                                         {deal.label}
                                     </span>
                                     <div className="text-[10px] sm:text-[11px] font-black text-[#182230] leading-tight truncate">{deal.title}</div>

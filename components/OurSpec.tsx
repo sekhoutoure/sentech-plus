@@ -9,9 +9,9 @@ const OurSpecs: React.FC = () => {
             description: "Jour même à Dakar, sous 24h partout au Sénégal.",
             icon: Truck,
             bg: "bg-[#EAF3FF]",
-            color: "text-[#1677FF]",
+            color: "text-[#0B54C2]",
             pillBg: "bg-[#EAF3FF]",
-            pillText: "text-[#1677FF]",
+            pillText: "text-[#0B54C2]",
             pill: "Dakar J+0"
         },
         {
@@ -19,9 +19,9 @@ const OurSpecs: React.FC = () => {
             description: "Équipements tech certifiés avec vraie garantie.",
             icon: ShieldCheck,
             bg: "bg-[#ECFDF3]",
-            color: "text-[#16B979]",
+            color: "text-[#085D38]",
             pillBg: "bg-[#ECFDF3]",
-            pillText: "text-[#16B979]",
+            pillText: "text-[#085D38]",
             pill: "Certifié SenTechPLUS"
         },
         {
@@ -29,9 +29,9 @@ const OurSpecs: React.FC = () => {
             description: "Processus de retour simple et 100% gratuit.",
             icon: RefreshCw,
             bg: "bg-[#FFF7E8]",
-            color: "text-[#FF6B35]",
+            color: "text-[#C4320A]",
             pillBg: "bg-[#FFF7E8]",
-            pillText: "text-[#FF6B35]",
+            pillText: "text-[#C4320A]",
             pill: "Garantie 7 jours"
         },
         {
@@ -39,9 +39,9 @@ const OurSpecs: React.FC = () => {
             description: "Assistance réactive 7j/7 sur WhatsApp.",
             icon: MessageCircle,
             bg: "bg-[#F3EEFF]",
-            color: "text-[#8B5CF6]",
+            color: "text-[#6D28D9]",
             pillBg: "bg-[#F3EEFF]",
-            pillText: "text-[#8B5CF6]",
+            pillText: "text-[#6D28D9]",
             pill: "Réponse < 5 min"
         },
     ]
@@ -51,13 +51,13 @@ const OurSpecs: React.FC = () => {
 
             {/* Section Header */}
             <div className="text-center space-y-1.5 mb-6 sm:mb-12">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF3FF] text-[#1677FF] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest border border-[#1677FF]/20">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF3FF] text-[#0B54C2] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest border border-[#1677FF]/20">
                     🌟 NOS ENGAGEMENTS
                 </div>
                 <h2 className="text-lg sm:text-3xl lg:text-4xl font-black text-[#182230] tracking-tight">
                     Pourquoi choisir SenTechPLUS ?
                 </h2>
-                <p className="text-xs sm:text-base text-[#667085] max-w-xl mx-auto font-normal leading-relaxed">
+                <p className="text-xs sm:text-base text-[#475467] max-w-xl mx-auto font-normal leading-relaxed">
                     Une expérience d'achat simple et sécurisée pensée pour le Sénégal.
                 </p>
             </div>
@@ -82,7 +82,7 @@ const OurSpecs: React.FC = () => {
                                 <h3 className="text-xs xs:text-sm sm:text-[17px] font-extrabold text-[#182230] leading-snug tracking-tight">
                                     {item.title}
                                 </h3>
-                                <p className="text-[10px] sm:text-sm text-[#667085] leading-normal font-normal line-clamp-2">
+                                <p className="text-[10px] sm:text-sm text-[#475467] leading-normal font-normal line-clamp-2">
                                     {item.description}
                                 </p>
                             </div>

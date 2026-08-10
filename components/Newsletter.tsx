@@ -36,8 +36,8 @@ const Newsletter: React.FC = () => {
                 <div className="relative z-10 bg-white border border-[#E8EDF3] shadow-[0_4px_20px_rgba(20,40,70,0.06)] rounded-2xl sm:rounded-3xl p-5 sm:p-12 max-w-2xl mx-auto text-center">
 
                     {/* Badge */}
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF3FF] border border-[#1677FF]/20 text-[10px] sm:text-xs font-extrabold text-[#1677FF] mb-3">
-                        <Sparkles size={11} className="text-[#1677FF]" />
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF3FF] border border-[#1677FF]/20 text-[10px] sm:text-xs font-extrabold text-[#0B54C2] mb-3">
+                        <Sparkles size={11} className="text-[#0B54C2]" />
                         <span>CLUB PRIVILÈGE SENTECHPLUS</span>
                     </div>
 
@@ -47,7 +47,7 @@ const Newsletter: React.FC = () => {
                     </h2>
 
                     {/* Description */}
-                    <p className="text-xs sm:text-base text-[#667085] max-w-md mx-auto leading-relaxed font-normal mb-4">
+                    <p className="text-xs sm:text-base text-[#475467] max-w-md mx-auto leading-relaxed font-normal mb-4">
                         Inscrivez-vous gratuitement pour recevoir nos nouveautés et réductions VIP.
                     </p>
 
@@ -55,7 +55,7 @@ const Newsletter: React.FC = () => {
                     <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 flex-wrap mb-5">
                         {benefits.map(({ icon: Icon, label }, i) => (
                             <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#F5F7FA] border border-[#E8EDF3] text-[10px] sm:text-[11px] font-bold text-[#182230]">
-                                <Icon size={11} className="text-[#1677FF]" />
+                                <Icon size={11} className="text-[#0B54C2]" />
                                 {label}
                             </span>
                         ))}
@@ -63,7 +63,7 @@ const Newsletter: React.FC = () => {
 
                     {/* Form or Success */}
                     {isSubscribed ? (
-                        <div className="inline-flex items-center gap-2 bg-[#16B979]/10 text-[#16B979] px-4 py-3 rounded-xl border border-[#16B979]/30 text-xs sm:text-sm font-bold">
+                        <div className="inline-flex items-center gap-2 bg-[#085D38]/10 text-[#085D38] px-4 py-3 rounded-xl border border-[#085D38]/30 text-xs sm:text-sm font-bold">
                             <CheckCircle2 size={18} className="shrink-0" />
                             <span>Bienvenue ! Votre coupon est activé 🎉</span>
                         </div>
@@ -71,7 +71,7 @@ const Newsletter: React.FC = () => {
                         <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-2">
                             <div className="flex flex-col xs:flex-row items-stretch gap-2 bg-[#F7F9FC] p-1.5 rounded-xl border border-[#E8EDF3] focus-within:border-[#1677FF] focus-within:bg-white transition-all">
                                 <div className="flex items-center gap-2 flex-1 pl-2.5">
-                                    <Mail size={16} className="text-[#667085] shrink-0" />
+                                    <Mail size={16} className="text-[#475467] shrink-0" />
                                     <input
                                         id="newsletter-email-input"
                                         name="email"
@@ -82,17 +82,17 @@ const Newsletter: React.FC = () => {
                                         aria-label="Adresse email pour la newsletter"
                                         autoComplete="email"
                                         required
-                                        className="w-full bg-transparent outline-none text-xs sm:text-sm text-[#182230] placeholder:text-[#667085] font-medium py-2"
+                                        className="w-full bg-transparent outline-none text-xs sm:text-sm text-[#182230] placeholder:text-[#475467] font-medium py-2"
                                     />
                                 </div>
                                 <button
                                     type="submit"
-                                    className="inline-flex items-center justify-center gap-1.5 bg-[#1677FF] hover:bg-[#0F67E5] text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-lg sm:rounded-xl shadow-md active:scale-95 transition-all cursor-pointer shrink-0"
+                                    className="inline-flex items-center justify-center gap-1.5 bg-[#0B54C2] hover:bg-[#09449E] text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-lg sm:rounded-xl shadow-md active:scale-95 transition-all cursor-pointer shrink-0"
                                 >
                                     S'inscrire →
                                 </button>
                             </div>
-                            <p className="text-[10px] text-[#667085] font-normal">
+                            <p className="text-[10px] text-[#475467] font-medium">
                                 Pas de spam. Désinscription à tout moment.
                             </p>
                         </form>
