@@ -6,6 +6,7 @@ import ratingReducer from './features/rating/ratingSlice'
 import wishlistReducer from './features/wishlist/wishlistSlice'
 import siteSettingsReducer from './features/siteSettings/siteSettingsSlice'
 import userReducer from './features/user/userSlice'
+import compareReducer from './features/compare/compareSlice'
 
 export const makeStore = () => {
   return configureStore({
@@ -17,6 +18,7 @@ export const makeStore = () => {
       wishlist: wishlistReducer,
       siteSettings: siteSettingsReducer,
       user: userReducer,
+      compare: compareReducer,
     },
   })
 }

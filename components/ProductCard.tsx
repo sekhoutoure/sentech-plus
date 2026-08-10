@@ -2,10 +2,11 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Star, Heart, ShoppingCart, Check, ImageOff, Eye } from 'lucide-react'
+import { Star, Heart, ShoppingCart, Check, ImageOff, Eye, Scale } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '@/lib/features/cart/cartSlice'
 import { toggleWishlist } from '@/lib/features/wishlist/wishlistSlice'
+import { toggleCompare } from '@/lib/features/compare/compareSlice'
 import { formatPrice } from '@/lib/format'
 import { getProductImage, FALLBACK_PRODUCT_IMAGE } from '@/lib/image-utils'
 import toast from 'react-hot-toast'
@@ -34,6 +35,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
     const dispatch = useDispatch()
     const wishlist = useSelector((state: any) => state.wishlist?.items || [])
+    const compareIds = useSelector((state: any) => state.compare?.items || [])
     const [isAdded, setIsAdded] = useState(false)
     const [isQuickViewOpen, setIsQuickViewOpen] = useState(false)
     const [activeImgIndex, setActiveImgIndex] = useState(0)
@@ -55,6 +57,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
 
     const productId = product?.id || product?._id || 'prod_unknown'
     const isWishlisted = wishlist.includes(productId)
+    const isCompared = compareIds.includes(productId)
 
     const ratingList = Array.isArray(product?.rating) ? product.rating : []
     const avgRating = ratingList.length > 0
@@ -124,6 +127,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
         }
     }
 
+    const handleCompareToggle = (e: React.MouseEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
+        dispatch(toggleCompare({ productId }))
+        if (!isCompared) {
+            toast.success(`"${product?.name || 'Produit'}" ajouté au comparateur !`, { icon: '⚖️' })
+        } else {
+            toast.success(`"${product?.name || 'Produit'}" retiré du comparateur.`)
+        }
+    }
+
     return (
         <div className="group relative w-full bg-white rounded-2xl overflow-hidden border border-[#E8EDF3] shadow-[0_4px_15px_rgba(20,40,70,0.05)] hover:shadow-[0_12px_28px_rgba(20,40,70,0.09)] hover:border-[#1677FF]/35 transition-[box-shadow,border-color,background-color] duration-200 ease-out flex flex-col justify-between h-full min-h-[280px] sm:min-h-[360px]">
 
@@ -152,8 +166,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                     </span>
                 )}
 
-                {/* Action Buttons Top Right: Aperçu Rapide & Favoris */}
-                <div className="absolute top-1.5 right-1.5 z-20 flex items-center gap-1.5">
+                {/* Action Buttons Top Right: Aperçu Rapide, Comparateur & Favoris */}
+                <div className="absolute top-1.5 right-1.5 z-20 flex items-center gap-1">
                     {/* Quick View Button */}
                     <button
                         onClick={(e) => {
@@ -163,22 +177,36 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                         }}
                         aria-label="Aperçu rapide du produit"
                         title="Aperçu rapide"
-                        className="size-8 sm:size-9 rounded-full bg-white/90 hover:bg-white text-[#475467] hover:text-[#0B54C2] flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs border border-[#E8EDF3] active:scale-95"
+                        className="size-7 sm:size-8 rounded-full bg-white/90 hover:bg-white text-[#475467] hover:text-[#0B54C2] flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs border border-[#E8EDF3] active:scale-95"
                     >
-                        <Eye size={16} />
+                        <Eye size={15} />
+                    </button>
+
+                    {/* Compare Button */}
+                    <button
+                        onClick={handleCompareToggle}
+                        aria-label={isCompared ? "Retirer du comparateur" : "Ajouter au comparateur"}
+                        title="Comparer"
+                        className={`size-7 sm:size-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 ${
+                            isCompared
+                                ? 'bg-[#0B54C2] text-white'
+                                : 'bg-white/90 text-[#475467] hover:text-[#0B54C2] hover:bg-white border border-[#E8EDF3]'
+                        }`}
+                    >
+                        <Scale size={15} />
                     </button>
 
                     {/* Wishlist Button */}
                     <button
                         onClick={handleWishlistToggle}
                         aria-label={isWishlisted ? "Retirer des favoris" : "Ajouter aux favoris"}
-                        className={`size-8 sm:size-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 ${
+                        className={`size-7 sm:size-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 ${
                             isWishlisted
                                 ? 'bg-[#C4320A] text-white'
                                 : 'bg-white/90 text-[#475467] hover:text-[#C4320A] hover:bg-white border border-[#E8EDF3]'
                         }`}
                     >
-                        <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
+                        <Heart size={15} fill={isWishlisted ? "currentColor" : "none"} />
                     </button>
                 </div>
 

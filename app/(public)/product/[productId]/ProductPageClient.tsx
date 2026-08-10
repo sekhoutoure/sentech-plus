@@ -6,18 +6,19 @@ import RecentlyViewed, { saveRecentlyViewed } from "@/components/RecentlyViewed"
 import CompareModal from "@/components/CompareModal";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { ScaleIcon } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleCompare } from "@/lib/features/compare/compareSlice";
+import { Scale } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function ProductPageClient() {
     const { productId } = useParams();
+    const dispatch = useDispatch();
     const [product, setProduct] = useState<any>();
     const products = useSelector((state: any) => state.product.list);
+    const compareIds = useSelector((state: any) => state.compare?.items || []);
 
-    // Comparator State
     const [isCompareOpen, setIsCompareOpen] = useState(false);
-    const [compareList, setCompareList] = useState<Array<any>>([]);
 
     const fetchProduct = async () => {
         const found = products.find((p: any) => (p.id === productId || p._id === productId));
@@ -34,19 +35,18 @@ export default function ProductPageClient() {
         scrollTo(0, 0);
     }, [productId, products]);
 
+    const targetId = product?.id || product?._id || productId;
+    const isCompared = compareIds.includes(targetId);
+
     const handleAddToCompare = () => {
         if (!product) return;
-        if (compareList.some(p => (p.id || p._id) === (product.id || product._id))) {
-            toast("Ce produit est déjà dans votre comparateur.");
+        dispatch(toggleCompare({ productId: targetId }));
+        if (!isCompared) {
+            toast.success(`"${product.name || 'Produit'}" ajouté au comparateur !`, { icon: '⚖️' });
         } else {
-            setCompareList([...compareList, product]);
-            toast.success("Produit ajouté au comparateur !");
+            toast.success(`"${product.name || 'Produit'}" retiré du comparateur.`);
         }
         setIsCompareOpen(true);
-    };
-
-    const handleRemoveFromCompare = (id: string) => {
-        setCompareList(compareList.filter(p => (p.id || p._id) !== id));
     };
 
     return (
@@ -60,10 +60,14 @@ export default function ProductPageClient() {
 
                     <button
                         onClick={handleAddToCompare}
-                        className="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-3.5 py-2 rounded-xl transition cursor-pointer"
+                        className={`inline-flex items-center gap-1.5 font-bold text-xs px-3.5 py-2 rounded-xl transition cursor-pointer ${
+                            isCompared
+                                ? 'bg-[#0B54C2] text-white shadow-xs'
+                                : 'bg-[#EAF3FF] hover:bg-[#0B54C2]/15 text-[#0B54C2] border border-[#0B54C2]/20'
+                        }`}
                     >
-                        <ScaleIcon size={15} className="text-blue-600" />
-                        <span>Comparer ce produit</span>
+                        <Scale size={15} />
+                        <span>{isCompared ? "Dans le comparateur" : "Comparer ce produit"}</span>
                     </button>
                 </div>
 
@@ -83,8 +87,6 @@ export default function ProductPageClient() {
                 <CompareModal
                     isOpen={isCompareOpen}
                     onClose={() => setIsCompareOpen(false)}
-                    productsToCompare={compareList}
-                    onRemoveProduct={handleRemoveFromCompare}
                 />
             </div>
         </div>
