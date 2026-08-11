@@ -134,9 +134,10 @@ export const megaMenuDetails: Record<string, MegaMenuData> = {
 interface HeaderMegaMenuProps {
     categoryKey: string;
     onClose: () => void;
+    topPosition?: number;
 }
 
-export default function HeaderMegaMenu({ categoryKey, onClose }: HeaderMegaMenuProps) {
+export default function HeaderMegaMenu({ categoryKey, onClose, topPosition }: HeaderMegaMenuProps) {
     const data = megaMenuDetails[categoryKey]
 
     if (!data) return null
@@ -146,7 +147,8 @@ export default function HeaderMegaMenu({ categoryKey, onClose }: HeaderMegaMenuP
     return (
         <div 
             onMouseLeave={onClose}
-            className="hidden lg:block absolute top-full left-0 right-0 z-[9999] bg-white border-b border-[#E8EDF3] shadow-[0_30px_70px_rgba(15,23,42,0.22)] animate-in fade-in slide-in-from-top-2 duration-200"
+            style={topPosition ? { top: `${topPosition}px` } : undefined}
+            className={`hidden lg:block ${topPosition ? 'fixed' : 'absolute top-full'} left-0 right-0 z-[9999] bg-white border-b border-[#E8EDF3] shadow-[0_30px_70px_rgba(15,23,42,0.25)] animate-in fade-in slide-in-from-top-2 duration-200`}
         >
             <div className="max-w-[1400px] mx-auto px-6 py-8">
                 <div className="grid grid-cols-12 gap-8 items-start">
