@@ -8,158 +8,176 @@ import {
     CreditCard, 
     Flame, 
     ChevronRight,
-    ChevronLeft
+    Clock
 } from 'lucide-react'
 
 const announcements = [
     {
         id: '1',
         title: 'Livraison Express Dakar H+2',
-        subtitle: 'Commandez avant 16h, livré aujourd\'hui chez vous !',
         badge: 'EXPRESS SÉNÉGAL',
-        badgeBg: 'bg-[#085D38]/10 text-[#085D38] border-[#085D38]/20',
+        badgeBg: 'bg-[#16C784]/10 text-[#16C784] border-[#16C784]/20',
         icon: Truck,
         link: '/shop',
         linkText: 'Commander'
     },
     {
         id: '2',
-        title: 'Offre Bienvenue : -20% immédiats',
-        subtitle: 'Utilisez le code promo NEW20 lors de votre commande',
-        badge: 'CODE: NEW20',
-        badgeBg: 'bg-[#0B54C2]/10 text-[#0B54C2] border-[#0B54C2]/20',
-        icon: Sparkles,
+        title: 'Vente Flash -35% High-Tech',
+        badge: 'FLASH',
+        badgeBg: 'bg-[#F97316]/10 text-[#F97316] border-[#F97316]/20',
+        icon: Flame,
         link: '/shop?search=Promo',
-        linkText: 'Profiter'
+        linkText: 'Profiter',
+        hasTimer: true
     },
     {
         id: '3',
-        title: 'Équipements Certifiés & Garantis 7 Jours',
-        subtitle: 'Produits 100% authentiques testés au Sénégal',
-        badge: 'GARANTIE 100%',
-        badgeBg: 'bg-[#0B54C2]/10 text-[#0B54C2] border-[#0B54C2]/20',
-        icon: ShieldCheck,
-        link: '/about',
-        linkText: 'En savoir plus'
+        title: 'Code Promo: NEW20 (-20%)',
+        badge: 'REMISE 20%',
+        badgeBg: 'bg-[#1677FF]/10 text-[#1677FF] border-[#1677FF]/20',
+        icon: Sparkles,
+        link: '/shop?search=Promo',
+        linkText: 'Utiliser'
     },
     {
         id: '4',
-        title: 'Paiement Sécurisé à la Livraison',
-        subtitle: 'Payez en espèces, Wave ou Orange Money à la réception',
-        badge: 'WAVE & OM',
-        badgeBg: 'bg-[#085D38]/10 text-[#085D38] border-[#085D38]/20',
+        title: 'Paiement à la Livraison Wave & OM',
+        badge: 'PAIEMENT SÉCURISÉ',
+        badgeBg: 'bg-[#16C784]/10 text-[#16C784] border-[#16C784]/20',
         icon: CreditCard,
         link: '/shop',
         linkText: 'Voir catalogue'
     },
     {
         id: '5',
-        title: 'Ventes Flash High-Tech jusqu\'à -35%',
-        subtitle: 'Promotions exclusives sur casques, montres et laptops',
-        badge: 'VENTES FLASH',
-        badgeBg: 'bg-[#C4320A]/10 text-[#C4320A] border-[#C4320A]/20',
-        icon: Flame,
-        link: '/shop?search=Promo',
-        linkText: 'Voir les offres'
+        title: 'Garantie Certifiée 7 Jours',
+        badge: 'GARANTIE 100%',
+        badgeBg: 'bg-[#1677FF]/10 text-[#1677FF] border-[#1677FF]/20',
+        icon: ShieldCheck,
+        link: '/about',
+        linkText: 'Découvrir'
     }
 ]
 
 export default function HeaderAnnouncementsSlider() {
-    const [currentIndex, setCurrentIndex] = useState(0)
-    const [isPaused, setIsPaused] = useState(false)
+    const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 28, seconds: 45 })
+    const [activeMobileIdx, setActiveMobileIdx] = useState(0)
 
-    // Défilement automatique toutes les 3.5 secondes
+    // Countdown Timer pour la vente flash
     useEffect(() => {
-        if (isPaused) return
         const timer = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % announcements.length)
-        }, 3500)
+            setTimeLeft((prev) => {
+                if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 }
+                if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 }
+                if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 }
+                return { hours: 5, minutes: 0, seconds: 0 }
+            })
+        }, 1000)
         return () => clearInterval(timer)
-    }, [isPaused])
+    }, [])
 
-    const current = announcements[currentIndex]
-    const Icon = current.icon
+    // Défilement automatique carrousel mobile
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveMobileIdx((prev) => (prev + 1) % announcements.length)
+        }, 3200)
+        return () => clearInterval(interval)
+    }, [])
+
+    const formatTimer = () => {
+        const h = String(timeLeft.hours).padStart(2, '0')
+        const m = String(timeLeft.minutes).padStart(2, '0')
+        const s = String(timeLeft.seconds).padStart(2, '0')
+        return `${h}:${m}:${s}`
+    }
 
     return (
-        <div 
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-            className="w-full bg-gradient-to-r from-[#EAF3FF] via-[#F3F7FC] to-[#EAF3FF] border-t border-b border-[#E8EDF3] py-2 overflow-hidden relative shadow-2xs"
-        >
-            <div className="max-w-[1400px] mx-auto px-3 sm:px-6 flex items-center justify-between gap-3">
+        <div className="w-full bg-[#F3F8FF] border-t border-b border-[#E1E8F0] py-2 overflow-hidden relative shadow-2xs">
+            <div className="max-w-[1280px] mx-auto px-3 sm:px-6">
                 
-                {/* Previous Button (Desktop) */}
-                <button
-                    onClick={() => setCurrentIndex((prev) => (prev - 1 + announcements.length) % announcements.length)}
-                    aria-label="Annonce précédente"
-                    className="hidden sm:flex size-7 rounded-full bg-white/80 hover:bg-white text-[#182230] items-center justify-center border border-[#E8EDF3] transition cursor-pointer shrink-0 shadow-2xs active:scale-95"
-                >
-                    <ChevronLeft size={14} />
-                </button>
-
-                {/* Animated Announcement Item Container */}
-                <div className="flex-1 overflow-hidden">
-                    <div 
-                        key={current.id}
-                        className="flex items-center justify-between sm:justify-center gap-3 animate-in fade-in slide-in-from-right-4 duration-300 min-h-[32px]"
-                    >
-                        {/* Left Icon & Badge */}
-                        <div className="flex items-center gap-2 min-w-0">
-                            <div className="size-7 rounded-xl bg-white text-[#0B54C2] flex items-center justify-center shrink-0 border border-[#E8EDF3] shadow-2xs">
-                                <Icon size={14} />
-                            </div>
-
-                            <div className="truncate text-left">
-                                <div className="flex items-center gap-1.5 flex-wrap">
-                                    <span className={`text-[9px] font-black px-2 py-0.5 rounded-full border ${current.badgeBg}`}>
-                                        {current.badge}
-                                    </span>
-                                    <span className="text-xs font-extrabold text-[#182230] truncate">
-                                        {current.title}
-                                    </span>
+                {/* DESKTOP View: 3 Pills d'annonces côte à côte avec Timer & Actions */}
+                <div className="hidden md:grid grid-cols-3 gap-3 items-center">
+                    {announcements.slice(0, 3).map((item) => {
+                        const Icon = item.icon
+                        return (
+                            <div
+                                key={item.id}
+                                className="bg-white rounded-xl p-2 px-3 border border-[#E1E8F0] shadow-2xs flex items-center justify-between gap-2 hover:border-[#1677FF]/40 transition-all"
+                            >
+                                <div className="flex items-center gap-2 min-w-0">
+                                    <div className="size-7 rounded-lg bg-[#EAF3FF] text-[#1677FF] flex items-center justify-center shrink-0">
+                                        <Icon size={14} />
+                                    </div>
+                                    <div className="truncate">
+                                        <div className="flex items-center gap-1.5">
+                                            <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded-full border ${item.badgeBg}`}>
+                                                {item.badge}
+                                            </span>
+                                            {item.hasTimer && (
+                                                <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-[#F97316] bg-[#F97316]/10 px-1.5 py-0.2 rounded-full">
+                                                    <Clock size={9} />
+                                                    {formatTimer()}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <span className="text-xs font-bold text-[#172033] truncate block">
+                                            {item.title}
+                                        </span>
+                                    </div>
                                 </div>
-                                <span className="hidden md:inline text-[11px] text-[#475467] font-medium truncate">
-                                    {current.subtitle}
-                                </span>
-                            </div>
-                        </div>
 
-                        {/* Action CTA Button */}
-                        <Link
-                            href={current.link}
-                            className="inline-flex items-center gap-1 bg-[#0B54C2] hover:bg-[#09449E] text-white font-extrabold text-[10px] sm:text-xs px-3 py-1.5 rounded-full transition-all shrink-0 shadow-2xs active:scale-95 cursor-pointer"
-                        >
-                            <span>{current.linkText}</span>
-                            <ChevronRight size={12} />
-                        </Link>
-                    </div>
+                                <Link
+                                    href={item.link}
+                                    className="inline-flex items-center gap-0.5 text-[10px] font-bold text-[#1677FF] hover:text-[#123B78] shrink-0"
+                                >
+                                    <span>{item.linkText}</span>
+                                    <ChevronRight size={11} />
+                                </Link>
+                            </div>
+                        )
+                    })}
                 </div>
 
-                {/* Next Button (Desktop) */}
-                <button
-                    onClick={() => setCurrentIndex((prev) => (prev + 1) % announcements.length)}
-                    aria-label="Annonce suivante"
-                    className="hidden sm:flex size-7 rounded-full bg-white/80 hover:bg-white text-[#182230] items-center justify-center border border-[#E8EDF3] transition cursor-pointer shrink-0 shadow-2xs active:scale-95"
-                >
-                    <ChevronRight size={14} />
-                </button>
+                {/* MOBILE View: Pill glissante unique avec swipe & timer */}
+                <div className="md:hidden flex items-center justify-between gap-2 bg-white rounded-xl p-2 px-3 border border-[#E1E8F0] shadow-2xs">
+                    {(() => {
+                        const current = announcements[activeMobileIdx]
+                        const Icon = current.icon
+                        return (
+                            <>
+                                <div className="flex items-center gap-2 min-w-0">
+                                    <div className="size-7 rounded-lg bg-[#EAF3FF] text-[#1677FF] flex items-center justify-center shrink-0">
+                                        <Icon size={14} />
+                                    </div>
+                                    <div className="truncate">
+                                        <div className="flex items-center gap-1.5">
+                                            <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded-full border ${current.badgeBg}`}>
+                                                {current.badge}
+                                            </span>
+                                            {current.hasTimer && (
+                                                <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-[#F97316] bg-[#F97316]/10 px-1.5 py-0.2 rounded-full">
+                                                    <Clock size={9} />
+                                                    {formatTimer()}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <span className="text-xs font-bold text-[#172033] truncate block">
+                                            {current.title}
+                                        </span>
+                                    </div>
+                                </div>
 
-                {/* Pagination Dots indicator */}
-                <div className="hidden lg:flex items-center gap-1 shrink-0">
-                    {announcements.map((_, idx) => (
-                        <button
-                            key={idx}
-                            onClick={() => setCurrentIndex(idx)}
-                            aria-label={`Annonce ${idx + 1}`}
-                            className="p-1 cursor-pointer"
-                        >
-                            <span 
-                                className={`block h-1.5 rounded-full transition-all duration-300 ${
-                                    idx === currentIndex ? 'w-4 bg-[#0B54C2]' : 'w-1.5 bg-[#CBD5E1]'
-                                }`}
-                            />
-                        </button>
-                    ))}
+                                <Link
+                                    href={current.link}
+                                    className="inline-flex items-center gap-1 bg-[#1677FF] hover:bg-[#123B78] text-white text-[10px] font-semibold px-2.5 py-1 rounded-lg shrink-0 shadow-2xs"
+                                >
+                                    <span>{current.linkText}</span>
+                                    <ChevronRight size={10} />
+                                </Link>
+                            </>
+                        )
+                    })()}
                 </div>
 
             </div>
