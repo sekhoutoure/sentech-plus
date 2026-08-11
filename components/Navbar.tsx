@@ -32,6 +32,7 @@ import { logout } from '@/lib/features/user/userSlice'
 import { formatPrice } from '@/lib/format'
 import { getProductImage } from '@/lib/image-utils'
 import HeaderMegaMenu from './HeaderMegaMenu'
+import HeaderAnnouncementsSlider from './HeaderAnnouncementsSlider'
 import toast from 'react-hot-toast'
 import Logo from './Logo'
 
@@ -361,28 +362,33 @@ const Navbar: React.FC = () => {
 
                 </div>
 
-                {/* Mobile Header Row */}
-                <div className="flex lg:hidden items-center justify-between gap-2 h-11">
-                    <div className="flex items-center gap-2">
+                {/* Mobile Header Row (Logo parfaitement centré au millimètre) */}
+                <div className="relative flex lg:hidden items-center justify-between h-11">
+                    {/* Gauche: Bouton Menu Hamburger */}
+                    <div className="flex items-center w-24">
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="size-[42px] rounded-xl text-[#182230] hover:bg-[#F5F7FA] active:bg-[#EAF3FF] transition cursor-pointer flex items-center justify-center shrink-0 border border-transparent hover:border-[#E8EDF3]"
+                            className="size-[38px] rounded-xl text-[#182230] hover:bg-[#F5F7FA] active:bg-[#EAF3FF] transition cursor-pointer flex items-center justify-center shrink-0 border border-transparent hover:border-[#E8EDF3]"
                             aria-label="Menu de navigation"
                         >
                             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
                         </button>
+                    </div>
 
-                        <Link href="/" className="flex items-center group shrink-0">
+                    {/* Centre: Logo Centré au Millimètre */}
+                    <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-auto">
+                        <Link href="/" className="flex items-center group">
                             <Logo className="h-7 w-auto" />
                         </Link>
                     </div>
 
-                    <div className="flex items-center gap-1">
+                    {/* Droite: Bouton Contact */}
+                    <div className="flex items-center justify-end w-24">
                         <Link
                             href="/contact"
-                            className="inline-flex items-center gap-1 bg-[#EAF3FF] hover:bg-[#0B54C2]/15 text-[#0B54C2] text-[11px] sm:text-xs font-extrabold px-3 py-1.5 rounded-full transition-all border border-[#0B54C2]/20"
+                            className="inline-flex items-center gap-1 bg-[#EAF3FF] hover:bg-[#0B54C2]/15 text-[#0B54C2] text-[11px] font-extrabold px-2.5 py-1 rounded-full transition-all border border-[#0B54C2]/20 shrink-0"
                         >
-                            <PhoneCall size={12} className="text-[#0B54C2]" />
+                            <PhoneCall size={11} className="text-[#0B54C2]" />
                             <span>Contact</span>
                         </Link>
                     </div>
@@ -429,56 +435,8 @@ const Navbar: React.FC = () => {
 
             </div>
 
-            {/* Sub-Header Categories Navigation Bar (Desktop Hover Mega-Menu + Mobile Direct Navigation) */}
-            <div className="w-full bg-[#F3F7FC] border-t border-[#E8EDF3] relative">
-                <div className="max-w-[1400px] mx-auto px-3 sm:px-6">
-                    <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto py-1.5 sm:py-2.5 no-scrollbar scroll-smooth">
-                        {categories.map((cat, idx) => {
-                            const Icon = cat.icon
-                            const hasMegaMenu = ['Smartphones', 'Ordinateurs', 'Audio', 'Gaming'].includes(cat.label)
-                            const isHovered = hoveredCategory === cat.label
-                            return (
-                                <div
-                                    key={idx}
-                                    onMouseEnter={() => {
-                                        if (typeof window !== 'undefined' && window.innerWidth >= 1024 && hasMegaMenu) {
-                                            setHoveredCategory(cat.label)
-                                        }
-                                    }}
-                                    className="shrink-0"
-                                >
-                                    <Link
-                                        href={`/shop?search=${encodeURIComponent(cat.query)}`}
-                                        onClick={() => setHoveredCategory(null)}
-                                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-200 shrink-0 border ${
-                                            isHovered
-                                                ? 'bg-white text-[#0B54C2] border-[#0B54C2]/30 shadow-2xs'
-                                                : 'text-[#182230] hover:text-[#0B54C2] hover:bg-white border-transparent hover:border-[#E8EDF3]'
-                                        }`}
-                                    >
-                                        <Icon size={13} className={isHovered ? 'text-[#0B54C2]' : 'text-[#667085] shrink-0'} />
-                                        <span className="whitespace-nowrap">{cat.label}</span>
-                                        {hasMegaMenu && (
-                                            <ChevronDown size={11} className={`hidden lg:inline transition-transform duration-200 ${isHovered ? 'rotate-180 text-[#0B54C2]' : 'text-slate-400'}`} />
-                                        )}
-                                    </Link>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
-
-                {/* Méga-Menu Déroulant au survol (Bureau uniquement lg:block) */}
-                {hoveredCategory && (
-                    <div className="hidden lg:block">
-                        <HeaderMegaMenu 
-                            categoryKey={hoveredCategory} 
-                            onClose={() => setHoveredCategory(null)} 
-                            topPosition={headerBottom}
-                        />
-                    </div>
-                )}
-            </div>
+            {/* Sub-Header: Carrousel d'Annonces & Promotions Défilant Automatiquement */}
+            <HeaderAnnouncementsSlider />
 
             {/* Mobile Drawer (Tiroir de Navigation Mobile complet) */}
             {isMobileMenuOpen && (
