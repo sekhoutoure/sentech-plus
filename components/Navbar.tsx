@@ -362,10 +362,10 @@ const Navbar: React.FC = () => {
 
                 </div>
 
-                {/* Mobile Header Row (Logo parfaitement centré au millimètre) */}
-                <div className="relative flex lg:hidden items-center justify-between h-11">
+                {/* Mobile Header Row (Espacement rigoureusement égal: Menu <--> Logo <--> Contact) */}
+                <div className="grid grid-cols-3 lg:hidden items-center h-11 w-full">
                     {/* Gauche: Bouton Menu Hamburger */}
-                    <div className="flex items-center w-24">
+                    <div className="flex items-center justify-start">
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className="size-[38px] rounded-xl text-[#182230] hover:bg-[#F5F7FA] active:bg-[#EAF3FF] transition cursor-pointer flex items-center justify-center shrink-0 border border-transparent hover:border-[#E8EDF3]"
@@ -375,15 +375,15 @@ const Navbar: React.FC = () => {
                         </button>
                     </div>
 
-                    {/* Centre: Logo Centré au Millimètre */}
-                    <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-auto">
-                        <Link href="/" className="flex items-center group">
+                    {/* Centre: Logo Centré Équidistant */}
+                    <div className="flex items-center justify-center">
+                        <Link href="/" className="flex items-center group shrink-0">
                             <Logo className="h-7 w-auto" />
                         </Link>
                     </div>
 
                     {/* Droite: Bouton Contact */}
-                    <div className="flex items-center justify-end w-24">
+                    <div className="flex items-center justify-end">
                         <Link
                             href="/contact"
                             className="inline-flex items-center gap-1 bg-[#EAF3FF] hover:bg-[#0B54C2]/15 text-[#0B54C2] text-[11px] font-extrabold px-2.5 py-1 rounded-full transition-all border border-[#0B54C2]/20 shrink-0"
