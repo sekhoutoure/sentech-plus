@@ -23,7 +23,7 @@ const BestSelling: React.FC = () => {
         .slice(0, displayQuantity)
 
     return (
-        <section aria-label="Meilleures ventes" className="bg-[#F6F9FD] py-4 sm:py-8 lg:py-10 w-full">
+        <section aria-label="Meilleures ventes" className="section-below-fold bg-[#F6F9FD] py-4 sm:py-8 lg:py-10 w-full">
             <div className="px-3 sm:px-6 max-w-[1280px] mx-auto w-full">
                 {/* Section Header Vertically Aligned */}
                 <div className="flex items-center justify-between gap-3 mb-4 sm:mb-6 pb-2 border-b border-[#E1E8F0]">

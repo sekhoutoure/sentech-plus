@@ -176,4 +176,23 @@
         margin-bottom: 2rem;
         text-align: center;
     }
+
+    /* ─────────────────────────────────────────────────────────────────
+       CSS CONTAINMENT — Réduit les recalculs de style & layout
+       Le browser peut ignorer les éléments hors viewport pour le paint
+    ───────────────────────────────────────────────────────────────── */
+
+    /* content-visibility sur les sections below-fold :
+       Le browser skip le rendu tant que la section n'est pas visible.
+       contain-intrinsic-size évite le layout shift (CLS). */
+    .section-below-fold {
+        content-visibility: auto;
+        contain-intrinsic-size: 0 400px;
+    }
+
+    /* Containment sur les cartes produit :
+       Réduit le Style Recalculation scope à la carte uniquement */
+    .product-card-contain {
+        contain: layout style;
+    }
 }

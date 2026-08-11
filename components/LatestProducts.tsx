@@ -18,7 +18,7 @@ const LatestProducts: React.FC = () => {
         .slice(0, displayQuantity)
 
     return (
-        <section aria-label="Dernières arrivées" className="px-3 sm:px-6 my-4 max-w-[1280px] mx-auto w-full">
+        <section aria-label="Dernières arrivées" className="section-below-fold px-3 sm:px-6 my-4 max-w-[1280px] mx-auto w-full">
 
             {/* Section Header Vertically Aligned */}
             <div className="flex items-center justify-between gap-3 mb-4 sm:mb-6 pb-2 border-b border-[#E1E8F0]">
