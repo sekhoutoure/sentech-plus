@@ -56,12 +56,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     Ces règles sont un sous-ensemble minimal de globals.css.
                 ───────────────────────────────────────────────────── */}
                 <style dangerouslySetInnerHTML={{ __html: `
+                    :root{--brand-blue:#1677FF;--brand-bg:#F3F7FC;--brand-text:#182230}
                     *,::before,::after{box-sizing:border-box}
-                    html{overflow-x:hidden;width:100%;background:#F3F7FC;color:#182230}
-                    body{margin:0;min-height:100vh;overflow-x:hidden;background:#F3F7FC;color:#182230;-webkit-font-smoothing:antialiased}
+                    html{overflow-x:hidden;width:100%;background:#F3F7FC;color:#182230;scroll-behavior:smooth}
+                    body{margin:0;min-height:100vh;min-height:100dvh;overflow-x:hidden;background:#F3F7FC;color:#182230;-webkit-font-smoothing:antialiased}
                     img,video{max-width:100%;height:auto;vertical-align:middle}
                     .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
                     .no-scrollbar::-webkit-scrollbar{display:none}
+                    .section-below-fold{content-visibility:auto;contain-intrinsic-size:0 400px}
+                    .product-card-contain{contain:layout style}
                 `.replace(/\s+/g,' ').trim() }} />
 
                 {/* ─────────────────────────────────────────────────────
