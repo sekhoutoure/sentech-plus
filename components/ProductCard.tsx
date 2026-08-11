@@ -212,7 +212,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                 <div className="space-y-0.5">
                     {/* Category & Rating */}
                     <div className="flex items-center justify-between gap-1">
-                        <span className="text-[9px] sm:text-[10px] font-bold text-[#1677FF] uppercase tracking-wider truncate">
+                        <span className="text-[9px] sm:text-[10px] font-bold text-[#0F56C6] uppercase tracking-wider truncate">
                             {product?.category || 'High-Tech'}
                         </span>
                         {avgRating && (
@@ -247,7 +247,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                                 Rupture
                             </span>
                         ) : (
-                            <span className="text-[8px] font-bold text-[#16C784] bg-[#16C784]/10 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] font-bold text-[#0D7D53] bg-[#0D7D53]/10 px-1.5 py-0.5 rounded shrink-0">
                                 En stock
                             </span>
                         )}

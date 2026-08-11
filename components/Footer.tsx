@@ -179,12 +179,12 @@ const Footer: React.FC = () => {
                             href={siteSettings.whatsappUrl || "https://wa.me/221770000000"}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-3 flex items-center gap-2 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/25 text-[#25D366] rounded-xl px-3 py-2 transition-all group"
+                            className="mt-3 flex items-center gap-2 bg-[#128C7E]/10 hover:bg-[#128C7E]/20 border border-[#128C7E]/25 text-[#0D7D53] rounded-xl px-3 py-2 transition-all group"
                         >
-                            <MessageCircle size={15} />
+                            <MessageCircle size={15} className="text-[#0D7D53]" />
                             <div>
-                                <div className="text-[10px] font-bold">Réponse en &lt;5 min</div>
-                                <div className="text-[9px] text-[#25D366] font-semibold">7j/7 sur WhatsApp</div>
+                                <div className="text-[10px] font-bold text-[#0D7D53]">Réponse en &lt;5 min</div>
+                                <div className="text-[9px] text-[#0D7D53] font-semibold">7j/7 sur WhatsApp</div>
                             </div>
                         </a>
                     </div>
