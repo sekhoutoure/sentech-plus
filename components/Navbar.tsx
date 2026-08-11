@@ -23,7 +23,8 @@ import {
     ChevronDown,
     ArrowRight,
     Mic,
-    MicOff
+    MicOff,
+    PhoneCall
 } from 'lucide-react'
 import { useSelector, useDispatch } from 'react-redux'
 import { openDrawer } from '@/lib/features/cart/cartSlice'
@@ -377,15 +378,13 @@ const Navbar: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-1">
-                        <a
-                            href="https://wa.me/221770000000"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 bg-[#085D38]/10 hover:bg-[#085D38]/20 text-[#085D38] text-[11px] font-extrabold px-2.5 py-1.5 rounded-full transition-all border border-[#085D38]/20"
+                        <Link
+                            href="/contact"
+                            className="inline-flex items-center gap-1 bg-[#EAF3FF] hover:bg-[#0B54C2]/15 text-[#0B54C2] text-[11px] sm:text-xs font-extrabold px-3 py-1.5 rounded-full transition-all border border-[#0B54C2]/20"
                         >
-                            <span className="size-1.5 rounded-full bg-[#085D38] animate-pulse" />
-                            <span>Aide 24/7</span>
-                        </a>
+                            <PhoneCall size={12} className="text-[#0B54C2]" />
+                            <span>Contact</span>
+                        </Link>
                     </div>
                 </div>
 
