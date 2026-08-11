@@ -174,7 +174,7 @@ const Navbar: React.FC = () => {
     }
 
     return (
-        <header className="sticky top-0 z-[100] bg-[#F8FAFC]/95 backdrop-blur-md border-b border-[#E5EAF0] shadow-xs">
+        <header className="sticky top-0 z-[100] bg-white border-b border-[#E5EAF0] shadow-xs">
             
             {/* Main Header Container */}
             <div className="max-w-[1400px] mx-auto px-3 sm:px-6 py-2.5 sm:py-4">
