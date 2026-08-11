@@ -62,6 +62,9 @@ const nextConfig = {
             'lucide-react',
             'react-hot-toast',
             'zustand',
+            'recharts',
+            'date-fns',
+            'framer-motion',
         ],
     },
     images: {
