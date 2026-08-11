@@ -20,6 +20,7 @@ import {
     Plug,
     Home,
     ChevronRight,
+    ChevronDown,
     ArrowRight,
     Mic,
     MicOff
@@ -29,6 +30,7 @@ import { openDrawer } from '@/lib/features/cart/cartSlice'
 import { logout } from '@/lib/features/user/userSlice'
 import { formatPrice } from '@/lib/format'
 import { getProductImage } from '@/lib/image-utils'
+import HeaderMegaMenu from './HeaderMegaMenu'
 import toast from 'react-hot-toast'
 import Logo from './Logo'
 
@@ -134,10 +136,13 @@ const Navbar: React.FC = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [])
 
-    // Auto-fermeture du menu mobile et des recherches lors d'un changement de page
+    const [hoveredCategory, setHoveredCategory] = useState<string | null>(null)
+
+    // Auto-fermeture du menu mobile, méga-menu et des recherches lors d'un changement de page
     useEffect(() => {
         setIsMobileMenuOpen(false)
         setIsSearchFocused(false)
+        setHoveredCategory(null)
     }, [pathname])
 
     // Bloquer le défilement de l'arrière-plan quand le tiroir mobile est ouvert
@@ -414,25 +419,49 @@ const Navbar: React.FC = () => {
 
             </div>
 
-            {/* Sub-Header Categories Navigation Bar */}
-            <div className="w-full bg-[#F3F7FC] border-t border-[#E8EDF3]">
+            {/* Sub-Header Categories Navigation Bar avec Méga-Menu au survol */}
+            <div className="w-full bg-[#F3F7FC] border-t border-[#E8EDF3] relative">
                 <div className="max-w-[1400px] mx-auto px-3 sm:px-6">
                     <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto py-1.5 sm:py-2.5 no-scrollbar scroll-smooth">
                         {categories.map((cat, idx) => {
                             const Icon = cat.icon
+                            const hasMegaMenu = ['Smartphones', 'Ordinateurs', 'Audio', 'Gaming'].includes(cat.label)
+                            const isHovered = hoveredCategory === cat.label
                             return (
-                                <Link
+                                <div
                                     key={idx}
-                                    href={`/shop?search=${encodeURIComponent(cat.query)}`}
-                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold text-[#182230] hover:text-[#1677FF] hover:bg-white transition-all duration-200 shrink-0 border border-transparent hover:border-[#E8EDF3]"
+                                    onMouseEnter={() => {
+                                        if (hasMegaMenu) setHoveredCategory(cat.label)
+                                    }}
+                                    className="shrink-0"
                                 >
-                                    <Icon size={13} className="text-[#667085] shrink-0" />
-                                    <span className="whitespace-nowrap">{cat.label}</span>
-                                </Link>
+                                    <Link
+                                        href={`/shop?search=${encodeURIComponent(cat.query)}`}
+                                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-200 shrink-0 border ${
+                                            isHovered
+                                                ? 'bg-white text-[#0B54C2] border-[#0B54C2]/30 shadow-2xs'
+                                                : 'text-[#182230] hover:text-[#0B54C2] hover:bg-white border-transparent hover:border-[#E8EDF3]'
+                                        }`}
+                                    >
+                                        <Icon size={13} className={isHovered ? 'text-[#0B54C2]' : 'text-[#667085] shrink-0'} />
+                                        <span className="whitespace-nowrap">{cat.label}</span>
+                                        {hasMegaMenu && (
+                                            <ChevronDown size={11} className={`transition-transform duration-200 ${isHovered ? 'rotate-180 text-[#0B54C2]' : 'text-slate-400'}`} />
+                                        )}
+                                    </Link>
+                                </div>
                             )
                         })}
                     </div>
                 </div>
+
+                {/* Méga-Menu Déroulant au survol */}
+                {hoveredCategory && (
+                    <HeaderMegaMenu 
+                        categoryKey={hoveredCategory} 
+                        onClose={() => setHoveredCategory(null)} 
+                    />
+                )}
             </div>
 
             {/* Mobile Drawer */}
