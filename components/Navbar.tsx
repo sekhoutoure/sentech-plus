@@ -137,12 +137,14 @@ const Navbar: React.FC = () => {
     }, [])
 
     const [hoveredCategory, setHoveredCategory] = useState<string | null>(null)
+    const [expandedMobileCategory, setExpandedMobileCategory] = useState<string | null>(null)
 
     // Auto-fermeture du menu mobile, méga-menu et des recherches lors d'un changement de page
     useEffect(() => {
         setIsMobileMenuOpen(false)
         setIsSearchFocused(false)
         setHoveredCategory(null)
+        setExpandedMobileCategory(null)
     }, [pathname])
 
     // Bloquer le défilement de l'arrière-plan quand le tiroir mobile est ouvert
@@ -419,7 +421,7 @@ const Navbar: React.FC = () => {
 
             </div>
 
-            {/* Sub-Header Categories Navigation Bar avec Méga-Menu au survol */}
+            {/* Sub-Header Categories Navigation Bar (Desktop Hover Mega-Menu + Mobile Direct Navigation) */}
             <div className="w-full bg-[#F3F7FC] border-t border-[#E8EDF3] relative">
                 <div className="max-w-[1400px] mx-auto px-3 sm:px-6">
                     <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto py-1.5 sm:py-2.5 no-scrollbar scroll-smooth">
@@ -431,12 +433,15 @@ const Navbar: React.FC = () => {
                                 <div
                                     key={idx}
                                     onMouseEnter={() => {
-                                        if (hasMegaMenu) setHoveredCategory(cat.label)
+                                        if (typeof window !== 'undefined' && window.innerWidth >= 1024 && hasMegaMenu) {
+                                            setHoveredCategory(cat.label)
+                                        }
                                     }}
                                     className="shrink-0"
                                 >
                                     <Link
                                         href={`/shop?search=${encodeURIComponent(cat.query)}`}
+                                        onClick={() => setHoveredCategory(null)}
                                         className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-200 shrink-0 border ${
                                             isHovered
                                                 ? 'bg-white text-[#0B54C2] border-[#0B54C2]/30 shadow-2xs'
@@ -446,7 +451,7 @@ const Navbar: React.FC = () => {
                                         <Icon size={13} className={isHovered ? 'text-[#0B54C2]' : 'text-[#667085] shrink-0'} />
                                         <span className="whitespace-nowrap">{cat.label}</span>
                                         {hasMegaMenu && (
-                                            <ChevronDown size={11} className={`transition-transform duration-200 ${isHovered ? 'rotate-180 text-[#0B54C2]' : 'text-slate-400'}`} />
+                                            <ChevronDown size={11} className={`hidden lg:inline transition-transform duration-200 ${isHovered ? 'rotate-180 text-[#0B54C2]' : 'text-slate-400'}`} />
                                         )}
                                     </Link>
                                 </div>
@@ -455,18 +460,20 @@ const Navbar: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Méga-Menu Déroulant au survol */}
+                {/* Méga-Menu Déroulant au survol (Bureau uniquement lg:block) */}
                 {hoveredCategory && (
-                    <HeaderMegaMenu 
-                        categoryKey={hoveredCategory} 
-                        onClose={() => setHoveredCategory(null)} 
-                    />
+                    <div className="hidden lg:block">
+                        <HeaderMegaMenu 
+                            categoryKey={hoveredCategory} 
+                            onClose={() => setHoveredCategory(null)} 
+                        />
+                    </div>
                 )}
             </div>
 
-            {/* Mobile Drawer */}
+            {/* Mobile Drawer (Tiroir de Navigation Mobile complet) */}
             {isMobileMenuOpen && (
-                <div className="fixed inset-0 z-50">
+                <div className="fixed inset-0 z-50 lg:hidden">
                     <div 
                         className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity" 
                         onClick={() => setIsMobileMenuOpen(false)} 
@@ -477,45 +484,94 @@ const Navbar: React.FC = () => {
                         role="dialog"
                         aria-modal="true"
                         aria-label="Navigation mobile"
-                        className="fixed top-0 left-0 bottom-0 w-4/5 max-w-xs bg-white p-6 shadow-2xl flex flex-col justify-between z-50 border-r border-[#EBEBEB] animate-slide-in"
+                        className="fixed top-0 left-0 bottom-0 w-4/5 max-w-xs bg-white p-5 shadow-2xl flex flex-col justify-between z-50 border-r border-[#EBEBEB] animate-slide-in overflow-y-auto"
                     >
-                        <div className="space-y-6">
-                            <div className="flex items-center justify-between pb-4 border-b border-[#EBEBEB]">
+                        <div className="space-y-5">
+                            <div className="flex items-center justify-between pb-3 border-b border-[#EBEBEB]">
                                 <Logo className="h-7 w-auto" />
-                                <button onClick={() => setIsMobileMenuOpen(false)} className="p-1 text-[#667085]">
+                                <button 
+                                    onClick={() => setIsMobileMenuOpen(false)} 
+                                    aria-label="Fermer le menu"
+                                    className="p-1.5 rounded-full text-[#667085] hover:bg-slate-100 transition cursor-pointer"
+                                >
                                     <X size={20} />
                                 </button>
                             </div>
 
-                            <nav className="flex flex-col space-y-1 text-sm font-bold text-[#101828]">
-                                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="p-3 rounded-xl hover:bg-[#EAF3FF] hover:text-[#1769FF] flex items-center justify-between">
+                            {/* Section Liens Principaux */}
+                            <nav className="flex flex-col space-y-1 text-xs sm:text-sm font-bold text-[#101828]">
+                                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-xl hover:bg-[#EAF3FF] hover:text-[#0B54C2] flex items-center justify-between transition-colors">
                                     <span>Accueil</span>
-                                    <ChevronRight size={16} />
+                                    <ChevronRight size={15} className="text-slate-400" />
                                 </Link>
-                                <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)} className="p-3 rounded-xl hover:bg-[#EAF3FF] hover:text-[#1769FF] flex items-center justify-between">
-                                    <span>Catalogue Produits</span>
-                                    <ChevronRight size={16} />
+                                <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-xl hover:bg-[#EAF3FF] hover:text-[#0B54C2] flex items-center justify-between transition-colors">
+                                    <span className="flex items-center gap-2">
+                                        <span>Catalogue Général</span>
+                                        <span className="text-[9px] bg-[#0B54C2] text-white px-2 py-0.5 rounded-full font-black">TOUT</span>
+                                    </span>
+                                    <ChevronRight size={15} className="text-slate-400" />
                                 </Link>
-                                <Link href="/wishlist" onClick={() => setIsMobileMenuOpen(false)} className="p-3 rounded-xl hover:bg-[#EAF3FF] hover:text-[#1769FF] flex items-center justify-between">
-                                    <span>Favoris ({wishlistCount})</span>
-                                    <ChevronRight size={16} />
-                                </Link>
-                                <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="p-3 rounded-xl hover:bg-[#EAF3FF] hover:text-[#1769FF] flex items-center justify-between">
-                                    <span>À propos</span>
-                                    <ChevronRight size={16} />
-                                </Link>
-                                <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="p-3 rounded-xl hover:bg-[#EAF3FF] hover:text-[#1769FF] flex items-center justify-between">
-                                    <span>Contact</span>
-                                    <ChevronRight size={16} />
+                                <Link href="/wishlist" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-xl hover:bg-[#EAF3FF] hover:text-[#0B54C2] flex items-center justify-between transition-colors">
+                                    <span>Mes Favoris ({wishlistCount})</span>
+                                    <ChevronRight size={15} className="text-slate-400" />
                                 </Link>
                             </nav>
+
+                            {/* Section Catégories & Rayons Accordéon sur Mobile */}
+                            <div className="pt-3 border-t border-[#EBEBEB] space-y-2">
+                                <div className="text-[10px] font-black text-[#475467] uppercase tracking-wider px-1">
+                                    Rayons & Équipements
+                                </div>
+                                <div className="space-y-1">
+                                    {categories.map((cat, idx) => {
+                                        const Icon = cat.icon
+                                        const isExpanded = expandedMobileCategory === cat.label
+                                        return (
+                                            <div key={idx} className="rounded-xl border border-[#E8EDF3] overflow-hidden bg-[#F8FAFC]">
+                                                <div className="flex items-center justify-between p-2.5">
+                                                    <Link
+                                                        href={`/shop?search=${encodeURIComponent(cat.query)}`}
+                                                        onClick={() => setIsMobileMenuOpen(false)}
+                                                        className="flex items-center gap-2 text-xs font-bold text-[#182230] hover:text-[#0B54C2] flex-1"
+                                                    >
+                                                        <Icon size={15} className="text-[#0B54C2] shrink-0" />
+                                                        <span>{cat.label}</span>
+                                                    </Link>
+
+                                                    <button
+                                                        onClick={() => setExpandedMobileCategory(isExpanded ? null : cat.label)}
+                                                        className="p-1 text-slate-400 hover:text-[#0B54C2] transition"
+                                                        aria-label={`Dérouler ${cat.label}`}
+                                                    >
+                                                        <ChevronDown size={15} className={`transition-transform duration-200 ${isExpanded ? 'rotate-180 text-[#0B54C2]' : ''}`} />
+                                                    </button>
+                                                </div>
+
+                                                {/* Contenu Déroulant Accordéon Mobile */}
+                                                {isExpanded && (
+                                                    <div className="bg-white p-2.5 border-t border-[#E8EDF3] space-y-1.5 text-xs animate-in fade-in duration-200">
+                                                        <Link
+                                                            href={`/shop?search=${encodeURIComponent(cat.query)}`}
+                                                            onClick={() => setIsMobileMenuOpen(false)}
+                                                            className="block text-[11px] font-extrabold text-[#0B54C2] hover:underline"
+                                                        >
+                                                            → Voir tous les produits {cat.label}
+                                                        </Link>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </div>
                         </div>
 
+                        {/* Pied du Tiroir Mobile */}
                         <div className="pt-4 border-t border-[#EBEBEB]">
                             {isLoggedIn && user ? (
                                 <button
                                     onClick={handleLogout}
-                                    className="w-full py-3 bg-rose-50 text-[#F04438] rounded-xl font-bold text-xs flex items-center justify-center gap-2"
+                                    className="w-full py-3 bg-rose-50 text-[#C4320A] rounded-xl font-bold text-xs flex items-center justify-center gap-2 cursor-pointer"
                                 >
                                     <LogOut size={16} /> Déconnexion
                                 </button>
@@ -523,9 +579,9 @@ const Navbar: React.FC = () => {
                                 <Link
                                     href="/login"
                                     onClick={() => setIsMobileMenuOpen(false)}
-                                    className="w-full py-3 bg-[#1769FF] text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-md"
+                                    className="w-full py-3 bg-[#0B54C2] hover:bg-[#09449E] text-white rounded-xl font-extrabold text-xs flex items-center justify-center gap-2 shadow-md cursor-pointer"
                                 >
-                                    <User size={16} /> Se connecter
+                                    <User size={16} /> Se connecter / Créer un compte
                                 </Link>
                             )}
                         </div>
