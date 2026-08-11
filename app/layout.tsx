@@ -36,28 +36,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="fr" dir="ltr">
             <head>
                 {/* ─────────────────────────────────────────────────────
-                    🔗 PRECONNECT — Établit la connexion TCP/TLS en avance
-                    Limité à 4 origines max pour éviter la congestion réseau
+                    🔍 DNS-PREFETCH — Résolution DNS en arrière-plan (sans bloquer de sockets)
                 ───────────────────────────────────────────────────── */}
-                <link rel="preconnect" href="https://res.cloudinary.com" />
-                <link rel="preconnect" href="https://www.googletagmanager.com" />
-                <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
-                <link rel="preconnect" href="https://firebasestorage.googleapis.com" crossOrigin="anonymous" />
-
-                {/* ─────────────────────────────────────────────────────
-                    🔍 DNS-PREFETCH — Résolution DNS en arrière-plan
-                    Pour les origines secondaires non critiques
-                ───────────────────────────────────────────────────── */}
+                <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+                <link rel="dns-prefetch" href="https://images.unsplash.com" />
+                <link rel="dns-prefetch" href="https://firebasestorage.googleapis.com" />
                 <link rel="dns-prefetch" href="https://www.google-analytics.com" />
                 <link rel="dns-prefetch" href="https://images.pexels.com" />
                 <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
-
-                {/* ─────────────────────────────────────────────────────
-                    📱 PWA — Manifest chargé en mode non-bloquant
-                    fetchpriority="low" dépriorise le manifest hors critical path
-                ───────────────────────────────────────────────────── */}
-                {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-                <link rel="manifest" href="/manifest.webmanifest" />
                 <meta name="mobile-web-app-capable" content="yes" />
                 <meta name="apple-mobile-web-app-capable" content="yes" />
                 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
