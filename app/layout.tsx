@@ -73,27 +73,30 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <JsonLd data={[getOrganizationSchema(), getWebSiteSchema()]} />
 
                 {/* ─────────────────────────────────────────────────────
-                    📊 Google Analytics GA4 — Chargé en lazyOnload
-                    N'impacte pas LCP / FCP / CLS
+                    📊 Google Analytics GA4 — Chargé uniquement si ID valide fourni
                 ───────────────────────────────────────────────────── */}
-                <Script
-                    strategy="lazyOnload"
-                    src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-                />
-                <Script
-                    id="gtag-init"
-                    strategy="lazyOnload"
-                    dangerouslySetInnerHTML={{
-                        __html: `
-                            window.dataLayer = window.dataLayer || [];
-                            function gtag(){dataLayer.push(arguments);}
-                            gtag('js', new Date());
-                            gtag('config', '${GA_TRACKING_ID}', {
-                                page_path: window.location.pathname,
-                            });
-                        `,
-                    }}
-                />
+                {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+                    <>
+                        <Script
+                            strategy="lazyOnload"
+                            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+                        />
+                        <Script
+                            id="gtag-init"
+                            strategy="lazyOnload"
+                            dangerouslySetInnerHTML={{
+                                __html: `
+                                    window.dataLayer = window.dataLayer || [];
+                                    function gtag(){dataLayer.push(arguments);}
+                                    gtag('js', new Date());
+                                    gtag('config', '${GA_TRACKING_ID}', {
+                                        page_path: window.location.pathname,
+                                    });
+                                `,
+                            }}
+                        />
+                    </>
+                )}
             </head>
             <body className={`${outfit.className} antialiased selection:bg-blue-600 selection:text-white`}>
                 <a
