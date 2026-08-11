@@ -9,7 +9,7 @@ export default function WhatsAppButton() {
     return (
         <aside 
             aria-label="Support WhatsApp" 
-            className="fixed bottom-[calc(76px+env(safe-area-inset-bottom,0px))] sm:bottom-6 right-4 sm:right-6 z-40 group"
+            className="fixed bottom-[88px] lg:bottom-6 right-3.5 sm:right-6 z-30 group"
         >
             <a
                 href={whatsappUrl}
