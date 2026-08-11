@@ -116,38 +116,40 @@ export default function PremiumHero() {
                     {/* ── DESKTOP layout Lumineux ── */}
                     <div className="hidden lg:grid grid-cols-12 gap-6 lg:gap-8 items-center flex-1 p-10 xl:p-12 relative z-10">
                         <div className="col-span-7 space-y-4">
-                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF3FF] border border-[#1677FF]/20 text-xs font-extrabold text-[#1677FF] shadow-2xs">
+                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF3FF] border border-[#1677FF]/20 text-xs font-bold text-[#1677FF] shadow-2xs">
                                 <Sparkles size={13} className="text-[#1677FF]" />
                                 <span>COLLECTION HIGH-TECH 2026</span>
                             </div>
 
-                            <h1 className="text-[36px] xl:text-[44px] font-black tracking-tight text-[#182230] leading-[1.1]">
+                            <h1 className="text-[36px] xl:text-[44px] font-black tracking-tight text-[#172033] leading-[1.1]">
                                 Des accessoires <span className="text-[#1677FF]">intelligents</span> pour simplifier votre quotidien.
                             </h1>
 
-                            <p className="text-[#475467] text-[15px] sm:text-[16px] font-normal leading-relaxed max-w-md">
-                                Découvrez une sélection de gadgets et accessoires high-tech pensés pour votre quotidien.
+                            <p className="text-[#667085] text-[15px] sm:text-[16px] font-normal leading-relaxed max-w-md">
+                                Découvrez nos gadgets et équipements haut de gamme.
                             </p>
-
-                            <div className="flex items-center gap-2 text-xs font-bold text-[#16B979] bg-[#16B979]/10 border border-[#16B979]/20 px-3.5 py-1.5 rounded-full w-fit">
-                                <span className="size-2 rounded-full bg-[#16B979] animate-pulse" />
-                                <span>Livraison rapide au Sénégal</span>
-                            </div>
 
                             <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
                                 <Link
                                     href="/shop"
-                                    className="inline-flex items-center gap-2.5 bg-[#1677FF] hover:bg-[#0F67E5] text-white font-extrabold text-sm py-3.5 px-7 rounded-2xl shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all duration-200 cursor-pointer"
+                                    className="inline-flex items-center gap-2.5 bg-[#1677FF] hover:bg-[#123B78] text-white font-semibold text-sm py-3 px-6 rounded-xl shadow-xs hover:scale-[1.01] active:scale-95 transition-all duration-200 cursor-pointer"
                                 >
                                     <span>Découvrir la collection</span>
                                     <ArrowRight size={15} />
                                 </Link>
                                 <Link
                                     href="/shop?search=Promo"
-                                    className="inline-flex items-center gap-2 bg-white hover:bg-[#F3F7FC] text-[#182230] font-bold text-sm py-3.5 px-6 rounded-2xl border border-[#E8EDF3] transition-all duration-200 cursor-pointer shadow-2xs"
+                                    className="inline-flex items-center gap-2 bg-white hover:bg-[#F3F8FF] text-[#172033] font-semibold text-sm py-3 px-6 rounded-xl border border-[#E1E8F0] transition-all duration-200 cursor-pointer shadow-2xs"
                                 >
                                     <span>Voir les offres</span>
                                 </Link>
+                            </div>
+
+                            {/* Trust badges discreet */}
+                            <div className="flex items-center gap-4 pt-2 text-xs text-[#667085] font-medium">
+                                <span className="flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-[#16C784]" /> 🚚 Livraison rapide</span>
+                                <span className="flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-[#1677FF]" /> 🔒 Paiement sécurisé</span>
+                                <span className="flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-[#25D366]" /> 💬 Support WhatsApp</span>
                             </div>
                         </div>
 

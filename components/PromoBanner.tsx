@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, Percent, Flame } from 'lucide-react'
+import { ArrowRight, Flame } from 'lucide-react'
 import { assets } from '@/assets/assets'
 
 const promoDeals = [
@@ -10,87 +10,80 @@ const promoDeals = [
         label: "-30%",
         title: "Casques ANC",
         desc: "Réduction de bruit",
-        img: assets.product_img2,
-        color: "bg-[#0B2342]/80 border-[#C8CDD3]/20"
+        img: assets.product_img2
     },
     {
         label: "-25%",
-        title: "Montres connectées",
+        title: "Montres Connectées",
         desc: "Suivi santé 24/7",
-        img: assets.product_img4,
-        color: "bg-[#0B2342]/80 border-[#C8CDD3]/20"
+        img: assets.product_img4
     },
     {
         label: "-20%",
         title: "Enceintes Bluetooth",
         desc: "Son premium high-tech",
-        img: assets.product_img5,
-        color: "bg-[#0B2342]/80 border-[#C8CDD3]/20"
+        img: assets.product_img5
     },
 ]
 
 export default function PromoBanner() {
     return (
-        <section className="px-1.5 sm:px-6 my-3 sm:my-8 lg:my-12 max-w-[1400px] mx-auto w-full">
-            <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#EAF3FF] via-white to-[#F8FBFF] text-[#182230] border border-[#E8EDF3] shadow-xs">
+        <section aria-label="Offres du moment" className="px-3 sm:px-6 my-4 max-w-[1280px] mx-auto w-full">
+            <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#F3F8FF] via-[#EAF3FF] to-white text-[#172033] border border-[#E1E8F0] shadow-[0_4px_20px_rgba(23,32,51,0.04)]">
 
-                {/* Subtle Ambient Glow */}
-                <div className="absolute -top-32 -left-32 size-[250px] sm:size-[500px] bg-[#1677FF]/10 rounded-full blur-[70px] sm:blur-[120px] pointer-events-none" />
-                <div className="absolute -bottom-32 -right-32 size-[200px] sm:size-[400px] bg-[#EAF3FF] rounded-full blur-[60px] sm:blur-[100px] pointer-events-none" />
-
-                <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-10 items-center p-3.5 sm:p-10 lg:p-14">
+                <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-10 items-center p-4 sm:p-10 lg:p-12">
 
                     {/* Left Copy */}
-                    <div className="lg:col-span-6 space-y-2 sm:space-y-5 text-center lg:text-left">
-                        <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white border border-[#1677FF]/20 text-[9px] sm:text-xs font-extrabold text-[#0B54C2]">
-                            <Flame size={11} className="text-[#C4320A]" />
+                    <div className="lg:col-span-6 space-y-3 text-center lg:text-left">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#1677FF]/20 text-xs font-bold text-[#1677FF]">
+                            <Flame size={13} className="text-[#F97316]" />
                             <span>OFFRES DU MOMENT</span>
                         </div>
 
-                        <h2 className="text-lg sm:text-4xl lg:text-5xl font-black text-[#182230] tracking-tight leading-tight">
+                        <h2 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-[#172033] tracking-tight leading-tight">
                             Jusqu'à -30% sur la High-Tech
                         </h2>
 
-                        <p className="text-[11px] sm:text-base text-[#475467] max-w-md mx-auto lg:mx-0 leading-relaxed font-normal">
+                        <p className="text-xs sm:text-sm text-[#667085] max-w-md mx-auto lg:mx-0 leading-relaxed font-normal">
                             Sélection de réductions exclusives et livraison rapide.
                         </p>
 
                         {/* CTA */}
-                        <div className="pt-0.5 flex items-center justify-center lg:justify-start gap-2">
+                        <div className="pt-1 flex items-center justify-center lg:justify-start gap-2">
                             <Link
                                 href="/shop"
-                                className="inline-flex items-center justify-center gap-1 bg-[#0B54C2] hover:bg-[#09449E] text-white font-extrabold text-xs sm:text-sm py-2 sm:py-3.5 px-4 sm:px-7 rounded-xl sm:rounded-2xl shadow-md active:scale-95 transition-all"
+                                className="inline-flex items-center justify-center gap-2 bg-[#1677FF] hover:bg-[#123B78] text-white font-semibold text-xs sm:text-sm py-3 px-6 rounded-xl shadow-2xs hover:-translate-y-0.5 active:scale-95 transition-all duration-200"
                             >
                                 <span>Découvrir les offres</span>
-                                <ArrowRight size={12} />
+                                <ArrowRight size={14} />
                             </Link>
                         </div>
                     </div>
 
                     {/* Right Deal Cards */}
-                    <div className="lg:col-span-6 flex lg:grid grid-cols-3 gap-2 overflow-x-auto py-1 no-scrollbar pt-1 lg:pt-0">
+                    <div className="lg:col-span-6 flex lg:grid grid-cols-3 gap-3 overflow-x-auto py-1 no-scrollbar pt-2 lg:pt-0">
                         {promoDeals.map((deal, i) => (
                             <Link
                                 key={i}
                                 href="/shop"
-                                className="group relative flex items-center gap-2 p-2 sm:p-4 rounded-xl border border-[#E8EDF3] bg-white shadow-2xs hover:shadow-md transition-all shrink-0 w-[145px] sm:w-auto"
+                                className="group relative flex items-center gap-2.5 p-3 rounded-2xl border border-[#E1E8F0] bg-white shadow-2xs hover:shadow-md hover:border-[#1677FF]/40 transition-all shrink-0 w-[160px] sm:w-auto"
                             >
                                 {/* Product Image */}
-                                <div className="relative size-10 sm:size-16 rounded-lg bg-[#F5F7FA] shrink-0 border border-[#E8EDF3]/60">
+                                <div className="relative size-12 sm:size-16 rounded-xl bg-[#F6FAFF] shrink-0 border border-[#E1E8F0]">
                                     <Image
                                         src={deal.img}
                                         alt={deal.title}
                                         fill
-                                        sizes="(max-width: 640px) 40px, 64px"
-                                        className="object-contain p-0.5"
+                                        sizes="(max-width: 640px) 48px, 64px"
+                                        className="object-contain p-1 group-hover:scale-105 transition-transform"
                                     />
                                 </div>
 
                                 <div className="text-left flex-1 min-w-0">
-                                    <span className="bg-[#C4320A] text-white text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded-full inline-block mb-0.5">
+                                    <span className="bg-[#F97316] text-white text-[9px] font-bold px-2 py-0.5 rounded-full inline-block mb-1">
                                         {deal.label}
                                     </span>
-                                    <div className="text-[10px] sm:text-[11px] font-black text-[#182230] leading-tight truncate">{deal.title}</div>
+                                    <div className="text-xs font-bold text-[#172033] leading-tight truncate">{deal.title}</div>
                                 </div>
                             </Link>
                         ))}

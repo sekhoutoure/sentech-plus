@@ -228,18 +228,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                 <div className="space-y-1">
                     {/* Category & Rating */}
                     <div className="flex items-center justify-between gap-1">
-                        <span className="text-[10px] sm:text-[11px] font-extrabold text-[#0B54C2] uppercase tracking-wider truncate">
+                        <span className="text-[10px] sm:text-[11px] font-bold text-[#1677FF] uppercase tracking-wider truncate">
                             {product?.category || 'High-Tech'}
                         </span>
                         <div className="flex items-center gap-0.5 shrink-0">
                             <Star size={11} fill="#F59E0B" className="text-amber-400" />
-                            <span className="text-[11px] font-extrabold text-[#182230]">{avgRating}</span>
+                            <span className="text-[11px] font-bold text-[#172033]">{avgRating}</span>
                         </div>
                     </div>
 
                     {/* Product Name */}
                     <Link href={`/product/${productId}`} className="block">
-                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#182230] line-clamp-2 leading-snug group-hover:text-[#0B54C2] transition-colors h-[34px] sm:h-[40px] overflow-hidden">
+                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#172033] line-clamp-2 leading-snug group-hover:text-[#1677FF] transition-colors h-[34px] sm:h-[40px] overflow-hidden">
                             {product?.name || 'Équipement SenTechPLUS'}
                         </h3>
                     </Link>
@@ -249,37 +249,37 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                     {/* Pricing & Stock (Prix + Ancien Prix Barré si disponible) */}
                     <div className="flex items-baseline justify-between gap-1 flex-wrap min-h-[22px]">
                         <div className="flex items-baseline gap-1.5 flex-wrap">
-                            <span className="text-[14px] sm:text-[17px] font-black text-[#182230] leading-none">
+                            <span className="text-[14px] sm:text-[16px] font-bold text-[#172033] leading-none">
                                 {formatPrice(price)}
                             </span>
                             {mrp && mrp > price && (
-                                <span className="text-[10px] sm:text-[12px] font-semibold text-[#475467] line-through leading-none">
+                                <span className="text-[10px] sm:text-[12px] font-medium text-[#667085] line-through leading-none">
                                     {formatPrice(mrp)}
                                 </span>
                             )}
                         </div>
                         {isOutOfStock ? (
-                            <span className="text-[8px] sm:text-[10px] font-bold text-[#C4320A] bg-[#C4320A]/10 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] sm:text-[10px] font-bold text-[#DC2626] bg-[#DC2626]/10 px-1.5 py-0.5 rounded shrink-0">
                                 Rupture
                             </span>
                         ) : (
-                            <span className="text-[8px] sm:text-[10px] font-bold text-[#085D38] bg-[#085D38]/10 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] sm:text-[10px] font-bold text-[#16C784] bg-[#16C784]/10 px-1.5 py-0.5 rounded shrink-0">
                                 En stock
                             </span>
                         )}
                     </div>
 
-                    {/* Add to Cart Button (Compact 40px-42px) */}
+                    {/* Add to Cart Button (Radius 12px, font-weight 600, translateY(-1px) hover) */}
                     <button
                         onClick={handleQuickAdd}
                         disabled={isOutOfStock}
                         aria-label="Ajouter au panier"
-                        className={`w-full font-extrabold text-[11px] sm:text-xs h-[40px] sm:h-[42px] py-2 px-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer ${
+                        className={`w-full font-semibold text-[11px] sm:text-xs h-[40px] py-2 px-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer ${
                             isOutOfStock
-                                ? 'bg-[#EEF1F5] text-slate-400 cursor-not-allowed border border-[#E8EDF3]'
+                                ? 'bg-[#EEF1F5] text-slate-400 cursor-not-allowed border border-[#E1E8F0]'
                                 : isAdded
-                                ? 'bg-[#085D38] text-white shadow-2xs'
-                                : 'bg-[#0B54C2] hover:bg-[#09449E] text-white shadow-2xs'
+                                ? 'bg-[#16C784] text-white shadow-2xs'
+                                : 'bg-[#1677FF] hover:bg-[#123B78] hover:-translate-y-0.5 text-white shadow-2xs'
                         }`}
                     >
                         {isOutOfStock ? (
@@ -287,7 +287,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                         ) : isAdded ? (
                             <><Check size={14} /><span>Ajouté !</span></>
                         ) : (
-                            <><ShoppingCart size={14} /><span className="hidden sm:inline">Ajouter au panier</span><span className="sm:hidden">Ajouter</span></>
+                            <><ShoppingCart size={14} /><span>Ajouter au panier</span></>
                         )}
                     </button>
                 </div>

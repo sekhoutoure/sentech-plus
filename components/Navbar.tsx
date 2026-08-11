@@ -201,22 +201,22 @@ const Navbar: React.FC = () => {
                     {/* [BARRE DE RECHERCHE] Large Omnibox avec Autocomplétion Live */}
                     <div ref={searchContainerRef} className="flex-1 max-w-2xl relative">
                         <form onSubmit={handleSearch} className="w-full relative">
-                            <div className="relative w-full flex items-center bg-white hover:bg-[#F5F7FA] focus-within:bg-white px-4 py-3 rounded-full border border-[#E5EAF0] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all duration-200 shadow-2xs">
-                                <Search size={18} className="text-[#475467] shrink-0 mr-3" />
+                            <div className="relative w-full flex items-center bg-[#F7F9FC] hover:bg-white focus-within:bg-white px-4 py-2.5 rounded-[14px] border border-[#E1E8F0] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all duration-200 shadow-2xs">
+                                <Search size={18} className="text-[#667085] shrink-0 mr-3" />
                                 <input
                                     id="desktop-search-input"
                                     name="search"
                                     type="text"
-                                    placeholder="Rechercher un produit, une marque ou une catégorie..."
+                                    placeholder="Rechercher un produit, une marque..."
                                     value={search}
                                     onChange={(e) => {
                                         setSearch(e.target.value)
                                         setIsSearchFocused(true)
                                     }}
                                     onFocus={() => setIsSearchFocused(true)}
-                                    aria-label="Rechercher un produit, une marque ou une catégorie"
+                                    aria-label="Rechercher un produit ou une marque"
                                     autoComplete="off"
-                                    className="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#182230] placeholder:text-[#475467]"
+                                    className="w-full bg-transparent outline-none text-xs sm:text-sm font-medium text-[#172033] placeholder:text-[#667085]"
                                 />
                                 
                                 {/* Voice Search Mic Button Desktop */}
@@ -227,8 +227,8 @@ const Navbar: React.FC = () => {
                                     title="Dictée vocale par microphone"
                                     className={`p-1.5 rounded-full transition-all duration-200 cursor-pointer shrink-0 ml-1.5 ${
                                         isListening
-                                            ? 'bg-[#C4320A] text-white animate-pulse shadow-md'
-                                            : 'text-[#0B54C2] hover:bg-[#EAF3FF] hover:scale-105'
+                                            ? 'bg-[#DC2626] text-white animate-pulse shadow-md'
+                                            : 'text-[#1677FF] hover:bg-[#EAF3FF] hover:scale-105'
                                     }`}
                                 >
                                     <Mic size={16} />
@@ -237,7 +237,7 @@ const Navbar: React.FC = () => {
                                 <button
                                     type="submit"
                                     aria-label="Rechercher"
-                                    className="bg-[#0B54C2] hover:bg-[#09449E] text-white text-xs font-extrabold px-5 py-2 rounded-full transition-all duration-200 shrink-0 shadow-2xs cursor-pointer active:scale-95 ml-2"
+                                    className="bg-[#1677FF] hover:bg-[#123B78] text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all duration-200 shrink-0 shadow-2xs cursor-pointer active:scale-95 ml-2"
                                 >
                                     Rechercher
                                 </button>
