@@ -394,11 +394,11 @@ const Navbar: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Mobile Header Row 2 (Barre de Recherche Omnibox 44px) */}
-                <div className="lg:hidden mt-1.5 relative">
+                {/* Mobile Header Row 2 (Barre de Recherche Omnibox 52px) */}
+                <div className="lg:hidden mt-2 relative">
                     <form onSubmit={handleSearch} className="relative w-full">
-                        <div className="relative h-[44px] flex items-center bg-white px-3.5 rounded-xl border border-[#E5EAF0] focus-within:border-[#0B54C2] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#0B54C2]/15 transition-all shadow-2xs">
-                            <Search size={16} className="text-[#475467] mr-2 shrink-0" />
+                        <div className="relative h-[52px] flex items-center bg-white px-4 rounded-[16px] border border-[#DCE5F0] focus-within:border-[#1677FF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-2xs">
+                            <Search size={18} className="text-[#64748B] mr-2.5 shrink-0" />
                             <input
                                 id="mobile-search-input"
                                 name="mobile_search"
@@ -412,7 +412,7 @@ const Navbar: React.FC = () => {
                                 onFocus={() => setIsSearchFocused(true)}
                                 aria-label="Rechercher un produit ou une marque"
                                 autoComplete="off"
-                                className="w-full bg-transparent outline-none text-xs font-semibold text-[#182230] placeholder:text-[#475467]"
+                                className="w-full bg-transparent outline-none text-xs sm:text-sm font-medium text-[#172033] placeholder:text-[#64748B]"
                             />
 
                             {/* Voice Search Mic Button Mobile */}
@@ -423,11 +423,11 @@ const Navbar: React.FC = () => {
                                 title="Dictée vocale par microphone"
                                 className={`p-1.5 rounded-full transition-all duration-200 cursor-pointer shrink-0 ml-1 ${
                                     isListening
-                                        ? 'bg-[#C4320A] text-white animate-pulse shadow-md'
-                                        : 'text-[#0B54C2] hover:bg-[#EAF3FF]'
+                                        ? 'bg-[#F97316] text-white animate-pulse shadow-md'
+                                        : 'text-[#1677FF] hover:bg-[#EAF3FF]'
                                 }`}
                             >
-                                <Mic size={16} />
+                                <Mic size={18} />
                             </button>
                         </div>
                     </form>

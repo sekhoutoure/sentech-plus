@@ -77,7 +77,7 @@ export default function PopularCategories() {
                     <Link
                         key={idx}
                         href={`/shop?search=${encodeURIComponent(cat.query)}`}
-                        className={`group relative bg-gradient-to-br ${cat.bg} rounded-2xl p-3.5 border border-[#E1E8F0] shadow-[0_4px_20px_rgba(23,32,51,0.04)] hover:shadow-[0_8px_30px_rgba(22,119,255,0.12)] hover:border-[#1677FF]/40 transition-all duration-300 flex flex-col justify-between overflow-hidden min-h-[145px]`}
+                        className={`group relative bg-gradient-to-br ${cat.bg} rounded-[22px] p-3.5 border border-[#DCE5F0] shadow-[0_4px_15px_rgba(23,32,51,0.04)] hover:shadow-[0_8px_30px_rgba(22,119,255,0.12)] hover:border-[#1677FF]/40 transition-all duration-300 flex flex-col justify-between overflow-hidden min-h-[145px]`}
                     >
                         <div className="space-y-1 relative z-10">
                             <span className="text-[9px] font-bold text-[#1677FF] bg-[#1677FF]/10 px-2 py-0.5 rounded-full border border-[#1677FF]/15 inline-block">

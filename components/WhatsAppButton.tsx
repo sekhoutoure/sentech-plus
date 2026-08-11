@@ -9,14 +9,14 @@ export default function WhatsAppButton() {
     return (
         <aside 
             aria-label="Support WhatsApp" 
-            className="fixed right-4 bottom-[calc(82px+env(safe-area-inset-bottom))] lg:bottom-6 lg:right-6 z-40 group"
+            className="fixed right-4 bottom-[calc(80px+env(safe-area-inset-bottom))] lg:bottom-6 lg:right-6 z-40 group"
         >
             <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Contactez-nous sur WhatsApp"
-                className="relative flex items-center justify-center bg-[#25D366] hover:bg-[#1EBD58] text-white rounded-full shadow-lg shadow-[#25D366]/30 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer size-[52px] sm:size-auto p-0 sm:px-4 sm:py-2.5"
+                className="relative flex items-center justify-center bg-[#25D366] hover:bg-[#1EBD58] text-white rounded-full shadow-[0_4px_20px_rgba(37,211,102,0.35)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer size-[56px] sm:size-auto p-0 sm:px-4 sm:py-2.5"
             >
                 {/* Subtle pulse ring animation */}
                 <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-25 pointer-events-none" />

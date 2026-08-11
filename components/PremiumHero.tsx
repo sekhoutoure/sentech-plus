@@ -26,8 +26,8 @@ export default function PremiumHero() {
         <section className="px-1.5 sm:px-6 pt-1 pb-2 sm:py-6 max-w-[1400px] mx-auto w-full">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-6 items-stretch">
 
-                {/* ═══ GRANDE CARTE HERO LUMINEUSE ═══ */}
-                <div className="lg:col-span-8 relative flex flex-col bg-gradient-to-br from-white via-[#F8FAFC] to-[#EAF3FF] rounded-2xl sm:rounded-3xl text-[#182230] overflow-hidden border border-[#E8EDF3] shadow-xs group">
+                {/* ═══ GRANDE CARTE HERO LUMINEUSE (border-radius: 24px, border: 1px solid #DCE8F5) ═══ */}
+                <div className="lg:col-span-8 relative flex flex-col bg-gradient-to-br from-[#F8FBFF] via-[#F3F8FF] to-[#EAF3FF] rounded-[24px] text-[#172033] overflow-hidden border border-[#DCE8F5] shadow-2xs group">
 
                     {/* Subtle Blue Glow Halo */}
                     <div className="absolute -top-24 -right-24 size-[250px] sm:size-[420px] bg-[#1677FF]/10 rounded-full blur-[70px] sm:blur-[110px] pointer-events-none" />
