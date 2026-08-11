@@ -146,7 +146,7 @@ export default function HeaderMegaMenu({ categoryKey, onClose }: HeaderMegaMenuP
     return (
         <div 
             onMouseLeave={onClose}
-            className="hidden lg:block absolute top-full left-0 right-0 z-50 bg-white/98 backdrop-blur-xl border-b border-[#E8EDF3] shadow-[0_20px_50px_rgba(15,23,42,0.12)] animate-in fade-in slide-in-from-top-2 duration-200"
+            className="hidden lg:block absolute top-full left-0 right-0 z-[110] bg-white/98 backdrop-blur-xl border-b border-[#E8EDF3] shadow-[0_25px_60px_rgba(15,23,42,0.18)] animate-in fade-in slide-in-from-top-2 duration-200"
         >
             <div className="max-w-[1400px] mx-auto px-6 py-8">
                 <div className="grid grid-cols-12 gap-8 items-start">

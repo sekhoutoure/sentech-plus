@@ -22,7 +22,7 @@ export default function Banner() {
     };
 
     return (
-        <aside aria-label="Bannière promotionnelle" className="relative z-[60] w-full bg-[#EAF3FF] text-[#182230] border-b border-[#E8EDF3]">
+        <aside aria-label="Bannière promotionnelle" className="relative z-30 w-full bg-[#EAF3FF] text-[#182230] border-b border-[#E8EDF3]">
             <div className="max-w-[1400px] mx-auto px-3 sm:px-6 py-1 min-h-[28px] flex items-center justify-between gap-2 text-[11px] sm:text-xs">
                 
                 {/* Promo Message */}
