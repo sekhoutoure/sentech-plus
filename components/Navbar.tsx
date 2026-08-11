@@ -27,12 +27,13 @@ import {
     PhoneCall
 } from 'lucide-react'
 import { useCartStore, useWishlistStore, useUserStore, useProductStore } from '@/lib/stores'
+import dynamic from 'next/dynamic'
 import { formatPrice } from '@/lib/format'
 import { getProductImage } from '@/lib/image-utils'
-import HeaderMegaMenu from './HeaderMegaMenu'
-import HeaderAnnouncementsSlider from './HeaderAnnouncementsSlider'
 import toast from 'react-hot-toast'
 import Logo from './Logo'
+
+const HeaderAnnouncementsSlider = dynamic(() => import('./HeaderAnnouncementsSlider'), { ssr: true })
 
 const categories = [
     { label: "Smartphones", query: "Smartphones", icon: Smartphone },
