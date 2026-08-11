@@ -155,28 +155,35 @@ export default function PremiumHero() {
                         <div className="col-span-5 relative h-full flex items-center justify-center">
                             <div className="relative w-full min-h-[300px] lg:min-h-[320px] rounded-2xl bg-white border border-[#E8EDF3] shadow-xs p-3 flex items-center justify-center overflow-hidden">
                                 <div className="absolute inset-0 bg-gradient-to-tr from-[#EAF3FF]/40 to-transparent pointer-events-none" />
-                                {featuredImages.map((src, index) => (
-                                    <div
-                                        key={index}
-                                        className={`absolute inset-0 flex items-center justify-center p-3 transition-all duration-700 ease-out ${
-                                            index === currentImgIndex
-                                                ? 'opacity-100 scale-100 translate-y-0'
-                                                : 'opacity-0 scale-90 translate-y-4 pointer-events-none'
-                                        }`}
-                                    >
-                                        <div className="relative w-full h-full">
-                                            <Image
-                                                src={src}
-                                                alt="Produit High-Tech SenTechPLUS"
-                                                fill
-                                                sizes="(max-width: 1024px) 300px, 420px"
-                                                className="object-contain drop-shadow-[0_15px_30px_rgba(20,40,70,0.12)]"
-                                                priority={index === 0}
-                                                fetchPriority={index === 0 ? "high" : "auto"}
-                                            />
+                                {featuredImages.map((src, index) => {
+                                    const isLcp = index === 0
+                                    const isActive = index === currentImgIndex
+                                    if (!isActive && !isLcp) return null
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={`absolute inset-0 flex items-center justify-center p-3 transition-all duration-700 ease-out ${
+                                                isActive
+                                                    ? 'opacity-100 scale-100 translate-y-0'
+                                                    : 'opacity-0 scale-90 translate-y-4 pointer-events-none'
+                                            }`}
+                                        >
+                                            <div className="relative w-full h-full flex items-center justify-center">
+                                                <Image
+                                                    src={src}
+                                                    alt="Produit High-Tech SenTechPLUS"
+                                                    width={420}
+                                                    height={320}
+                                                    sizes="(max-width: 1024px) 300px, 420px"
+                                                    className="object-contain drop-shadow-[0_15px_30px_rgba(20,40,70,0.12)] max-h-[300px] w-auto h-auto"
+                                                    priority={isLcp}
+                                                    loading={isLcp ? "eager" : "lazy"}
+                                                    fetchPriority={isLcp ? "high" : "auto"}
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    )
+                                })}
                                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-0.5 z-20">
                                     {featuredImages.map((_, idx) => (
                                         <button
