@@ -3,8 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Star, Heart, ImageOff, Eye } from 'lucide-react'
-import { useDispatch, useSelector } from 'react-redux'
-import { toggleWishlist } from '@/lib/features/wishlist/wishlistSlice'
+import { useWishlistStore } from '@/lib/stores'
 import { formatPrice } from '@/lib/format'
 import { getProductImage, FALLBACK_PRODUCT_IMAGE } from '@/lib/image-utils'
 import toast from 'react-hot-toast'
@@ -31,8 +30,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
-    const dispatch = useDispatch()
-    const wishlist = useSelector((state: any) => state.wishlist?.items || [])
+    const { items: wishlist, toggleWishlist } = useWishlistStore()
     const [isQuickViewOpen, setIsQuickViewOpen] = useState(false)
     const [activeImgIndex, setActiveImgIndex] = useState(0)
     const [imgSrc, setImgSrc] = useState(() => getProductImage(product, 0))
@@ -99,7 +97,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
     const handleWishlistToggle = (e: React.MouseEvent) => {
         e.preventDefault()
         e.stopPropagation()
-        dispatch(toggleWishlist({ productId }))
+        toggleWishlist(productId)
         if (!isWishlisted) {
             toast.success(`"${product?.name || 'Produit'}" ajouté aux favoris !`, { icon: '❤️' })
         } else {

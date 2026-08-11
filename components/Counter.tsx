@@ -1,6 +1,5 @@
 'use client'
-import { addToCart, removeFromCart } from "@/lib/features/cart/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useCartStore } from '@/lib/stores'
 import React from "react";
 
 interface CounterProps {
@@ -9,16 +8,16 @@ interface CounterProps {
 
 const Counter: React.FC<CounterProps> = ({ productId }) => {
 
-    const { cartItems } = useSelector((state: any) => state.cart);
-
-    const dispatch = useDispatch();
+    const cartItems = useCartStore(s => s.cartItems)
+    const addToCart = useCartStore(s => s.addToCart)
+    const removeFromCart = useCartStore(s => s.removeFromCart)
 
     const addToCartHandler = () => {
-        dispatch(addToCart({ productId }))
+        addToCart(productId)
     }
 
     const removeFromCartHandler = () => {
-        dispatch(removeFromCart({ productId }))
+        removeFromCart(productId)
     }
 
     return (

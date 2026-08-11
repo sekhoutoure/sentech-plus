@@ -1,17 +1,16 @@
 'use client'
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import ProductCard from '@/components/ProductCard'
 import PageTitle from '@/components/PageTitle'
 import { HeartIcon, ShoppingBagIcon, ArrowRightIcon, Trash2Icon } from 'lucide-react'
 import Link from 'next/link'
-import { addToCart, openDrawer } from '@/lib/features/cart/cartSlice'
+import { useWishlistStore, useProductStore, useCartStore } from '@/lib/stores'
 import toast from 'react-hot-toast'
 
 export default function WishlistPage() {
-    const dispatch = useDispatch()
-    const wishlistIds = useSelector((state: any) => state.wishlist?.items || [])
-    const products = useSelector((state: any) => state.product.list || [])
+    const { addToCart, openDrawer } = useCartStore()
+    const wishlistIds = useWishlistStore(s => s.items)
+    const products = useProductStore(s => s.list)
 
     // Filter products that are in the wishlist
     const wishlistedProducts = products.filter((product: any) => wishlistIds.includes(product.id))
@@ -19,9 +18,9 @@ export default function WishlistPage() {
     const handleAddAllToCart = () => {
         if (wishlistedProducts.length === 0) return
         wishlistedProducts.forEach(product => {
-            dispatch(addToCart({ productId: product.id }))
+            addToCart(product.id)
         })
-        dispatch(openDrawer())
+        openDrawer()
         toast.success("Tous les favoris ont été ajoutés à votre panier ! 🛒")
     }
 

@@ -4,8 +4,7 @@ import Link from 'next/link'
 import { XIcon, MailIcon, LockIcon, UserIcon, ArrowRightIcon, ShieldCheckIcon, StoreIcon, ShoppingBagIcon, SparklesIcon } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
-import { useDispatch } from 'react-redux'
-import { login } from '@/lib/features/user/userSlice'
+import { useUserStore } from '@/lib/stores'
 
 import { registerSchema, loginSchema } from '@/lib/validations'
 
@@ -18,7 +17,7 @@ type UserRole = 'user' | 'seller' | 'admin'
 
 const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     const router = useRouter()
-    const dispatch = useDispatch()
+    const loginUser = useUserStore(s => s.login)
     const [mode, setMode] = useState<'login' | 'register'>('login')
     const [selectedRole, setSelectedRole] = useState<UserRole>('user')
     const [loading, setLoading] = useState(false)
@@ -65,6 +64,9 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                 return
             }
 
+            if (data.data) {
+                loginUser(data.data)
+            }
             toast.success(data.message || "Authentification réussie !")
             onClose()
 

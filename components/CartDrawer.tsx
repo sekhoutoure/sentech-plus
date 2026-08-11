@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { closeDrawer, deleteItemFromCart } from '@/lib/features/cart/cartSlice'
+import { useCartStore, useProductStore } from '@/lib/stores'
 import { X, ShoppingBag, Trash2, ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,9 +8,8 @@ import Counter from './Counter'
 import { formatPrice } from '@/lib/format'
 
 const CartDrawer = () => {
-    const dispatch = useDispatch()
-    const { isDrawerOpen, cartItems } = useSelector((state: any) => state.cart || { isDrawerOpen: false, cartItems: {} })
-    const products = useSelector((state: any) => state.product?.list || [])
+    const { isDrawerOpen, cartItems, closeDrawer, deleteItemFromCart } = useCartStore()
+    const products = useProductStore(s => s.list)
 
     if (!isDrawerOpen) return null
 
@@ -33,7 +31,7 @@ const CartDrawer = () => {
         <div className="fixed inset-0 z-50 overflow-hidden">
             {/* Backdrop */}
             <div 
-                onClick={() => dispatch(closeDrawer())}
+                onClick={closeDrawer}
                 className="absolute inset-0 bg-[#071126]/60 backdrop-blur-xs transition-opacity animate-fade-in" 
             />
 
@@ -46,7 +44,7 @@ const CartDrawer = () => {
                             <span>Mon Panier ({cartArray.reduce((acc, curr) => acc + curr.quantity, 0)})</span>
                         </div>
                         <button 
-                            onClick={() => dispatch(closeDrawer())}
+                            onClick={closeDrawer}
                             aria-label="Fermer le panier"
                             className="p-1.5 rounded-full text-[#667085] hover:text-[#101828] hover:bg-slate-200/60 transition cursor-pointer"
                         >
@@ -62,7 +60,7 @@ const CartDrawer = () => {
                                 <p className="text-lg font-bold text-[#101828]">Votre panier est vide</p>
                                 <p className="text-xs text-[#667085] mt-1 max-w-xs">Découvrez nos équipements high-tech certifiés et faites-vous plaisir !</p>
                                 <button 
-                                    onClick={() => dispatch(closeDrawer())}
+                                    onClick={closeDrawer}
                                     className="mt-6 px-6 py-2.5 bg-[#1769FF] hover:bg-[#1256D6] text-white font-bold text-xs rounded-full transition shadow-md shadow-[#1769FF]/20"
                                 >
                                     Parcourir la boutique
@@ -79,7 +77,7 @@ const CartDrawer = () => {
                                             <div className="flex justify-between items-start gap-2">
                                                 <h4 className="font-bold text-[#101828] text-xs sm:text-sm line-clamp-1">{item.name}</h4>
                                                 <button 
-                                                    onClick={() => dispatch(deleteItemFromCart({ productId: item.id }))}
+                                                    onClick={() => deleteItemFromCart(item.id)}
                                                     aria-label="Supprimer du panier"
                                                     className="text-[#667085] hover:text-[#F04438] transition p-0.5 cursor-pointer"
                                                 >
@@ -119,14 +117,14 @@ const CartDrawer = () => {
                             <div className="grid grid-cols-2 gap-3 pt-2">
                                 <Link 
                                     href="/cart"
-                                    onClick={() => dispatch(closeDrawer())}
+                                    onClick={closeDrawer}
                                     className="w-full text-center py-3 border border-[#E4E7EC] bg-white text-[#101828] font-bold text-xs rounded-xl hover:bg-slate-50 transition cursor-pointer"
                                 >
                                     Voir le panier
                                 </Link>
                                 <Link 
                                     href="/cart"
-                                    onClick={() => dispatch(closeDrawer())}
+                                    onClick={closeDrawer}
                                     className="w-full text-center py-3 bg-[#1769FF] hover:bg-[#1256D6] text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-md shadow-[#1769FF]/25 cursor-pointer"
                                 >
                                     Commander <ArrowRight size={15} />

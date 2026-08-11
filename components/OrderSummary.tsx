@@ -2,7 +2,7 @@
 import { Plus, Edit2, X, ShieldCheck } from 'lucide-react';
 import React, { useState } from 'react';
 import AddressModal from './AddressModal';
-import { useSelector } from 'react-redux';
+import { useAddressStore } from '@/lib/stores';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { formatPrice } from '@/lib/format';
@@ -20,7 +20,7 @@ interface OrderSummaryProps {
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({ totalPrice, items }) => {
     const router = useRouter();
-    const addressList = useSelector((state: any) => state.address?.list || []);
+    const addressList = useAddressStore(s => s.list) || [];
 
     const [paymentMethod, setPaymentMethod] = useState<string>('COD');
     const [selectedAddress, setSelectedAddress] = useState<any>(null);

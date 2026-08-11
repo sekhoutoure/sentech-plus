@@ -4,10 +4,10 @@ import { dummyAdminDashboardData } from '@/assets/assets'
 import { ShoppingBagIcon, SearchIcon, FilterIcon, CheckCircle2Icon, ClockIcon, TruckIcon, AlertCircleIcon } from 'lucide-react'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
-import { useSelector } from 'react-redux'
+import { useSiteSettingsStore } from '@/lib/stores'
 
 export default function AdminOrdersPage() {
-    const currency = useSelector((state: any) => state.siteSettings?.currencySymbol || '$')
+    const currency = useSiteSettingsStore(s => s.currencySymbol) || '$'
     const [orders, setOrders] = useState([])
     const [search, setSearch] = useState('')
     const [statusFilter, setStatusFilter] = useState('ALL')

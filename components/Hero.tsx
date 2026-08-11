@@ -3,14 +3,13 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Sparkles, Flame, Tag } from 'lucide-react'
-import { useSelector } from 'react-redux'
+import { useSiteSettingsStore, useProductStore } from '@/lib/stores'
 import { assets } from '@/assets/assets'
 
 const Hero: React.FC = () => {
-    const siteSettings = useSelector((state: any) => state.siteSettings)
+    const siteSettings = useSiteSettingsStore()
     const hero = siteSettings?.hero
-
-    const products = useSelector((state: any) => state.product?.list || [])
+    const products = useProductStore(s => s.list)
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
     // Top featured product images

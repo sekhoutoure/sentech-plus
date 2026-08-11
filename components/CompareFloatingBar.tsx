@@ -2,16 +2,16 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { Scale, X, ArrowRight, Trash2 } from 'lucide-react'
-import { useSelector, useDispatch } from 'react-redux'
-import { clearCompare, removeFromCompare } from '@/lib/features/compare/compareSlice'
+import { useCompareStore, useProductStore } from '@/lib/stores'
 import { getProductImage } from '@/lib/image-utils'
 import CompareModal from './CompareModal'
 
 export default function CompareFloatingBar() {
-    const dispatch = useDispatch()
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const compareIds = useSelector((state: any) => state.compare?.items || [])
-    const allProducts = useSelector((state: any) => state.product?.list || [])
+    const compareIds = useCompareStore(s => s.items)
+    const allProducts = useProductStore(s => s.list)
+    const removeFromCompare = useCompareStore(s => s.removeFromCompare)
+    const clearCompare = useCompareStore(s => s.clearCompare)
 
     if (!compareIds || compareIds.length === 0) return null
 
@@ -50,7 +50,7 @@ export default function CompareFloatingBar() {
                                     className="object-contain p-0.5 rounded-lg"
                                 />
                                 <button
-                                    onClick={() => dispatch(removeFromCompare({ productId: pId }))}
+                                    onClick={() => removeFromCompare(pId)}
                                     aria-label="Supprimer du comparateur"
                                     className="absolute -top-1.5 -right-1.5 size-4 bg-[#C4320A] text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                                 >
@@ -72,7 +72,7 @@ export default function CompareFloatingBar() {
                     </button>
 
                     <button
-                        onClick={() => dispatch(clearCompare())}
+                        onClick={() => clearCompare()}
                         className="size-8 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition cursor-pointer"
                         title="Vider la sélection"
                         aria-label="Vider la sélection du comparateur"

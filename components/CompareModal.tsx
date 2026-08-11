@@ -3,9 +3,7 @@ import React, { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { X, Scale, Star, ShoppingCart, Check, Trash2, ShieldCheck, Truck, ExternalLink } from 'lucide-react'
-import { useSelector, useDispatch } from 'react-redux'
-import { removeFromCompare, clearCompare } from '@/lib/features/compare/compareSlice'
-import { addToCart } from '@/lib/features/cart/cartSlice'
+import { useCompareStore, useProductStore, useCartStore } from '@/lib/stores'
 import { formatPrice } from '@/lib/format'
 import { getProductImage } from '@/lib/image-utils'
 import toast from 'react-hot-toast'
@@ -16,9 +14,11 @@ interface CompareModalProps {
 }
 
 export default function CompareModal({ isOpen, onClose }: CompareModalProps) {
-    const dispatch = useDispatch()
-    const compareIds = useSelector((state: any) => state.compare?.items || [])
-    const allProducts = useSelector((state: any) => state.product?.list || [])
+    const compareIds = useCompareStore(s => s.items)
+    const allProducts = useProductStore(s => s.list)
+    const removeFromCompare = useCompareStore(s => s.removeFromCompare)
+    const clearCompare = useCompareStore(s => s.clearCompare)
+    const addToCart = useCartStore(s => s.addToCart)
 
     // Filter target compare products
     const compareProducts = allProducts.filter((p: any) => {
@@ -41,7 +41,7 @@ export default function CompareModal({ isOpen, onClose }: CompareModalProps) {
 
     const handleAddToCart = (product: any) => {
         const pId = product.id || product._id || 'prod'
-        dispatch(addToCart({ productId: pId }))
+        addToCart(pId)
         toast.success(`"${product.name}" ajouté au panier !`, {
             icon: '🛒',
             style: { borderRadius: '12px', background: '#182230', color: '#fff', fontSize: '13px' }
@@ -78,7 +78,7 @@ export default function CompareModal({ isOpen, onClose }: CompareModalProps) {
                     <div className="flex items-center gap-2">
                         {compareProducts.length > 0 && (
                             <button
-                                onClick={() => dispatch(clearCompare())}
+                                onClick={() => clearCompare()}
                                 className="inline-flex items-center gap-1 text-xs font-bold text-[#C4320A] hover:bg-rose-50 px-3 py-1.5 rounded-xl border border-rose-200 transition cursor-pointer"
                             >
                                 <Trash2 size={13} />
@@ -131,7 +131,7 @@ export default function CompareModal({ isOpen, onClose }: CompareModalProps) {
                                                     {product.category || 'High-Tech'}
                                                 </span>
                                                 <button
-                                                    onClick={() => dispatch(removeFromCompare({ productId: pId }))}
+                                                    onClick={() => removeFromCompare(pId)}
                                                     className="text-[#475467] hover:text-[#C4320A] p-1 rounded-full hover:bg-slate-100 transition cursor-pointer"
                                                     title="Retirer du comparateur"
                                                 >

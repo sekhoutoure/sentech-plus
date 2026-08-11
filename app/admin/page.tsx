@@ -10,11 +10,11 @@ const OrdersAreaChart = dynamic(() => import("@/components/OrdersAreaChart"), {
 import { CircleDollarSignIcon, ShoppingBasketIcon, StoreIcon, TagsIcon, PackageIcon, SettingsIcon, PlusIcon, ArrowRightIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { useSelector } from "react-redux"
+import { useSiteSettingsStore, useProductStore } from "@/lib/stores"
 
 export default function AdminDashboard() {
-    const currency = useSelector((state: any) => state.siteSettings?.currencySymbol || '$')
-    const reduxProducts = useSelector((state: any) => state.product.list)
+    const currency = useSiteSettingsStore(s => s.currencySymbol) || '$'
+    const reduxProducts = useProductStore(s => s.list)
 
     const [loading, setLoading] = useState(true)
     const [dashboardData, setDashboardData] = useState<any>({

@@ -12,15 +12,14 @@ import { Input } from './ui/Input';
 import { Button } from './ui/Button';
 import { Checkbox } from './ui/Checkbox';
 import { SocialLogin } from './SocialLogin';
-import { useDispatch } from 'react-redux';
-import { login } from '@/lib/features/user/userSlice';
+import { useUserStore } from '@/lib/stores';
 import { trackUserLogin } from '@/lib/analytics';
 
 type UserRole = 'user' | 'seller' | 'admin';
 
 export const LoginForm: React.FC = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const login = useUserStore((s) => s.login);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedRole, setSelectedRole] = useState<UserRole>('user');
@@ -42,16 +41,20 @@ export const LoginForm: React.FC = () => {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/auth/login', {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
-      const result = await res.json();
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Identifiants incorrects');
+      }
 
       if (result.success && result.data) {
-        dispatch(login(result.data));
+        login(result.data);
         trackUserLogin(result.data.role || selectedRole);
         toast.success(`Bienvenue ${result.data.name || ''} ! Connexion réussie.`);
 

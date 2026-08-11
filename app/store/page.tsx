@@ -5,11 +5,11 @@ import { CircleDollarSignIcon, ShoppingBasketIcon, StarIcon, TagsIcon } from "lu
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useSiteSettingsStore, useProductStore } from "@/lib/stores"
 
 export default function Dashboard() {
-    const currency = useSelector((state: any) => state.siteSettings?.currencySymbol || '$')
-    const reduxProducts = useSelector((state: any) => state.product.list)
+    const currency = useSiteSettingsStore(s => s.currencySymbol) || '$'
+    const reduxProducts = useProductStore(s => s.list)
     const router = useRouter()
 
     const [loading, setLoading] = useState(true)

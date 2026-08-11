@@ -3,24 +3,22 @@ import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 import Image from "next/image"
 import Loading from "@/components/Loading"
-import { useSelector, useDispatch } from "react-redux"
-import { deleteProduct, updateProduct } from "@/lib/features/product/productSlice"
+import { useProductStore, useSiteSettingsStore } from "@/lib/stores"
 import { Trash2Icon } from "lucide-react"
 
 export default function StoreManageProducts() {
-    const dispatch = useDispatch()
-    const currency = useSelector((state: any) => state.siteSettings?.currencySymbol || '$')
-    const products = useSelector((state: any) => state.product.list || [])
+    const { list: products, updateProduct, deleteProduct } = useProductStore()
+    const currency = useSiteSettingsStore(s => s.currencySymbol) || '$'
 
     const toggleStock = (productId, currentStock) => {
         const newStock = !currentStock
-        dispatch(updateProduct({ id: productId, inStock: newStock }))
+        updateProduct({ id: productId, inStock: newStock })
         toast.success(newStock ? "Produit marqué comme En Stock !" : "Produit marqué comme En Rupture de Stock !")
     }
 
     const handleDeleteProduct = (productId, name) => {
         if (confirm(`Voulez-vous vraiment supprimer "${name}" ?`)) {
-            dispatch(deleteProduct(productId))
+            deleteProduct(productId)
             toast.success(`Produit "${name}" supprimé avec succès !`)
         }
     }

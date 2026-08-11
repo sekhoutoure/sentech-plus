@@ -61,8 +61,7 @@ const nextConfig = {
         optimizePackageImports: [
             'lucide-react',
             'react-hot-toast',
-            '@reduxjs/toolkit',
-            'react-redux',
+            'zustand',
         ],
     },
     images: {

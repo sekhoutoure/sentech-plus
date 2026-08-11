@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image";
 import { DotIcon } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useSiteSettingsStore, useRatingStore } from "@/lib/stores";
 import Rating from "./Rating";
 import { useState } from "react";
 import RatingModal from "./RatingModal";
@@ -12,10 +12,10 @@ interface OrderItemProps {
 
 const OrderItem = ({ order }: OrderItemProps) => {
 
-    const currency = useSelector((state: any) => state.siteSettings?.currencySymbol || '$');
+    const currency = useSiteSettingsStore(s => s.currencySymbol) || '$';
     const [ratingModal, setRatingModal] = useState<any>(null);
 
-    const { ratings } = useSelector((state: any) => state.rating);
+    const ratings = useRatingStore(s => s.ratings);
 
     const statusMap: Record<string, string> = {
         'ORDER_PLACED': 'Commande passée',

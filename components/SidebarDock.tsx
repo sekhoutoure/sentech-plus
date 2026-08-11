@@ -9,16 +9,14 @@ import {
     Heart, 
     User
 } from 'lucide-react'
-import { useSelector, useDispatch } from 'react-redux'
-import { openDrawer } from '@/lib/features/cart/cartSlice'
+import { useCartStore, useWishlistStore, useUserStore } from '@/lib/stores'
 
 export default function SidebarDock() {
     const pathname = usePathname()
-    const dispatch = useDispatch()
-
-    const cartCount = useSelector((state: any) => state.cart?.itemCount || 0)
-    const wishlistCount = useSelector((state: any) => state.wishlist?.items?.length || 0)
-    const { isLoggedIn } = useSelector((state: any) => state.user || { isLoggedIn: false })
+    const cartCount = useCartStore(s => s.itemCount)
+    const wishlistCount = useWishlistStore(s => s.items.length)
+    const isLoggedIn = useUserStore(s => s.isLoggedIn)
+    const openDrawer = useCartStore(s => s.openDrawer)
 
     return (
         <nav 
@@ -49,7 +47,7 @@ export default function SidebarDock() {
 
             {/* Panier */}
             <button
-                onClick={() => dispatch(openDrawer())}
+                onClick={() => openDrawer()}
                 className="relative flex flex-col items-center justify-center gap-0.5 min-w-[54px] min-h-[44px] px-2 py-1 rounded-xl text-[#64748B] active:scale-95 transition-all duration-200 cursor-pointer"
                 aria-label="Ouvrir le panier"
             >

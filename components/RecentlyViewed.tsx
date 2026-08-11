@@ -3,13 +3,12 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { EyeIcon, StarIcon, ShoppingCartIcon } from 'lucide-react'
-import { useSelector, useDispatch } from 'react-redux'
-import { addToCart } from '@/lib/features/cart/cartSlice'
+import { useSiteSettingsStore, useCartStore } from '@/lib/stores'
 import toast from 'react-hot-toast'
 
 export default function RecentlyViewed() {
-    const dispatch = useDispatch()
-    const currency = useSelector((state: any) => state.siteSettings?.currencySymbol || '$')
+    const addToCart = useCartStore(s => s.addToCart)
+    const currency = useSiteSettingsStore(s => s.currencySymbol) || '$'
     const [recentProducts, setRecentProducts] = useState<Array<any>>([])
 
     useEffect(() => {
@@ -26,7 +25,7 @@ export default function RecentlyViewed() {
     if (recentProducts.length === 0) return null
 
     const handleAddToCart = (product: any) => {
-        dispatch(addToCart({ product, quantity: 1 }))
+        addToCart(product.id)
         toast.success(`${product.name} ajouté au panier !`)
     }
 

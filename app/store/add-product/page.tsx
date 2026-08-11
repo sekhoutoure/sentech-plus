@@ -3,13 +3,12 @@ import { assets, categories as FrenchCategories } from "@/assets/assets"
 import Image from "next/image"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
-import { useDispatch, useSelector } from "react-redux"
-import { addProduct } from "@/lib/features/product/productSlice"
+import { useProductStore, useSiteSettingsStore } from "@/lib/stores"
 import { PlusIcon, ShoppingBagIcon, TagIcon, DollarSignIcon, SparklesIcon } from "lucide-react"
 
 export default function StoreAddProduct() {
-    const dispatch = useDispatch()
-    const currency = useSelector((state: any) => state.siteSettings?.currencySymbol || '$')
+    const addProduct = useProductStore(s => s.addProduct)
+    const currency = useSiteSettingsStore(s => s.currencySymbol) || '$'
     const categories = FrenchCategories
 
     const [images, setImages] = useState<Record<string, any>>({ 1: null, 2: null, 3: null, 4: null })
@@ -46,7 +45,7 @@ export default function StoreAddProduct() {
                 store: { name: 'Ma Boutique Vendeur', username: 'seller' }
             }
 
-            dispatch(addProduct(newProductData))
+            addProduct(newProductData)
 
             await fetch('/api/products', {
                 method: 'POST',

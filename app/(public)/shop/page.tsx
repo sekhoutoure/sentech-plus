@@ -5,7 +5,7 @@ import { ProductGridSkeleton } from "@/components/SkeletonLoader"
 import MobileFilterDrawer from "@/components/MobileFilterDrawer"
 import { MoveLeft, SlidersHorizontal, X, ArrowUpDown, Sparkles } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useSelector } from "react-redux"
+import { useProductStore } from "@/lib/stores"
 import { categories } from "@/assets/assets"
 import JsonLd from "@/components/seo/JsonLd"
 import { getBreadcrumbSchema } from "@/lib/seo"
@@ -21,7 +21,7 @@ function ShopContent() {
         { name: 'Boutique SenTech Plus', url: '/shop' }
     ]
 
-    const products = useSelector((state: any) => state.product?.list || [])
+    const products = useProductStore(s => s.list)
     const [selectedCategory, setSelectedCategory] = useState(categoryParam || "Tous")
     const [sortBy, setSortBy] = useState("default")
     const [priceRange, setPriceRange] = useState("all")

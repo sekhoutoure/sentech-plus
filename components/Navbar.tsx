@@ -26,9 +26,7 @@ import {
     MicOff,
     PhoneCall
 } from 'lucide-react'
-import { useSelector, useDispatch } from 'react-redux'
-import { openDrawer } from '@/lib/features/cart/cartSlice'
-import { logout } from '@/lib/features/user/userSlice'
+import { useCartStore, useWishlistStore, useUserStore, useProductStore } from '@/lib/stores'
 import { formatPrice } from '@/lib/format'
 import { getProductImage } from '@/lib/image-utils'
 import HeaderMegaMenu from './HeaderMegaMenu'
@@ -50,7 +48,6 @@ const categories = [
 const Navbar: React.FC = () => {
     const pathname = usePathname()
     const router = useRouter()
-    const dispatch = useDispatch()
 
     const [search, setSearch] = useState('')
     const [isListening, setIsListening] = useState(false)
@@ -111,10 +108,12 @@ const Navbar: React.FC = () => {
         }
     }
 
-    const cartCount = useSelector((state: any) => state.cart?.itemCount || 0)
-    const wishlistCount = useSelector((state: any) => state.wishlist?.items?.length || 0)
-    const { isLoggedIn, user } = useSelector((state: any) => state.user || { isLoggedIn: false, user: null })
-    const products = useSelector((state: any) => state.product?.list || [])
+    const cartCount = useCartStore(s => s.itemCount)
+    const wishlistCount = useWishlistStore(s => s.items.length)
+    const { isLoggedIn, user } = useUserStore()
+    const logout = useUserStore(s => s.logout)
+    const openDrawer = useCartStore(s => s.openDrawer)
+    const products = useProductStore(s => s.list)
 
     // Filtrer les résultats de recherche instantanée (Live Search)
     const searchResults = React.useMemo(() => {
@@ -178,7 +177,7 @@ const Navbar: React.FC = () => {
     }
 
     const handleLogout = () => {
-        dispatch(logout())
+        logout()
         setIsMobileMenuOpen(false)
         toast.success("Déconnexion réussie.")
         router.push('/')
@@ -344,7 +343,7 @@ const Navbar: React.FC = () => {
 
                         {/* Panier */}
                         <button
-                            onClick={() => dispatch(openDrawer())}
+                            onClick={() => openDrawer()}
                             className="relative flex items-center gap-2.5 bg-[#0B54C2] hover:bg-[#09449E] text-white font-extrabold text-xs px-4 py-2.5 rounded-full transition-all duration-200 shadow-md cursor-pointer active:scale-95"
                             aria-label="Panier"
                         >

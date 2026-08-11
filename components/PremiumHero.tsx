@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Sparkles, Flame, Headphones } from 'lucide-react'
-import { useSelector } from 'react-redux'
 import { assets } from '@/assets/assets'
 
 export default function PremiumHero() {

@@ -2,14 +2,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { Search, ArrowRight, Sparkles, Smartphone, Headphones, Watch, Gamepad2, Laptop, TrendingUp } from 'lucide-react'
-import { useSelector } from 'react-redux'
+import { useProductStore } from '@/lib/stores'
 
 export default function OmniboxSearch() {
     const router = useRouter()
     const [search, setSearch] = useState('')
     const [isFocused, setIsFocused] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
-    const products = useSelector((state: any) => state.product?.list || [])
+    const products = useProductStore(s => s.list)
 
     const suggestions = [
         { label: "Écouteurs sans fil & Casques", query: "Casques", icon: Headphones },

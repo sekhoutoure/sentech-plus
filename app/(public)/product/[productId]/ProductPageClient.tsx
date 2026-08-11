@@ -5,12 +5,12 @@ import ProductReviews from "@/components/ProductReviews";
 import RecentlyViewed, { saveRecentlyViewed } from "@/components/RecentlyViewed";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useProductStore } from "@/lib/stores";
 
 export default function ProductPageClient() {
     const { productId } = useParams();
     const [product, setProduct] = useState<any>();
-    const products = useSelector((state: any) => state.product.list);
+    const products = useProductStore(s => s.list);
 
     const fetchProduct = async () => {
         const found = products.find((p: any) => (p.id === productId || p._id === productId));

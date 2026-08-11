@@ -3,8 +3,7 @@
 import { Star, XIcon } from 'lucide-react';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { addRating } from '@/lib/features/rating/ratingSlice';
+import { useRatingStore } from '@/lib/stores';
 
 interface RatingModalData {
     orderId: string;
@@ -17,7 +16,7 @@ interface RatingModalProps {
 }
 
 const RatingModal = ({ ratingModal, setRatingModal }: RatingModalProps) => {
-    const dispatch = useDispatch()
+    const addRating = useRatingStore(s => s.addRating)
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState('');
 
@@ -37,13 +36,14 @@ const RatingModal = ({ ratingModal, setRatingModal }: RatingModalProps) => {
             return;
         }
 
-        dispatch(addRating({
+        addRating({
+            userId: 'user_current',
             orderId: ratingModal.orderId,
             productId: ratingModal.productId,
-            rating,
-            review: review.trim(),
+            score: rating,
+            comment: review.trim(),
             createdAt: new Date().toISOString()
-        } as any))
+        } as any)
 
         toast.success('Merci pour votre avis !');
         handleClose();

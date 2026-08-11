@@ -3,12 +3,12 @@ import PageTitle from "@/components/PageTitle"
 import { useEffect, useState } from "react";
 import OrderItem from "@/components/OrderItem";
 import { orderDummyData } from "@/assets/assets";
-import { useSelector } from "react-redux";
+import { useUserStore } from "@/lib/stores";
 
 export default function Orders() {
 
     const [orders, setOrders] = useState([]);
-    const { user } = useSelector((state: any) => state.user || {})
+    const user = useUserStore(s => s.user)
 
     useEffect(() => {
         const fetchOrders = async () => {

@@ -3,15 +3,11 @@ import React from 'react'
 import Link from 'next/link'
 import { ArrowRight, Flame } from 'lucide-react'
 import ProductCard, { Product } from './ProductCard'
-import { useSelector } from 'react-redux'
-
-interface RootState {
-    product?: { list: Product[] };
-}
+import { useProductStore } from '@/lib/stores'
 
 const BestSelling: React.FC = () => {
     const displayQuantity = 8
-    const products = useSelector((state: RootState) => state.product?.list || [])
+    const products = useProductStore(s => s.list)
 
     const bestProducts = [...products]
         .sort((a: Product, b: Product) => {

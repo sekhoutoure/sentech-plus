@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
+import { useProductStore, useCartStore } from "@/lib/stores";
 import { 
     Star, 
     Truck, 
@@ -26,7 +26,6 @@ import {
     Info,
     CheckCircle2
 } from "lucide-react";
-import { addToCart } from "@/lib/features/cart/cartSlice";
 import { formatPrice } from "@/lib/format";
 import ProductCard from "./ProductCard";
 import toast from "react-hot-toast";
@@ -63,9 +62,9 @@ interface ProductDetailsProps {
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
     const productId = product?.id || product?._id || 'prod_unknown';
-    const dispatch = useDispatch();
+    const addToCart = useCartStore(s => s.addToCart);
     const router = useRouter();
-    const allProducts = useSelector((state: any) => state.product?.list || []);
+    const allProducts = useProductStore(s => s.list);
 
     // Images List
     const galleryImages = Array.isArray(product?.images) && product.images.length > 0
@@ -140,13 +139,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         if (isOutOfStock) return;
         if (!validateOptions()) return;
 
-        dispatch(addToCart({ 
-            productId, 
-            quantity, 
-            color: selectedColor, 
-            capacity: selectedCapacity, 
-            model: selectedModel 
-        }));
+        for (let i = 0; i < quantity; i++) {
+            addToCart(productId);
+        }
         setIsAdded(true);
         toast.success(`"${product.name}" (${quantity}) ajouté au panier !`, {
             icon: '🛒',
@@ -159,13 +154,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         if (isOutOfStock) return;
         if (!validateOptions()) return;
 
-        dispatch(addToCart({ 
-            productId, 
-            quantity, 
-            color: selectedColor, 
-            capacity: selectedCapacity, 
-            model: selectedModel 
-        }));
+        for (let i = 0; i < quantity; i++) {
+            addToCart(productId);
+        }
         router.push('/cart');
     };
 

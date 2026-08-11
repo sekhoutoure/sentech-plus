@@ -1,13 +1,12 @@
 'use client'
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { updateSiteSettings, updateBannerSettings, updateHeroSettings } from '@/lib/features/siteSettings/siteSettingsSlice'
+import { useSiteSettingsStore } from '@/lib/stores'
 import { SettingsIcon, SaveIcon, MegaphoneIcon, GlobeIcon, PhoneIcon, MailIcon, MapPinIcon, LayoutIcon } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function AdminSettingsPage() {
-    const dispatch = useDispatch()
-    const siteSettings = useSelector((state: any) => state.siteSettings)
+    const siteSettings = useSiteSettingsStore()
+    const { updateSiteSettings, updateBannerSettings, updateHeroSettings } = siteSettings
 
     const [form, setForm] = useState({
         siteName: siteSettings.siteName || 'SenTech Plus',
@@ -28,27 +27,27 @@ export default function AdminSettingsPage() {
     const handleSave = (e) => {
         e.preventDefault()
 
-        dispatch(updateSiteSettings({
+        updateSiteSettings({
             siteName: form.siteName,
             slogan: form.slogan,
             email: form.email,
             phone: form.phone,
             address: form.address,
             currencySymbol: form.currencySymbol
-        }))
+        })
 
-        dispatch(updateBannerSettings({
+        updateBannerSettings({
             enabled: form.bannerEnabled,
             text: form.bannerText,
             buttonText: form.bannerButtonText,
             couponCode: form.bannerCouponCode
-        }))
+        })
 
-        dispatch(updateHeroSettings({
+        updateHeroSettings({
             title: form.heroTitle,
             subtitle: form.heroSubtitle,
             ctaText: form.heroCtaText
-        }))
+        })
 
         toast.success("Paramètres du site enregistrés avec succès !")
     }

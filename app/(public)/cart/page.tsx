@@ -2,18 +2,16 @@
 import Counter from "@/components/Counter";
 import OrderSummary from "@/components/OrderSummary";
 import PageTitle from "@/components/PageTitle";
-import { deleteItemFromCart } from "@/lib/features/cart/cartSlice";
+import { useEffect, useState } from "react";
 import { Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCartStore, useProductStore } from "@/lib/stores";
 import { formatPrice } from "@/lib/format";
 
 export default function Cart() {
-    const { cartItems } = useSelector((state: any) => state.cart || { cartItems: {} });
-    const products = useSelector((state: any) => state.product?.list || []);
-    const dispatch = useDispatch();
+    const { cartItems, deleteItemFromCart } = useCartStore();
+    const products = useProductStore(s => s.list);
 
     const [cartArray, setCartArray] = useState<any[]>([]);
     const [totalPrice, setTotalPrice] = useState(0);
@@ -38,7 +36,7 @@ export default function Cart() {
     }
 
     const handleDeleteItemFromCart = (productId: string) => {
-        dispatch(deleteItemFromCart({ productId }))
+        deleteItemFromCart(productId)
     }
 
     useEffect(() => {

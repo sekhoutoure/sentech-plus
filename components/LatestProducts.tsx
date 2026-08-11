@@ -3,15 +3,11 @@ import React from 'react'
 import Link from 'next/link'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import ProductCard, { Product } from './ProductCard'
-import { useSelector } from 'react-redux'
-
-interface RootState {
-    product?: { list: Product[] };
-}
+import { useProductStore } from '@/lib/stores'
 
 const LatestProducts: React.FC = () => {
     const displayQuantity = 8
-    const products = useSelector((state: RootState) => state.product?.list || [])
+    const products = useProductStore(s => s.list)
 
     const latest = [...products]
         .sort((a: Product, b: Product) => new Date(b.createdAt || Date.now()).getTime() - new Date(a.createdAt || Date.now()).getTime())

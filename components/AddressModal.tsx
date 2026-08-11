@@ -2,15 +2,14 @@
 import { XIcon, MapPinIcon, PhoneIcon, UserIcon, MailIcon, BuildingIcon } from "lucide-react"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
-import { useDispatch } from "react-redux"
-import { addAddress } from "@/lib/features/address/addressSlice"
+import { useAddressStore } from "@/lib/stores"
 
 interface AddressModalProps {
     setShowAddressModal: (show: boolean) => void;
 }
 
 const AddressModal = ({ setShowAddressModal }: AddressModalProps) => {
-    const dispatch = useDispatch()
+    const addAddress = useAddressStore(s => s.addAddress)
 
     const [address, setAddress] = useState({
         name: '',
@@ -36,7 +35,7 @@ const AddressModal = ({ setShowAddressModal }: AddressModalProps) => {
             toast.error("Veuillez remplir les informations de livraison obligatoires.")
             return
         }
-        dispatch(addAddress(address))
+        addAddress(address)
         toast.success("Adresse de livraison au Sénégal enregistrée avec succès !")
         setShowAddressModal(false)
     }

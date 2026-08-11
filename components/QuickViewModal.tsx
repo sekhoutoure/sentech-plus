@@ -3,9 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { X, Star, ShoppingCart, Heart, Check, ArrowRight, ShieldCheck, Truck } from 'lucide-react'
-import { useDispatch, useSelector } from 'react-redux'
-import { addToCart, openDrawer } from '@/lib/features/cart/cartSlice'
-import { toggleWishlist } from '@/lib/features/wishlist/wishlistSlice'
+import { useCartStore, useWishlistStore } from '@/lib/stores'
 import { formatPrice } from '@/lib/format'
 import { getProductImage } from '@/lib/image-utils'
 import toast from 'react-hot-toast'
@@ -18,8 +16,8 @@ interface QuickViewModalProps {
 }
 
 const QuickViewModal: React.FC<QuickViewModalProps> = ({ product, isOpen, onClose }) => {
-    const dispatch = useDispatch()
-    const wishlist = useSelector((state: any) => state.wishlist?.items || [])
+    const { addToCart, openDrawer } = useCartStore()
+    const { items: wishlist, toggleWishlist } = useWishlistStore()
 
     const [selectedImgIndex, setSelectedImgIndex] = useState(0)
     const [quantity, setQuantity] = useState(1)
@@ -81,7 +79,7 @@ const QuickViewModal: React.FC<QuickViewModalProps> = ({ product, isOpen, onClos
     const handleAddToCart = () => {
         if (isOutOfStock) return
         for (let i = 0; i < quantity; i++) {
-            dispatch(addToCart({ productId }))
+            addToCart(productId)
         }
         setIsAdded(true)
         toast.success(`${quantity}x "${product.name}" ajouté au panier !`, { icon: '🛒' })
@@ -89,7 +87,7 @@ const QuickViewModal: React.FC<QuickViewModalProps> = ({ product, isOpen, onClos
     }
 
     const handleWishlistToggle = () => {
-        dispatch(toggleWishlist({ productId }))
+        toggleWishlist(productId)
         if (!isWishlisted) {
             toast.success(`"${product.name}" ajouté aux favoris !`, { icon: '❤️' })
         } else {
@@ -288,7 +286,7 @@ const QuickViewModal: React.FC<QuickViewModalProps> = ({ product, isOpen, onClos
                             <button
                                 onClick={() => {
                                     onClose()
-                                    dispatch(openDrawer())
+                                    openDrawer()
                                 }}
                                 className="text-[#1677FF] font-extrabold hover:underline cursor-pointer"
                             >

@@ -3,10 +3,10 @@ import { useEffect, useState } from "react"
 import Loading from "@/components/Loading"
 import { orderDummyData } from "@/assets/assets"
 import toast from "react-hot-toast"
-import { useSelector } from "react-redux"
+import { useSiteSettingsStore } from "@/lib/stores"
 
 export default function StoreOrders() {
-    const currency = useSelector((state: any) => state.siteSettings?.currencySymbol || '$')
+    const currency = useSiteSettingsStore(s => s.currencySymbol) || '$'
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
     const [selectedOrder, setSelectedOrder] = useState(null)

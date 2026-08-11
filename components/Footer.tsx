@@ -1,12 +1,12 @@
 'use client'
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useSiteSettingsStore } from '@/lib/stores';
 import Logo from "@/components/Logo";
 import React, { useState } from "react";
 import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, MessageCircle, ChevronDown } from "lucide-react";
 
 const Footer: React.FC = () => {
-    const siteSettings = useSelector((state: any) => state.siteSettings)
+    const siteSettings = useSiteSettingsStore()
 
     // Accordion state for mobile (open by default on desktop)
     const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({

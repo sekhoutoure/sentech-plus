@@ -1,15 +1,13 @@
 'use client'
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { addProduct, updateProduct, deleteProduct } from '@/lib/features/product/productSlice'
+import { useProductStore } from '@/lib/stores'
 import { PlusIcon, SearchIcon, EditIcon, Trash2Icon, PackageIcon, XIcon, CheckIcon } from 'lucide-react'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { categories } from '@/assets/assets'
 
 export default function AdminProductsPage() {
-    const dispatch = useDispatch()
-    const products = useSelector((state: any) => state.product.list)
+    const { list: products, addProduct, updateProduct, deleteProduct } = useProductStore()
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$'
 
     const [search, setSearch] = useState('')
@@ -61,7 +59,7 @@ export default function AdminProductsPage() {
 
     const handleDelete = (id, name) => {
         if (confirm(`Êtes-vous sûr de vouloir supprimer le produit "${name}" ?`)) {
-            dispatch(deleteProduct(id))
+            deleteProduct(id)
             toast.success(`Produit "${name}" supprimé !`)
         }
     }
@@ -80,10 +78,10 @@ export default function AdminProductsPage() {
         }
 
         if (editingProduct) {
-            dispatch(updateProduct({ id: editingProduct.id, ...payload }))
-            toast.success("Produit mis à jour avec succès !")
+            updateProduct({ id: editingProduct.id, ...payload })
+            toast.success('Produit mis à jour avec succès')
         } else {
-            dispatch(addProduct(payload))
+            addProduct(payload)
             toast.success("Nouveau produit ajouté à la boutique !")
         }
 
