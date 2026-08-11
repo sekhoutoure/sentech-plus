@@ -1,16 +1,14 @@
 @import "tailwindcss";
 
-/* CSS Custom Properties / Design Tokens */
+/* ─────────────────────────────────────────────────
+   CSS Custom Properties / Design Tokens
+   Chargées en critique — taille minimale
+───────────────────────────────────────────────── */
 :root {
-    /* Typography scale */
-    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-    
-    /* Easing curves */
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
     --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Official SenTechPLUS Light Theme System */
+
     --brand-blue: #1677FF;
     --brand-blue-hover: #0F67E5;
     --brand-ice: #EAF3FF;
@@ -24,21 +22,23 @@
     --brand-text-muted: #667085;
     --brand-success: #16B979;
     --brand-promo: #FF6B35;
-    
-    /* Shadows */
+
     --shadow-card: 0 4px 15px rgba(20, 40, 70, 0.05);
     --shadow-card-hover: 0 12px 28px rgba(20, 40, 70, 0.09);
     --shadow-blue: 0 8px 24px rgba(22, 119, 255, 0.25);
     --shadow-blue-lg: 0 12px 32px rgba(22, 119, 255, 0.35);
 }
 
+/* ─────────────────────────────────────────────────
+   BASE — Critical above-the-fold styles only
+───────────────────────────────────────────────── */
 @layer base {
     html {
         scroll-behavior: smooth;
         -webkit-tap-highlight-color: transparent;
         accent-color: #1677FF;
         overscroll-behavior-y: contain;
-        interpolate-size: allow-keywords;
+        /* interpolate-size: allow-keywords; — Chrome 129+ only, skip for now */
         width: 100%;
         overflow-x: hidden;
     }
@@ -47,205 +47,127 @@
         width: 100%;
         min-height: 100vh;
         min-height: 100dvh;
-        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+        /* Réduit font-feature-settings aux 2 essentielles (moins de recalcul) */
+        font-feature-settings: "cv02", "cv11";
         -webkit-font-smoothing: antialiased;
-        font-smooth: antialiased;
         background-color: var(--brand-bg);
         color: var(--brand-text);
         overflow-x: hidden;
         touch-action: manipulation;
     }
 
-    h1, h2, h3, h4, h5, h6 {
-        text-wrap: balance;
-        letter-spacing: -0.025em;
-    }
+    /* Contenu : text-wrap optimise le layout engine — OK en critique */
+    h1, h2, h3, h4, h5, h6 { text-wrap: balance; letter-spacing: -0.025em; }
+    p, li { text-wrap: pretty; }
 
-    p, li {
-        text-wrap: pretty;
-    }
+    /* Scrollbar minimaliste */
+    * { scrollbar-width: thin; scrollbar-color: rgba(0,0,0,0.10) transparent; }
 
-    * {
-        scrollbar-width: thin;
-        scrollbar-color: rgba(0, 0, 0, 0.10) transparent;
-    }
-
-    /* Buttons & Interactive Elements */
-    button, a[role="button"], .interactive-btn {
-        cursor: pointer;
-        transition: transform 200ms var(--ease-out-expo), opacity 200ms var(--ease-out-expo), background-color 200ms var(--ease-out-expo), box-shadow 200ms var(--ease-out-expo);
-    }
-
-    button:active, a[role="button"]:active, .interactive-btn:active {
-        transform: scale(0.97);
-    }
-
+    /* Focus visible : critique pour l'accessibilité */
     button:focus-visible, a:focus-visible {
         outline: 2px solid var(--brand-blue);
         outline-offset: 2px;
     }
+
+    /* Active state critique (buttons) */
+    button:active { transform: scale(0.97); }
 }
 
+/* ─────────────────────────────────────────────────
+   COMPONENTS — Animations & utilities
+   Ces règles sont non-critiques mais Next.js les
+   inclut dans le même bundle CSS par route.
+   On les garde légères en supprimant les doublons.
+───────────────────────────────────────────────── */
 @layer components {
-    /* Keyframe Animations */
-    @keyframes floatSlow {
-        0%, 100% {
-            transform: translateY(0);
-        }
-        50% {
-            transform: translateY(-8px);
-        }
-    }
 
+    /* Keyframes — utilisés uniquement dans les composants visibles */
     @keyframes marqueeScroll {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
+        to { transform: translateX(-50%); }
     }
-
     @keyframes fadeInUp {
-        0% {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0); }
     }
-
-    @keyframes slideInRight {
-        0% {
-            opacity: 0;
-            transform: translateX(-20px);
-        }
-        100% {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
     @keyframes slideInFromLeft {
-        0% {
-            opacity: 0;
-            transform: translateX(-100%);
-        }
-        100% {
-            opacity: 1;
-            transform: translateX(0);
-        }
+        from { opacity: 0; transform: translateX(-100%); }
+        to   { opacity: 1; transform: translateX(0); }
     }
-
     @keyframes scaleIn {
-        0% {
-            opacity: 0;
-            transform: scale(0.96) translateY(8px);
-        }
-        100% {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
+        from { opacity: 0; transform: scale(0.96) translateY(6px); }
+        to   { opacity: 1; transform: scale(1) translateY(0); }
     }
-
-    @keyframes pulse-glow {
-        0% { box-shadow: 0 0 0 0 rgba(23, 105, 255, 0.4); }
-        70% { box-shadow: 0 0 0 10px rgba(23, 105, 255, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(23, 105, 255, 0); }
+    @keyframes floatSlow {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(-8px); }
     }
-
     @keyframes shimmer {
-        0% { background-position: -1000px 0; }
-        100% { background-position: 1000px 0; }
+        from { background-position: -800px 0; }
+        to   { background-position:  800px 0; }
     }
 
-    .animate-float {
-        animation: floatSlow 4.5s var(--ease-smooth) infinite;
-    }
+    /* Animation utilities */
+    .animate-marquee       { animation: marqueeScroll 32s linear infinite; will-change: transform; }
+    .animate-fade-in-up    { animation: fadeInUp 0.45s var(--ease-out-expo) forwards; }
+    .animate-slide-in      { animation: slideInFromLeft 0.32s var(--ease-out-expo) forwards; }
+    .animate-scale-in      { animation: scaleIn 0.28s var(--ease-out-expo) forwards; }
+    .animate-float         { animation: floatSlow 4.5s var(--ease-smooth) infinite; }
 
-    .animate-marquee {
-        animation: marqueeScroll 32s linear infinite;
-        will-change: transform;
-    }
+    /* No scrollbar */
+    .no-scrollbar                  { -ms-overflow-style: none; scrollbar-width: none; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
 
-    .animate-fade-in-up {
-        animation: fadeInUp 0.5s var(--ease-out-expo) forwards;
-        @starting-style {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-    }
-
-    .animate-slide-in-right {
-        animation: slideInRight 0.5s var(--ease-out-expo) forwards;
-    }
-
-    /* Alias for mobile drawer slide-in (used in Navbar) */
-    .animate-slide-in {
-        animation: slideInFromLeft 0.35s var(--ease-out-expo) forwards;
-    }
-
-    .animate-scale-in {
-        animation: scaleIn 0.3s var(--ease-out-expo) forwards;
-    }
-
+    /* Card system */
     .card-clean {
-        background-color: #FFFFFF;
+        background: #FFFFFF;
         border: 1px solid var(--brand-border);
         border-radius: 1.5rem;
         box-shadow: var(--shadow-card);
-        transition: all 250ms var(--ease-out-expo);
+        transition: box-shadow 220ms var(--ease-out-expo), transform 220ms var(--ease-out-expo), border-color 220ms;
     }
-
     .card-clean:hover {
         border-color: var(--brand-border-hover);
         box-shadow: var(--shadow-card-hover);
         transform: translateY(-2px);
     }
 
+    /* Buttons */
     .btn-electric {
-        background-color: var(--brand-electric);
-        color: #FFFFFF;
+        background: var(--brand-blue);
+        color: #FFF;
         font-weight: 700;
         border-radius: 1rem;
         padding: 0.75rem 1.5rem;
-        transition: all 200ms var(--ease-out-expo);
         box-shadow: var(--shadow-blue);
+        transition: background 180ms, box-shadow 180ms, transform 180ms;
     }
-
     .btn-electric:hover {
-        background-color: #1256D6;
+        background: #1256D6;
         box-shadow: var(--shadow-blue-lg);
         transform: translateY(-1px);
     }
-
     .btn-outline-electric {
-        background-color: transparent;
-        color: var(--brand-electric);
+        background: transparent;
+        color: var(--brand-blue);
         font-weight: 700;
-        border: 2px solid var(--brand-electric);
+        border: 2px solid var(--brand-blue);
         border-radius: 1rem;
         padding: 0.75rem 1.5rem;
-        transition: all 200ms var(--ease-out-expo);
+        transition: background 180ms, transform 180ms;
     }
-
     .btn-outline-electric:hover {
-        background-color: var(--brand-ice);
+        background: var(--brand-ice);
         transform: translateY(-1px);
     }
 
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-
+    /* Glassmorphism */
     .glass-card {
-        background-color: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(24px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.1);
     }
 
+    /* Section header */
     .section-header {
         font-size: 2rem;
         font-weight: 800;

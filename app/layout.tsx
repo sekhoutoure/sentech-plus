@@ -65,6 +65,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <link rel="apple-touch-icon" href="/sentech_icon.png" />
 
                 {/* ─────────────────────────────────────────────────────
+                    ⚡ CRITICAL CSS INLINE — Above-the-fold uniquement
+                    Évite le flash de fond blanc avant le chargement CSS.
+                    Ces règles sont un sous-ensemble minimal de globals.css.
+                ───────────────────────────────────────────────────── */}
+                <style dangerouslySetInnerHTML={{ __html: `
+                    *,::before,::after{box-sizing:border-box}
+                    html{overflow-x:hidden;width:100%;background:#F3F7FC;color:#182230}
+                    body{margin:0;min-height:100vh;overflow-x:hidden;background:#F3F7FC;color:#182230;-webkit-font-smoothing:antialiased}
+                    img,video{max-width:100%;height:auto;vertical-align:middle}
+                    .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+                    .no-scrollbar::-webkit-scrollbar{display:none}
+                `.replace(/\s+/g,' ').trim() }} />
+
+                {/* ─────────────────────────────────────────────────────
                     🏷️ Schema.org — Structured Data
                 ───────────────────────────────────────────────────── */}
                 <JsonLd data={[getOrganizationSchema(), getWebSiteSchema()]} />
