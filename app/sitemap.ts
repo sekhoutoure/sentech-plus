@@ -37,7 +37,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Dynamic Product routes from Supabase PostgreSQL
     let products: any[] = [];
     try {
-        products = (await db.getProducts()) || [];
+        const result = await db.getProducts(null, null, null, 1, 1000);
+        products = result.products || [];
     } catch {
         products = [];
     }

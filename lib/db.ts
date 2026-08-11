@@ -2,40 +2,69 @@ import { prisma } from '@/lib/prisma'
 import type { Prisma } from '@prisma/client'
 
 // ============================================================
-// ✅ db.ts — Interface Prisma avec gestion d'erreurs sécurisée
+// ✅ db.ts — Interface Prisma complète avec gestion d'erreurs
 // ============================================================
 
 export const db = {
+
   // ─────────────────────────────────────────────
   // Products
   // ─────────────────────────────────────────────
-  getProducts: async (category?: string, search?: string, storeId?: string) => {
+  getProducts: async (
+    category?: string | null,
+    search?: string | null,
+    storeId?: string | null,
+    page = 1,
+    limit = 20
+  ) => {
     try {
       const where: Prisma.ProductWhereInput = {}
       if (category && category !== 'Tous') {
         where.category = { equals: category, mode: 'insensitive' }
       }
       if (search) {
-        where.name = { contains: search, mode: 'insensitive' }
+        where.OR = [
+          { name: { contains: search, mode: 'insensitive' } },
+          { description: { contains: search, mode: 'insensitive' } },
+        ]
       }
       if (storeId) {
         where.storeId = storeId
       }
-      return await prisma.product.findMany({
-        where,
-        orderBy: { createdAt: 'desc' },
-      })
+
+      const skip = (page - 1) * limit
+      const [products, total] = await Promise.all([
+        prisma.product.findMany({
+          where,
+          orderBy: { createdAt: 'desc' },
+          skip,
+          take: limit,
+          include: { store: { select: { name: true, username: true, logo: true } } },
+        }),
+        prisma.product.count({ where }),
+      ])
+
+      return { products, total, page, limit, totalPages: Math.ceil(total / limit) }
     } catch (e) {
-      console.error("Prisma getProducts error:", e)
-      return []
+      console.error('Prisma getProducts error:', e)
+      return { products: [], total: 0, page, limit, totalPages: 0 }
     }
   },
 
   getProductById: async (id: string) => {
     try {
-      return await prisma.product.findUnique({ where: { id } })
+      return await prisma.product.findUnique({
+        where: { id },
+        include: {
+          store: { select: { id: true, name: true, username: true, logo: true, contact: true } },
+          rating: {
+            include: { user: { select: { id: true, name: true, image: true } } },
+            orderBy: { createdAt: 'desc' },
+          },
+        },
+      })
     } catch (e) {
-      console.error("Prisma getProductById error:", e)
+      console.error('Prisma getProductById error:', e)
       return null
     }
   },
@@ -54,17 +83,59 @@ export const db = {
   },
 
   // ─────────────────────────────────────────────
-  // Orders
+  // Ratings
   // ─────────────────────────────────────────────
-  getOrders: async () => {
+  getRatingsByProduct: async (productId: string) => {
     try {
-      return await prisma.order.findMany({
-        include: { orderItems: true },
+      return await prisma.rating.findMany({
+        where: { productId },
+        include: { user: { select: { id: true, name: true, image: true } } },
         orderBy: { createdAt: 'desc' },
       })
     } catch (e) {
-      console.error("Prisma getOrders error:", e)
+      console.error('Prisma getRatingsByProduct error:', e)
       return []
+    }
+  },
+
+  addRating: async (data: {
+    rating: number
+    review: string
+    userId: string
+    productId: string
+    orderId: string
+  }) => {
+    return prisma.rating.create({ data })
+  },
+
+  deleteRating: async (id: string) => {
+    await prisma.rating.delete({ where: { id } })
+    return true
+  },
+
+  // ─────────────────────────────────────────────
+  // Orders
+  // ─────────────────────────────────────────────
+  getOrders: async (page = 1, limit = 20) => {
+    try {
+      const skip = (page - 1) * limit
+      const [orders, total] = await Promise.all([
+        prisma.order.findMany({
+          include: {
+            orderItems: { include: { product: { select: { id: true, name: true, images: true } } } },
+            user: { select: { id: true, name: true, email: true } },
+            address: true,
+          },
+          orderBy: { createdAt: 'desc' },
+          skip,
+          take: limit,
+        }),
+        prisma.order.count(),
+      ])
+      return { orders, total, page, limit, totalPages: Math.ceil(total / limit) }
+    } catch (e) {
+      console.error('Prisma getOrders error:', e)
+      return { orders: [], total: 0, page, limit, totalPages: 0 }
     }
   },
 
@@ -72,24 +143,38 @@ export const db = {
     try {
       return await prisma.order.findUnique({
         where: { id },
-        include: { orderItems: true },
+        include: {
+          orderItems: { include: { product: { select: { id: true, name: true, images: true, price: true } } } },
+          user: { select: { id: true, name: true, email: true } },
+          address: true,
+        },
       })
     } catch (e) {
-      console.error("Prisma getOrderById error:", e)
+      console.error('Prisma getOrderById error:', e)
       return null
     }
   },
 
-  getOrdersByUserId: async (userId: string) => {
+  getOrdersByUserId: async (userId: string, page = 1, limit = 20) => {
     try {
-      return await prisma.order.findMany({
-        where: { userId },
-        include: { orderItems: true },
-        orderBy: { createdAt: 'desc' },
-      })
+      const skip = (page - 1) * limit
+      const [orders, total] = await Promise.all([
+        prisma.order.findMany({
+          where: { userId },
+          include: {
+            orderItems: { include: { product: { select: { id: true, name: true, images: true } } } },
+            address: true,
+          },
+          orderBy: { createdAt: 'desc' },
+          skip,
+          take: limit,
+        }),
+        prisma.order.count({ where: { userId } }),
+      ])
+      return { orders, total, page, limit, totalPages: Math.ceil(total / limit) }
     } catch (e) {
-      console.error("Prisma getOrdersByUserId error:", e)
-      return []
+      console.error('Prisma getOrdersByUserId error:', e)
+      return { orders: [], total: 0, page, limit, totalPages: 0 }
     }
   },
 
@@ -123,7 +208,7 @@ export const db = {
   updateOrderStatus: async (id: string, status: string) => {
     return prisma.order.update({
       where: { id },
-      data: { status: status as Prisma.EnumOrderStatusFilter['equals'] },
+      data: { status: status as any },
     })
   },
 
@@ -134,7 +219,7 @@ export const db = {
     try {
       return await prisma.coupon.findMany({ orderBy: { createdAt: 'desc' } })
     } catch (e) {
-      console.error("Prisma getCoupons error:", e)
+      console.error('Prisma getCoupons error:', e)
       return []
     }
   },
@@ -149,7 +234,7 @@ export const db = {
         },
       })
     } catch (e) {
-      console.error("Prisma validateCoupon error:", e)
+      console.error('Prisma validateCoupon error:', e)
       return null
     }
   },
@@ -166,26 +251,67 @@ export const db = {
   // ─────────────────────────────────────────────
   // Stores
   // ─────────────────────────────────────────────
-  getStores: async () => {
+  getStores: async (page = 1, limit = 20) => {
     try {
-      return await prisma.store.findMany({ orderBy: { createdAt: 'desc' } })
+      const skip = (page - 1) * limit
+      const [stores, total] = await Promise.all([
+        prisma.store.findMany({
+          orderBy: { createdAt: 'desc' },
+          skip,
+          take: limit,
+          include: { user: { select: { id: true, name: true, email: true } } },
+        }),
+        prisma.store.count(),
+      ])
+      return { stores, total, page, limit, totalPages: Math.ceil(total / limit) }
     } catch (e) {
-      console.error("Prisma getStores error:", e)
-      return []
+      console.error('Prisma getStores error:', e)
+      return { stores: [], total: 0, page, limit, totalPages: 0 }
+    }
+  },
+
+  getStoreById: async (id: string) => {
+    try {
+      return await prisma.store.findUnique({
+        where: { id },
+        include: {
+          user: { select: { id: true, name: true, email: true } },
+          Product: { orderBy: { createdAt: 'desc' } },
+        },
+      })
+    } catch (e) {
+      console.error('Prisma getStoreById error:', e)
+      return null
     }
   },
 
   getStoreByUsername: async (username: string) => {
     try {
-      return await prisma.store.findUnique({ where: { username } })
+      return await prisma.store.findUnique({
+        where: { username },
+        include: { Product: { orderBy: { createdAt: 'desc' } } },
+      })
     } catch (e) {
-      console.error("Prisma getStoreByUsername error:", e)
+      console.error('Prisma getStoreByUsername error:', e)
+      return null
+    }
+  },
+
+  getStoreByUserId: async (userId: string) => {
+    try {
+      return await prisma.store.findUnique({ where: { userId } })
+    } catch (e) {
+      console.error('Prisma getStoreByUserId error:', e)
       return null
     }
   },
 
   createStore: async (data: Prisma.StoreCreateInput) => {
     return prisma.store.create({ data })
+  },
+
+  updateStore: async (id: string, data: Prisma.StoreUpdateInput) => {
+    return prisma.store.update({ where: { id }, data })
   },
 
   deleteStore: async (id: string) => {
@@ -204,7 +330,50 @@ export const db = {
   },
 
   // ─────────────────────────────────────────────
-  // Site Settings
+  // Addresses
+  // ─────────────────────────────────────────────
+  getAddressesByUserId: async (userId: string) => {
+    try {
+      return await prisma.address.findMany({
+        where: { userId },
+        orderBy: { createdAt: 'desc' },
+      })
+    } catch (e) {
+      console.error('Prisma getAddressesByUserId error:', e)
+      return []
+    }
+  },
+
+  getAddressById: async (id: string) => {
+    try {
+      return await prisma.address.findUnique({ where: { id } })
+    } catch (e) {
+      console.error('Prisma getAddressById error:', e)
+      return null
+    }
+  },
+
+  createAddress: async (data: {
+    userId: string
+    name: string
+    email: string
+    street: string
+    city: string
+    state: string
+    zip: string
+    country: string
+    phone: string
+  }) => {
+    return prisma.address.create({ data })
+  },
+
+  deleteAddress: async (id: string) => {
+    await prisma.address.delete({ where: { id } })
+    return true
+  },
+
+  // ─────────────────────────────────────────────
+  // Site Settings (statiques pour l'instant)
   // ─────────────────────────────────────────────
   getSettings: async () => {
     return {
@@ -213,9 +382,10 @@ export const db = {
       email: 'contact@sentechplus.sn',
       phone: '+221 77 000 00 00',
       address: 'Avenue Cheikh Anta Diop, Fann, Dakar, Sénégal',
-      currencySymbol: '$',
+      currencySymbol: 'FCFA',
+      whatsapp: '+221770000000',
       banner: {
-        enabled: true,
+        enabled: false,
         text: '✨ Obtenez 20% de réduction sur votre première commande !',
         buttonText: "Profiter de l'offre",
         couponCode: 'NEW20',
@@ -224,6 +394,7 @@ export const db = {
   },
 
   updateSettings: async (newSettings: object) => {
+    // À connecter à une table Settings Prisma si persistance nécessaire
     return newSettings
   },
 }

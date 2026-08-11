@@ -1,71 +1,110 @@
 import { NextRequest } from 'next/server'
-import { db } from "@/lib/db"
-import { secureApiResponse, requireAdmin } from "@/lib/api-guard"
-import { filterAllowedFields } from "@/lib/security"
+import { db } from '@/lib/db'
+import { secureApiResponse, requireAdmin, requireAuth } from '@/lib/api-guard'
+import { filterAllowedFields } from '@/lib/security'
+import { z } from 'zod'
 
+const orderSchema = z.object({
+    storeId: z.string().min(1, 'storeId requis.'),
+    addressId: z.string().min(1, 'addressId requis.'),
+    paymentMethod: z.enum(['COD', 'STRIPE']),
+    isCouponUsed: z.boolean().optional().default(false),
+    coupon: z.object({ code: z.string() }).optional(),
+    orderItems: z.array(z.object({
+        productId: z.string().min(1),
+        quantity: z.number().int().positive(),
+    })).min(1, 'La commande doit contenir au moins un article.'),
+})
+
+// GET /api/orders — Liste des commandes
+// - Admin : toutes les commandes (paginées)
+// - Utilisateur connecté : ses propres commandes
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
-    const userId = searchParams.get('userId')
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1'))
+    const limit = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') || '20')))
 
-    if (userId) {
-        // ⚠️ WARNING: DEMO ONLY! In production, verify the session token to ensure
-        // the requested userId matches the currently authenticated user!
-        if (typeof userId !== 'string' || userId.trim() === '') {
-            return secureApiResponse({ success: false, message: "userId invalide" }, 400)
-        }
-        // ✅ Un utilisateur peut voir SES propres commandes sans clé admin
-        const orders = await db.getOrdersByUserId(userId)
-        return secureApiResponse({ success: true, orders })
-    }
-
-    // 🔐 Sans userId, la liste complète est réservée aux admins
-    const authError = requireAdmin(request)
+    // 🔐 Vérification de la session
+    const { session, error: authError } = await requireAuth()
     if (authError) return authError
 
-    try {
-        const orders = await db.getOrders()
-        return secureApiResponse({ success: true, orders })
-    } catch (error) {
-        return secureApiResponse({ success: false, message: "Erreur serveur" }, 500)
+    const isAdmin = session.user.role === 'admin'
+
+    if (isAdmin) {
+        // Admin → toutes les commandes
+        const result = await db.getOrders(page, limit)
+        return secureApiResponse({ success: true, ...result })
+    } else {
+        // Utilisateur → seulement ses commandes
+        const result = await db.getOrdersByUserId(session.user.id, page, limit)
+        return secureApiResponse({ success: true, ...result })
     }
 }
 
+// POST /api/orders — Créer une commande (utilisateur connecté)
 export async function POST(request: NextRequest) {
+    // 🔐 L'utilisateur doit être authentifié
+    const { session, error: authError } = await requireAuth()
+    if (authError) return authError
+
     try {
         const body = await request.json()
 
-        // ✅ Filtrage des champs autorisés
-        const allowedFields = ['userId', 'storeId', 'addressId', 'paymentMethod', 'isCouponUsed', 'coupon', 'orderItems']
-        const sanitizedBody = filterAllowedFields(body, allowedFields)
-
-        // ✅ Recalcul du total côté serveur (prévention de la manipulation de prix)
-        // On vérifie chaque article via la base de données (le client ne peut pas tricher)
-        let serverTotal = 0
-        if (Array.isArray(sanitizedBody.orderItems) && sanitizedBody.orderItems.length > 0) {
-            for (const item of sanitizedBody.orderItems) {
-                const product = await db.getProductById(item.productId)
-                if (!product) {
-                    return secureApiResponse({ success: false, message: `Produit introuvable: ${item.productId}` }, 400)
-                }
-                const qty = parseInt(item.quantity)
-                if (isNaN(qty) || qty <= 0) {
-                    return secureApiResponse({ success: false, message: "Quantité invalide" }, 400)
-                }
-                serverTotal += product.price * qty
-            }
-        } else {
-            return secureApiResponse({ success: false, message: "La commande doit contenir au moins un article" }, 400)
+        // ✅ Validation Zod
+        const parsed = orderSchema.safeParse(body)
+        if (!parsed.success) {
+            return secureApiResponse({
+                success: false,
+                message: parsed.error.issues[0]?.message || 'Données invalides.',
+                errors: parsed.error.flatten().fieldErrors,
+            }, 400)
         }
 
-        // Appliquer la réduction coupon si présente (vérifiée côté serveur)
-        if (sanitizedBody.isCouponUsed && sanitizedBody.coupon?.code) {
-            const validCoupon = await db.validateCoupon(sanitizedBody.coupon.code)
+        const { storeId, addressId, paymentMethod, isCouponUsed, coupon, orderItems } = parsed.data
+
+        // ✅ Vérifier que l'adresse appartient bien à l'utilisateur authentifié
+        const address = await db.getAddressById(addressId)
+        if (!address || address.userId !== session.user.id) {
+            return secureApiResponse({ success: false, message: 'Adresse invalide ou non autorisée.' }, 403)
+        }
+
+        // ✅ Recalcul du total côté serveur (anti-manipulation de prix)
+        let serverTotal = 0
+        const resolvedItems: { productId: string; quantity: number; price: number }[] = []
+
+        for (const item of orderItems) {
+            const product = await db.getProductById(item.productId)
+            if (!product) {
+                return secureApiResponse({ success: false, message: `Produit introuvable: ${item.productId}` }, 400)
+            }
+            if (!product.inStock) {
+                return secureApiResponse({ success: false, message: `Produit hors stock: ${product.name}` }, 400)
+            }
+            serverTotal += product.price * item.quantity
+            resolvedItems.push({ productId: item.productId, quantity: item.quantity, price: product.price })
+        }
+
+        // ✅ Appliquer coupon si présent (vérifié côté serveur)
+        let appliedCoupon: object | undefined
+        if (isCouponUsed && coupon?.code) {
+            const validCoupon = await db.validateCoupon(coupon.code)
             if (validCoupon) {
                 serverTotal = serverTotal * (1 - validCoupon.discount / 100)
+                appliedCoupon = { code: validCoupon.code, discount: validCoupon.discount }
             }
         }
 
-        const order = await db.createOrder({ ...sanitizedBody, total: parseFloat(serverTotal.toFixed(2)) })
+        const order = await db.createOrder({
+            userId: session.user.id, // Toujours depuis la session (pas depuis le body)
+            storeId,
+            addressId,
+            paymentMethod,
+            isCouponUsed: !!appliedCoupon,
+            coupon: appliedCoupon,
+            total: parseFloat(serverTotal.toFixed(2)),
+            orderItems: resolvedItems,
+        })
+
         return secureApiResponse({ success: true, order }, 201)
     } catch (error: any) {
         return secureApiResponse({ success: false, message: error.message }, 400)

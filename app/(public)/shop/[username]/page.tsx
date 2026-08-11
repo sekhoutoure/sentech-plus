@@ -4,8 +4,7 @@ import StoreShopClient from "./StoreShopClient";
 // ✅ Server-side metadata generation for SEO
 export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
     const { username } = await params;
-    const stores = await db.getStores();
-    const storeInfo = stores.find(s => s.username === username);
+    const storeInfo = await db.getStoreByUsername(username);
     
     if (!storeInfo) {
         return {

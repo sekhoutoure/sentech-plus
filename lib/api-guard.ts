@@ -2,11 +2,13 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { Redis } from '@upstash/redis'
 import { Ratelimit } from '@upstash/ratelimit'
+import { auth } from '@/auth'
 
 // ============================================================
 // ✅ api-guard.ts — Sécurité centralisée des routes API
 // - Rate Limiting Redis multi-instance (Upstash)
-// - Auth admin via session NextAuth (voir auth.ts)
+// - Auth admin via session NextAuth v5
+// - Auth utilisateur via session NextAuth v5
 // - Strip des données sensibles
 // - Headers de sécurité
 // ============================================================
@@ -21,10 +23,7 @@ function getRatelimiter(type: 'GET' | 'POST') {
   const url = process.env.UPSTASH_REDIS_REST_URL
   const token = process.env.UPSTASH_REDIS_REST_TOKEN
 
-  if (!url || !token) {
-    // Fallback silencieux si Upstash non configuré (dev sans Redis)
-    return null
-  }
+  if (!url || !token) return null
 
   const redis = new Redis({ url, token })
 
@@ -64,7 +63,7 @@ export const rateLimit = async (request: NextRequest): Promise<NextResponse | nu
   const method = request.method === 'GET' ? 'GET' : 'POST'
   const limiter = getRatelimiter(method)
 
-  if (!limiter) return null // Upstash non configuré → pas de rate limit
+  if (!limiter) return null
 
   const { success, limit, remaining, reset } = await limiter.limit(ip)
 
@@ -87,31 +86,67 @@ export const rateLimit = async (request: NextRequest): Promise<NextResponse | nu
 }
 
 /**
- * ✅ Middleware d'authentification Admin.
- * Vérifie le header `x-admin-key` (démo) ou la session NextAuth (production).
+ * ✅ Vérifie que l'utilisateur est authentifié via session NextAuth.
+ * Retourne la session si valide, null sinon (avec réponse 401).
  */
-export const requireAdmin = (request: NextRequest): NextResponse | null => {
-  const adminKey = request.headers.get('x-admin-key')
-  const expectedKey = process.env.ADMIN_SECRET_KEY
+export const requireAuth = async (): Promise<{ session: any; error: NextResponse | null }> => {
+  const session = await auth()
 
-  if (!expectedKey) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error('[SECURITY] ADMIN_SECRET_KEY non définie dans .env.local !')
+  if (!session || !session.user?.id) {
+    return {
+      session: null,
+      error: NextResponse.json(
+        { success: false, message: 'Authentification requise.' },
+        { status: 401 }
+      ),
     }
-    return NextResponse.json(
-      { success: false, message: 'Configuration serveur incorrecte' },
-      { status: 500 }
-    )
   }
 
-  if (!adminKey || adminKey !== expectedKey) {
+  return { session, error: null }
+}
+
+/**
+ * ✅ Vérifie que l'utilisateur est admin via session NextAuth.
+ * Remplace l'ancienne vérification par x-admin-key (insécurisée).
+ * Retourne la session si admin, null sinon (avec réponse 401/403).
+ */
+export const requireAdmin = async (request?: NextRequest): Promise<NextResponse | null> => {
+  // Compatibilité rétrograde : si une clé admin est fournie ET configurée (CI/CD, webhooks internes)
+  if (request) {
+    const adminKey = request.headers.get('x-admin-key')
+    const expectedKey = process.env.ADMIN_SECRET_KEY
+    if (adminKey && expectedKey && adminKey === expectedKey) {
+      return null // Autorisé via clé interne
+    }
+  }
+
+  // Vérification principale : session NextAuth
+  const session = await auth()
+
+  if (!session || !session.user?.id) {
     return NextResponse.json(
-      { success: false, message: 'Accès non autorisé. Clé admin invalide.' },
+      { success: false, message: 'Authentification requise.' },
       { status: 401 }
     )
   }
 
+  if (session.user.role !== 'admin') {
+    return NextResponse.json(
+      { success: false, message: 'Accès réservé aux administrateurs.' },
+      { status: 403 }
+    )
+  }
+
   return null
+}
+
+/**
+ * ✅ Récupère la session admin complète (après vérification).
+ */
+export const getAdminSession = async () => {
+  const session = await auth()
+  if (!session?.user?.id || session.user.role !== 'admin') return null
+  return session
 }
 
 /**
@@ -190,7 +225,6 @@ export const logAuditEvent = (action: string, details: Record<string, unknown>):
     action,
     ...details,
   }
-  // En production, envoyer vers un service de logging (Datadog, Sentry, etc.)
   if (process.env.NODE_ENV !== 'production') {
     console.log(JSON.stringify(event))
   }
