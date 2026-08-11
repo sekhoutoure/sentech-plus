@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
+import withBundleAnalyzer from '@next/bundle-analyzer';
+
+const bundleAnalyzer = withBundleAnalyzer({
+    enabled: process.env.ANALYZE === 'true',
+    openAnalyzer: false,
+});
 
 const securityHeaders = [
   {
@@ -56,6 +62,7 @@ const nextConfig = {
             'lucide-react',
             'react-hot-toast',
             '@reduxjs/toolkit',
+            'react-redux',
         ],
     },
     images: {
@@ -109,4 +116,5 @@ const nextConfig = {
     },
 };
 
-export default nextConfig;
+export default bundleAnalyzer(nextConfig);
+
