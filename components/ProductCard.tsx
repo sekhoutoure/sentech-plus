@@ -80,14 +80,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
 
         if (Math.abs(deltaX) > 35 && Math.abs(deltaX) > Math.abs(deltaY)) {
             if (deltaX < 0) {
-                // Swipe Left -> Image Suivante
                 if (imagesList.length > 1) {
                     const nextIdx = (activeImgIndex + 1) % imagesList.length
                     setActiveImgIndex(nextIdx)
                     setImgSrc(getProductImage(product, nextIdx))
                 }
             } else {
-                // Swipe Right -> Image Précédente
                 if (imagesList.length > 1) {
                     const prevIdx = (activeImgIndex - 1 + imagesList.length) % imagesList.length
                     setActiveImgIndex(prevIdx)
@@ -108,7 +106,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
         setIsAdded(true)
         toast.success(`"${product?.name || 'Produit'}" ajouté au panier !`, {
             icon: '🛒',
-            style: { borderRadius: '12px', background: '#182230', color: '#fff', fontSize: '13px' }
+            style: { borderRadius: '12px', background: '#172033', color: '#fff', fontSize: '13px' }
         })
         setTimeout(() => setIsAdded(false), 2000)
     }
@@ -125,18 +123,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
     }
 
     return (
-        <div className="group relative w-full bg-white rounded-2xl overflow-hidden border border-[#E8EDF3] shadow-[0_4px_15px_rgba(20,40,70,0.05)] hover:shadow-[0_12px_28px_rgba(20,40,70,0.09)] hover:border-[#1677FF]/35 transition-[box-shadow,border-color,background-color] duration-200 ease-out flex flex-col justify-between h-full min-h-[280px] sm:min-h-[360px]">
+        <div className="group relative w-full bg-white rounded-2xl overflow-hidden border border-[#E1E8F0] shadow-[0_4px_15px_rgba(23,32,51,0.04)] hover:shadow-[0_8px_25px_rgba(22,119,255,0.1)] hover:border-[#1677FF]/35 transition-all duration-200 ease-out flex flex-col justify-between h-full p-2 sm:p-3">
 
-            {/* Image Container avec Touch Swipe Gestures */}
+            {/* Image Zone: aspect-ratio 1/1, overflow-hidden, rounded-xl, bg #F5F8FC */}
             <div 
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
-                className="relative w-full aspect-square bg-[#F7F9FC] flex items-center justify-center border-b border-[#E8EDF3] overflow-hidden shrink-0 touch-pan-y"
+                className="relative w-full aspect-square bg-[#F5F8FC] rounded-xl flex items-center justify-center overflow-hidden shrink-0 touch-pan-y"
             >
 
                 {/* Rank Badge */}
                 {rank && rank <= 3 && (
-                    <div className={`absolute top-2 left-2 z-20 size-6 sm:size-7 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-black shadow-md ${
+                    <div className={`absolute top-1.5 left-1.5 z-20 size-5 sm:size-6 rounded-full flex items-center justify-center text-[9px] sm:text-xs font-bold shadow-xs ${
                         rank === 1 ? 'bg-amber-400 text-amber-950' :
                         rank === 2 ? 'bg-slate-300 text-slate-800' :
                         'bg-amber-700 text-amber-100'
@@ -145,15 +143,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                     </div>
                 )}
 
-                {/* Discount Badge */}
+                {/* Badge Promotion (#F97316, 11px font-bold, padding 4px 8px, radius 20px) */}
                 {discount > 0 && (
-                    <span className="absolute top-2 left-2 z-20 bg-[#C4320A] text-white text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full shadow-2xs">
+                    <span className="absolute top-1.5 left-1.5 z-20 bg-[#F97316] text-white text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full shadow-2xs">
                         -{discount}%
                     </span>
                 )}
 
-                {/* Action Buttons Top Right: Aperçu Rapide & Favoris */}
-                <div className="absolute top-1.5 right-1.5 z-20 flex items-center gap-1.5">
+                {/* Action Buttons Top Right: Aperçu Rapide & Favoris (32px - 36px) */}
+                <div className="absolute top-[6px] right-[6px] z-20 flex items-center gap-1">
                     {/* Quick View Button */}
                     <button
                         onClick={(e) => {
@@ -163,36 +161,36 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                         }}
                         aria-label="Aperçu rapide du produit"
                         title="Aperçu rapide"
-                        className="size-8 sm:size-9 rounded-full bg-white/90 hover:bg-white text-[#475467] hover:text-[#0B54C2] flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs border border-[#E8EDF3] active:scale-95"
+                        className="size-7 sm:size-8 rounded-full bg-white/90 hover:bg-white text-[#667085] hover:text-[#1677FF] flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs border border-[#E1E8F0] active:scale-95"
                     >
-                        <Eye size={16} />
+                        <Eye size={14} />
                     </button>
 
                     {/* Wishlist Button */}
                     <button
                         onClick={handleWishlistToggle}
                         aria-label={isWishlisted ? "Retirer des favoris" : "Ajouter aux favoris"}
-                        className={`size-8 sm:size-9 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 ${
+                        className={`size-7 sm:size-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs active:scale-95 ${
                             isWishlisted
-                                ? 'bg-[#C4320A] text-white'
-                                : 'bg-white/90 text-[#475467] hover:text-[#C4320A] hover:bg-white border border-[#E8EDF3]'
+                                ? 'bg-[#F97316] text-white'
+                                : 'bg-white/90 text-[#667085] hover:text-[#F97316] hover:bg-white border border-[#E1E8F0]'
                         }`}
                     >
-                        <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
+                        <Heart size={14} fill={isWishlisted ? "currentColor" : "none"} />
                     </button>
                 </div>
 
                 {/* Product Image */}
                 <Link href={`/product/${productId}`} className="relative w-full h-full block p-2">
                     {imgError ? (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-[#F7F9FC]">
-                            <ImageOff size={22} className="text-[#0B54C2]/40" />
-                            <span className="text-[9px] font-extrabold text-[#475467] uppercase tracking-wider">SenTechPLUS</span>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-[#F5F8FC]">
+                            <ImageOff size={20} className="text-[#1677FF]/40" />
+                            <span className="text-[8px] font-bold text-[#667085] uppercase tracking-wider">SenTechPLUS</span>
                         </div>
                     ) : (
                         <Image
                             fill
-                            className="object-contain group-hover:scale-105 transition-transform duration-500 ease-out p-1.5"
+                            className="object-contain group-hover:scale-105 transition-transform duration-300 ease-out p-1"
                             src={imgSrc}
                             onError={() => {
                                 if (imgSrc !== FALLBACK_PRODUCT_IMAGE) {
@@ -207,14 +205,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                     )}
                 </Link>
 
-                {/* Mobile Touch Swipe Image Dots Indicator */}
+                {/* Touch Swipe Image Dots Indicator */}
                 {imagesList.length > 1 && (
-                    <div className="absolute bottom-1.5 left-0 right-0 z-20 flex justify-center items-center gap-1 pointer-events-none">
+                    <div className="absolute bottom-1 left-0 right-0 z-20 flex justify-center items-center gap-1 pointer-events-none">
                         {imagesList.map((_: any, idx: number) => (
                             <span
                                 key={idx}
-                                className={`size-1.5 rounded-full transition-all duration-300 ${
-                                    idx === activeImgIndex ? 'bg-[#0B54C2] w-3' : 'bg-slate-300/80'
+                                className={`size-1 rounded-full transition-all duration-300 ${
+                                    idx === activeImgIndex ? 'bg-[#1677FF] w-2.5' : 'bg-slate-300/80'
                                 }`}
                             />
                         ))}
@@ -222,64 +220,64 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                 )}
             </div>
 
-            {/* Content Area — Equal Height Container */}
-            <div className="p-2.5 sm:p-4 flex flex-col flex-1 justify-between gap-1.5 bg-white">
+            {/* Content Area — Compact Spacing */}
+            <div className="pt-2 flex flex-col flex-1 justify-between gap-1 bg-white">
 
-                <div className="space-y-1">
+                <div className="space-y-0.5">
                     {/* Category & Rating */}
                     <div className="flex items-center justify-between gap-1">
-                        <span className="text-[10px] sm:text-[11px] font-bold text-[#1677FF] uppercase tracking-wider truncate">
+                        <span className="text-[9px] sm:text-[10px] font-bold text-[#1677FF] uppercase tracking-wider truncate">
                             {product?.category || 'High-Tech'}
                         </span>
                         <div className="flex items-center gap-0.5 shrink-0">
-                            <Star size={11} fill="#F59E0B" className="text-amber-400" />
-                            <span className="text-[11px] font-bold text-[#172033]">{avgRating}</span>
+                            <Star size={10} fill="#F59E0B" className="text-amber-400" />
+                            <span className="text-[10px] font-bold text-[#172033]">{avgRating}</span>
                         </div>
                     </div>
 
-                    {/* Product Name */}
+                    {/* Product Name (max 2 lines) */}
                     <Link href={`/product/${productId}`} className="block">
-                        <h3 className="text-[12px] sm:text-[14px] font-bold text-[#172033] line-clamp-2 leading-snug group-hover:text-[#1677FF] transition-colors h-[34px] sm:h-[40px] overflow-hidden">
+                        <h3 className="text-[11px] xs:text-[12px] sm:text-[13px] font-bold text-[#172033] line-clamp-2 leading-tight group-hover:text-[#1677FF] transition-colors min-h-[28px]">
                             {product?.name || 'Équipement SenTechPLUS'}
                         </h3>
                     </Link>
                 </div>
 
-                <div className="space-y-2 pt-1">
-                    {/* Pricing & Stock (Prix + Ancien Prix Barré si disponible) */}
-                    <div className="flex items-baseline justify-between gap-1 flex-wrap min-h-[22px]">
-                        <div className="flex items-baseline gap-1.5 flex-wrap">
-                            <span className="text-[14px] sm:text-[16px] font-bold text-[#172033] leading-none">
+                <div className="space-y-1.5 pt-1">
+                    {/* Pricing & Stock */}
+                    <div className="flex items-center justify-between gap-1 flex-wrap">
+                        <div className="flex items-baseline gap-1 flex-wrap">
+                            <span className="text-[13px] xs:text-[14px] sm:text-[15px] font-extrabold text-[#172033] leading-none">
                                 {formatPrice(price)}
                             </span>
                             {mrp && mrp > price && (
-                                <span className="text-[10px] sm:text-[12px] font-medium text-[#667085] line-through leading-none">
+                                <span className="text-[9px] sm:text-[11px] font-normal text-[#667085] line-through leading-none">
                                     {formatPrice(mrp)}
                                 </span>
                             )}
                         </div>
                         {isOutOfStock ? (
-                            <span className="text-[8px] sm:text-[10px] font-bold text-[#DC2626] bg-[#DC2626]/10 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] font-bold text-[#DC2626] bg-[#DC2626]/10 px-1.5 py-0.5 rounded shrink-0">
                                 Rupture
                             </span>
                         ) : (
-                            <span className="text-[8px] sm:text-[10px] font-bold text-[#16C784] bg-[#16C784]/10 px-1.5 py-0.5 rounded shrink-0">
+                            <span className="text-[8px] font-bold text-[#16C784] bg-[#16C784]/10 px-1.5 py-0.5 rounded shrink-0">
                                 En stock
                             </span>
                         )}
                     </div>
 
-                    {/* Add to Cart Button (Radius 12px, font-weight 600, translateY(-1px) hover) */}
+                    {/* Add to Cart Button (height 42px, radius 10-12px, font 13-14px font 600) */}
                     <button
                         onClick={handleQuickAdd}
                         disabled={isOutOfStock}
                         aria-label="Ajouter au panier"
-                        className={`w-full font-semibold text-[11px] sm:text-xs h-[40px] py-2 px-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer ${
+                        className={`w-full font-semibold text-xs sm:text-sm h-[42px] py-2 px-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer ${
                             isOutOfStock
                                 ? 'bg-[#EEF1F5] text-slate-400 cursor-not-allowed border border-[#E1E8F0]'
                                 : isAdded
                                 ? 'bg-[#16C784] text-white shadow-2xs'
-                                : 'bg-[#1677FF] hover:bg-[#123B78] hover:-translate-y-0.5 text-white shadow-2xs'
+                                : 'bg-[#1677FF] hover:bg-[#123B78] text-white shadow-2xs'
                         }`}
                     >
                         {isOutOfStock ? (
