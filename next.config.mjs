@@ -35,15 +35,29 @@ const securityHeaders = [
   }
 ];
 
+// ✅ Cache long durée pour les assets statiques Next.js (immutables — hash dans le nom)
+const staticAssetCacheHeaders = [
+  {
+    key: 'Cache-Control',
+    value: 'public, max-age=31536000, immutable',
+  },
+];
+
 const nextConfig = {
     compress: true,
+    poweredByHeader: false, // ✅ Retire le header X-Powered-By (sécurité + légèreté)
     experimental: {
-        optimizePackageImports: ['lucide-react', 'react-hot-toast'],
+        optimizePackageImports: [
+            'lucide-react',
+            'react-hot-toast',
+            '@reduxjs/toolkit',
+        ],
     },
     images: {
         formats: ['image/avif', 'image/webp'],
         imageSizes: [16, 32, 48, 64, 96, 128, 180, 240, 320, 384],
         deviceSizes: [480, 640, 750, 828, 1080, 1200],
+        minimumCacheTTL: 31536000, // ✅ Cache images 1 an côté CDN Vercel
         remotePatterns: [
             { protocol: 'https', hostname: 'images.unsplash.com' },
             { protocol: 'https', hostname: 'res.cloudinary.com' },
@@ -54,9 +68,37 @@ const nextConfig = {
     },
     async headers() {
       return [
+        // ✅ Headers sécurité sur toutes les routes
         {
           source: '/(.*)',
           headers: securityHeaders,
+        },
+        // ✅ Cache long durée sur les chunks JS Next.js (immutables)
+        {
+          source: '/_next/static/:path*',
+          headers: staticAssetCacheHeaders,
+        },
+        // ✅ Cache long durée sur les images optimisées Next.js
+        {
+          source: '/_next/image/:path*',
+          headers: [
+            { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+          ],
+        },
+        // ✅ Cache court pour le manifest PWA (peut changer)
+        {
+          source: '/manifest.webmanifest',
+          headers: [
+            { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+            { key: 'Content-Type', value: 'application/manifest+json' },
+          ],
+        },
+        // ✅ Cache pour les assets publics statiques (icônes, favicon)
+        {
+          source: '/:file(sentech_icon.png|icon.png|favicon.ico)',
+          headers: [
+            { key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=2592000' },
+          ],
         },
       ];
     },
