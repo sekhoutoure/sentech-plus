@@ -2,8 +2,7 @@
 import dynamic from "next/dynamic";
 import Banner from "@/components/Banner";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-
+const Footer = dynamic(() => import("@/components/Footer"), { ssr: true });
 const SidebarDock = dynamic(() => import("@/components/SidebarDock"), { ssr: false });
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
