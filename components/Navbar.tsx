@@ -143,10 +143,13 @@ const Navbar: React.FC = () => {
     const headerRef = useRef<HTMLElement>(null)
     const [headerBottom, setHeaderBottom] = useState<number | undefined>(undefined)
 
-    // Calcul dynamique de la hauteur du header pour positionner le Méga-Menu
+    // Calcul dynamique de la hauteur du header pour positionner le Méga-Menu sans Forced Reflow
     useEffect(() => {
         if (hoveredCategory && headerRef.current) {
-            setHeaderBottom(headerRef.current.getBoundingClientRect().bottom)
+            const el = headerRef.current
+            requestAnimationFrame(() => {
+                setHeaderBottom(el.getBoundingClientRect().bottom)
+            })
         }
     }, [hoveredCategory])
 
