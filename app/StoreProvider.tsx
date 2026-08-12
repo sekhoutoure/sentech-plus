@@ -21,7 +21,7 @@ export default function StoreProvider({ children }: StoreProviderProps) {
 
     const executeBackgroundTasks = () => {
       const runTask = () => {
-        // 1. Fetch live products depuis l'API PostgreSQL
+        // 1. Fetch live products depuis l'API PostgreSQL en tâche d'arrière-plan (requestIdleCallback)
         fetch('/api/products')
           .then((res) => res.json())
           .then((data) => {
@@ -33,7 +33,7 @@ export default function StoreProvider({ children }: StoreProviderProps) {
           })
           .catch(() => {})
 
-        // 2. Charger les settings depuis localStorage
+        // 2. Charger les settings depuis localStorage hors du critical path
         try {
           const savedSettings = localStorage.getItem('sentech_settings')
           if (savedSettings) {
@@ -48,9 +48,9 @@ export default function StoreProvider({ children }: StoreProviderProps) {
       }
 
       if ('requestIdleCallback' in window) {
-        ;(window as any).requestIdleCallback(runTask, { timeout: 3000 })
+        ;(window as any).requestIdleCallback(runTask, { timeout: 4000 })
       } else {
-        setTimeout(runTask, 500)
+        setTimeout(runTask, 1200)
       }
     }
 
