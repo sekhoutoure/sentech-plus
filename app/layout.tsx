@@ -36,10 +36,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="fr" dir="ltr">
             <head>
                 {/* ─────────────────────────────────────────────────────
-                    🔍 DNS-PREFETCH — Résolution DNS en arrière-plan (sans bloquer de sockets)
+                    🔗 PRECONNECT & DNS-PREFETCH — Connexion TLS/TCP anticipée pour les images LCP/Hero
                 ───────────────────────────────────────────────────── */}
-                <link rel="dns-prefetch" href="https://res.cloudinary.com" />
-                <link rel="dns-prefetch" href="https://images.unsplash.com" />
+                <link rel="preconnect" href="https://res.cloudinary.com" />
+                <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
                 <link rel="dns-prefetch" href="https://firebasestorage.googleapis.com" />
                 <link rel="dns-prefetch" href="https://www.google-analytics.com" />
                 <link rel="dns-prefetch" href="https://images.pexels.com" />
