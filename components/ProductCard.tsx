@@ -7,7 +7,9 @@ import { useWishlistStore } from '@/lib/stores'
 import { formatPrice } from '@/lib/format'
 import { getProductImage, FALLBACK_PRODUCT_IMAGE } from '@/lib/image-utils'
 import toast from 'react-hot-toast'
-import QuickViewModal from './QuickViewModal'
+import dynamic from 'next/dynamic'
+
+const QuickViewModal = dynamic(() => import('./QuickViewModal'), { ssr: false })
 
 export interface Product {
     id: string;
