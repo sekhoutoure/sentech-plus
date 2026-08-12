@@ -24,8 +24,8 @@ const BestSelling: React.FC = () => {
                 {/* Section Header Vertically Aligned */}
                 <div className="flex items-center justify-between gap-3 mb-4 sm:mb-6 pb-2 border-b border-[#E1E8F0]">
                     <div className="space-y-0.5">
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EAF3FF] border border-[#1677FF]/20 text-[#1677FF] font-bold uppercase tracking-wider text-[10px]">
-                            <Flame size={11} className="text-[#F97316]" /> MEILLEURES VENTES
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EAF3FF] border border-[#0F56C6]/20 text-[#0F56C6] font-bold uppercase tracking-wider text-[10px]">
+                            <Flame size={11} className="text-[#C2410C]" /> MEILLEURES VENTES
                         </div>
                         <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#172033] tracking-tight">
                             Meilleures ventes & tendances

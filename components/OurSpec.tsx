@@ -43,7 +43,7 @@ const OurSpecs: React.FC = () => {
 
             {/* Section Header */}
             <div className="text-center space-y-1 mb-6">
-                <span className="inline-block px-3 py-1 rounded-full bg-[#EAF3FF] text-[#1677FF] text-xs font-bold uppercase tracking-wider border border-[#1677FF]/20">
+                <span className="inline-block px-3 py-1 rounded-full bg-[#EAF3FF] text-[#0F56C6] text-xs font-bold uppercase tracking-wider border border-[#0F56C6]/20">
                     NOS ENGAGEMENTS
                 </span>
                 <h2 className="text-xl sm:text-3xl font-extrabold text-[#172033] tracking-tight">

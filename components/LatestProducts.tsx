@@ -19,7 +19,7 @@ const LatestProducts: React.FC = () => {
             {/* Section Header Vertically Aligned */}
             <div className="flex items-center justify-between gap-3 mb-4 sm:mb-6 pb-2 border-b border-[#E1E8F0]">
                 <div className="space-y-0.5">
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EAF3FF] text-[#1677FF] text-[10px] font-bold uppercase tracking-wider border border-[#1677FF]/20">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EAF3FF] text-[#0F56C6] text-[10px] font-bold uppercase tracking-wider border border-[#0F56C6]/20">
                         <Sparkles size={11} /> NOUVEAUTÉS HIGH-TECH
                     </div>
                     <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#172033] tracking-tight">

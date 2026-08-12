@@ -35,8 +35,8 @@ export default function PromoBanner() {
 
                     {/* Left Copy */}
                     <div className="lg:col-span-6 space-y-3 text-center lg:text-left">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#1677FF]/20 text-xs font-bold text-[#1677FF]">
-                            <Flame size={13} className="text-[#F97316]" />
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#0F56C6]/20 text-xs font-bold text-[#0F56C6]">
+                            <Flame size={13} className="text-[#C2410C]" />
                             <span>OFFRES DU MOMENT</span>
                         </div>
 
@@ -80,7 +80,7 @@ export default function PromoBanner() {
                                 </div>
 
                                 <div className="text-left flex-1 min-w-0">
-                                    <span className="bg-[#F97316] text-white text-[9px] font-bold px-2 py-0.5 rounded-full inline-block mb-1">
+                                    <span className="bg-[#C2410C] text-white text-[9px] font-bold px-2 py-0.5 rounded-full inline-block mb-1">
                                         {deal.label}
                                     </span>
                                     <div className="text-xs font-bold text-[#172033] leading-tight truncate">{deal.title}</div>
