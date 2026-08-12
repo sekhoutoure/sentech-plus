@@ -4,6 +4,7 @@ import Banner from "@/components/Banner";
 import Navbar from "@/components/Navbar";
 const Footer = dynamic(() => import("@/components/Footer"), { ssr: true });
 const SidebarDock = dynamic(() => import("@/components/SidebarDock"), { ssr: false });
+const CartDrawer = dynamic(() => import("@/components/CartDrawer"), { ssr: false });
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -19,6 +20,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <Footer />
             {/* Fixed Mobile Dock Navigation Bar */}
             <SidebarDock />
+            {/* Lazy-loaded Cart Drawer */}
+            <CartDrawer />
         </div>
     );
 }
