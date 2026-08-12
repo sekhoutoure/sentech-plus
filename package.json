@@ -44,11 +44,11 @@
     "typescript": "^5.9.3"
   },
   "browserslist": [
-    "chrome >= 109",
-    "edge >= 109",
-    "firefox >= 109",
+    "chrome >= 110",
+    "edge >= 110",
+    "firefox >= 110",
     "safari >= 16.4",
-    "not dead",
-    "not ie <= 11"
+    "supports es6-module",
+    "not dead"
   ]
 }
