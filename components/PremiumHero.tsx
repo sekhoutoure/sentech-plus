@@ -36,11 +36,11 @@ export default function PremiumHero() {
                     <div className="flex lg:hidden flex-col justify-between p-3.5 sm:p-5 relative z-10 min-h-[220px] max-h-[260px]">
                         {/* Top Row: Badge + Delivery */}
                         <div className="flex items-center justify-between gap-2">
-                            <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#EAF3FF] border border-[#1677FF]/20 text-[9px] font-extrabold text-[#1677FF]">
-                                <Sparkles size={10} className="text-[#1677FF]" />
+                            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EAF3FF] border border-[#0B54C2]/20 text-[9px] font-extrabold text-[#0B54C2]">
+                                <Sparkles size={10} className="text-[#0B54C2]" />
                                 <span>COLLECTION HIGH-TECH</span>
                             </div>
-                            <span className="text-[9px] font-bold text-[#16B979] bg-[#16B979]/10 border border-[#16B979]/20 px-2 py-0.5 rounded-full">
+                            <span className="text-[9px] font-bold text-[#0D7D53] bg-[#0D7D53]/10 border border-[#0D7D53]/20 px-2 py-0.5 rounded-full">
                                 🚚 Express Sénégal
                             </span>
                         </div>
@@ -58,7 +58,7 @@ export default function PremiumHero() {
                                 <div className="pt-1">
                                     <Link
                                         href="/shop"
-                                        className="inline-flex items-center gap-1 bg-[#1677FF] hover:bg-[#0F67E5] text-white font-extrabold text-xs py-2 px-3 rounded-xl shadow-xs active:scale-95 transition-all"
+                                        className="inline-flex items-center gap-1 bg-[#0B54C2] hover:bg-[#09449E] text-white font-extrabold text-xs py-2 px-3 rounded-xl shadow-xs active:scale-95 transition-all"
                                     >
                                         <span>Découvrir</span>
                                         <ArrowRight size={12} />
@@ -115,8 +115,8 @@ export default function PremiumHero() {
                     {/* ── DESKTOP layout Lumineux ── */}
                     <div className="hidden lg:grid grid-cols-12 gap-6 lg:gap-8 items-center flex-1 p-10 xl:p-12 relative z-10">
                         <div className="col-span-7 space-y-4">
-                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF3FF] border border-[#1677FF]/20 text-xs font-bold text-[#1677FF] shadow-2xs">
-                                <Sparkles size={13} className="text-[#1677FF]" />
+                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF3FF] border border-[#0B54C2]/20 text-xs font-bold text-[#0B54C2] shadow-2xs">
+                                <Sparkles size={13} className="text-[#0B54C2]" />
                                 <span>COLLECTION HIGH-TECH 2026</span>
                             </div>
 
@@ -131,7 +131,7 @@ export default function PremiumHero() {
                             <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
                                 <Link
                                     href="/shop"
-                                    className="inline-flex items-center gap-2.5 bg-[#1677FF] hover:bg-[#123B78] text-white font-semibold text-sm py-3 px-6 rounded-xl shadow-xs hover:scale-[1.01] active:scale-95 transition-all duration-200 cursor-pointer"
+                                    className="inline-flex items-center gap-2.5 bg-[#0B54C2] hover:bg-[#09449E] text-white font-semibold text-sm py-3 px-6 rounded-xl shadow-xs hover:scale-[1.01] active:scale-95 transition-all duration-200 cursor-pointer"
                                 >
                                     <span>Découvrir la collection</span>
                                     <ArrowRight size={15} />
@@ -244,8 +244,8 @@ export default function PremiumHero() {
                     {/* Carte 2: Bon Plan */}
                     <div className="relative bg-gradient-to-br from-[#EAF3FF] via-white to-[#F3F7FC] rounded-3xl p-7 text-[#182230] border border-[#E8EDF3] shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group overflow-hidden min-h-[200px]">
                         <div className="relative z-10 space-y-1">
-                            <span className="inline-flex items-center gap-1 bg-[#FF6B35]/10 text-[#FF6B35] text-[10px] font-black uppercase px-3 py-0.5 rounded-full border border-[#FF6B35]/20">
-                                <Flame size={9} className="text-[#FF6B35]" />
+                            <span className="inline-flex items-center gap-1 bg-[#C2410C]/10 text-[#C2410C] text-[10px] font-black uppercase px-3 py-0.5 rounded-full border border-[#C2410C]/20">
+                                <Flame size={9} className="text-[#C2410C]" />
                                 BON PLAN -20%
                             </span>
                             <h3 className="text-3xl font-black tracking-tight text-[#182230] leading-none pt-0.5">

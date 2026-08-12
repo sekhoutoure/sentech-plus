@@ -131,9 +131,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, rank }) => {
                     </div>
                 )}
 
-                {/* Badge Promotion (#F97316) */}
+                {/* Badge Promotion (#C2410C) */}
                 {discount > 0 && (
-                    <span className="absolute top-1.5 left-1.5 z-20 bg-[#F97316] text-white text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full shadow-2xs">
+                    <span className="absolute top-1.5 left-1.5 z-20 bg-[#C2410C] text-white text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full shadow-2xs">
                         -{discount}%
                     </span>
                 )}
