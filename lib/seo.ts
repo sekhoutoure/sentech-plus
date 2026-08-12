@@ -94,6 +94,7 @@ export const defaultMetadata: Metadata = {
     creator: '@SenTechPlusSN',
     images: [`${SITE_CONFIG.baseUrl}/og-image.jpg`],
   },
+  manifest: null,
   robots: {
     index: true,
     follow: true,
