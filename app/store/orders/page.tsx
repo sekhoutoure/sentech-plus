@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import Loading from "@/components/Loading"
 import { orderDummyData } from "@/assets/assets"
 import toast from "react-hot-toast"
+import Image from "next/image"
 import { useSiteSettingsStore } from "@/lib/stores"
 
 export default function StoreOrders() {
@@ -150,9 +151,11 @@ export default function StoreOrders() {
                             <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
                                 {selectedOrder.orderItems.map((item, i) => (
                                     <div key={i} className="flex items-center gap-3 border border-slate-100 bg-white p-2.5 rounded-xl">
-                                        <img
+                                        <Image
                                             src={item.product?.images?.[0]?.src || item.product?.images?.[0] || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500'}
-                                            alt={item.product?.name}
+                                            alt={item.product?.name || 'Produit'}
+                                            width={48}
+                                            height={48}
                                             className="w-12 h-12 object-contain p-1 rounded-lg border border-slate-200"
                                         />
                                         <div className="flex-1">
