@@ -39,7 +39,7 @@ export default function CreateStore() {
                     : "⏳ Votre demande de création de boutique à Dakar est en cours d'examen par notre équipe d'administration.")
             }
         } catch (e) {
-            console.error(e)
+            if (process.env.NODE_ENV !== 'production') console.error('[create-store]', e)
         } finally {
             setLoading(false)
         }

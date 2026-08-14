@@ -92,7 +92,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ totalPrice, items }) => {
                 return
             }
         } catch (err) {
-            console.error(err)
+            if (process.env.NODE_ENV !== 'production') console.error('[OrderSummary]', err)
             toast.error("Erreur réseau. Veuillez réessayer.")
             return
         }

@@ -30,8 +30,12 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files — NE JAMAIS committer les vrais fichiers .env
+# Seul .env.example (valeurs fictives) peut être suivi
 .env
+.env.local
+.env.*.local
+# .env.example → OK à committer (valeurs fictives uniquement)
 
 # vercel
 .vercel

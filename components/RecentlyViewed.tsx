@@ -17,8 +17,8 @@ export default function RecentlyViewed() {
             if (saved) {
                 setRecentProducts(JSON.parse(saved))
             }
-        } catch (e) {
-            console.error(e)
+        } catch {
+            // localStorage indisponible (navigation privée, quota dépassé) — silencieux en prod
         }
     }, [])
 
