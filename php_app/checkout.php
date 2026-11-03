@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $instructions = sanitize($_POST['instructions'] ?? '');
         $deliveryZone = sanitize($_POST['delivery_zone'] ?? 'zone_dakar');
         $deliveryMethod = sanitize($_POST['delivery_method'] ?? 'express');
-        $paymentMethod = sanitize($_POST['payment_method'] ?? 'cod');
+        $paymentMethod = sanitize($_POST['payment_method'] ?? 'wave');
         $saveAddress = isset($_POST['save_address']) && $userId;
 
         // Nettoyage et validation stricte du numéro de téléphone sénégalais
@@ -382,44 +382,61 @@ require_once __DIR__ . '/includes/navbar.php';
                             <h2 class="text-sm font-black text-[#182230] uppercase tracking-wider">Mode de Paiement</h2>
                         </div>
 
+                        <!-- Incentive Reassurance Wave / OM -->
+                        <div class="p-3.5 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl flex items-center gap-3 mb-3 text-xs">
+                            <div class="w-9 h-9 rounded-xl bg-[#1677FF] text-white flex items-center justify-center shrink-0 shadow-xs font-black text-sm">
+                                🎁
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <span class="font-black text-[#0B54C2] block">Privilège Paiement Mobile (Wave & OM)</span>
+                                <span class="text-[11px] text-[#334155]">Câble rapide 100W Offert + Traitement Prioritaire H+1 pour toute commande prépayée !</span>
+                            </div>
+                        </div>
+
                         <div class="space-y-3">
                             
-                            <!-- Mode 1 : Paiement à la Livraison -->
-                            <label class="cursor-pointer flex items-center justify-between p-4 rounded-2xl border-2 border-[#1677FF] bg-[#F8FBFF] shadow-2xs">
+                            <!-- Mode 1 (Recommandé & Prioritaire) : Wave Sénégal -->
+                            <label class="cursor-pointer flex items-center justify-between p-4 rounded-2xl border-2 border-[#1677FF] bg-[#F8FBFF] shadow-2xs hover:border-[#0F67E5] transition-all">
                                 <div class="flex items-center gap-3">
-                                    <input type="radio" name="payment_method" value="cod" checked class="accent-[#1677FF]">
+                                    <input type="radio" name="payment_method" value="wave" checked class="accent-[#1677FF] w-4 h-4">
                                     <div>
-                                        <span class="text-xs font-black text-[#182230] block">Paiement à la Livraison (Espèces ou Wave/OM)</span>
-                                        <span class="text-[11px] text-[#667085]">Payez directement au livreur après vérification de votre colis.</span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-xs font-black text-[#182230] block">Wave Sénégal (Recommandé • Zéro Frais)</span>
+                                            <span class="text-[9px] font-black uppercase tracking-wider bg-emerald-100 text-[#0D7D53] px-2 py-0.5 rounded-full">+ Câble Offert</span>
+                                        </div>
+                                        <span class="text-[11px] text-[#667085]">Paiement instantané 1-Clic 100% sécurisé. Expédition prioritaire H+1.</span>
                                     </div>
                                 </div>
-                                <div class="w-8 h-8 rounded-xl bg-emerald-50 text-[#0D7D53] flex items-center justify-center shrink-0">
+                                <span class="text-xs font-black text-[#1FA2FF] bg-blue-100/70 border border-blue-200 px-3 py-1 rounded-xl">WAVE</span>
+                            </label>
+
+                            <!-- Mode 2 : Orange Money Sénégal -->
+                            <label class="cursor-pointer flex items-center justify-between p-4 rounded-2xl border border-[#E8EDF3] hover:border-[#1677FF]/40 bg-white transition-all shadow-2xs">
+                                <div class="flex items-center gap-3">
+                                    <input type="radio" name="payment_method" value="om" class="accent-[#1677FF] w-4 h-4">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-xs font-black text-[#182230] block">Orange Money Sénégal (Prioritaire)</span>
+                                            <span class="text-[9px] font-black uppercase tracking-wider bg-orange-100 text-[#FF7900] px-2 py-0.5 rounded-full">+ Câble Offert</span>
+                                        </div>
+                                        <span class="text-[11px] text-[#667085]">Validation instantanée via code marchand OM. Expédition prioritaire.</span>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-black text-[#FF7900] bg-orange-100/70 border border-orange-200 px-3 py-1 rounded-xl">OM</span>
+                            </label>
+
+                            <!-- Mode 3 : Paiement en Espèces à la Livraison (Déclassé & Conditionné) -->
+                            <label class="cursor-pointer flex items-center justify-between p-4 rounded-2xl border border-slate-200 bg-slate-50/70 transition-all opacity-90 hover:opacity-100">
+                                <div class="flex items-center gap-3">
+                                    <input type="radio" name="payment_method" value="cod" class="accent-slate-600 w-4 h-4">
+                                    <div>
+                                        <span class="text-xs font-bold text-[#182230] block">Paiement à la Livraison (Espèces au coursier)</span>
+                                        <span class="text-[10.5px] text-[#64748B]">Délai standard 2h à 4h. Prévoir l'appoint exact. Validation téléphonique requise avant départ.</span>
+                                    </div>
+                                </div>
+                                <div class="w-8 h-8 rounded-xl bg-slate-200 text-slate-600 flex items-center justify-center shrink-0">
                                     <i data-lucide="hand-coins" class="w-4 h-4"></i>
                                 </div>
-                            </label>
-
-                            <!-- Mode 2 : Wave Sénégal -->
-                            <label class="cursor-pointer flex items-center justify-between p-4 rounded-2xl border border-[#E8EDF3] hover:border-[#1677FF]/40 bg-white transition-colors shadow-2xs">
-                                <div class="flex items-center gap-3">
-                                    <input type="radio" name="payment_method" value="wave" class="accent-[#1677FF]">
-                                    <div>
-                                        <span class="text-xs font-black text-[#182230] block">Wave Sénégal (Paiement Mobile)</span>
-                                        <span class="text-[11px] text-[#667085]">Transfert direct sans frais au numéro officiel de la boutique.</span>
-                                    </div>
-                                </div>
-                                <span class="text-xs font-black text-[#1FA2FF] bg-blue-50 px-2.5 py-1 rounded-lg">WAVE</span>
-                            </label>
-
-                            <!-- Mode 3 : Orange Money -->
-                            <label class="cursor-pointer flex items-center justify-between p-4 rounded-2xl border border-[#E8EDF3] hover:border-[#1677FF]/40 bg-white transition-colors shadow-2xs">
-                                <div class="flex items-center gap-3">
-                                    <input type="radio" name="payment_method" value="om" class="accent-[#1677FF]">
-                                    <div>
-                                        <span class="text-xs font-black text-[#182230] block">Orange Money Sénégal</span>
-                                        <span class="text-[11px] text-[#667085]">Paiement rapide via code marchand OM.</span>
-                                    </div>
-                                </div>
-                                <span class="text-xs font-black text-[#FF7900] bg-orange-50 px-2.5 py-1 rounded-lg">OM</span>
                             </label>
 
                         </div>

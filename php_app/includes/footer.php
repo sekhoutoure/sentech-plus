@@ -182,7 +182,7 @@ if ($layoutType === 'public_compact'): ?>
                     <li><a href="shop.php" class="hover:text-[#1677FF] transition-colors">Boutique High-Tech</a></li>
                     <li><a href="about.php" class="hover:text-[#1677FF] transition-colors">À Propos de Nous</a></li>
                     <li><a href="contact.php" class="hover:text-[#1677FF] transition-colors">Contact & Support</a></li>
-                    <li><a href="pricing.php" class="hover:text-[#1677FF] transition-colors">Devenir Vendeur</a></li>
+                    <li><a href="about.php#garantie" class="hover:text-[#1677FF] transition-colors">Garantie 12 Mois & RMA</a></li>
                     <li><a href="tracking.php" class="hover:text-[#1677FF] transition-colors">Suivi de Colis en Direct</a></li>
                 </ul>
             </div>
@@ -277,7 +277,7 @@ if ($layoutType === 'public_compact'): ?>
                     <li><a href="shop.php" class="hover:text-[#1677FF] block py-0.5">Boutique High-Tech</a></li>
                     <li><a href="about.php" class="hover:text-[#1677FF] block py-0.5">À Propos de Nous</a></li>
                     <li><a href="contact.php" class="hover:text-[#1677FF] block py-0.5">Contact & Support</a></li>
-                    <li><a href="pricing.php" class="hover:text-[#1677FF] block py-0.5">Devenir Vendeur</a></li>
+                    <li><a href="about.php#garantie" class="hover:text-[#1677FF] block py-0.5">Garantie 12 Mois & RMA</a></li>
                 </ul>
             </div>
 

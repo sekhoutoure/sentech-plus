@@ -144,10 +144,15 @@ require_once __DIR__ . '/includes/navbar.php';
                 </a>
             </div>
 
-            <!-- Marketplace Invitation Card -->
-            <div class="p-3 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0] text-center text-xs text-[#64748B] flex flex-wrap items-center justify-center gap-2">
-                <span>Vous vendez du High-Tech au Sénégal ?</span>
-                <a href="pricing.php" class="font-extrabold text-[#1677FF] hover:underline">Devenez vendeur certifié sur SenTechPLUS →</a>
+            <!-- Garantie 12 Mois & Authenticité Certifiée Constructeur -->
+            <div class="p-3.5 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-2xl border border-emerald-200 text-left text-xs text-[#182230] flex items-center gap-3 shadow-2xs">
+                <div class="w-9 h-9 rounded-xl bg-[#0D7D53] text-white flex items-center justify-center font-black text-sm shrink-0">
+                    🛡️
+                </div>
+                <div class="flex-1 min-w-0">
+                    <span class="font-extrabold text-[#085237] block">Garantie Échange à Neuf 12 Mois Activée</span>
+                    <span class="text-[11px] text-[#475467]">Produit 100% certifié sous scellé d'origine. En cas d'anomalie, un coursier effectue le remplacement à neuf sans discussion sous 24h via WhatsApp.</span>
+                </div>
             </div>
 
         </div>

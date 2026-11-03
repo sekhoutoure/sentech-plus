@@ -492,8 +492,8 @@ if (empty($bestSellingProducts)) {
                     <i data-lucide="truck" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h3 class="text-xs sm:text-sm font-black text-[#182230]">Livraison 24h</h3>
-                    <p class="text-[10px] text-[#64748B]">Dakar & régions</p>
+                    <h3 class="text-xs sm:text-sm font-black text-[#182230]">Livraison H+1 Dakar</h3>
+                    <p class="text-[10px] text-[#1677FF] font-bold">Chrono sous scellé</p>
                 </div>
             </div>
 
@@ -513,7 +513,7 @@ if (empty($bestSellingProducts)) {
                 </div>
                 <div>
                     <h3 class="text-xs sm:text-sm font-black text-[#182230]">100% Certifié</h3>
-                    <p class="text-[10px] text-[#64748B]">Garantie & retour</p>
+                    <p class="text-[10px] text-[#0D7D53] font-bold">Échange neuf 12 mois</p>
                 </div>
             </div>
 
