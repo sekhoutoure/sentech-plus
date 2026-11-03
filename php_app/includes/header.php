@@ -235,49 +235,149 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         --brand-text-muted:#64748B;
         --brand-border:rgba(226, 232, 240, 0.65);
         --brand-border-light:rgba(226, 232, 240, 0.4);
+        
+        /* ── Apple Design WWDC Springs & Physics ── */
         --ease-out:cubic-bezier(0.23,1,0.32,1);
         --ease-in-out:cubic-bezier(0.77,0,0.175,1);
         --ease-drawer:cubic-bezier(0.32,0.72,0,1);
         --ease-apple:cubic-bezier(0.25,1,0.5,1);
+        --ease-apple-standard:cubic-bezier(0.25,1,0.5,1);       /* Damping 1.0, Response 0.35s */
+        --ease-apple-spring:cubic-bezier(0.175,0.885,0.32,1.15); /* Momentum flick spring */
+        --ease-apple-sheet:cubic-bezier(0.32,0.72,0,1);          /* iOS Sheet / Drawer curve */
+        --ease-apple-bounce:cubic-bezier(0.34,1.56,0.64,1);      /* Badge / Pill Pop */
         --ease-smooth:cubic-bezier(0.16,1,0.3,1);
         --ease-spring:cubic-bezier(0.175,0.885,0.32,1.275);
       }
       html,body{overflow-x:hidden!important;width:100%!important;max-width:100%!important;margin:0;padding:0}
-      body{background-color:var(--brand-fog);color:var(--brand-text);font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-      h1,h2,h3,h4,h5,h6,.font-heading{font-family:'Poppins',system-ui,-apple-system,sans-serif}
+      body{
+        background-color:var(--brand-fog);
+        color:var(--brand-text);
+        font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+        letter-spacing:-0.008em;
+        line-height:1.55;
+        font-optical-sizing:auto;
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+      }
+      
+      /* ── Apple Typography: Optical Sizing, Dynamic Tracking & Leading ── */
+      h1, .text-3xl, .text-4xl, .text-5xl, .font-display {
+        font-family:'Poppins',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+        letter-spacing:-0.028em !important;
+        line-height:1.14 !important;
+        font-optical-sizing:auto;
+      }
+      h2, .text-2xl {
+        font-family:'Poppins',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+        letter-spacing:-0.02em !important;
+        line-height:1.24 !important;
+        font-optical-sizing:auto;
+      }
+      h3, .text-xl {
+        font-family:'Poppins',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+        letter-spacing:-0.015em !important;
+        line-height:1.3 !important;
+        font-optical-sizing:auto;
+      }
+      h4, h5, h6, .text-lg {
+        letter-spacing:-0.01em !important;
+        line-height:1.35 !important;
+        font-optical-sizing:auto;
+      }
+      .badge-pill, .badge, [class*="badge-"] {
+        letter-spacing:0.035em !important;
+      }
+
       img,iframe,svg,video{max-width:100%;height:auto}
       button,a,input,select,textarea{touch-action:manipulation}
       .line-clamp-1,.line-clamp-2,.line-clamp-3{display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
       .line-clamp-1{-webkit-line-clamp:1}.line-clamp-2{-webkit-line-clamp:2}.line-clamp-3{-webkit-line-clamp:3}
-      .glass-header{background:rgba(255,255,255,.92);backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%)}
-      .glass-overlay{background:rgba(15,23,42,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-      /* Emil Kowalski Press Feedback: Tactile, physical scale on press */
-      button:active:not([disabled]),a.btn-electric:active,.btn-electric:active,.btn-press:active,.card-clean:active{transform:scale(0.97)!important;transition:transform 160ms var(--ease-out)!important}
-      .prod-card:active{transform:scale(0.985)!important;transition:transform 140ms var(--ease-out)!important}
+      
+      /* ── Apple Materials & Translucency ── */
+      .glass-header{
+        background:rgba(255,255,255,.88);
+        backdrop-filter:blur(20px) saturate(190%);
+        -webkit-backdrop-filter:blur(20px) saturate(190%);
+        border-bottom:1px solid rgba(226,232,240,0.7);
+        box-shadow:0 4px 20px -2px rgba(15,23,42,0.04), 0 1px 3px rgba(15,23,42,0.02);
+      }
+      .glass-overlay{
+        background:rgba(15,23,42,.40);
+        backdrop-filter:blur(8px) saturate(130%);
+        -webkit-backdrop-filter:blur(8px) saturate(130%);
+      }
+      
+      /* ── Apple Response: Instantaneous tactile press feedback (< 100ms) ── */
+      button:active:not([disabled]),
+      a.btn:active,
+      a.btn-electric:active,
+      .btn-electric:active,
+      .btn-press:active,
+      .card-clean:active,
+      .tab-btn:active,
+      .chip:active,
+      [role="button"]:active,
+      .touch-press:active {
+        transform:scale(0.965)!important;
+        transition:transform 90ms var(--ease-apple-standard)!important;
+      }
+      .prod-card:active{
+        transform:scale(0.978)!important;
+        transition:transform 90ms var(--ease-apple-standard)!important;
+      }
+
       .badge-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:9999px;font-size:10px;font-weight:700}
       input,select,textarea{outline:0;transition:border-color .15s,box-shadow .15s}
-      input:focus,select:focus,textarea:focus{border-color:#1677FF;box-shadow:0 0 0 3px rgba(22,119,255,.12)}
+      input:focus,select:focus,textarea:focus{border-color:#1677FF;box-shadow:0 0 0 3px rgba(22,119,255,.14)}
       .skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
       @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-      @media(prefers-reduced-motion:reduce){*,::before,::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
       
-      /* Card Architecture: Soft, diffused and blended into background */
-      .card-clean{background:#FFFFFF;border:1px solid var(--brand-border);border-radius:1.25rem;box-shadow:0 2px 14px -2px rgba(15,23,42,0.035),0 1px 3px rgba(15,23,42,0.02);transition:border-color .2s var(--ease-out),box-shadow .2s var(--ease-out),transform .15s var(--ease-out);word-break:break-word}
-      .card-clean:hover{border-color:rgba(22,119,255,0.25);box-shadow:0 8px 25px -4px rgba(22,119,255,0.08);transform:translateY(-2px)}
+      /* ── Apple Card Architecture: Soft diffused layered ambient lighting ── */
+      .card-clean{
+        background:#FFFFFF;
+        border:1px solid var(--brand-border);
+        border-radius:1.25rem;
+        box-shadow:0 2px 14px -2px rgba(15,23,42,0.035),0 1px 3px rgba(15,23,42,0.02);
+        transition:border-color .2s var(--ease-apple-standard),box-shadow .2s var(--ease-apple-standard),transform .18s var(--ease-apple-standard);
+        word-break:break-word;
+      }
+      .card-clean:hover{
+        border-color:rgba(22,119,255,0.28);
+        box-shadow:0 12px 30px -4px rgba(22,119,255,0.08);
+        transform:translateY(-2px);
+      }
       .bg-soft{background-color:var(--brand-soft)}
       .border-soft{border:1px solid var(--brand-border)}
       .border-subtle{border:1px solid var(--brand-border-light)}
 
-      /* Off-Screen Layout & Style Calculation Optimizer (Drastically reduces Main-Thread work) */
+      /* Off-Screen Layout & Style Calculation Optimizer */
       .content-auto {
         content-visibility: auto;
         contain-intrinsic-size: auto 500px;
       }
       .shadow-soft{box-shadow:0 2px 14px -2px rgba(15,23,42,0.035),0 1px 3px rgba(15,23,42,0.02)}
       
-      .btn-electric{display:inline-flex;align-items:center;justify-content:center;background-color:var(--brand-blue);color:#fff;font-family:'Poppins',sans-serif;font-weight:700;border-radius:.75rem;padding:.625rem 1.25rem;min-height:44px;box-shadow:0 3px 10px rgba(22,119,255,.2);transition:background-color .2s var(--ease-out),box-shadow .2s var(--ease-out),transform .15s var(--ease-out);cursor:pointer}
-      .btn-electric:hover{background-color:var(--brand-blue-hover);box-shadow:0 5px 16px rgba(22,119,255,.3)}
-      /* ─── IHM & Ergonomie Cognitive Excellence (Lois de Fitts, Hick, Jakob & WCAG AAA) ─── */
+      .btn-electric{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        background-color:var(--brand-blue);
+        color:#fff;
+        font-family:'Poppins',sans-serif;
+        font-weight:700;
+        border-radius:.75rem;
+        padding:.625rem 1.25rem;
+        min-height:44px;
+        box-shadow:0 3px 12px rgba(22,119,255,.24), inset 0 1px 0 rgba(255,255,255,0.25);
+        transition:background-color .2s var(--ease-apple-standard),box-shadow .2s var(--ease-apple-standard),transform .12s var(--ease-apple-standard);
+        cursor:pointer;
+      }
+      .btn-electric:hover{
+        background-color:var(--brand-blue-hover);
+        box-shadow:0 6px 18px rgba(22,119,255,.32);
+      }
+
+      /* ─── IHM & Ergonomie Cognitive Excellence (Lois de Fitts, Hick & Apple HIG) ─── */
       * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
       ::selection { background-color: #1677FF; color: #FFFFFF; }
       ::-moz-selection { background-color: #1677FF; color: #FFFFFF; }
@@ -292,9 +392,6 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         touch-action: manipulation;
         -webkit-text-size-adjust: 100%;
         text-size-adjust: 100%;
-      }
-      a, button, input, select, textarea {
-        touch-action: manipulation;
       }
       @media screen and (max-width: 768px) {
         input[type="text"],
@@ -316,21 +413,86 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         border-radius: 6px;
       }
       
-      /* ─── Performance Containment: Off-Screen Layout Skipping ─────── */
       .contain-paint {
         contain: paint;
       }
 
-      /* ─── Ultra-Smooth Modal & Drawer Architecture (Emil Kowalski Physics & Sub-300ms) ─── */
-      .anim-drawer-overlay{display:none;opacity:0;visibility:hidden;transition:opacity 240ms var(--ease-out),visibility 240ms var(--ease-out);}
+      /* ─── Apple Fluid Modal & Drawer Architecture (Spring Physics & Velocity-Aware) ─── */
+      .anim-drawer-overlay{display:none;opacity:0;visibility:hidden;transition:opacity 240ms var(--ease-apple-standard),visibility 240ms var(--ease-apple-standard);}
       .anim-drawer-overlay.active{display:block;opacity:1;visibility:visible;}
-      .anim-drawer-panel{transform:translateX(100%);transition:transform 260ms var(--ease-drawer);}
+      .anim-drawer-panel{transform:translateX(100%);transition:transform 300ms var(--ease-apple-sheet);will-change:transform;}
       .anim-drawer-overlay.active .anim-drawer-panel{transform:translateX(0);}
 
-      .anim-modal-overlay{display:none;opacity:0;visibility:hidden;transition:opacity 200ms var(--ease-out),visibility 200ms var(--ease-out);}
+      .anim-modal-overlay{display:none;opacity:0;visibility:hidden;transition:opacity 220ms var(--ease-apple-standard),visibility 220ms var(--ease-apple-standard);}
       .anim-modal-overlay.active{display:flex;opacity:1;visibility:visible;}
-      .anim-modal-dialog{transform:scale(0.95) translateY(8px);opacity:0;transition:transform 220ms var(--ease-out),opacity 200ms var(--ease-out);}
+      .anim-modal-dialog{transform:scale(0.95) translateY(10px);opacity:0;transition:transform 260ms var(--ease-apple-spring),opacity 220ms var(--ease-apple-standard);will-change:transform,opacity;}
       .anim-modal-overlay.active .anim-modal-dialog{transform:scale(1) translateY(0);opacity:1;}
+
+      /* ─── Apple Drag Handle (Grabber Pill for Sheets & Drawers) ──────── */
+      .apple-drag-handle {
+        width: 38px;
+        height: 5px;
+        border-radius: 9999px;
+        background: rgba(148, 163, 184, 0.45);
+        margin: 6px auto 2px;
+        cursor: grab;
+        transition: background-color 150ms ease;
+      }
+      .apple-drag-handle:active {
+        background: rgba(100, 116, 139, 0.75);
+        cursor: grabbing;
+      }
+
+      /* ─── Apple Dynamic Capsule Floating Toast ─────────────────────── */
+      .apple-toast {
+        position: fixed;
+        bottom: 84px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10000;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 18px;
+        border-radius: 9999px;
+        background: rgba(18, 24, 38, 0.88);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        color: #FFFFFF;
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        animation: appleToastEnter 320ms var(--ease-apple-spring) forwards;
+        max-width: calc(100vw - 32px);
+        pointer-events: auto;
+      }
+      @media (min-width: 1024px) {
+        .apple-toast { bottom: 28px; }
+      }
+      .apple-toast.toast-exit {
+        animation: appleToastExit 240ms var(--ease-apple-standard) forwards;
+      }
+      @keyframes appleToastEnter {
+        0% { opacity: 0; transform: translate(-50%, 20px) scale(0.92); }
+        100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+      }
+      @keyframes appleToastExit {
+        0% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+        100% { opacity: 0; transform: translate(-50%, 14px) scale(0.94); }
+      }
+
+      /* Apple Spring Pop for Badges & Micro-Interactions */
+      .animate-badge-pop {
+        animation: appleBadgePop 340ms var(--ease-apple-bounce) !important;
+      }
+      @keyframes appleBadgePop {
+        0% { transform: scale(1); }
+        40% { transform: scale(1.35); }
+        75% { transform: scale(0.92); }
+        100% { transform: scale(1); }
+      }
 
       /* ─── Ultra-Fluid Hero Slides Crossfade ─────────────────────────── */
       .hero-slide-item{position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:scale(0.98);transition:opacity 400ms var(--ease-smooth),transform 400ms var(--ease-smooth),visibility 400ms;pointer-events:none;}
@@ -343,26 +505,63 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
 
       /* ─── Apple-Style Glassmorphism & Soft Layered Shadows ───────────────── */
       .glass-nav {
-        background: rgba(255, 255, 255, 0.98) !important;
-        border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+        background: rgba(255, 255, 255, 0.94) !important;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.7) !important;
       }
       @media (min-width: 1024px) {
         .glass-nav {
-          background: rgba(255, 255, 255, 0.88) !important;
-          backdrop-filter: blur(16px) saturate(180%) !important;
-          -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+          background: rgba(255, 255, 255, 0.84) !important;
+          backdrop-filter: blur(20px) saturate(190%) !important;
+          -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.6) !important;
+          box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02) !important;
         }
       }
       .glass-drawer {
         background: rgba(255, 255, 255, 0.94) !important;
-        backdrop-filter: blur(20px) saturate(190%) !important;
-        -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+        backdrop-filter: blur(24px) saturate(200%) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
+        border-left: 1px solid rgba(255, 255, 255, 0.8) !important;
+        box-shadow: -10px 0 35px -5px rgba(15, 23, 42, 0.12), inset 1px 0 0 rgba(255, 255, 255, 0.6) !important;
       }
       .shadow-apple-soft {
         box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02) !important;
       }
       .shadow-apple-hover {
         box-shadow: 0 12px 32px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.03) !important;
+      }
+
+      /* ─── Apple Reduced Motion & Transparency Accessibility (§14) ──────── */
+      @media (prefers-reduced-motion: reduce) {
+        *, ::before, ::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+        .anim-drawer-panel, .anim-modal-dialog, .apple-toast {
+          transform: none !important;
+          animation: none !important;
+          transition: opacity 180ms ease !important;
+        }
+      }
+      @media (prefers-reduced-transparency: reduce) {
+        .glass-nav, .glass-header, .glass-drawer, .apple-glass, .apple-pill-bar, .apple-toast {
+          background: #FFFFFF !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+        }
+        .glass-overlay {
+          background: rgba(15, 23, 42, 0.85) !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+        }
+      }
+      @media (prefers-contrast: more) {
+        .prod-card, .card-clean, input, select, textarea, .glass-nav {
+          border-color: #0F172A !important;
+          border-width: 1.5px !important;
+        }
       }
 
       /* ─── Floating Action Stack (Strict Bottom-Right Pinning) ───────── */

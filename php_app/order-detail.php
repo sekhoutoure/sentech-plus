@@ -43,7 +43,7 @@ require_once __DIR__ . '/includes/navbar.php';
 
         <!-- Navigation Retour -->
         <div class="flex items-center justify-between">
-            <a href="account.php?tab=orders" class="cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold text-[#1677FF] hover:text-[#0B54C2]">
+            <a href="orders.php" class="cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold text-[#1677FF] hover:text-[#0B54C2]">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i>
                 <span>Retour à mes commandes</span>
             </a>
@@ -120,7 +120,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 
                 <div class="p-4 bg-[#F8FBFF] rounded-2xl border border-[#E8EDF3] space-y-1">
                     <span class="text-[10px] font-black text-[#1677FF] uppercase tracking-wider block">Lieu de Livraison</span>
-                    <p class="font-bold text-[#182230]"><?= htmlspecialchars($order['customer_first_name'] . ' ' . $order['customer_last_name']) ?></p>
+                    <p class="font-bold text-[#182230]"><?= htmlspecialchars(trim(($order['customer_first_name'] ?? '') . ' ' . ($order['customer_last_name'] ?? '')) ?: 'Client Dakar') ?></p>
                     <p class="text-[#475467]"><?= htmlspecialchars($order['delivery_address']) ?></p>
                     <p class="text-[#475467]"><?= htmlspecialchars($order['delivery_city'] ?? 'Dakar') ?> • Sénégal</p>
                     <p class="font-bold text-[#182230] pt-1">📞 <?= htmlspecialchars($order['customer_phone']) ?></p>

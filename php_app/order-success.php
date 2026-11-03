@@ -258,7 +258,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 <a href="shop.php" class="cursor-pointer text-xs font-bold text-[#1677FF] hover:underline">
                     ← Retourner à la boutique
                 </a>
-                <a href="account.php?tab=orders" class="cursor-pointer inline-flex items-center gap-1.5 bg-[#182230] hover:bg-black text-white font-bold text-xs px-5 py-3 rounded-xl shadow-2xs transition-all">
+                <a href="orders.php" class="cursor-pointer inline-flex items-center gap-1.5 bg-[#182230] hover:bg-black text-white font-bold text-xs px-5 py-3 rounded-xl shadow-2xs transition-all">
                     <i data-lucide="package" class="w-4 h-4"></i>
                     <span>Voir toutes mes commandes</span>
                 </a>
