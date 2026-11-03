@@ -1753,6 +1753,17 @@ function calculateCartTotals(string $zoneId = 'zone_dakar', string $method = 'ex
     $zoneRates = $deliveryFees[$zoneId] ?? $deliveryFees['zone_dakar'];
     $deliveryFee = (float)($zoneRates[$method] ?? $zoneRates['standard']);
 
+    // Règle Commerciale Officielle : Livraison gratuite dès 50 000 FCFA à Dakar
+    $isFreeShippingQualified = ($subtotal >= 50000);
+    if ($isFreeShippingQualified && $zoneId === 'zone_dakar') {
+        if ($method === 'standard') {
+            $deliveryFee = 0.0;
+        } elseif ($method === 'express') {
+            // Remise de 2000 FCFA sur la livraison express
+            $deliveryFee = max(0.0, $deliveryFee - 2000.0);
+        }
+    }
+
     $total = max(0, $subtotal - $discountTotal + $deliveryFee);
 
     return [

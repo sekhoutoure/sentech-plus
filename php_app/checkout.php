@@ -23,7 +23,16 @@ if ($userId && $pdo) {
     } catch (Throwable $e) {}
 }
 
-$defaultAddress = $savedAddresses[0] ?? null;
+$defaultAddress = null;
+foreach ($savedAddresses as $addr) {
+    if (!empty($addr['is_default'])) {
+        $defaultAddress = $addr;
+        break;
+    }
+}
+if (!$defaultAddress && !empty($savedAddresses)) {
+    $defaultAddress = $savedAddresses[0];
+}
 
 // Traitement de la commande en POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -45,8 +54,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $paymentMethod = sanitize($_POST['payment_method'] ?? 'cod');
         $saveAddress = isset($_POST['save_address']) && $userId;
 
+        // Nettoyage et validation stricte du numéro de téléphone sénégalais
+        $cleanPhone = preg_replace('/[^0-9]/', '', $phone);
+        if (str_starts_with($cleanPhone, '221') && strlen($cleanPhone) === 12) {
+            $cleanPhone = substr($cleanPhone, 3);
+        } elseif (str_starts_with($cleanPhone, '00221') && strlen($cleanPhone) === 14) {
+            $cleanPhone = substr($cleanPhone, 5);
+        }
+        $isSenegalPhoneValid = (strlen($cleanPhone) === 9 && in_array(substr($cleanPhone, 0, 2), ['70', '75', '76', '77', '78', '33']));
+
         if (empty($firstName) || empty($phone) || empty($address)) {
             $message = "Veuillez renseigner votre prénom, numéro de téléphone et adresse complète.";
+        } elseif (!$isSenegalPhoneValid) {
+            $message = "Veuillez saisir un numéro de téléphone sénégalais valide (9 chiffres commençant par 77, 78, 76, 75, 70 ou 33).";
         } else {
             // Recalcul strict des totaux côté serveur
             $orderTotals = calculateCartTotals($deliveryZone, $deliveryMethod);
@@ -257,7 +277,7 @@ require_once __DIR__ . '/includes/navbar.php';
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                             <div>
                                 <label for="c-phone" class="block font-bold text-[#182230] mb-1">Téléphone pour la livraison *</label>
-                                <input type="tel" name="phone" id="c-phone" value="<?= htmlspecialchars($defaultAddress['phone'] ?? ($user['phone'] ?? '+221 ')) ?>" required placeholder="+221 78 131 64 97" class="w-full px-4 py-3 rounded-xl border border-[#E8EDF3] focus:border-[#1677FF] outline-none font-bold">
+                                <input type="tel" name="phone" id="c-phone" value="<?= htmlspecialchars($defaultAddress['phone'] ?? ($user['phone'] ?? '')) ?>" required pattern="^((\\+221|00221)[\\s-]?)?(70|75|76|77|78|33)[0-9\\s-]{7,11}$" placeholder="78 131 64 97" class="w-full px-4 py-3 rounded-xl border border-[#E8EDF3] focus:border-[#1677FF] outline-none font-bold">
                                 <span class="text-[10px] text-[#667085] mt-1 block">Le livreur vous appellera avant d'arriver.</span>
                             </div>
                             <div>

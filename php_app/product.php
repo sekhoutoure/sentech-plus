@@ -614,10 +614,10 @@ require_once __DIR__ . '/includes/navbar.php';
                     </button>
                 </div>
 
-                <!-- Desktop WhatsApp Direct Express Ordering (1-Clic) -->
-                <a id="desktop-whatsapp-order-btn" href="<?= getWhatsAppProductLink($product, !empty($variants) ? $variants[0]['name'] : null) ?>" target="_blank" rel="noopener" class="w-full py-3 px-4 font-extrabold text-xs rounded-xl bg-[#0A7C42] hover:bg-[#075E54] text-white flex items-center justify-center gap-2 shadow-xs transition-all active:scale-98">
+                <!-- Desktop WhatsApp Direct Express Ordering (1-Clic — Emil Kowalski Tactile Button) -->
+                <a id="desktop-whatsapp-order-btn" href="<?= getWhatsAppProductLink($product, !empty($variants) ? $variants[0]['name'] : null) ?>" target="_blank" rel="noopener" class="w-full py-3.5 px-4 font-extrabold text-xs rounded-xl bg-[#25D366] hover:bg-[#128C7E] text-white flex items-center justify-center gap-2 shadow-md transition-all duration-160 cursor-pointer active:scale-[0.97]">
                     <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.075-1.704-.374-1.258-.528-2.079-1.808-2.142-1.892-.063-.084-.509-.678-.509-1.293s.322-.919.436-1.042c.114-.123.249-.155.334-.155.084 0 .168.002.241.006.077.004.181-.029.283.217.104.252.356.87.387.933.031.063.052.138.01.222-.042.084-.063.137-.126.21-.063.074-.132.164-.188.22-.063.063-.129.131-.056.257.073.126.326.539.7 0.871.482.428.887.561 1.013.624.126.063.2.052.273-.031.074-.084.316-.368.4-.494.084-.126.168-.105.283-.063.116.042.736.347.862.41.126.063.21.095.241.147.032.053.032.306-.112.711z"/></svg>
-                    <span>Commander en 1 Clic sur WhatsApp (Livraison Dakar)</span>
+                    <span class="tracking-wide">Commander en 1 Clic sur WhatsApp (Livraison Dakar)</span>
                 </a>
 
                 <!-- 3-Pill Micro-Reassurance (UVP Dakar) -->
