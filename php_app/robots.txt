@@ -1,0 +1,55 @@
+User-agent: *
+Allow: /
+Allow: /faq.php
+Allow: /case-studies.php
+Allow: /about.php
+Allow: /privacy.php
+Disallow: /admin/
+Disallow: /seller/
+Disallow: /config/
+Disallow: /storage/
+Disallow: /database/
+Disallow: /api-payment-webhook.php
+Disallow: /logout.php
+Disallow: /thank-you.php
+Disallow: /order-success.php
+Disallow: /ipn.php
+
+# Google Search & Google Gemini (AI Overviews)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# OpenAI ChatGPT & Search
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Perplexity AI Answer Engine
+User-agent: PerplexityBot
+Allow: /
+
+# Anthropic Claude
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Microsoft Bing & Copilot
+User-agent: Bingbot
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://www.sentechplus.com/sitemap.xml
+

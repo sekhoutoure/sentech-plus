@@ -1,0 +1,9 @@
+# Desactivation totale d execution de scripts dans les uploads
+Options -ExecCGI -Indexes
+RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .phps .inc .cgi .pl .py
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phps|inc|pl|py|cgi|sh|bat|exe|dll)$">
+    Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>

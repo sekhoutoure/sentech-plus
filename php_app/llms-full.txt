@@ -1,0 +1,42 @@
+# SenTechPLUS Dakar — Documentation Complète & Index Exhaustif
+
+> SenTechPLUS est la marketplace et boutique en ligne e-commerce de référence à Dakar (Sénégal), spécialisée dans la distribution de matériel High-Tech et d'accessoires certifiés d'origine constructeur.
+
+## Identité & Positionnement
+
+- **Nom de la plateforme** : SenTechPLUS Dakar
+- **Secteur d'activité** : E-commerce, Marketplace Électronique & Accessoires High-Tech
+- **Siège & Showroom** : Avenue Léopold Sédar Senghor, Plateau, Dakar, Sénégal
+- **Zone de desserte** : Dakar (Livraison express en 2h chrono) et toutes les régions du Sénégal (Thiès, Saint-Louis, Mbour, Ziguinchor, Touba sous 24 à 48h)
+- **Moyens de paiement acceptés** : Wave, Orange Money, Carte Bancaire, Paiement en espèces à la livraison
+- **Garantie** : Produits 100% originaux, garantie constructeur de 3 à 12 mois, retour sous 7 jours
+
+## Rayons & Spécifications Produits
+
+### 1. Audio Haute Définition
+- **Casques Sans Fil ANC** : Réduction active de bruit jusqu'à -40dB, drivers 40mm, autonomie 50h, codecs AAC/LDAC (Sony, JBL, Bose, Anker Soundcore).
+- **Écouteurs TWS** : Bluetooth 5.3, faible latence mode jeu 45ms, résistance à l'eau IPX5, boîtier de charge rapide Type-C / induction Qi.
+- **Enceintes Nomades** : Puissance 20W à 100W, son immersif 360°, étanchéité IP67 pour plage et piscine.
+
+### 2. Montres & Objets Connectés
+- **Smartwatches Sport & Santé** : Écran AMOLED HD Always-On, capteurs SpO2, fréquence cardiaque en continu, GPS intégré multi-systèmes, étanchéité 5 ATM.
+- **Bracelets d'Activité** : Autonomie jusqu'à 14 jours, suivi du sommeil, plus de 100 modes d'entraînement.
+
+### 3. Téléphones & Accessoires
+- **Chargeurs GaN (Nitrure de Gallium)** : Blocs compacts multi-ports 65W, 100W et 140W Power Delivery 3.0 & PPS pour smartphones, tablettes et PC portables (Apple, Samsung, Xiaomi, HP, Dell).
+- **Câbles Renforcés** : Câbles tressés en nylon balistique, connecteurs blindés, support charge rapide jusqu'à 240W et transfert de données haute vitesse.
+- **Supports & Écosystème MagSafe** : Chargeurs magnétiques sans fil 15W, supports pour voiture et anneaux de maintien.
+
+### 4. Gaming & Setup Immersif
+- **Audio Gaming** : Casques filaires et 2.4GHz sans fil avec spatialisation surround 7.1, microphone anti-bruit détachable.
+- **Périphériques de Précision** : Claviers mécaniques switchs rouges/bleus, souris optiques jusqu'à 16000 DPI avec éclairage RGB personnalisable.
+
+## Pages & Liens Clés
+
+- [Accueil](https://www.sentechplus.com/): Vitrine principale, affiches promotionnelles, catégories tactiles et meilleures ventes.
+- [Boutique](https://www.sentechplus.com/shop.php): Moteur de recherche et filtres multicritères (prix, catégories, disponibilité).
+- [À Propos](https://www.sentechplus.com/about.php): Engagements, valeurs et équipe SenTechPLUS.
+- [Contact](https://www.sentechplus.com/contact.php): Support client direct, WhatsApp et plan d'accès.
+- [Suivi de Commande](https://www.sentechplus.com/tracking.php): Vérification du statut de préparation et de livraison en direct.
+- [Devenir Vendeur](https://www.sentechplus.com/pricing.php): Formules d'adhésion pour les marchands et boutiques partenaires.
+- [Mentions Légales & Confidentialité](https://www.sentechplus.com/privacy.php): Conditions générales de vente et protection des données personnelles.

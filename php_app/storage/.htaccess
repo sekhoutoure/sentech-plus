@@ -1,0 +1,2 @@
+# Bloquer tout accès direct HTTP au dossier storage
+Require all denied

@@ -1,123 +1,115 @@
-# SenTechPLUS — Boutique High-Tech & Accessoires Smartphone Sénégal
+# 🇸🇳 SenTechPLUS — Plateforme E-Commerce & Marketplace SaaS High-Tech
 
-Plateforme e-commerce multi-vendeurs dédiée aux accessoires High-Tech au Sénégal (Dakar).
+**SenTechPLUS** est une plateforme e-commerce et marketplace SaaS moderne, ultra-rapide et sécurisée, spécialement conçue pour le marché sénégalais et ouest-africain (Dakar).
 
 ---
 
-## Stack Technique
+## ⚡ Stack Technique & Performance
 
 | Couche | Technologie |
-|--------|-------------|
-| Framework | Next.js 15 (App Router) |
-| Langage | TypeScript 5 |
-| Auth | NextAuth.js v5 (Auth.js) |
-| Base de données | PostgreSQL via Supabase |
-| ORM | Prisma 6 |
-| Cache / Rate-limiting | Upstash Redis |
-| State management | Zustand |
-| Styles | Tailwind CSS 4 |
-| Déploiement | Vercel |
+| :--- | :--- |
+| **Backend** | PHP 8.1+ natif (PDO MySQL, Sessions sécurisées, RBAC, CSRF, Bcrypt) |
+| **Frontend** | HTML5 Sémantique + Vanilla JS (100% sans framework, 9 KB minifié) |
+| **Styling** | Tailwind CSS CDN + Google Fonts **Inter** |
+| **Base de données** | MySQL 8.0 / MariaDB (13 tables relationnelles, intégrité FK) |
+| **Formats Médias** | WebP haute compression (2.66 MB pour toute l'application) |
+| **Paiements** | **Wave**, **Orange Money**, **Paiement à la livraison**, **Commande 1-Clic WhatsApp** |
+| **Serveur / Cache** | Apache (.htaccess GZIP + Browser Caching) / PHP CLI Router |
 
 ---
 
-## Setup local
+## 🚀 Démarrage Rapide en Local
 
 ### Prérequis
+- **PHP 8.0+** installé (ex: XAMPP, Laragon, WAMP ou PHP CLI)
+- **MySQL / MariaDB** (optionnel grâce au mode démo in-memory résilient)
 
-- Node.js ≥ 20
-- npm ≥ 10
-- Compte Supabase (PostgreSQL)
-- Compte Upstash (Redis)
-
-### Installation
-
-```bash
-# 1. Cloner le dépôt
-git clone https://github.com/sekhoutoure/sentech-plus.git
-cd sentech-plus
-
-# 2. Installer les dépendances
-npm install
-
-# 3. Configurer les variables d'environnement
-cp .env.example .env.local
-# Ouvrir .env.local et remplir toutes les valeurs
-
-# 4. Générer le client Prisma & migrer la base de données
-npx prisma generate
-npx prisma db push
-
-# 5. Lancer le serveur de développement
-npm run dev
+### Lancer le serveur local :
+```powershell
+cd sentech-plus/php_app
+php -S localhost:8000 router.php
 ```
-
-Ouvrir [http://localhost:3000](http://localhost:3000).
-
----
-
-## Variables d'environnement
-
-Copier `.env.example` vers `.env.local` et renseigner :
-
-| Variable | Description |
-|----------|-------------|
-| `NEXT_PUBLIC_CURRENCY_SYMBOL` | Devise affichée (ex: ` FCFA`) |
-| `ADMIN_SECRET_KEY` | Clé pour les routes admin (`openssl rand -hex 32`) |
-| `NEXTAUTH_SECRET` | Secret JWT NextAuth (`openssl rand -base64 32`) |
-| `NEXTAUTH_URL` | URL de base (ex: `http://localhost:3000`) |
-| `DATABASE_URL` | URL poolée Supabase (pgBouncer) |
-| `DIRECT_URL` | URL directe Supabase (pour migrations) |
-| `UPSTASH_REDIS_REST_URL` | URL REST Upstash Redis |
-| `UPSTASH_REDIS_REST_TOKEN` | Token REST Upstash Redis |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | (Optionnel) ID Google Analytics GA4 |
-
-> ⚠️ Ne jamais committer `.env.local` dans git. Il est dans `.gitignore`.
+👉 Ouvrez votre navigateur sur **[http://localhost:8000](http://localhost:8000)**.
 
 ---
 
-## Scripts
-
-| Commande | Description |
-|----------|-------------|
-| `npm run dev` | Serveur de développement (http://localhost:3000) |
-| `npm run build` | Build de production (inclut `prisma generate`) |
-| `npm run start` | Démarrer le serveur de production |
-| `npm run lint` | Vérification ESLint |
-
----
-
-## Architecture
+## 📂 Structure du Projet
 
 ```
 sentech-plus/
-├── app/                    # Routes Next.js App Router
-│   ├── (auth)/             # Pages d'authentification
-│   ├── (public)/           # Pages publiques (home, shop, product…)
-│   ├── admin/              # Tableau de bord admin
-│   └── api/                # Routes API (auth, produits, commandes…)
-├── components/             # Composants React réutilisables
-├── lib/
-│   ├── stores/             # Stores Zustand (state global)
-│   ├── db.ts               # Repositories Prisma
-│   └── prisma.ts           # Client Prisma singleton
-├── prisma/
-│   └── schema.prisma       # Schéma de base de données
-└── .github/workflows/      # CI GitHub Actions
+└── php_app/                       # 🚀 Application E-Commerce complète
+    ├── admin/                     # 👑 Module d'administration (8 pages)
+    │   ├── index.php              # Tableau de bord global KPI
+    │   ├── products.php           # Gestion du catalogue et stocks
+    │   ├── orders.php             # Pipeline de statut des commandes
+    │   ├── stores.php             # Modération des boutiques vendeurs
+    │   ├── categories.php         # Gestion des catégories
+    │   ├── coupons.php            # Gestion des codes promo
+    │   ├── delivery-slip.php      # Bordereaux de livraison A4 imprimables
+    │   └── export-orders.php      # Export CSV comptable compatible Excel
+    │
+    ├── seller/                    # 💼 Portail Vendeur SaaS dédié
+    │   ├── index.php              # Dashboard vendeur & gains boutique
+    │   ├── products.php           # Gestionnaire de produits du vendeur
+    │   └── orders.php             # Suivi des commandes reçues
+    │
+    ├── assets/                    # 🎨 Assets optimisés
+    │   ├── images/                # Images produits WebP ultra-légères
+    │   └── js/                    # app.js & app.min.js (Vanilla JS)
+    │
+    ├── config/                    # ⚙️ Configuration & Sessions
+    │   └── config.php             # Connexion PDO, helpers, CSRF, paniers
+    │
+    ├── database/                  # 💾 Base de données
+    │   └── schema.sql             # Schéma SQL 13 tables + données de démo
+    │
+    ├── includes/                  # 🧩 Composants partagés
+    │   ├── header.php             # En-tête, SEO OpenGraph, polices Inter
+    │   ├── navbar.php             # Navigation desktop, mobile drawer
+    │   ├── footer.php             # Footer, barre 5 onglets, actions flottantes
+    │   ├── cart_drawer.php        # Tiroir panier latéral slide-over
+    │   └── quick_view_modal.php   # Modale d'aperçu rapide produit
+    │
+    ├── index.php                  # 🏠 Page d'accueil & Hero Carousel
+    ├── shop.php                   # 🛍️ Catalogue, filtres de prix & pagination
+    ├── product.php                # 🎧 Fiche produit interactive & avis
+    ├── cart.php                   # 🛒 Panier & coupons de réduction
+    ├── checkout.php               # 💳 Caisse Wave / Orange Money / COD
+    ├── order-success.php          # 🧾 Reçu de commande numérique
+    ├── store.php                  # 🏪 Page vitrine publique d'un vendeur
+    ├── pricing.php                # 💼 Formules d'abonnement SaaS Vendeur
+    ├── create-store.php           # 📝 Inscription & onboarding boutique
+    ├── wishlist.php               # ❤️ Favoris
+    ├── orders.php                 # 📦 Historique des commandes client
+    ├── login.php / register.php   # 🔐 Authentification sécurisée Bcrypt
+    ├── contact.php / about.php    # 📞 Support client & présentation
+    ├── api-payment-webhook.php    # ⚡ Webhook Mobile Money instantané
+    ├── sitemap.php / sitemap.xml  # 🗺️ Sitemap XML SEO dynamique
+    ├── robots.txt                 # 🤖 Directives moteurs de recherche
+    └── .htaccess                  # 🛡️ Sécurité & compression GZIP
 ```
 
 ---
 
-## CI / Déploiement
+## 🔑 Comptes & Accès de Démonstration
 
-Un workflow GitHub Actions (`ci.yml`) s'exécute sur chaque push vers `main` :
-1. Install des dépendances (`npm ci`)
-2. Lint ESLint (`npm run lint`)
-3. Build de production (`npm run build`)
-
-Les secrets de production doivent être ajoutés dans **Settings → Secrets and variables → Actions** du repository GitHub.
+| Rôle | Email | Mot de passe | Accès |
+| :--- | :--- | :--- | :--- |
+| **Administrateur** | `admin@sentechplus.sn` | `admin123` | `/admin/index.php` |
+| **Vendeur Partenaire** | `vendeur@sentechplus.sn` | `vendeur123` | `/seller/index.php` |
+| **Client** | `client@sentechplus.sn` | `client123` | `/orders.php` |
 
 ---
 
-## Licence
+## 🌐 Déploiement en Production (Hostinger / cPanel / Apache)
 
-Propriétaire — © 2026 SenTechPLUS. Tous droits réservés.
+1. **Uploadez** tout le contenu du dossier `php_app/` directement dans le dossier `public_html/` de votre hébergement via FTP ou le Gestionnaire de Fichiers.
+2. **Créez une base MySQL** dans votre panneau d'hébergement et importez le fichier `database/schema.sql`.
+3. **Mettez à jour** les identifiants de connexion MySQL dans `config/config.php` :
+   ```php
+   define('DB_HOST', 'localhost');
+   define('DB_NAME', 'nom_de_votre_base');
+   define('DB_USER', 'utilisateur_mysql');
+   define('DB_PASS', 'mot_de_passe_mysql');
+   ```
+4. Votre boutique est immédiatement en ligne et prête pour vos clients ! 🚀

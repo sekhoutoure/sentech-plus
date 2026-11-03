@@ -1,0 +1,24 @@
+# SenTechPLUS Dakar
+
+> Boutique officielle et marketplace d'accessoires High-Tech certifiés au Sénégal (Dakar). Vente de casques audio haute définition, écouteurs sans fil, montres connectées, chargeurs GaN, accessoires smartphone, setup gaming et domotique. Livraison express en 2h à Dakar, paiement sécurisé via Wave, Orange Money et Cash à la livraison.
+
+## Rayons & Catalogue
+
+- [Boutique Complète](https://www.sentechplus.com/shop.php): Catalogue complet des produits et accessoires électroniques certifiés en stock à Dakar.
+- [Audio & Écouteurs](https://www.sentechplus.com/shop.php?category=audio-ecouteurs): Casques avec réduction active de bruit (ANC), écouteurs TWS True Wireless et enceintes nomades Bluetooth.
+- [Montres & Objets Connectés](https://www.sentechplus.com/shop.php?category=montres-objets-connectes): Montres connectées sport et santé, autonomie longue durée et bracelets intelligents.
+- [Téléphones & Accessoires](https://www.sentechplus.com/shop.php?category=telephones-accessoires): Chargeurs ultra-rapides GaN 65W/100W, câbles tressés renforcés, supports MagSafe et coques de protection.
+- [Gaming & Setup](https://www.sentechplus.com/shop.php?category=gaming): Casques gaming surround 7.1, claviers mécaniques RGB, souris haute précision et accessoires setup.
+- [Ventes Flash & Bons Plans](https://www.sentechplus.com/shop.php?collection=flash): Promotions exclusives avec remises immédiates jusqu'à -35% sur les grandes marques.
+
+## Services & Informations Pratiques
+
+- [À Propos de SenTechPLUS](https://www.sentechplus.com/about.php): Historique, mission, authenticité garantie 100% constructeur et engagement satisfaction client.
+- [Contact & Assistance](https://www.sentechplus.com/contact.php): Support client réactif via WhatsApp 7j/7, coordonnées du showroom à Dakar Plateau et formulaire d'assistance.
+- [Suivi de Livraison](https://www.sentechplus.com/tracking.php): Outil de suivi des commandes en temps réel pour Dakar (2h) et les régions du Sénégal (24-48h).
+- [Espace Vendeurs & Marketplace](https://www.sentechplus.com/pricing.php): Conditions et avantages pour lancer sa boutique sur la première marketplace tech du Sénégal.
+- [Politique de Confidentialité & Retours](https://www.sentechplus.com/privacy.php): Engagements sur la confidentialité, sécurité des transactions et garantie satisfait ou remboursé sous 7 jours.
+
+## Optional
+
+- [Documentation Complète LLM](https://www.sentechplus.com/llms-full.txt): Fiche exhaustive avec l'ensemble des détails techniques, caractéristiques produits et politiques commerciales.

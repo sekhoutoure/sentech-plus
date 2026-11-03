@@ -1,0 +1,40 @@
+{
+  "name": "SenTechPLUS — High-Tech Dakar",
+  "short_name": "SenTechPLUS",
+  "description": "Boutique e-commerce d'équipements High-Tech certifiés au Sénégal avec livraison express Dakar 2h.",
+  "start_url": "./index.php?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F4F7FB",
+  "theme_color": "#1677FF",
+  "lang": "fr",
+  "dir": "ltr",
+  "categories": ["shopping", "business"],
+  "icons": [
+    {
+      "src": "assets/images/sentech_icon.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/sentech_icon.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/images/sentech_icon.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/sentech_icon.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "maskable"
+    }
+  ]
+}

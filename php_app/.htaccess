@@ -1,0 +1,91 @@
+Options -Indexes
+ServerSignature Off
+
+# Pages d'erreur personnalisées
+ErrorDocument 404 /404.php
+ErrorDocument 403 /403.php
+ErrorDocument 500 /500.php
+
+# Bloquer accès aux fichiers sensibles (exemption expresse pour manifest.json)
+<FilesMatch "\.(env|env\..*|sql|md|log|git|sh|bat)$">
+    Require all denied
+</FilesMatch>
+<FilesMatch "(composer|package|tsconfig|skills-lock)\.json$">
+    Require all denied
+</FilesMatch>
+<Files "manifest.json">
+    Require all granted
+</Files>
+
+
+# Bloquer accès aux dossiers système et de stockage
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(config|storage|database|scripts)/ - [F,L]
+    
+    # 1. Redirection 301 canonique vers https://www.sentechplus.com (choisi par Google)
+    RewriteCond %{HTTP_HOST} ^sentechplus\.com$ [NC]
+    RewriteRule ^(.*)$ https://www.sentechplus.com/$1 [L,R=301]
+
+    # 2. Redirection HTTPS automatique en production (si non actif)
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP_HOST} !^localhost(:\d+)?$
+    RewriteCond %{HTTP_HOST} !^127\.0\.0\.1(:\d+)?$
+    RewriteCond %{HTTP_HOST} !^192\.168\.\d+\.\d+(:\d+)?$
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Serve sitemap.xml dynamically via sitemap.php
+    RewriteRule ^sitemap\.xml$ sitemap.php [L,QSA]
+
+    # Serve google-merchant-feed.php dynamically via feed.xml
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(feed|google-shopping)\.xml$ google-merchant-feed.php [L,QSA]
+</IfModule>
+
+# Headers de sécurité et Cache-Control pour les ressources statiques
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=*"
+    Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://app.paydunya.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://fonts.googleapis.com https://fonts.gstatic.com; frame-ancestors 'self'; form-action 'self' https://app.paydunya.com; base-uri 'self';"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" env=HTTPS
+
+
+    # 1-Year Long Cache Lifetime for Static Assets (Images, JS, CSS, Fonts)
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|webp|svg|js|css|woff|woff2|ttf|eot)$">
+        Header set Cache-Control "max-age=31536000, public, no-transform, immutable"
+    </FilesMatch>
+
+    # Never cache Service Worker file (Must always be revalidated by browsers)
+    <Files "sw.js">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </Files>
+</IfModule>
+
+# Compression GZIP / Brotli (Lighthouse Text Compression)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml text/javascript application/javascript application/x-javascript application/json application/xml image/svg+xml font/woff2
+</IfModule>
+
+# Cache navigateur (Expires Header 1 an pour Hostinger Apache)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# Default UTF-8 Charset for all text responses
+AddDefaultCharset utf-8

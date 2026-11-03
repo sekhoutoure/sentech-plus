@@ -1,0 +1,22 @@
+# Fichiers d'environnement & secrets
+.env
+.env.local
+.env.*.local
+
+# Logs & fichiers temporaires
+storage/logs/*.log
+storage/backups/*.sql
+storage/backups/*.sql.gz
+storage/sessions/*
+storage/cache/*
+storage/security_cache/*
+*.log
+scratch/
+
+# Dépendances et caches
+vendor/
+node_modules/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
