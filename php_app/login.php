@@ -120,6 +120,13 @@ require_once __DIR__ . '/includes/navbar.php';
             <p class="text-xs text-[#667085]">Accédez à vos commandes et avantages SenTechPLUS.</p>
         </div>
 
+        <?php if (isset($_GET['logged_out'])): ?>
+            <div class="p-3.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                <span>Vous avez été déconnecté avec succès. À bientôt sur SenTechPLUS !</span>
+            </div>
+        <?php endif; ?>
+
         <?php if ($error): ?>
             <div class="p-3.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
                 <?= htmlspecialchars($error) ?>
@@ -162,7 +169,7 @@ require_once __DIR__ . '/includes/navbar.php';
 
         <div class="pt-4 border-t border-[#E8EDF3] text-center text-xs text-[#667085]">
             Vous n'avez pas encore de compte ? 
-            <a href="register.php" class="cursor-pointer font-bold text-[#1677FF] hover:text-[#0B54C2] transition-colors duration-200 hover:underline">Créer un compte</a>
+            <a href="register.php<?= (!empty($redirect) && $redirect !== 'account.php') ? '?redirect=' . urlencode($redirect) : '' ?>" class="cursor-pointer font-bold text-[#1677FF] hover:text-[#0B54C2] transition-colors duration-200 hover:underline">Créer un compte</a>
         </div>
     </div>
 

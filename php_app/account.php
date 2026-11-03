@@ -65,8 +65,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $message = "Le nouveau mot de passe et sa confirmation ne correspondent pas.";
                 $messageType = 'error';
                 $activeTab = 'security';
-            } elseif (strlen($newPassword) < 6) {
-                $message = "Le nouveau mot de passe doit comporter au moins 6 caractères.";
+            } elseif (strlen($newPassword) < 8) {
+                $message = "Pour votre sécurité, le nouveau mot de passe doit comporter au moins 8 caractères.";
+                $messageType = 'error';
+                $activeTab = 'security';
+            } elseif (!preg_match('/[A-Za-z]/', $newPassword) || !preg_match('/[0-9]/', $newPassword)) {
+                $message = "Le mot de passe doit comporter au moins une lettre et un chiffre.";
+                $messageType = 'error';
+                $activeTab = 'security';
+            } elseif (in_array(strtolower($newPassword), ['12345678', 'password', 'azerty123', 'sentech123', 'passer123', 'motdepasse', 'qwerty123'])) {
+                $message = "Ce mot de passe est trop facile à deviner. Choisissez un mot de passe plus robuste.";
                 $messageType = 'error';
                 $activeTab = 'security';
             } else {
@@ -77,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $stmt->execute([':uid' => $userId]);
                         $hash = $stmt->fetchColumn();
                         if ($hash && password_verify($oldPassword, $hash)) {
-                            $newHash = password_hash($newPassword, PASSWORD_BCRYPT);
+                            $newHash = password_hash($newPassword, PASSWORD_DEFAULT);
                             $stmtUpd = $pdo->prepare("UPDATE users SET password = :pwd, updated_at = NOW() WHERE id = :uid");
                             $stmtUpd->execute([':pwd' => $newHash, ':uid' => $userId]);
                             $isPasswordValid = true;

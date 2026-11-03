@@ -8,6 +8,8 @@ if (isLoggedIn()) {
 
 $pdo = getDBConnection();
 $error = '';
+$rawRedirect = $_GET['redirect'] ?? $_POST['redirect'] ?? '';
+$redirect = getSafeRedirectUrl($rawRedirect, 'customer');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $csrf = $_POST['csrf_token'] ?? '';
@@ -67,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             if ($pdo) {
                 try {
-                    $stmtInsert = $pdo->prepare("INSERT INTO users (id, name, email, password, role, image, email_verified, is_email_verified, verification_token) VALUES (:id, :name, :email, :pass, 'user', 'assets/images/profile_pic1.webp', NOW(), 1, :token)");
+                    $stmtInsert = $pdo->prepare("INSERT INTO users (id, name, email, password, role, image, email_verified, is_email_verified, verification_token) VALUES (:id, :name, :email, :pass, 'customer', 'assets/images/profile_pic1.webp', NOW(), 1, :token)");
                     $stmtInsert->execute([
                         ':id'    => $userId,
                         ':name'  => $name,
@@ -106,7 +108,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             SecurityShield::logSecurityEvent('USER_REGISTER', "Nouveau compte créé pour {$email}");
 
             setFlashMessage('success', "Bienvenue sur SenTechPLUS, {$name} ! Votre compte a été créé avec succès.");
-            header('Location: index.php');
+            $targetRedirect = !empty($redirect) ? $redirect : 'account.php';
+            header('Location: ' . $targetRedirect);
             exit;
         }
     }
@@ -140,6 +143,7 @@ require_once __DIR__ . '/includes/navbar.php';
         <form method="POST" action="register.php" enctype="application/x-www-form-urlencoded" class="space-y-4 text-xs">
             <?= getCSRFInputField() ?>
             <?= SecurityShield::getHoneypotHtml('website_url_hp') ?>
+            <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirect) ?>">
 
             <div>
                 <label for="reg-name" class="block font-bold text-[#182230] mb-1">Nom et Prénom *</label>
@@ -191,7 +195,7 @@ require_once __DIR__ . '/includes/navbar.php';
 
         <div class="pt-4 border-t border-[#E8EDF3] text-center text-xs text-[#667085]">
             Vous avez déjà un compte ? 
-            <a href="login.php" class="cursor-pointer font-bold text-[#1677FF] hover:text-[#0B54C2] transition-colors duration-200 hover:underline">Se connecter</a>
+            <a href="login.php<?= (!empty($redirect) && $redirect !== 'account.php') ? '?redirect=' . urlencode($redirect) : '' ?>" class="cursor-pointer font-bold text-[#1677FF] hover:text-[#0B54C2] transition-colors duration-200 hover:underline">Se connecter</a>
         </div>
     </div>
 
