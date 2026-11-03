@@ -251,7 +251,9 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
       .line-clamp-1{-webkit-line-clamp:1}.line-clamp-2{-webkit-line-clamp:2}.line-clamp-3{-webkit-line-clamp:3}
       .glass-header{background:rgba(255,255,255,.92);backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%)}
       .glass-overlay{background:rgba(15,23,42,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-      button:active:not([disabled]),a.btn-electric:active,.btn-electric:active,.btn-press:active,.card-clean:active{transform:scale(.985)!important;transition:transform 100ms var(--ease-out)!important}
+      /* Emil Kowalski Press Feedback: Tactile, physical scale on press */
+      button:active:not([disabled]),a.btn-electric:active,.btn-electric:active,.btn-press:active,.card-clean:active{transform:scale(0.97)!important;transition:transform 160ms var(--ease-out)!important}
+      .prod-card:active{transform:scale(0.985)!important;transition:transform 140ms var(--ease-out)!important}
       .badge-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:9999px;font-size:10px;font-weight:700}
       input,select,textarea{outline:0;transition:border-color .15s,box-shadow .15s}
       input:focus,select:focus,textarea:focus{border-color:#1677FF;box-shadow:0 0 0 3px rgba(22,119,255,.12)}
@@ -319,15 +321,15 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         contain: paint;
       }
 
-      /* ─── Ultra-Smooth Modal & Drawer Architecture (Zero Layout Overhead) ─── */
-      .anim-drawer-overlay{display:none;opacity:0;visibility:hidden;transition:opacity 280ms var(--ease-smooth),visibility 280ms var(--ease-smooth);}
+      /* ─── Ultra-Smooth Modal & Drawer Architecture (Emil Kowalski Physics & Sub-300ms) ─── */
+      .anim-drawer-overlay{display:none;opacity:0;visibility:hidden;transition:opacity 240ms var(--ease-out),visibility 240ms var(--ease-out);}
       .anim-drawer-overlay.active{display:block;opacity:1;visibility:visible;}
-      .anim-drawer-panel{transform:translateX(100%);transition:transform 320ms var(--ease-smooth);}
+      .anim-drawer-panel{transform:translateX(100%);transition:transform 260ms var(--ease-drawer);}
       .anim-drawer-overlay.active .anim-drawer-panel{transform:translateX(0);}
 
-      .anim-modal-overlay{display:none;opacity:0;visibility:hidden;transition:opacity 240ms var(--ease-smooth),visibility 240ms var(--ease-smooth);}
+      .anim-modal-overlay{display:none;opacity:0;visibility:hidden;transition:opacity 200ms var(--ease-out),visibility 200ms var(--ease-out);}
       .anim-modal-overlay.active{display:flex;opacity:1;visibility:visible;}
-      .anim-modal-dialog{transform:scale(0.95) translateY(12px);opacity:0;transition:transform 260ms var(--ease-smooth),opacity 240ms var(--ease-smooth);}
+      .anim-modal-dialog{transform:scale(0.95) translateY(8px);opacity:0;transition:transform 220ms var(--ease-out),opacity 200ms var(--ease-out);}
       .anim-modal-overlay.active .anim-modal-dialog{transform:scale(1) translateY(0);opacity:1;}
 
       /* ─── Ultra-Fluid Hero Slides Crossfade ─────────────────────────── */
@@ -377,7 +379,7 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         border-radius: 20px;
         padding: 10px 10px 12px;
         box-shadow: 0 2px 10px -2px rgba(15, 23, 42, 0.03), 0 1px 3px rgba(15, 23, 42, 0.02);
-        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out), border-color 200ms var(--ease-out);
         text-decoration: none !important;
         cursor: pointer;
         position: relative;
@@ -483,7 +485,7 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         display: block;
         margin: 0 auto;
         filter: drop-shadow(0 4px 10px rgba(0,0,0,0.05));
-        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 220ms var(--ease-out);
       }
       .prod-card:hover .prod-card-img-wrap img {
         transform: scale(1.04);
