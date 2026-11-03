@@ -1,5 +1,5 @@
 // SenTechPLUS Service Worker (Lightweight Offline Cache & 3G/4G Resilience)
-const CACHE_NAME = 'sentech-v2.0';
+const CACHE_NAME = 'sentech-v3.0';
 const PRECACHE_URLS = [
     './index.php',
     './shop.php',
