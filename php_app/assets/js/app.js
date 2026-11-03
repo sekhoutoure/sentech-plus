@@ -129,16 +129,10 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// ─── 5. Rich Floating Toast Notifications ─────────────────────────────────────
+// ─── 5. Apple Dynamic Capsule Floating Toast Notifications ───────────────────
 function showToast(message, type = 'success', action = null) {
-    const existing = document.querySelectorAll('.sentech-toast');
+    const existing = document.querySelectorAll('.sentech-toast, .apple-toast');
     existing.forEach(t => t.remove());
-
-    const colors = { 
-        success: 'linear-gradient(135deg, #0D7D53 0%, #085237 100%)', 
-        error: 'linear-gradient(135deg, #C2410C 0%, #9A3412 100%)', 
-        info: 'linear-gradient(135deg, #1677FF 0%, #0B54C2 100%)' 
-    };
 
     const icons = {
         success: '✓',
@@ -146,21 +140,22 @@ function showToast(message, type = 'success', action = null) {
         info: 'ℹ'
     };
 
+    // Subtle tactile tap haptic feedback (Apple Multimodal)
+    if (navigator.vibrate) {
+        try { navigator.vibrate(type === 'error' ? [8, 40, 8] : 8); } catch (_) {}
+    }
+
     const toast = document.createElement('div');
-    toast.className = 'sentech-toast fixed bottom-20 lg:bottom-6 left-4 right-4 sm:left-6 sm:right-auto z-[9999] flex items-center justify-between gap-3 px-4 py-3 rounded-2xl shadow-2xl text-white text-xs font-bold border border-white/20 max-w-sm toast-enter pointer-events-auto';
-    toast.style.background = colors[type] || colors.success;
-    toast.style.backdropFilter = 'blur(12px)';
+    toast.className = 'apple-toast sentech-toast cursor-pointer';
     
     let actionBtnHtml = '';
     if (action && action.text) {
-        actionBtnHtml = `<button type="button" class="toast-action-btn cursor-pointer ml-1 px-3 py-1.5 bg-white text-[#182230] rounded-xl text-[11px] font-black hover:bg-slate-100 active:scale-95 transition-all shrink-0 shadow-xs">${action.text}</button>`;
+        actionBtnHtml = `<button type="button" class="toast-action-btn cursor-pointer ml-1.5 px-3 py-1 bg-white/20 hover:bg-white/30 text-white rounded-full text-[11px] font-black active:scale-95 transition-all shrink-0 border border-white/25">${action.text}</button>`;
     }
 
     toast.innerHTML = `
-        <div class="flex items-center gap-2.5 min-w-0">
-            <span class="w-5 h-5 rounded-full bg-white/25 flex items-center justify-center text-[10px] shrink-0">${icons[type] || '✓'}</span>
-            <span class="leading-snug truncate">${message}</span>
-        </div>
+        <span class="w-5 h-5 rounded-full ${type === 'error' ? 'bg-rose-500' : (type === 'info' ? 'bg-blue-500' : 'bg-emerald-500')} text-white flex items-center justify-center text-[10px] font-black shrink-0 shadow-xs">${icons[type] || '✓'}</span>
+        <span class="leading-snug truncate max-w-[240px] sm:max-w-xs">${message}</span>
         ${actionBtnHtml}
     `;
 
@@ -168,6 +163,7 @@ function showToast(message, type = 'success', action = null) {
         const btn = toast.querySelector('.toast-action-btn');
         if (btn) {
             btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 e.preventDefault();
                 action.onClick();
                 dismissToast(toast);
@@ -179,7 +175,7 @@ function showToast(message, type = 'success', action = null) {
 
     const autoTimer = setTimeout(() => {
         dismissToast(toast);
-    }, 4000);
+    }, 3800);
 
     toast.addEventListener('click', () => {
         clearTimeout(autoTimer);
@@ -189,11 +185,10 @@ function showToast(message, type = 'success', action = null) {
 
 function dismissToast(toast) {
     if (!toast || !toast.parentNode) return;
-    toast.classList.remove('toast-enter');
     toast.classList.add('toast-exit');
     setTimeout(() => {
         if (toast.parentNode) toast.remove();
-    }, 260);
+    }, 240);
 }
 
 // ─── 6. AJAX Add-To-Cart with 0-Reload & Micro-Bounces ────────────────────────
@@ -472,6 +467,157 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // ─── Apple Fluid Direct Manipulation & Gesture Dragging (§2, §6, §9) ─────
+    function setupAppleDrawerGestures() {
+        const drawers = [
+            { panelId: 'cart-drawer-panel', overlayId: 'cart-drawer-overlay', direction: 'right', closeFn: () => toggleCartDrawer(false) },
+            { panelId: 'mobile-drawer-panel', overlayId: 'mobile-drawer-overlay', direction: 'left', closeFn: () => closeMobileDrawer() }
+        ];
+
+        drawers.forEach(cfg => {
+            const panel = document.getElementById(cfg.panelId);
+            const overlay = document.getElementById(cfg.overlayId);
+            if (!panel || !overlay) return;
+
+            let isDragging = false;
+            let startCoord = 0;
+            let currentCoord = 0;
+            let startY = 0;
+            let panelDim = 0;
+            let velocitySamples = [];
+            let pointerId = null;
+
+            function rubberband(overshoot, dimension = 350, constant = 0.55) {
+                return (overshoot * dimension * constant) / (dimension + constant * Math.abs(overshoot));
+            }
+
+            function projectMomentum(initialVelocity, decelerationRate = 0.998) {
+                return (initialVelocity / 1000) * decelerationRate / (1 - decelerationRate);
+            }
+
+            const onPointerDown = (e) => {
+                if (e.target.closest('button, a, input, select, textarea, form')) return;
+                isDragging = true;
+                pointerId = e.pointerId;
+                try { panel.setPointerCapture(pointerId); } catch (_) {}
+                startCoord = e.clientX;
+                currentCoord = startCoord;
+                startY = e.clientY;
+                panelDim = panel.offsetWidth || 350;
+                velocitySamples = [{ pos: startCoord, time: performance.now() }];
+                panel.style.transition = 'none';
+            };
+
+            const onPointerMove = (e) => {
+                if (!isDragging) return;
+                const dy = Math.abs(e.clientY - startY);
+                const dx = Math.abs(e.clientX - startCoord);
+                if (dy > dx && dy > 18 && velocitySamples.length < 3) {
+                    isDragging = false;
+                    return;
+                }
+
+                currentCoord = e.clientX;
+                const now = performance.now();
+                velocitySamples.push({ pos: currentCoord, time: now });
+                if (velocitySamples.length > 5) velocitySamples.shift();
+
+                let delta = 0;
+                if (cfg.direction === 'right') {
+                    delta = currentCoord - startCoord;
+                    if (delta > 0) {
+                        panel.style.transform = `translateX(${delta}px)`;
+                        overlay.style.opacity = Math.max(0.1, 1 - (delta / panelDim)).toString();
+                    } else {
+                        const resisted = rubberband(delta, panelDim, 0.45);
+                        panel.style.transform = `translateX(${resisted}px)`;
+                    }
+                } else if (cfg.direction === 'left') {
+                    delta = currentCoord - startCoord;
+                    if (delta < 0) {
+                        panel.style.transform = `translateX(${delta}px)`;
+                        overlay.style.opacity = Math.max(0.1, 1 - (Math.abs(delta) / panelDim)).toString();
+                    } else {
+                        const resisted = rubberband(delta, panelDim, 0.45);
+                        panel.style.transform = `translateX(${resisted}px)`;
+                    }
+                }
+            };
+
+            const onPointerUp = (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                try { panel.releasePointerCapture(pointerId); } catch (_) {}
+
+                let velocity = 0;
+                if (velocitySamples.length >= 2) {
+                    const first = velocitySamples[0];
+                    const last = velocitySamples[velocitySamples.length - 1];
+                    const dt = Math.max(1, last.time - first.time);
+                    velocity = ((last.pos - first.pos) / dt) * 1000;
+                }
+
+                const delta = currentCoord - startCoord;
+                const projectedDistance = delta + projectMomentum(velocity);
+
+                let shouldDismiss = false;
+                if (cfg.direction === 'right') {
+                    shouldDismiss = (delta > panelDim * 0.35) || (projectedDistance > panelDim * 0.4) || (velocity > 380);
+                } else {
+                    shouldDismiss = (delta < -panelDim * 0.35) || (projectedDistance < -panelDim * 0.4) || (velocity < -380);
+                }
+
+                if (shouldDismiss) {
+                    panel.style.transition = 'transform 260ms cubic-bezier(0.32, 0.72, 0, 1)';
+                    overlay.style.transition = 'opacity 240ms cubic-bezier(0.25, 1, 0.5, 1)';
+                    panel.style.transform = cfg.direction === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
+                    overlay.style.opacity = '0';
+                    if (navigator.vibrate) navigator.vibrate(10);
+                    setTimeout(() => {
+                        cfg.closeFn();
+                        panel.style.transform = '';
+                        panel.style.transition = '';
+                        overlay.style.opacity = '';
+                        overlay.style.transition = '';
+                    }, 260);
+                } else {
+                    panel.style.transition = 'transform 320ms cubic-bezier(0.175, 0.885, 0.32, 1.15)';
+                    overlay.style.transition = 'opacity 260ms cubic-bezier(0.25, 1, 0.5, 1)';
+                    panel.style.transform = 'translateX(0)';
+                    overlay.style.opacity = '1';
+                    setTimeout(() => {
+                        panel.style.transform = '';
+                        panel.style.transition = '';
+                        overlay.style.opacity = '';
+                        overlay.style.transition = '';
+                    }, 320);
+                }
+            };
+
+            panel.addEventListener('pointerdown', onPointerDown);
+            panel.addEventListener('pointermove', onPointerMove);
+            panel.addEventListener('pointerup', onPointerUp);
+            panel.addEventListener('pointercancel', onPointerUp);
+        });
+    }
+    setupAppleDrawerGestures();
+
+    // ─── Apple Zero-Latency Tactile Press Response Hook (§1) ─────────────────
+    document.addEventListener('pointerdown', function(e) {
+        const btn = e.target.closest('button, a.btn, a.btn-electric, .btn-electric, .prod-card, .card-clean, [role="button"]');
+        if (!btn || btn.disabled) return;
+        btn.style.transform = 'scale(0.97)';
+        btn.style.transition = 'transform 90ms cubic-bezier(0.25, 1, 0.5, 1)';
+        const resetPress = () => {
+            btn.style.transform = '';
+            btn.style.transition = '';
+            window.removeEventListener('pointerup', resetPress);
+            window.removeEventListener('pointercancel', resetPress);
+        };
+        window.addEventListener('pointerup', resetPress, { once: true });
+        window.addEventListener('pointercancel', resetPress, { once: true });
+    }, { passive: true });
 });
 
 // ─── 7. Service Worker Registration & PWA Sync ──────────────────────────────

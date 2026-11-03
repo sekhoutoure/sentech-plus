@@ -1,10 +1,10 @@
 <!-- =============================================================================
      SenTechPLUS — Omnibar "Ask & Get" Zero-UI (Spotlight Ctrl+K)
      ============================================================================= -->
-<div id="omnibar-overlay" style="display: none;" class="fixed inset-0 z-[100] flex items-start justify-center p-3 sm:p-6 sm:pt-20 bg-slate-900/60 backdrop-blur-md transition-all duration-200">
+<div id="omnibar-overlay" style="display: none;" class="fixed inset-0 z-[100] flex items-start justify-center p-3 sm:p-6 sm:pt-20 bg-slate-900/50 backdrop-blur-md transition-all duration-200">
     
-    <!-- Modal Container -->
-    <div id="omnibar-modal" class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-[#E1E8F0] overflow-hidden flex flex-col max-h-[85vh] animate-fade-in">
+    <!-- Modal Container (Apple Spotlight Glass & Spring) -->
+    <div id="omnibar-modal" class="bg-white/95 backdrop-blur-2xl w-full max-w-2xl rounded-3xl shadow-2xl border border-white/60 overflow-hidden flex flex-col max-h-[85vh] animate-fade-in origin-top">
         
         <!-- Header & Input -->
         <div class="p-4 sm:p-5 border-b border-[#E8EDF3] flex items-center gap-3 bg-[#F8FBFF]">

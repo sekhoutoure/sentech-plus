@@ -51,11 +51,33 @@ $pageTitle = "Commandes Reçues — Espace Vendeur";
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>body { font-family: 'Inter', system-ui, sans-serif; }</style>
+        <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
+            letter-spacing: -0.008em;
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, .font-heading {
+            letter-spacing: -0.022em !important;
+            font-optical-sizing: auto;
+        }
+        button:active:not([disabled]), a:active:not([disabled]), [role="button"]:active {
+            transform: scale(0.968) !important;
+            transition: transform 90ms cubic-bezier(0.25, 1, 0.5, 1) !important;
+        }
+        .glass-header-seller {
+            background: rgba(255, 255, 255, 0.88) !important;
+            backdrop-filter: blur(20px) saturate(190%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.7) !important;
+            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04) !important;
+        }
+    </style>
 </head>
 <body class="h-full flex flex-col antialiased text-[#182230]">
 
-    <header class="bg-white border-b border-[#E8EDF3] sticky top-0 z-30 px-4 lg:px-8 py-3.5 flex items-center justify-between">
+    <header class="glass-header-seller sticky top-0 z-30 px-4 lg:px-8 py-3.5 flex items-center justify-between">
         <div class="flex items-center gap-4">
             <a href="index.php" class="flex items-center gap-2">
                 <img src="../assets/images/sentech_logo.webp" alt="SenTechPLUS" width="140" height="32" class="h-7 w-auto object-contain">
@@ -146,5 +168,6 @@ $pageTitle = "Commandes Reçues — Espace Vendeur";
 
     <script src="../assets/js/lucide.min.js"></script>
     <script>if (typeof lucide !== 'undefined') { lucide.createIcons(); }</script>
+    <script src="../assets/js/app.min.js?v=2.0" defer></script>
 </body>
 </html>

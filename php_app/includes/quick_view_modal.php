@@ -2,7 +2,7 @@
 <div id="quickview-modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 glass-overlay anim-modal-overlay">
     <div onclick="closeQuickViewModal()" class="absolute inset-0 cursor-pointer"></div>
 
-    <div class="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-2xl border border-[#E8EDF3] z-10 anim-modal-dialog origin-center pointer-events-auto">
+    <div class="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/70 z-10 anim-modal-dialog origin-center pointer-events-auto">
         
         <!-- Close button -->
         <button type="button" onclick="closeQuickViewModal()" aria-label="Fermer la fenêtre d'aperçu" class="absolute top-4 right-4 z-20 p-2 rounded-full bg-[#F3F7FC] text-[#667085] hover:text-[#182230] hover:bg-slate-200 transition-colors cursor-pointer">

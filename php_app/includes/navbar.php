@@ -623,9 +623,14 @@ if ($layoutType === 'public_compact'): ?>
 
 </header>
 
-<!-- ─── 5. MOBILE SLIDE-OVER DRAWER MENU (Avec Accordéon Catégories) ───────── -->
-<div id="mobile-drawer-overlay" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden transition-all duration-300" onclick="closeMobileDrawer()">
-    <div class="fixed inset-y-0 left-0 max-w-[320px] w-full bg-white shadow-2xl flex flex-col justify-between p-5 space-y-4 overflow-y-auto animate-slide-in" onclick="event.stopPropagation()">
+<!-- ─── 5. MOBILE SLIDE-OVER DRAWER MENU (Apple Glass & Gesture Drag) ───────── -->
+<div id="mobile-drawer-overlay" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-md hidden transition-all duration-300" onclick="closeMobileDrawer()">
+    <div id="mobile-drawer-panel" class="fixed inset-y-0 left-0 max-w-[320px] w-full bg-white/95 backdrop-blur-2xl shadow-2xl flex flex-col justify-between p-5 space-y-4 overflow-y-auto animate-slide-in border-r border-white/60" onclick="event.stopPropagation()">
+        
+        <!-- Apple Sheet Grabber -->
+        <div class="sm:hidden pt-1 pb-1 flex justify-center">
+            <div class="apple-drag-handle"></div>
+        </div>
         
         <!-- Drawer Header -->
         <div class="space-y-4">
