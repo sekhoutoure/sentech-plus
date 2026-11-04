@@ -376,14 +376,14 @@ function toggleFooterAccordion(id) {
         <!-- 1. Accueil -->
         <?php $isHome = ($currPage === 'index.php' || $currPage === ''); ?>
         <a href="index.php" class="cursor-pointer group active:scale-95 transition-all" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; min-height: 44px;" <?= $isHome ? 'aria-current="page"' : '' ?>>
-            <i data-lucide="home" class="w-5 h-5 <?= $isHome ? 'text-[#0B54C2]' : 'text-[#475467]' ?>"></i>
+            <svg class="w-5 h-5 <?= $isHome ? 'text-[#0B54C2]' : 'text-[#475467]' ?>" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
             <span style="font-size: 10px; font-weight: <?= $isHome ? '800' : '700' ?>; margin-top: 2px; color: <?= $isHome ? '#0B54C2' : '#344054' ?>;">Accueil</span>
         </a>
 
         <!-- 2. Catégories & Rayons (Alibaba / Amazon Style) -->
         <?php $isCat = ($currPage === 'categories.php'); ?>
         <a href="categories.php" class="cursor-pointer group active:scale-95 transition-all" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; min-height: 44px;" <?= $isCat ? 'aria-current="page"' : '' ?>>
-            <i data-lucide="layout-grid" class="w-5 h-5 <?= $isCat ? 'text-[#0B54C2]' : 'text-[#475467]' ?>"></i>
+            <svg class="w-5 h-5 <?= $isCat ? 'text-[#0B54C2]' : 'text-[#475467]' ?>" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
             <span style="font-size: 10px; font-weight: <?= $isCat ? '800' : '700' ?>; margin-top: 2px; color: <?= $isCat ? '#0B54C2' : '#344054' ?>;">Catégories</span>
         </a>
 
@@ -391,7 +391,7 @@ function toggleFooterAccordion(id) {
         <?php $isCart = ($currPage === 'cart.php'); ?>
         <button type="button" onclick="toggleCartDrawer(true)" class="cursor-pointer group active:scale-95 transition-all relative" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: none; border: none; padding: 0; outline: none; cursor: pointer; min-height: 44px;" aria-label="Mon Panier">
             <div style="position: relative; display: inline-flex;">
-                <i data-lucide="shopping-cart" class="w-5 h-5 <?= $isCart ? 'text-[#0B54C2]' : 'text-[#475467]' ?>"></i>
+                <svg class="w-5 h-5 <?= $isCart ? 'text-[#0B54C2]' : 'text-[#475467]' ?>" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
                 <?php if ($footerCartCount > 0): ?>
                     <span class="cart-count-badge" style="position: absolute; top: -6px; right: -9px; min-width: 16px; height: 16px; padding: 0 3px; background-color: #0B54C2; color: #ffffff; font-size: 8px; font-weight: 900; border-radius: 9999px; display: flex; align-items: center; justify-content: center;">
                         <?= $footerCartCount ?>
@@ -405,7 +405,7 @@ function toggleFooterAccordion(id) {
         <?php $isWish = ($currPage === 'wishlist.php'); ?>
         <a href="wishlist.php" class="cursor-pointer group active:scale-95 transition-all" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; position: relative; min-height: 44px;" <?= $isWish ? 'aria-current="page"' : '' ?>>
             <div style="position: relative; display: inline-flex;">
-                <i data-lucide="heart" class="w-5 h-5 <?= $isWish ? 'text-[#0B54C2]' : 'text-[#475467]' ?>"></i>
+                <svg class="w-5 h-5 <?= $isWish ? 'text-[#0B54C2]' : 'text-[#475467]' ?>" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
                 <?php if ($footerWishCount > 0): ?>
                     <span style="position: absolute; top: -6px; right: -8px; min-width: 15px; height: 15px; padding: 0 3px; background-color: #B91C1C; color: #ffffff; font-size: 8px; font-weight: 900; border-radius: 9999px; display: flex; align-items: center; justify-content: center;">
                         <?= $footerWishCount ?>
@@ -418,7 +418,7 @@ function toggleFooterAccordion(id) {
         <!-- 5. Compte Client -->
         <?php $isAuth = ($currPage === 'account.php' || $currPage === 'login.php' || $currPage === 'register.php' || $currPage === 'orders.php'); ?>
         <a href="<?= isLoggedIn() ? 'account.php' : 'login.php' ?>" class="cursor-pointer group active:scale-95 transition-all" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; min-height: 44px;" <?= $isAuth ? 'aria-current="page"' : '' ?>>
-            <i data-lucide="user" class="w-5 h-5 <?= $isAuth ? 'text-[#0B54C2]' : 'text-[#475467]' ?>"></i>
+            <svg class="w-5 h-5 <?= $isAuth ? 'text-[#0B54C2]' : 'text-[#475467]' ?>" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             <span style="font-size: 10px; font-weight: <?= $isAuth ? '800' : '700' ?>; margin-top: 2px; color: <?= $isAuth ? '#0B54C2' : '#344054' ?>;"><?= isLoggedIn() ? htmlspecialchars(explode(' ', getCurrentUser()['name'])[0]) : 'Compte' ?></span>
         </a>
 
@@ -430,7 +430,7 @@ function toggleFooterAccordion(id) {
 <script>
     function initIcons() {
         if (typeof lucide !== 'undefined') {
-            lucide.createIcons({ defer: true });
+            lucide.createIcons();
         }
         var autoContainers = document.querySelectorAll('.content-auto');
         if (autoContainers.length > 0) {
@@ -455,12 +455,10 @@ function toggleFooterAccordion(id) {
             }
         }
     }
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-            requestAnimationFrame(initIcons);
-        }, { timeout: 800 });
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initIcons);
     } else {
-        window.addEventListener('load', () => setTimeout(initIcons, 40));
+        initIcons();
     }
 </script>
 

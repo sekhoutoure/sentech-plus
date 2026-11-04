@@ -70,13 +70,13 @@ if ($layoutType === 'blank' || $layoutType === 'admin') {
 
 // ─── 1. LAYOUT AUTH (Header minimaliste centré pour login / register) ────────
 if ($layoutType === 'auth'): ?>
-    <header class="bg-white border-b border-[#E8EDF3] py-3.5 sticky top-0 z-40 shadow-2xs">
+    <header class="bg-white/85 backdrop-blur-xl border-b border-black/[0.06] py-3.5 sticky top-0 z-40 transition-all">
         <div class="max-w-[1200px] mx-auto px-4 flex items-center justify-between">
             <a href="index.php" class="flex items-center group">
-                <img src="assets/images/sentech_logo.webp" alt="SenTech PLUS" width="130" height="28" decoding="async" style="width: 130px; height: 28px; aspect-ratio: 130 / 28;" class="h-7 object-contain">
+                <img src="assets/images/sentech_logo.webp" alt="SenTech PLUS" width="130" height="28" decoding="async" style="width: 130px; height: 28px; aspect-ratio: 130 / 28;" class="h-7 object-contain transition-transform duration-200 group-hover:scale-[1.03]">
             </a>
-            <a href="shop.php" class="text-xs font-extrabold text-[#667085] hover:text-[#1677FF] flex items-center gap-1.5 transition-colors">
-                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <a href="shop.php" class="text-xs font-bold text-[#64748B] hover:text-[#1677FF] flex items-center gap-1.5 transition-all px-3 py-1.5 rounded-full hover:bg-black/5 active:scale-[0.96]">
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
                 <span>Retour à la boutique</span>
             </a>
         </div>
@@ -121,7 +121,7 @@ if ($layoutType === 'public_compact'): ?>
             <div class="flex-1 max-w-xl hidden sm:block">
                 <form action="search.php" method="GET" class="w-full relative">
                     <div class="relative w-full flex items-center bg-[#F4F7FB] hover:bg-white focus-within:bg-white pl-4 pr-1.5 py-1.5 rounded-full border border-[#DCE4EE] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-2xs">
-                        <i data-lucide="search" class="w-4 h-4 text-[#1677FF] shrink-0 mr-2.5"></i>
+                        <svg class="w-4 h-4 text-[#1677FF] shrink-0 mr-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
                         <input 
                             name="q" 
                             type="text" 
@@ -293,7 +293,7 @@ if ($layoutType === 'public_compact'): ?>
                 <form action="search.php" method="GET" class="w-full relative">
                     <div class="relative w-full flex items-center bg-[#F4F7FB] hover:bg-white focus-within:bg-white pl-4 pr-1.5 py-1.5 rounded-full border border-[#DCE4EE] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-2xs group">
                         <div class="w-6 h-6 rounded-full bg-[#EAF3FF] text-[#1677FF] flex items-center justify-center shrink-0 mr-2.5">
-                            <i data-lucide="search" class="w-3.5 h-3.5"></i>
+                            <svg class="w-3.5 h-3.5 text-[#1677FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
                         </div>
                         <input 
                             name="q"
@@ -395,7 +395,7 @@ if ($layoutType === 'public_compact'): ?>
                 <!-- Account / Connexion -->
                 <a href="<?= isLoggedIn() ? 'account.php' : 'login.php' ?>" class="cursor-pointer flex items-center gap-2 text-xs font-extrabold text-[#182230] hover:text-[#0B54C2] transition-colors group">
                     <div class="w-10 h-10 rounded-full bg-white group-hover:bg-[#EAF3FF] border border-[#E5EAF0] flex items-center justify-center text-[#475467] group-hover:text-[#0B54C2] transition-colors shadow-2xs">
-                        <i data-lucide="user" class="w-5 h-5"></i>
+                        <svg class="w-5 h-5 text-[#475467] group-hover:text-[#0B54C2] transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     </div>
                     <div class="flex flex-col text-left">
                         <span class="text-[10px] text-[#475467] font-medium leading-none">Bonjour</span>
@@ -413,7 +413,7 @@ if ($layoutType === 'public_compact'): ?>
             <div class="flex items-center gap-3 shrink-0">
                 <!-- Hamburger Button -->
                 <button type="button" onclick="openMobileDrawer()" aria-label="Menu" class="cursor-pointer w-10 h-10 rounded-xl text-[#182230] hover:bg-[#F5F7FA] transition-colors flex items-center justify-center">
-                    <i data-lucide="menu" class="w-5 h-5"></i>
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
                 </button>
                 <!-- Logo Tablette Parfaitement Proportionné -->
                 <a href="index.php" class="flex items-center shrink-0">
@@ -425,7 +425,7 @@ if ($layoutType === 'public_compact'): ?>
             <div class="flex-1 max-w-sm relative">
                 <form action="search.php" method="GET" class="w-full relative">
                     <div class="relative flex items-center bg-[#F4F7FB] focus-within:bg-white pl-3.5 pr-2 py-1.5 rounded-full border border-[#DCE4EE] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/10 shadow-2xs transition-all">
-                        <i data-lucide="search" class="w-4 h-4 text-[#1677FF] mr-2 shrink-0"></i>
+                        <svg class="w-4 h-4 text-[#1677FF] mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
                         <input 
                             name="q" 
                             type="text" 
@@ -436,7 +436,7 @@ if ($layoutType === 'public_compact'): ?>
                             class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs font-medium text-[#182230] placeholder:text-[#64748B]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                         >
                         <button type="submit" class="w-6 h-6 rounded-full bg-[#1677FF] text-white flex items-center justify-center shrink-0 cursor-pointer shadow-2xs ml-1 hover:bg-[#0F67E5] transition-colors" aria-label="Rechercher">
-                            <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                            <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                         </button>
                     </div>
                 </form>
@@ -472,7 +472,7 @@ if ($layoutType === 'public_compact'): ?>
                 
                 <!-- Left: Hamburger Button -->
                 <button type="button" onclick="openMobileDrawer()" aria-label="Ouvrir le menu de navigation" class="cursor-pointer w-9 h-9 rounded-xl text-[#182230] hover:bg-[#F5F7FA] active:bg-[#EAF3FF] transition-colors flex items-center justify-center shrink-0">
-                    <i data-lucide="menu" class="w-5 h-5"></i>
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
                 </button>
 
                 <!-- Center: Logo -->
@@ -506,7 +506,7 @@ if ($layoutType === 'public_compact'): ?>
                     <form action="search.php" method="GET" class="w-full relative">
                         <div class="relative h-[42px] flex items-center bg-[#F4F7FB] focus-within:bg-white pl-3.5 pr-1.5 rounded-full border border-[#DCE4EE] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-[0_2px_8px_rgba(15,23,42,0.035)]">
                             <div class="w-6 h-6 rounded-full bg-white flex items-center justify-center text-[#1677FF] shadow-2xs shrink-0 mr-2">
-                                <i data-lucide="search" class="w-3.5 h-3.5"></i>
+                                <svg class="w-3.5 h-3.5 text-[#1677FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
                             </div>
                             <input 
                                 name="q" 
@@ -520,7 +520,7 @@ if ($layoutType === 'public_compact'): ?>
                                 class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs font-semibold text-[#182230] placeholder:text-[#64748B]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                             >
                             <button type="submit" class="w-7 h-7 rounded-full bg-[#1677FF] hover:bg-[#0B54C2] text-white flex items-center justify-center shrink-0 cursor-pointer shadow-2xs active:scale-95 transition-all" aria-label="Lancer la recherche">
-                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                                <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                             </button>
                         </div>
                     </form>
