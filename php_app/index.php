@@ -530,24 +530,41 @@ if (empty($bestSellingProducts)) {
         </div>
     </section>
 
-    <!-- 7. VIP NEWSLETTER (Barre Pilule Intégrée) -->
-    <section class="max-w-[1400px] mx-auto px-3 sm:px-6 content-auto">
-        <div class="bg-white rounded-[32px] p-6 sm:p-10 text-center space-y-3 max-w-2xl mx-auto border border-[#E8EDF3] shadow-2xs">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF3FF] text-[#0B54C2] text-[10px] font-black uppercase">
-                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
-                CLUB SENTECH
-            </span>
-            <h2 class="text-xl sm:text-2xl font-black text-[#182230]">Offres VIP & Ventes Privées</h2>
-            <p class="text-xs text-[#64748B] max-w-sm mx-auto">Recevez nos réductions exclusives directement par email.</p>
+    <!-- 7. VIP NEWSLETTER (Modern Apple Bento Card) -->
+    <section class="max-w-[1400px] mx-auto px-3 sm:px-6 my-10 content-auto">
+        <div class="relative overflow-hidden bg-gradient-to-b from-[#F8FAFD] to-white rounded-[32px] p-8 sm:p-12 text-center space-y-4 max-w-2xl mx-auto border border-[#E2E8F0] shadow-[0_16px_48px_rgba(15,23,42,0.04)]">
+            <div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#1677FF]/10 rounded-full blur-3xl"></div>
 
-            <form action="index.php" method="POST" enctype="application/x-www-form-urlencoded" class="pt-2 max-w-md mx-auto">
+            <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#1677FF]/10 text-[#1677FF] text-[11px] font-black uppercase tracking-wider">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#1677FF]"></i>
+                <span>CLUB PRIVILÈGE SENTECH</span>
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-black text-[#1D1D1F] tracking-tight">Offres VIP & Ventes Privées</h2>
+            <p class="text-xs sm:text-sm text-[#64748B] max-w-md mx-auto leading-relaxed">
+                Recevez nos alertes arrivages et bénéficiez de réductions exclusives sur les accessoires officiels certifiés à Dakar.
+            </p>
+
+            <form action="index.php" method="POST" enctype="application/x-www-form-urlencoded" class="pt-3 max-w-lg mx-auto">
                 <?= getCSRFInputField() ?>
-                <div class="relative h-[48px] flex items-center bg-[#F1F3F7] focus-within:bg-white pl-4 pr-1.5 rounded-full border border-[#DCE4EE] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 shadow-2xs transition-all">
-                    <input type="email" name="newsletter_email" aria-label="Votre adresse email pour les offres VIP" placeholder="Votre email..." required autocomplete="email" class="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#182230] placeholder:text-[#64748B]" style="outline: none !important; border: none !important; box-shadow: none !important;">
-                    <button type="submit" class="btn-pill-arrow-lg cursor-pointer active:scale-90 transition-all" aria-label="S\'inscrire">
-                        <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-1.5 bg-white border border-[#E2E8F0] rounded-2xl shadow-sm focus-within:border-[#1677FF] focus-within:ring-4 focus-within:ring-[#1677FF]/15 transition-all">
+                    <div class="flex-1 flex items-center pl-3.5 pr-2 py-2">
+                        <i data-lucide="mail" class="w-4 h-4 text-[#8E8E93] mr-2.5 shrink-0"></i>
+                        <input 
+                            type="email" 
+                            name="newsletter_email" 
+                            aria-label="Votre adresse email pour les offres VIP" 
+                            placeholder="Entrez votre adresse email..." 
+                            required 
+                            autocomplete="email" 
+                            class="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]">
+                    </div>
+                    
+                    <button type="submit" class="h-11 px-5 rounded-xl bg-[#1677FF] hover:bg-[#0F67E5] active:scale-95 text-white text-xs sm:text-sm font-bold transition-all shadow-[0_4px_14px_rgba(22,119,255,0.28)] flex items-center justify-center gap-2 cursor-pointer shrink-0">
+                        <span>S'inscrire aux offres</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-white"></i>
                     </button>
                 </div>
+                <p class="text-[11px] text-[#94A3B8] mt-2.5">🔒 Pas de spam • Désinscription en 1 clic • Données protégées</p>
             </form>
         </div>
     </section>
