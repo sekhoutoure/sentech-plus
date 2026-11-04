@@ -712,24 +712,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { passive: true });
 });
 
-// ─── 7. Service Worker Registration & PWA Sync ──────────────────────────────
+// ─── 7. Service Worker Legacy Cleanup & Auto-Purge ──────────────────────────
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.getRegistrations().then((regs) => {
-            for (let r of regs) {
-                if (r.active && !r.active.scriptURL.includes('v=2.0')) {
-                    r.unregister();
-                }
-            }
-            navigator.serviceWorker.register('sw.js?v=3.5').then((reg) => {
-                if (reg && typeof reg.update === 'function') {
-                    reg.update().catch(() => {});
-                }
-            }).catch(() => {});
-        }).catch(() => {
-            navigator.serviceWorker.register('sw.js?v=3.5').catch(() => {});
-        });
-    });
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (let registration of registrations) {
+            registration.unregister();
+        }
+    }).catch(() => {});
 }
 
 // ─── 8. Online / Offline Event Feedback ─────────────────────────────────────

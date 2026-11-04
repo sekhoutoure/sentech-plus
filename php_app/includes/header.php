@@ -28,6 +28,15 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
     <meta name="description" content="<?= htmlspecialchars($metaDescription) ?>">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="<?= htmlspecialchars($canonicalUrl) ?>">
+    <!-- Immediate Service Worker Auto-Purge (Prevents InfinityFree MIME Challenge Error) -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(regs) {
+            for (var i = 0; i < regs.length; i++) { regs[i].unregister(); }
+        }).catch(function() {});
+    }
+    </script>
+
     
     <!-- Open Graph (WhatsApp, Facebook, LinkedIn Rich Previews) -->
     <meta property="og:site_name" content="SenTechPLUS Dakar">
