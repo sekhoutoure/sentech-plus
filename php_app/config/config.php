@@ -286,6 +286,32 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 
 
 $_SESSION['last_activity'] = time();
 
+if (!function_exists('setFlashMessage')) {
+    function setFlashMessage(string $type, string $message): void {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            @session_start();
+        }
+        $_SESSION['flash_message'] = [
+            'type' => $type,
+            'message' => $message
+        ];
+    }
+}
+
+if (!function_exists('getFlashMessage')) {
+    function getFlashMessage(): ?array {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            @session_start();
+        }
+        if (isset($_SESSION['flash_message'])) {
+            $msg = $_SESSION['flash_message'];
+            unset($_SESSION['flash_message']);
+            return $msg;
+        }
+        return null;
+    }
+}
+
 
 
 // Default Cache-Control for bfcache (Back/Forward Cache) eligibility
