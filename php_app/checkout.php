@@ -1,6 +1,13 @@
 <?php
 require_once __DIR__ . '/config/config.php';
 
+// Support du mode achat direct immédiat (ex: checkout.php?buy_now=prod_9)
+$buyNowId = sanitize($_GET['buy_now'] ?? '');
+if (!empty($buyNowId)) {
+    $qty = max(1, (int)($_GET['qty'] ?? 1));
+    addToCart($buyNowId, $qty);
+}
+
 $cartItems = getCartItems();
 if (empty($cartItems)) {
     header('Location: cart.php');
@@ -140,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     } catch (Throwable $e) {}
                 }
 
-                // Redirection vers passerelle de paiement (PayTech / Wave / Orange Money / Carte) ou confirmation directe
+                // Redirection vers passerelle de paiement ou confirmation directe
                 if (in_array(strtolower($paymentMethod), ['wave', 'om', 'orange_money', 'free_money', 'card', 'carte', 'paytech'])) {
                     try {
                         $payRes = initiatePayTechPayment($order);
@@ -167,44 +174,48 @@ require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 
-<div id="main-content" class="min-h-screen bg-[#F3F7FC] py-6 sm:py-10">
-    <div class="max-w-[1400px] mx-auto px-3 sm:px-6 space-y-6">
+<div id="main-content" class="min-h-screen bg-[#F8FAFD] py-4 sm:py-8 pb-28 lg:pb-16">
+    <div class="max-w-[1360px] mx-auto px-3 sm:px-6 space-y-5">
 
-        <!-- ─── ÉTAPES DU TUNNEL DE COMMANDE ─────────────────────────────────── -->
-        <div class="bg-white rounded-3xl p-4 sm:p-5 border border-[#E1E8F0] shadow-2xs">
-            <div class="flex items-center justify-between max-w-2xl mx-auto text-xs font-black">
+        <!-- ─── 1. TUNNEL DE COMMANDE ÉPURÉ TYPE APPLE (Indicateurs d'étapes) ─── -->
+        <div class="bg-white rounded-3xl p-3.5 sm:p-4 border border-slate-200/70 shadow-2xs">
+            <div class="flex items-center justify-between max-w-xl mx-auto text-xs font-bold">
                 
-                <div class="flex items-center gap-2 text-[#0D7D53]">
-                    <div class="w-7 h-7 rounded-full bg-emerald-100 text-[#0D7D53] flex items-center justify-center text-xs font-black">✓</div>
+                <!-- Étape 1 : Panier (Validé) -->
+                <a href="cart.php" class="flex items-center gap-2 text-emerald-700 hover:text-emerald-800 transition-colors">
+                    <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[11px] font-black">✓</div>
                     <span class="hidden sm:inline">1. Panier</span>
-                </div>
+                </a>
 
-                <div class="h-0.5 w-12 bg-[#1677FF]"></div>
+                <div class="h-0.5 flex-1 max-w-[60px] mx-2 bg-[#1677FF]/40"></div>
 
+                <!-- Étape 2 : Livraison & Paiement (Active) -->
                 <div class="flex items-center gap-2 text-[#1677FF]">
-                    <div class="w-7 h-7 rounded-full bg-[#1677FF] text-white flex items-center justify-center text-xs font-black shadow-xs">2</div>
-                    <span>2. Livraison & Paiement</span>
+                    <div class="w-6 h-6 rounded-full bg-[#1677FF] text-white flex items-center justify-center text-[11px] font-black shadow-xs">2</div>
+                    <span class="font-extrabold">2. Livraison & Paiement</span>
                 </div>
 
-                <div class="h-0.5 w-12 bg-slate-200"></div>
+                <div class="h-0.5 flex-1 max-w-[60px] mx-2 bg-slate-200"></div>
 
-                <div class="flex items-center gap-2 text-[#667085]">
-                    <div class="w-7 h-7 rounded-full bg-slate-100 text-[#667085] flex items-center justify-center text-xs font-black">3</div>
+                <!-- Étape 3 : Confirmation -->
+                <div class="flex items-center gap-2 text-slate-400">
+                    <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-[11px] font-bold">3</div>
                     <span class="hidden sm:inline">3. Confirmation</span>
                 </div>
 
             </div>
         </div>
 
+        <!-- Alerte Session Annulée -->
         <?php if (!empty($_GET['payment_cancelled'])): ?>
-            <div class="p-4 sm:p-5 rounded-3xl bg-amber-50 border-2 border-amber-200 text-amber-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm animate-fade-in">
+            <div class="p-4 sm:p-5 rounded-3xl bg-amber-50/90 border border-amber-200/80 text-amber-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-2xs animate-fade-in">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
                         <i data-lucide="alert-triangle" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h4 class="text-xs font-black text-[#182230]">Session de paiement interrompue</h4>
-                        <p class="text-[11px] text-[#667085]">Vous n'avez pas été débité. Vous pouvez réessayer avec Wave, Orange Money ou opter pour le paiement en espèces à la livraison.</p>
+                        <h4 class="text-xs font-bold text-amber-950">Session de paiement interrompue</h4>
+                        <p class="text-[11px] text-amber-800">Aucun montant n'a été débité. Vous pouvez choisir Wave, Orange Money ou le paiement en espèces à la livraison.</p>
                     </div>
                 </div>
                 <a href="https://wa.me/221781316497?text=Bonjour%20SenTechPLUS,%20j'ai%20eu%20un%20souci%20avec%20mon%20paiement." target="_blank" rel="noopener noreferrer" class="cursor-pointer shrink-0 text-xs font-bold text-[#0B54C2] bg-white px-3.5 py-2 rounded-xl border border-amber-200 hover:bg-amber-100 transition-colors flex items-center gap-1.5 shadow-2xs">
@@ -214,13 +225,14 @@ require_once __DIR__ . '/includes/navbar.php';
             </div>
         <?php endif; ?>
 
+        <!-- Message d'erreur form -->
         <?php if ($message): ?>
             <div class="p-4 rounded-2xl text-xs font-bold bg-rose-50 text-rose-800 border border-rose-200 flex items-center justify-between shadow-2xs">
                 <div class="flex items-center gap-2">
-                    <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                    <i data-lucide="alert-circle" class="w-4 h-4 text-rose-600"></i>
                     <span><?= htmlspecialchars($message) ?></span>
                 </div>
-                <button type="button" onclick="this.parentElement.remove()" class="text-xs font-black">✕</button>
+                <button type="button" onclick="this.parentElement.remove()" class="text-xs font-black text-rose-500 hover:text-rose-800">✕</button>
             </div>
         <?php endif; ?>
 
@@ -228,68 +240,80 @@ require_once __DIR__ . '/includes/navbar.php';
         <form method="POST" action="checkout.php" id="checkout-form" onsubmit="return handleCheckoutSubmit(this, event);" class="space-y-6">
             <?= getCSRFInputField() ?>
             
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
                 
-                <!-- Colonne Gauche : Formulaire (8 Cols) -->
-                <div class="lg:col-span-8 space-y-6">
+                <!-- Colonne Gauche : Formulaire (7 ou 8 Cols) -->
+                <div class="lg:col-span-8 space-y-5">
                     
                     <!-- 1. Coordonnées & Adresse de Livraison -->
-                    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E1E8F0] shadow-2xs space-y-5">
+                    <div class="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/70 shadow-2xs space-y-4">
                         
-                        <div class="flex items-center justify-between pb-3 border-b border-[#E8EDF3]">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-xl bg-[#EAF3FF] text-[#1677FF] flex items-center justify-center font-black text-xs">1</div>
-                                <h2 class="text-sm font-black text-[#182230] uppercase tracking-wider">Adresse de Livraison au Sénégal</h2>
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-7 rounded-full bg-[#1677FF]/10 text-[#1677FF] flex items-center justify-center font-black text-xs">1</div>
+                                <div>
+                                    <h2 class="text-xs sm:text-sm font-black text-[#1D1D1F] uppercase tracking-wider">Adresse de Livraison</h2>
+                                    <p class="text-[11px] text-[#64748B]">Remise en main propre par coursier moto dédié</p>
+                                </div>
                             </div>
                             <?php if (isLoggedIn()): ?>
-                                <span class="text-[11px] font-bold text-[#0D7D53] bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-                                    ✓ Connecté en tant que <?= htmlspecialchars(explode(' ', $user['name'])[0]) ?>
+                                <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200/60 hidden sm:inline-flex">
+                                    ✓ Connecté : <?= htmlspecialchars(explode(' ', $user['name'])[0]) ?>
                                 </span>
                             <?php endif; ?>
                         </div>
 
                         <!-- Sélecteur d'adresse sauvegardée -->
                         <?php if (!empty($savedAddresses)): ?>
-                            <div class="p-3.5 bg-[#F8FBFF] rounded-2xl border border-[#E8EDF3] space-y-2">
-                                <label class="block text-xs font-bold text-[#182230]">Choisir parmi vos adresses enregistrées :</label>
-                                <select aria-label="Choisir une adresse enregistrée" onchange="fillSavedAddress(this.value)" class="w-full p-2.5 rounded-xl border border-[#E8EDF3] bg-white text-xs font-bold outline-none cursor-pointer">
+                            <div class="p-3 bg-[#F8FAFD] rounded-2xl border border-slate-200/80 space-y-1.5">
+                                <label class="block text-xs font-bold text-[#1D1D1F]">Utiliser une adresse enregistrée :</label>
+                                <select aria-label="Choisir une adresse enregistrée" onchange="fillSavedAddress(this.value)" class="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold outline-none cursor-pointer">
                                     <option value="">-- Saisir une nouvelle adresse --</option>
                                     <?php foreach ($savedAddresses as $idx => $sa): ?>
                                         <option value="<?= htmlspecialchars(json_encode($sa)) ?>" <?= !empty($sa['is_default']) ? 'selected' : '' ?>>
-                                            <?= htmlspecialchars($sa['first_name'] . ' ' . $sa['last_name'] . ' - ' . $sa['street'] . ', ' . $sa['city']) ?> <?= !empty($sa['is_default']) ? '(Par défaut)' : '' ?>
+                                            <?= htmlspecialchars($sa['first_name'] . ' ' . $sa['last_name'] . ' — ' . $sa['street'] . ', ' . $sa['city']) ?> <?= !empty($sa['is_default']) ? '(Par défaut)' : '' ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                         <?php endif; ?>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                        <!-- Nom & Prénom -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
                             <div>
-                                <label for="c-fn" class="block font-bold text-[#182230] mb-1">Prénom *</label>
-                                <input type="text" name="first_name" id="c-fn" value="<?= htmlspecialchars($defaultAddress['first_name'] ?? (explode(' ', $user['name'] ?? '')[0] ?? '')) ?>" required placeholder="Ex: Moussa" class="w-full px-4 py-3 rounded-xl border border-[#E8EDF3] focus:border-[#1677FF] outline-none font-bold">
+                                <label for="c-fn" class="block font-bold text-[#1D1D1F] mb-1.5">Prénom *</label>
+                                <input type="text" name="first_name" id="c-fn" value="<?= htmlspecialchars($defaultAddress['first_name'] ?? (explode(' ', $user['name'] ?? '')[0] ?? '')) ?>" required placeholder="Ex: Moussa" class="w-full h-11 px-3.5 rounded-xl bg-[#F8FAFD] border border-slate-200/90 focus:bg-white focus:border-[#1677FF] focus:ring-4 focus:ring-[#1677FF]/10 outline-none font-bold text-xs sm:text-sm text-[#1D1D1F] transition-all">
                             </div>
                             <div>
-                                <label for="c-ln" class="block font-bold text-[#182230] mb-1">Nom *</label>
-                                <input type="text" name="last_name" id="c-ln" value="<?= htmlspecialchars($defaultAddress['last_name'] ?? (explode(' ', $user['name'] ?? '')[1] ?? '')) ?>" required placeholder="Ex: Diallo" class="w-full px-4 py-3 rounded-xl border border-[#E8EDF3] focus:border-[#1677FF] outline-none font-bold">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                            <div>
-                                <label for="c-phone" class="block font-bold text-[#182230] mb-1">Téléphone pour la livraison *</label>
-                                <input type="tel" name="phone" id="c-phone" value="<?= htmlspecialchars($defaultAddress['phone'] ?? ($user['phone'] ?? '')) ?>" required pattern="^((\\+221|00221)[\\s-]?)?(70|75|76|77|78|33)[0-9\\s-]{7,11}$" placeholder="78 131 64 97" class="w-full px-4 py-3 rounded-xl border border-[#E8EDF3] focus:border-[#1677FF] outline-none font-bold">
-                                <span class="text-[10px] text-[#667085] mt-1 block">Le livreur vous appellera avant d'arriver.</span>
-                            </div>
-                            <div>
-                                <label for="c-email" class="block font-bold text-[#182230] mb-1">Adresse Email (Optionnel)</label>
-                                <input type="email" name="email" id="c-email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" placeholder="Pour recevoir la facture PDF" class="w-full px-4 py-3 rounded-xl border border-[#E8EDF3] focus:border-[#1677FF] outline-none font-medium">
+                                <label for="c-ln" class="block font-bold text-[#1D1D1F] mb-1.5">Nom *</label>
+                                <input type="text" name="last_name" id="c-ln" value="<?= htmlspecialchars($defaultAddress['last_name'] ?? (explode(' ', $user['name'] ?? '')[1] ?? '')) ?>" required placeholder="Ex: Diallo" class="w-full h-11 px-3.5 rounded-xl bg-[#F8FAFD] border border-slate-200/90 focus:bg-white focus:border-[#1677FF] focus:ring-4 focus:ring-[#1677FF]/10 outline-none font-bold text-xs sm:text-sm text-[#1D1D1F] transition-all">
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                        <!-- Téléphone sénégalais & Email -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
                             <div>
-                                <label for="c-region" class="block font-bold text-[#182230] mb-1">Région *</label>
-                                <select name="region" id="c-region" onchange="updateDeliveryZone(this.value)" class="w-full px-3.5 py-3 rounded-xl border border-[#E8EDF3] bg-white font-bold outline-none cursor-pointer">
+                                <label for="c-phone" class="block font-bold text-[#1D1D1F] mb-1.5">Numéro de Téléphone (Livraison) *</label>
+                                <div class="relative flex items-center">
+                                    <div class="absolute left-3 flex items-center gap-1.5 pointer-events-none text-xs font-bold text-slate-600 border-r border-slate-200 pr-2">
+                                        <span>🇸🇳</span>
+                                        <span>+221</span>
+                                    </div>
+                                    <input type="tel" name="phone" id="c-phone" value="<?= htmlspecialchars($defaultAddress['phone'] ?? ($user['phone'] ?? '')) ?>" required pattern="^((\+221|00221)[\s-]?)?(70|75|76|77|78|33)[0-9\s-]{7,11}$" placeholder="78 131 64 97" class="w-full h-11 pl-22 pr-3.5 rounded-xl bg-[#F8FAFD] border border-slate-200/90 focus:bg-white focus:border-[#1677FF] focus:ring-4 focus:ring-[#1677FF]/10 outline-none font-black text-xs sm:text-sm text-[#1D1D1F] tracking-wide transition-all">
+                                </div>
+                                <span class="text-[10.5px] text-[#64748B] mt-1 block">Le coursier vous appellera 15 min avant son arrivée.</span>
+                            </div>
+                            <div>
+                                <label for="c-email" class="block font-bold text-[#1D1D1F] mb-1.5">Adresse Email <span class="font-normal text-slate-400">(Optionnel)</span></label>
+                                <input type="email" name="email" id="c-email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" placeholder="Pour recevoir votre reçu PDF" class="w-full h-11 px-3.5 rounded-xl bg-[#F8FAFD] border border-slate-200/90 focus:bg-white focus:border-[#1677FF] focus:ring-4 focus:ring-[#1677FF]/10 outline-none font-medium text-xs sm:text-sm text-[#1D1D1F] transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Région, Ville, Quartier -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-xs">
+                            <div>
+                                <label for="c-region" class="block font-bold text-[#1D1D1F] mb-1.5">Région *</label>
+                                <select name="region" id="c-region" onchange="updateDeliveryZone(this.value)" class="w-full h-11 px-3 rounded-xl bg-[#F8FAFD] border border-slate-200/90 font-bold text-xs sm:text-sm text-[#1D1D1F] outline-none cursor-pointer">
                                     <option value="Dakar" selected>Dakar</option>
                                     <option value="Thiès">Thiès</option>
                                     <option value="Saint-Louis">Saint-Louis</option>
@@ -297,36 +321,38 @@ require_once __DIR__ . '/includes/navbar.php';
                                 </select>
                             </div>
                             <div>
-                                <label for="c-city" class="block font-bold text-[#182230] mb-1">Ville *</label>
-                                <input type="text" name="city" id="c-city" value="<?= htmlspecialchars($defaultAddress['city'] ?? 'Dakar') ?>" required placeholder="Dakar, Pikine, Rufisque..." class="w-full px-4 py-3 rounded-xl border border-[#E8EDF3] outline-none font-bold">
+                                <label for="c-city" class="block font-bold text-[#1D1D1F] mb-1.5">Ville *</label>
+                                <input type="text" name="city" id="c-city" value="<?= htmlspecialchars($defaultAddress['city'] ?? 'Dakar') ?>" required placeholder="Dakar, Pikine, Rufisque..." class="w-full h-11 px-3.5 rounded-xl bg-[#F8FAFD] border border-slate-200/90 outline-none font-bold text-xs sm:text-sm text-[#1D1D1F]">
                             </div>
                             <div>
-                                <label for="c-dist" class="block font-bold text-[#182230] mb-1">Quartier / Commune *</label>
-                                <input type="text" name="district" id="c-dist" value="<?= htmlspecialchars($defaultAddress['district'] ?? '') ?>" required placeholder="Mermoz, Plateau, Almadies..." class="w-full px-4 py-3 rounded-xl border border-[#E8EDF3] outline-none font-bold">
+                                <label for="c-dist" class="block font-bold text-[#1D1D1F] mb-1.5">Quartier / Commune *</label>
+                                <input type="text" name="district" id="c-dist" value="<?= htmlspecialchars($defaultAddress['district'] ?? '') ?>" required placeholder="Plateau, Almadies, Mermoz, Point E..." class="w-full h-11 px-3.5 rounded-xl bg-[#F8FAFD] border border-slate-200/90 outline-none font-bold text-xs sm:text-sm text-[#1D1D1F]">
                             </div>
                         </div>
 
+                        <!-- Adresse précise -->
                         <div class="text-xs">
-                            <label for="c-addr" class="block font-bold text-[#182230] mb-1">Adresse Complète (Rue, Numéro de Villa, Étage) *</label>
-                            <input type="text" name="address" id="c-addr" value="<?= htmlspecialchars($defaultAddress['street'] ?? '') ?>" required placeholder="Ex: Rue MZ-12, Villa N° 45, 2ème étage droite" class="w-full px-4 py-3 rounded-xl border border-[#E8EDF3] outline-none font-bold">
+                            <label for="c-addr" class="block font-bold text-[#1D1D1F] mb-1.5">Adresse Précise (Rue, N° Villa, Bâtiment, Étage) *</label>
+                            <input type="text" name="address" id="c-addr" value="<?= htmlspecialchars($defaultAddress['street'] ?? '') ?>" required placeholder="Ex: Rue MZ-12, Immeuble A, 2ème étage droite" class="w-full h-11 px-3.5 rounded-xl bg-[#F8FAFD] border border-slate-200/90 outline-none font-bold text-xs sm:text-sm text-[#1D1D1F]">
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                        <!-- Repère & Instructions -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
                             <div>
-                                <label for="c-land" class="block font-bold text-[#182230] mb-1">Point de Repère Livreur (Optionnel)</label>
-                                <input type="text" name="landmark" id="c-land" value="<?= htmlspecialchars($defaultAddress['landmark'] ?? '') ?>" placeholder="Ex: En face de la Pharmacie, Station Total..." class="w-full px-4 py-3 rounded-xl border border-[#E8EDF3] outline-none italic">
+                                <label for="c-land" class="block font-bold text-[#1D1D1F] mb-1.5">Point de Repère <span class="font-normal text-slate-400">(Optionnel)</span></label>
+                                <input type="text" name="landmark" id="c-land" value="<?= htmlspecialchars($defaultAddress['landmark'] ?? '') ?>" placeholder="Ex: En face Station Total, Pharmacie..." class="w-full h-11 px-3.5 rounded-xl bg-[#F8FAFD] border border-slate-200/90 outline-none text-xs sm:text-sm text-[#1D1D1F]">
                             </div>
                             <div>
-                                <label for="c-instructions" class="block font-bold text-[#182230] mb-1">Instructions de Livraison (Optionnel)</label>
-                                <input type="text" name="instructions" id="c-instructions" placeholder="Ex: Appeler à l'interphone B4..." class="w-full px-4 py-3 rounded-xl border border-[#E8EDF3] outline-none">
+                                <label for="c-instructions" class="block font-bold text-[#1D1D1F] mb-1.5">Note au Livreur <span class="font-normal text-slate-400">(Optionnel)</span></label>
+                                <input type="text" name="instructions" id="c-instructions" placeholder="Ex: Laisser à l'accueil, appeler à l'interphone..." class="w-full h-11 px-3.5 rounded-xl bg-[#F8FAFD] border border-slate-200/90 outline-none text-xs sm:text-sm text-[#1D1D1F]">
                             </div>
                         </div>
 
                         <?php if (isLoggedIn()): ?>
-                            <div class="pt-2">
-                                <label class="flex items-center gap-2 cursor-pointer text-xs font-bold text-[#182230]">
-                                    <input type="checkbox" name="save_address" value="1" checked class="accent-[#1677FF]">
-                                    <span>Sauvegarder cette adresse dans mon compte pour mes prochains achats</span>
+                            <div class="pt-1">
+                                <label class="flex items-center gap-2 cursor-pointer text-xs font-bold text-[#1D1D1F]">
+                                    <input type="checkbox" name="save_address" value="1" checked class="accent-[#1677FF] w-4 h-4 rounded">
+                                    <span>Enregistrer cette adresse dans mon compte</span>
                                 </label>
                             </div>
                         <?php endif; ?>
@@ -334,39 +360,49 @@ require_once __DIR__ . '/includes/navbar.php';
                     </div>
 
                     <!-- 2. Mode de Livraison & Frais -->
-                    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E1E8F0] shadow-2xs space-y-5">
+                    <div class="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/70 shadow-2xs space-y-4">
                         
-                        <div class="flex items-center gap-3 pb-3 border-b border-[#E8EDF3]">
-                            <div class="w-8 h-8 rounded-xl bg-[#EAF3FF] text-[#1677FF] flex items-center justify-center font-black text-xs">2</div>
-                            <h2 class="text-sm font-black text-[#182230] uppercase tracking-wider">Option de Livraison</h2>
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-7 rounded-full bg-[#1677FF]/10 text-[#1677FF] flex items-center justify-center font-black text-xs">2</div>
+                                <div>
+                                    <h2 class="text-xs sm:text-sm font-black text-[#1D1D1F] uppercase tracking-wider">Option de Livraison</h2>
+                                    <p class="text-[11px] text-[#64748B]">Dakar & banlieue immédiate</p>
+                                </div>
+                            </div>
+                            <?php if ($initialTotals['subtotal'] >= 50000): ?>
+                                <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                                    🎉 Livraison Gratuite dès 50k
+                                </span>
+                            <?php endif; ?>
                         </div>
 
                         <input type="hidden" name="delivery_zone" id="input-delivery-zone" value="zone_dakar">
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                             
                             <!-- Option 1 : Express Dakar H+2 -->
-                            <label class="cursor-pointer flex items-start gap-3 p-4 rounded-2xl border-2 border-[#1677FF] bg-[#F8FBFF] relative shadow-2xs">
-                                <input type="radio" name="delivery_method" value="express" checked onchange="updateDeliveryMethod(3000)" class="mt-1 accent-[#1677FF]">
+                            <label class="cursor-pointer flex items-start gap-3 p-4 rounded-2xl border-2 border-[#1677FF] bg-[#F4F8FF] relative shadow-2xs transition-all">
+                                <input type="radio" name="delivery_method" value="express" checked onchange="updateDeliveryMethod(3000)" class="mt-1 accent-[#1677FF] w-4 h-4">
                                 <div class="space-y-1">
                                     <div class="flex items-center gap-2">
-                                        <span class="text-xs font-black text-[#182230]">Livraison Express H+2</span>
-                                        <span class="text-[9px] font-extrabold bg-[#16C784]/15 text-[#0D7D53] px-2 py-0.2 rounded-full uppercase">Recommandé</span>
+                                        <span class="text-xs sm:text-sm font-black text-[#1D1D1F]">⚡ Express Dakar H+2</span>
+                                        <span class="text-[9px] font-extrabold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full uppercase">Recommandé</span>
                                     </div>
-                                    <p class="text-[11px] text-[#667085]">Livré en 2h à 4h à Dakar et banlieue</p>
-                                    <span class="text-xs font-black text-[#0B54C2] block pt-1">3 000 FCFA</span>
+                                    <p class="text-[11px] text-[#64748B]">Remise en main propre sous 90 min à 2h à Dakar</p>
+                                    <span class="text-xs font-black text-[#1677FF] block pt-0.5">3 000 FCFA</span>
                                 </div>
                             </label>
 
                             <!-- Option 2 : Standard 24h -->
-                            <label class="cursor-pointer flex items-start gap-3 p-4 rounded-2xl border border-[#E8EDF3] hover:border-[#1677FF]/40 bg-white relative transition-colors shadow-2xs">
-                                <input type="radio" name="delivery_method" value="standard" onchange="updateDeliveryMethod(2000)" class="mt-1 accent-[#1677FF]">
+                            <label class="cursor-pointer flex items-start gap-3 p-4 rounded-2xl border border-slate-200 hover:border-slate-300 bg-white relative transition-all shadow-2xs">
+                                <input type="radio" name="delivery_method" value="standard" onchange="updateDeliveryMethod(2000)" class="mt-1 accent-[#1677FF] w-4 h-4">
                                 <div class="space-y-1">
                                     <div class="flex items-center gap-2">
-                                        <span class="text-xs font-black text-[#182230]">Livraison Standard 24h</span>
+                                        <span class="text-xs sm:text-sm font-black text-[#1D1D1F]">📦 Livraison 24h</span>
                                     </div>
-                                    <p class="text-[11px] text-[#667085]">Livré le jour ouvrable suivant</p>
-                                    <span class="text-xs font-black text-[#0B54C2] block pt-1">2 000 FCFA</span>
+                                    <p class="text-[11px] text-[#64748B]">Livré le jour ouvrable suivant</p>
+                                    <span class="text-xs font-black text-slate-700 block pt-0.5">2 000 FCFA</span>
                                 </div>
                             </label>
 
@@ -374,67 +410,70 @@ require_once __DIR__ . '/includes/navbar.php';
 
                     </div>
 
-                    <!-- 3. Méthode de Paiement Sécurisée -->
-                    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E1E8F0] shadow-2xs space-y-5">
+                    <!-- 3. Mode de Paiement Sécurisé -->
+                    <div class="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/70 shadow-2xs space-y-4">
                         
-                        <div class="flex items-center gap-3 pb-3 border-b border-[#E8EDF3]">
-                            <div class="w-8 h-8 rounded-xl bg-[#EAF3FF] text-[#1677FF] flex items-center justify-center font-black text-xs">3</div>
-                            <h2 class="text-sm font-black text-[#182230] uppercase tracking-wider">Mode de Paiement</h2>
+                        <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                            <div class="w-7 h-7 rounded-full bg-[#1677FF]/10 text-[#1677FF] flex items-center justify-center font-black text-xs">3</div>
+                            <div>
+                                <h2 class="text-xs sm:text-sm font-black text-[#1D1D1F] uppercase tracking-wider">Mode de Paiement</h2>
+                                <p class="text-[11px] text-[#64748B]">Aucun paiement avant inspection du blister scellé</p>
+                            </div>
                         </div>
 
                         <!-- Incentive Reassurance Wave / OM -->
-                        <div class="p-3.5 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl flex items-center gap-3 mb-3 text-xs">
-                            <div class="w-9 h-9 rounded-xl bg-[#1677FF] text-white flex items-center justify-center shrink-0 shadow-xs font-black text-sm">
+                        <div class="p-3.5 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 rounded-2xl flex items-center gap-3 text-xs">
+                            <div class="w-8 h-8 rounded-xl bg-[#1677FF] text-white flex items-center justify-center shrink-0 shadow-xs text-sm">
                                 🎁
                             </div>
                             <div class="min-w-0 flex-1">
-                                <span class="font-black text-[#0B54C2] block">Privilège Paiement Mobile (Wave & OM)</span>
-                                <span class="text-[11px] text-[#334155]">Câble rapide 100W Offert + Traitement Prioritaire H+1 pour toute commande prépayée !</span>
+                                <span class="font-extrabold text-[#0B54C2] block">Privilège Paiement Mobile (Wave & OM)</span>
+                                <span class="text-[11px] text-slate-700">Câble renforcé anti-coupure Offert + Traitement Prioritaire H+1 !</span>
                             </div>
                         </div>
 
                         <div class="space-y-3">
                             
-                            <!-- Mode 1 (Recommandé & Prioritaire) : Wave Sénégal -->
-                            <label class="cursor-pointer flex items-center justify-between p-4 rounded-2xl border-2 border-[#1677FF] bg-[#F8FBFF] shadow-2xs hover:border-[#0F67E5] transition-all">
-                                <div class="flex items-center gap-3">
-                                    <input type="radio" name="payment_method" value="wave" checked class="accent-[#1677FF] w-4 h-4">
-                                    <div>
-                                        <div class="flex items-center gap-2">
-                                            <span class="text-xs font-black text-[#182230] block">Wave Sénégal (Recommandé • Zéro Frais)</span>
-                                            <span class="text-[9px] font-black uppercase tracking-wider bg-emerald-100 text-[#0D7D53] px-2 py-0.5 rounded-full">+ Câble Offert</span>
+                            <!-- Mode 1 : Wave Sénégal (Recommandé • Zéro Frais) -->
+                            <label class="cursor-pointer flex items-center justify-between p-4 rounded-2xl border-2 border-[#1677FF] bg-[#F4F8FF] shadow-2xs transition-all">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <input type="radio" name="payment_method" value="wave" checked class="accent-[#1677FF] w-4 h-4 shrink-0">
+                                    <div class="min-w-0">
+                                        <div class="flex items-center gap-2 flex-wrap">
+                                            <span class="text-xs sm:text-sm font-black text-[#1D1D1F]">Wave Sénégal</span>
+                                            <span class="text-[9px] font-black uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">+ Câble Offert</span>
                                         </div>
-                                        <span class="text-[11px] text-[#667085]">Paiement instantané 1-Clic 100% sécurisé. Expédition prioritaire H+1.</span>
+                                        <span class="text-[11px] text-[#64748B] block mt-0.5">Payez en 1-clic ou scannez le QR code du coursier à la réception du colis.</span>
                                     </div>
                                 </div>
-                                <span class="text-xs font-black text-[#1FA2FF] bg-blue-100/70 border border-blue-200 px-3 py-1 rounded-xl">WAVE</span>
+                                <span class="text-xs font-black text-[#1FA2FF] bg-blue-100/70 border border-blue-200 px-3 py-1 rounded-xl shrink-0">WAVE</span>
                             </label>
 
                             <!-- Mode 2 : Orange Money Sénégal -->
-                            <label class="cursor-pointer flex items-center justify-between p-4 rounded-2xl border border-[#E8EDF3] hover:border-[#1677FF]/40 bg-white transition-all shadow-2xs">
-                                <div class="flex items-center gap-3">
-                                    <input type="radio" name="payment_method" value="om" class="accent-[#1677FF] w-4 h-4">
-                                    <div>
-                                        <div class="flex items-center gap-2">
-                                            <span class="text-xs font-black text-[#182230] block">Orange Money Sénégal (Prioritaire)</span>
-                                            <span class="text-[9px] font-black uppercase tracking-wider bg-orange-100 text-[#FF7900] px-2 py-0.5 rounded-full">+ Câble Offert</span>
+                            <label class="cursor-pointer flex items-center justify-between p-4 rounded-2xl border border-slate-200 hover:border-slate-300 bg-white transition-all shadow-2xs">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <input type="radio" name="payment_method" value="om" class="accent-[#1677FF] w-4 h-4 shrink-0">
+                                    <div class="min-w-0">
+                                        <div class="flex items-center gap-2 flex-wrap">
+                                            <span class="text-xs sm:text-sm font-black text-[#1D1D1F]">Orange Money Sénégal</span>
+                                            <span class="text-[9px] font-black uppercase bg-orange-100 text-[#FF7900] px-2 py-0.5 rounded-full">+ Câble Offert</span>
                                         </div>
-                                        <span class="text-[11px] text-[#667085]">Validation instantanée via code marchand OM. Expédition prioritaire.</span>
+                                        <span class="text-[11px] text-[#64748B] block mt-0.5">Code marchand OM direct. Validation instantanée.</span>
                                     </div>
                                 </div>
-                                <span class="text-xs font-black text-[#FF7900] bg-orange-100/70 border border-orange-200 px-3 py-1 rounded-xl">OM</span>
+                                <span class="text-xs font-black text-[#FF7900] bg-orange-100/70 border border-orange-200 px-3 py-1 rounded-xl shrink-0">OM</span>
                             </label>
 
-                            <!-- Mode 3 : Paiement en Espèces à la Livraison (Déclassé & Conditionné) -->
-                            <label class="cursor-pointer flex items-center justify-between p-4 rounded-2xl border border-slate-200 bg-slate-50/70 transition-all opacity-90 hover:opacity-100">
-                                <div class="flex items-center gap-3">
-                                    <input type="radio" name="payment_method" value="cod" class="accent-slate-600 w-4 h-4">
-                                    <div>
-                                        <span class="text-xs font-bold text-[#182230] block">Paiement à la Livraison (Espèces au coursier)</span>
-                                        <span class="text-[10.5px] text-[#64748B]">Délai standard 2h à 4h. Prévoir l'appoint exact. Validation téléphonique requise avant départ.</span>
+                            <!-- Mode 3 : Espèces à la livraison -->
+                            <label class="cursor-pointer flex items-center justify-between p-4 rounded-2xl border border-slate-200 hover:border-slate-300 bg-white transition-all shadow-2xs">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <input type="radio" name="payment_method" value="cod" class="accent-slate-600 w-4 h-4 shrink-0">
+                                    <div class="min-w-0">
+                                        <span class="text-xs sm:text-sm font-bold text-[#1D1D1F] block">Paiement en Espèces au Coursier</span>
+                                        <span class="text-[11px] text-[#64748B] block mt-0.5">Vous inspectez l'intégrité du blister scellé avant de remettre l'appoint.</span>
                                     </div>
                                 </div>
-                                <div class="w-8 h-8 rounded-xl bg-slate-200 text-slate-600 flex items-center justify-center shrink-0">
+                                <div class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0">
                                     <i data-lucide="hand-coins" class="w-4 h-4"></i>
                                 </div>
                             </label>
@@ -445,68 +484,85 @@ require_once __DIR__ . '/includes/navbar.php';
 
                 </div>
 
-                <!-- Colonne Droite : Récapitulatif Sticky (4 Cols) -->
-                <div class="lg:col-span-4 space-y-4 sticky top-20">
+                <!-- Colonne Droite : Récapitulatif Sticky Desktop (4 Cols) -->
+                <div class="lg:col-span-4 space-y-4 lg:sticky lg:top-24">
                     
-                    <div class="bg-white rounded-3xl p-6 border border-[#E1E8F0] shadow-2xs space-y-5">
+                    <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/70 shadow-2xs space-y-4">
                         
-                        <h3 class="text-sm font-black text-[#182230] uppercase tracking-wider pb-3 border-b border-[#E8EDF3]">
-                            Articles (<?= $initialTotals['items_count'] ?>)
-                        </h3>
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                            <h3 class="text-xs sm:text-sm font-black text-[#1D1D1F] uppercase tracking-wider">
+                                Votre Commande (<?= $initialTotals['items_count'] ?>)
+                            </h3>
+                            <a href="cart.php" class="text-[11px] font-bold text-[#1677FF] hover:underline">Modifier</a>
+                        </div>
 
                         <!-- Mini Liste Articles -->
-                        <div class="max-h-56 overflow-y-auto divide-y divide-[#E8EDF3] pr-1 space-y-2">
+                        <div class="max-h-56 overflow-y-auto divide-y divide-slate-100 pr-1 space-y-2">
                             <?php foreach ($initialTotals['items'] as $it): 
                                 $p = $it['product'];
                                 $img = getProductMainImage($p, 'assets/images/product_img4.webp');
                             ?>
                                 <div class="pt-2 first:pt-0 flex items-center justify-between gap-3">
                                     <div class="flex items-center gap-2.5 min-w-0">
-                                        <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($p['name']) ?> - SenTechPLUS" width="40" height="40" loading="lazy" style="aspect-ratio:1/1;" class="w-10 h-10 rounded-xl object-contain bg-[#F3F7FC] p-1 border border-[#E8EDF3] shrink-0">
+                                        <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($p['name']) ?> - SenTechPLUS" width="44" height="44" loading="lazy" style="aspect-ratio:1/1;" class="w-11 h-11 rounded-2xl object-contain bg-[#F8FAFD] p-1 border border-slate-200/80 shrink-0">
                                         <div class="min-w-0">
-                                            <span class="text-xs font-bold text-[#182230] truncate block"><?= htmlspecialchars($p['name']) ?></span>
-                                            <span class="text-[10px] text-[#667085]"><?= $it['quantity'] ?> × <?= formatPrice($it['unit_price']) ?></span>
+                                            <span class="text-xs font-bold text-[#1D1D1F] truncate block"><?= htmlspecialchars($p['name']) ?></span>
+                                            <span class="text-[11px] text-[#64748B] font-medium"><?= $it['quantity'] ?> × <?= formatPrice($it['unit_price']) ?></span>
                                         </div>
                                     </div>
-                                    <span class="text-xs font-black text-[#182230] shrink-0"><?= formatPrice($it['line_total']) ?></span>
+                                    <span class="text-xs font-black text-[#1D1D1F] shrink-0"><?= formatPrice($it['line_total']) ?></span>
                                 </div>
                             <?php endforeach; ?>
                         </div>
 
-                        <!-- Calculs -->
-                        <div class="space-y-2.5 text-xs pt-3 border-t border-[#E8EDF3]">
-                            <div class="flex justify-between text-[#475467]">
+                        <!-- Lignes de Calcul -->
+                        <div class="space-y-2 text-xs pt-3 border-t border-slate-100">
+                            <div class="flex justify-between text-[#64748B]">
                                 <span>Sous-total</span>
-                                <span class="font-bold text-[#182230]" id="display-subtotal"><?= formatPrice($initialTotals['subtotal']) ?></span>
+                                <span class="font-bold text-[#1D1D1F]" id="display-subtotal"><?= formatPrice($initialTotals['subtotal']) ?></span>
                             </div>
 
                             <?php if ($initialTotals['discount_total'] > 0): ?>
-                                <div class="flex justify-between text-[#0D7D53] font-bold">
+                                <div class="flex justify-between text-emerald-700 font-bold">
                                     <span>Remise coupon (<?= htmlspecialchars($initialTotals['coupon']['code'] ?? '') ?>)</span>
                                     <span>- <?= formatPrice($initialTotals['discount_total']) ?></span>
                                 </div>
                             <?php endif; ?>
 
-                            <div class="flex justify-between text-[#475467]">
-                                <span>Frais de livraison</span>
-                                <span class="font-bold text-[#182230]" id="display-shipping"><?= formatPrice($initialTotals['delivery_fee']) ?></span>
+                            <div class="flex justify-between text-[#64748B]">
+                                <span>Livraison express</span>
+                                <span class="font-bold text-[#1D1D1F]" id="display-shipping"><?= formatPrice($initialTotals['delivery_fee']) ?></span>
                             </div>
 
-                            <div class="flex justify-between items-center text-sm pt-3 border-t border-[#E8EDF3]">
-                                <span class="font-black text-[#182230]">Total à payer</span>
-                                <span class="text-xl font-black text-[#0B54C2]" id="display-grand-total"><?= formatPrice($initialTotals['total']) ?></span>
+                            <div class="flex justify-between items-baseline pt-3 border-t border-slate-100">
+                                <div>
+                                    <span class="font-black text-sm text-[#1D1D1F] block">Total Net</span>
+                                    <span class="text-[10px] text-[#64748B] font-medium">TTC · Livraison incluse</span>
+                                </div>
+                                <span class="text-2xl font-black text-[#1677FF] tracking-tight" id="display-grand-total"><?= formatPrice($initialTotals['total']) ?></span>
                             </div>
                         </div>
 
-                        <!-- Bouton Confirmer Commande -->
-                        <button type="submit" class="cursor-pointer w-full bg-[#1677FF] hover:bg-[#0F67E5] text-white font-extrabold text-sm py-4 rounded-full shadow-apple-soft transition-all active:scale-95 flex items-center justify-center gap-2">
-                            <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        <!-- Bouton Confirmer Desktop -->
+                        <button type="submit" style="background-color: #1677FF !important; color: #ffffff !important;" class="cursor-pointer w-full hover:bg-[#0F67E5] active:scale-[0.98] text-white font-extrabold text-sm py-4 rounded-2xl shadow-apple-soft transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i>
                             <span>Confirmer la Commande</span>
                         </button>
 
-                        <div class="text-[10px] text-[#64748B] text-center space-y-1 pt-2 border-t border-slate-100">
-                            <p>🔒 Vos données personnelles sont 100% protégées.</p>
-                            <p>Assistance WhatsApp 7j/7 au <strong><?= defined('WHATSAPP_DISPLAY') ? WHATSAPP_DISPLAY : '+221 78 131 64 97' ?></strong></p>
+                        <!-- Piliers de Confiance Apple -->
+                        <div class="pt-3 border-t border-slate-100 space-y-2 text-[11px] text-[#64748B]">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                                <span>Garantie 12 mois avec remplacement express à neuf</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="lock" class="w-4 h-4 text-blue-600 shrink-0"></i>
+                                <span>Paiement 100% sécurisé Wave, OM ou à la remise</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="message-circle" class="w-4 h-4 text-[#25D366] shrink-0"></i>
+                                <span>Assistance WhatsApp 7j/7 au <?= defined('WHATSAPP_DISPLAY') ? WHATSAPP_DISPLAY : '+221 78 131 64 97' ?></span>
+                            </div>
                         </div>
 
                     </div>
@@ -514,12 +570,25 @@ require_once __DIR__ . '/includes/navbar.php';
                 </div>
 
             </div>
+
+            <!-- ─── MOBILE STICKY BUY BAR (Barre d'action inférieure sur smartphone) ─── -->
+            <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 p-3 z-40 shadow-xl flex items-center justify-between gap-3">
+                <div class="min-w-0">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Total à payer</span>
+                    <span class="text-lg font-black text-[#1677FF] tracking-tight block leading-tight" id="mobile-display-total"><?= formatPrice($initialTotals['total']) ?></span>
+                </div>
+                <button type="submit" style="background-color: #1677FF !important; color: #ffffff !important;" class="cursor-pointer flex-1 max-w-[220px] py-3.5 px-4 rounded-2xl text-white font-black text-xs sm:text-sm active:scale-95 shadow-apple-soft transition-all flex items-center justify-center gap-2">
+                    <span>Valider</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+
         </form>
 
     </div>
 </div>
 
-<!-- ─── MODAL D'ATTENTE RASSURANTE / LABOR ILLUSION & PROGRESSIVE UX ─── -->
+<!-- ─── MODAL D'ATTENTE RASSURANTE / LABOR ILLUSION ─── -->
 <div id="checkout-processing-modal" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md transition-all duration-300">
     <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-100 text-center space-y-6 animate-fade-in">
         <div class="relative w-20 h-20 mx-auto flex items-center justify-center">
@@ -530,20 +599,20 @@ require_once __DIR__ . '/includes/navbar.php';
         </div>
         
         <div class="space-y-2">
-            <h3 class="text-base sm:text-lg font-black text-[#182230] tracking-tight" id="processing-title">Sécurisation de votre commande...</h3>
-            <p class="text-xs text-[#667085] leading-relaxed" id="processing-desc">Chiffrement TLS 256-bit et vérification des stocks.</p>
+            <h3 class="text-base sm:text-lg font-black text-[#1D1D1F] tracking-tight" id="processing-title">Sécurisation de votre commande...</h3>
+            <p class="text-xs text-[#64748B] leading-relaxed" id="processing-desc">Chiffrement TLS 256-bit et réservation des stocks.</p>
         </div>
 
         <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-            <div id="processing-bar" class="h-full bg-gradient-to-r from-[#1677FF] via-[#0B54C2] to-[#0D7D53] transition-all duration-700 rounded-full" style="width: 20%;"></div>
+            <div id="processing-bar" class="h-full bg-gradient-to-r from-[#1677FF] via-[#0B54C2] to-emerald-600 transition-all duration-700 rounded-full" style="width: 20%;"></div>
         </div>
 
         <div class="space-y-2">
-            <div class="flex items-center justify-center gap-2 text-[11px] font-bold text-[#667085]">
+            <div class="flex items-center justify-center gap-2 text-[11px] font-bold text-[#64748B]">
                 <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                <span>Passerelle Certifiée PayDunya & SenTechPLUS</span>
+                <span>Passerelle Certifiée Wave, Orange Money & SenTechPLUS</span>
             </div>
-            <!-- Bouton d'Assistance de Secours (> 12 secondes) -->
+            <!-- Bouton d'Assistance de Secours (> 10 secondes) -->
             <div id="processing-fallback-help" style="display: none;" class="pt-2 animate-fade-in">
                 <a href="https://wa.me/221781316497?text=Bonjour%20SenTechPLUS,%20ma%20commande%20semble%20bloqu%C3%A9e%20au%20chargement." target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-[#25D366] hover:underline inline-flex items-center gap-1">
                     <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
@@ -560,16 +629,16 @@ const discountTotal = <?= (float)$initialTotals['discount_total'] ?>;
 let currentShippingFee = <?= (float)$initialTotals['delivery_fee'] ?>;
 
 function handleCheckoutSubmit(form, e) {
-    const submitBtn = form.querySelector('button[type="submit"]');
-    if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
-    }
+    const submitBtns = form.querySelectorAll('button[type="submit"]');
+    submitBtns.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('opacity-75', 'cursor-not-allowed');
+    });
 
     const modal = document.getElementById('checkout-processing-modal');
     if (!modal) return true;
 
-    // Règle d'or UX : Délai de grâce de 400ms pour éviter l'effet glitch sur réponses instantanées
+    // Délai de grâce de 300ms pour éviter l'effet glitch
     setTimeout(() => {
         modal.style.display = 'flex';
         if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -579,33 +648,33 @@ function handleCheckoutSubmit(form, e) {
         const bar = document.getElementById('processing-bar');
         const fallbackHelp = document.getElementById('processing-fallback-help');
 
-        // Étape 1 : 1.2s (Connexion Mobile Money)
+        // Étape 1 : 1.2s
         setTimeout(() => {
-            if (bar) bar.style.width = '45%';
-            if (title) title.textContent = 'Connexion à la passerelle Mobile Money...';
-            if (desc) desc.textContent = 'Initialisation sécurisée Wave, Orange Money ou Carte.';
+            if (bar) bar.style.width = '50%';
+            if (title) title.textContent = 'Connexion à la passerelle Wave / OM...';
+            if (desc) desc.textContent = 'Génération du code marchand et sécurisation de la session.';
         }, 1200);
 
-        // Étape 2 : 3.0s (Facturation & Reçu)
+        // Étape 2 : 2.8s
         setTimeout(() => {
-            if (bar) bar.style.width = '75%';
-            if (title) title.textContent = 'Génération de votre facture & SMS...';
-            if (desc) desc.textContent = 'Attribution automatique du numéro de commande ST-XXXX.';
-        }, 3000);
+            if (bar) bar.style.width = '80%';
+            if (title) title.textContent = 'Attribution de votre N° de commande...';
+            if (desc) desc.textContent = 'Réservation de votre créneau de livraison express.';
+        }, 2800);
 
-        // Étape 3 : 6.0s (Finalisation)
+        // Étape 3 : 5.0s
         setTimeout(() => {
-            if (bar) bar.style.width = '92%';
-            if (title) title.textContent = 'Finalisation dans quelques instants...';
-            if (desc) desc.textContent = 'Redirection vers votre page de confirmation.';
-        }, 6000);
+            if (bar) bar.style.width = '95%';
+            if (title) title.textContent = 'Finalisation en cours...';
+            if (desc) desc.textContent = 'Redirection vers votre confirmation.';
+        }, 5000);
 
-        // Étape 4 : > 12.0s (Secours / Rassurance pour connexions très lentes)
+        // Étape 4 : > 10.0s
         setTimeout(() => {
             if (fallbackHelp) fallbackHelp.style.display = 'block';
             if (typeof lucide !== 'undefined') lucide.createIcons();
-        }, 12000);
-    }, 350);
+        }, 10000);
+    }, 300);
 
     return true;
 }
@@ -635,8 +704,17 @@ function updateDeliveryZone(region) {
 
 function recalculateTotal() {
     const total = Math.max(0, baseSubtotal - discountTotal + currentShippingFee);
-    document.getElementById('display-shipping').textContent = currentShippingFee.toLocaleString('fr-FR') + ' FCFA';
-    document.getElementById('display-grand-total').textContent = total.toLocaleString('fr-FR') + ' FCFA';
+    const feeStr = currentShippingFee.toLocaleString('fr-FR') + ' FCFA';
+    const totalStr = total.toLocaleString('fr-FR') + ' FCFA';
+    
+    const dispShip = document.getElementById('display-shipping');
+    if (dispShip) dispShip.textContent = feeStr;
+    
+    const dispTotal = document.getElementById('display-grand-total');
+    if (dispTotal) dispTotal.textContent = totalStr;
+
+    const mobTotal = document.getElementById('mobile-display-total');
+    if (mobTotal) mobTotal.textContent = totalStr;
 }
 
 function fillSavedAddress(jsonStr) {
