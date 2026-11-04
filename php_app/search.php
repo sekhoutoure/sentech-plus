@@ -111,19 +111,23 @@ if ($maxPrice !== null) {
 
 $whereSql = implode(" AND ", $whereClauses);
 
-// Tri
-$orderBy = "created_at DESC";
+// Tri robuste et sécurisé
+$orderBy = "created_at DESC, id DESC";
 if ($sort === 'price_asc') {
-    $orderBy = "price ASC";
+    $orderBy = "price ASC, id DESC";
 } elseif ($sort === 'price_desc') {
-    $orderBy = "price DESC";
+    $orderBy = "price DESC, id DESC";
 } elseif ($sort === 'newest') {
-    $orderBy = "created_at DESC";
+    $orderBy = "created_at DESC, id DESC";
 } elseif ($sort === 'sales' || $sort === 'discount') {
-    $orderBy = "(mrp - price) DESC, sales_count DESC";
+    $orderBy = "(mrp - price) DESC, id DESC";
 } elseif ($sort === 'relevance' && !empty($q)) {
-    $orderBy = "CASE WHEN name LIKE :q_exact THEN 1 WHEN brand LIKE :q_exact THEN 2 ELSE 3 END, sales_count DESC";
-    $params[':q_exact'] = '%' . $q . '%';
+    if ($pdo) {
+        $escapedQ = $pdo->quote('%' . $q . '%');
+        $orderBy = "CASE WHEN name LIKE {$escapedQ} THEN 1 WHEN brand LIKE {$escapedQ} THEN 2 ELSE 3 END, id DESC";
+    } else {
+        $orderBy = "id DESC";
+    }
 }
 
 try {
@@ -132,16 +136,11 @@ try {
     $countStmt = $pdo->prepare($countSql);
     $countStmt->execute($params);
     $totalProducts = (int)$countStmt->fetchColumn();
-    $totalPages = max(1, ceil($totalProducts / $limit));
+    $totalPages = max(1, (int)ceil($totalProducts / $limit));
 
-    $sql = "SELECT * FROM products WHERE {$whereSql} ORDER BY {$orderBy} LIMIT :limit OFFSET :offset";
+    $sql = "SELECT * FROM products WHERE {$whereSql} ORDER BY {$orderBy} LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
     $stmt = $pdo->prepare($sql);
-    foreach ($params as $key => $val) {
-        $stmt->bindValue($key, $val);
-    }
-    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-    $stmt->execute();
+    $stmt->execute($params);
     $products = $stmt->fetchAll();
 } catch (Throwable $e) {
     $products = [];
