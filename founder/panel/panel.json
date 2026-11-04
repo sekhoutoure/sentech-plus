@@ -1,0 +1,87 @@
+{
+ "n": 20,
+ "seed": 902944,
+ "customer": {
+  "business": "SenTechPLUS Dakar (Comptoir High-Tech certifié d'origine)",
+  "target": "Consommateurs et professionnels urbains à Dakar (22 à 45 ans) achetant des accessoires High-Tech certifiés pour smartphone ou ordinateur",
+  "where": "Dakar, Sénégal (Plateau, Almadies, Point E, Mermoz, Sacré-Cœur, Maristes, Yoff)",
+  "age": [
+   22,
+   45
+  ],
+  "segments": [
+   {
+    "name": "Cadre & Professionnel supérieur",
+    "share": 0.35,
+    "income": [
+     6000000,
+     18000000
+    ]
+   },
+   {
+    "name": "Freelance tech & Créateur de contenu",
+    "share": 0.35,
+    "income": [
+     3600000,
+     9600000
+    ]
+   },
+   {
+    "name": "Étudiant urbain & Jeune diplômé",
+    "share": 0.3,
+    "income": [
+     1200000,
+     3000000
+    ]
+   }
+  ],
+  "behaviours": [
+   {
+    "name": "Traumatisé de Sandaga",
+    "share": 0.22,
+    "how": "A déjà bousillé une batterie avec un faux chargeur de rue ; exige un blister scellé et une preuve d'authenticité."
+   },
+   {
+    "name": "Pressé / Workaholic",
+    "share": 0.2,
+    "how": "En réunion ou au bureau ; a besoin d'un câble ou chargeur livré en moins de 90 min sans quitter sa chaise."
+   },
+   {
+    "name": "Chasseur de prix / Négociateur",
+    "share": 0.18,
+    "how": "Compare systématiquement avec les étals de Sandaga et Jumia ; hésite à payer le double pour du certifié."
+   },
+   {
+    "name": "Tech Addict Apple/Samsung",
+    "share": 0.15,
+    "how": "Équipé de matériel récent ; cherche des chargeurs GaN multiports, du MagSafe et des écouteurs ANC fiables."
+   },
+   {
+    "name": "Client Wave 1-Clic",
+    "share": 0.15,
+    "how": "Règle tous ses achats quotidiens par Wave ou Orange Money instantanément, évite le cash."
+   },
+   {
+    "name": "Sceptique du SAV en ligne",
+    "share": 0.1,
+    "how": "A peur que la garantie ne serve à rien et que le vendeur disparaisse dès que l'argent est encaissé."
+   }
+  ],
+  "objections": [
+   "16 000 FCFA pour un chargeur GaN alors que j'en trouve à 5 000 FCFA à Sandaga ?",
+   "Comment puis-je vérifier que vos produits sous blister sont 100% originaux et pas des clones de Dubaï ?",
+   "Livraison en moins de 90 minutes à Dakar avec les bouchons de la VDN, vous êtes sûrs de tenir ?",
+   "Si l'accessoire tombe en panne dans 3 mois, allez-vous vraiment me livrer un neuf sans discuter ?",
+   "Pourquoi devrais-je prépayer par Wave avant que le livreur ne me remette le colis ?",
+   "Je préfère une boutique physique où je peux toucher le matériel avant de payer."
+  ],
+  "habits": [
+   "vous travaillez dans un bureau climatisé au Plateau ou aux Almadies",
+   "votre journée de travail dépend entièrement de votre téléphone et de votre ordinateur",
+   "vous commandez vos repas et faites vos transferts d'argent tous les jours via Wave",
+   "vous fuyez les embouteillages monstres du centre-ville et de la VDN",
+   "vous avez déjà eu une mauvaise surprise avec un accessoire acheté à la sauvette qui a lâché au bout de 2 semaines"
+  ]
+ },
+ "pitch": "SenTechPLUS Dakar : Le comptoir digital d'accessoires High-Tech 100% certifiés d'origine à Dakar (Sénégal).\nChargeurs rapides GaN 30W–65W, câbles renforcés anti-coupure et écouteurs sans fil ANC des marques officielles (Baseus, Anker, Oraimo, Apple) neufs sous blister scellé avec sceau d'inviolabilité.\nPrix : 14 000 à 25 000 FCFA. Garantie écrite 12 mois avec remplacement express à neuf sous 24h directement chez vous en cas de défaillance.\nLivraison express par coursier moto en moins de 90 minutes partout à Dakar (Plateau, Almadies, Point E, Mermoz, Maristes).\nPaiement 1-clic par Wave, Orange Money ou à la livraison en espèces. Offre de lancement : câble renforcé offert sur votre première commande prépayée Wave."
+}

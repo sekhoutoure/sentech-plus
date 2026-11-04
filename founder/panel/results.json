@@ -1,0 +1,173 @@
+{
+ "business": "SenTechPLUS Dakar (Comptoir High-Tech certifié d'origine)",
+ "seed": 902944,
+ "dealt": 20,
+ "answered": 20,
+ "skipped": [],
+ "buys": 13,
+ "passes": 7,
+ "buy_rate": 0.65,
+ "by_segment": [
+  [
+   "Freelance tech & Créateur de contenu",
+   7,
+   0.8571428571428571
+  ],
+  [
+   "Cadre & Professionnel supérieur",
+   7,
+   0.7142857142857143
+  ],
+  [
+   "Étudiant urbain & Jeune diplômé",
+   6,
+   0.3333333333333333
+  ]
+ ],
+ "by_behaviour": [
+  [
+   "Tech Addict Apple/Samsung",
+   3,
+   1.0
+  ],
+  [
+   "Client Wave 1-Clic",
+   3,
+   1.0
+  ],
+  [
+   "Traumatisé de Sandaga",
+   4,
+   0.75
+  ],
+  [
+   "Pressé / Workaholic",
+   4,
+   0.5
+  ],
+  [
+   "Sceptique du SAV en ligne",
+   2,
+   0.5
+  ],
+  [
+   "Chasseur de prix / Négociateur",
+   4,
+   0.25
+  ]
+ ],
+ "by_income": [
+  [
+   "$3,715,000 to $9,003,000",
+   7,
+   0.8571428571428571
+  ],
+  [
+   "$9,003,000 and up",
+   7,
+   0.7142857142857143
+  ],
+  [
+   "under $3,715,000",
+   6,
+   0.3333333333333333
+  ]
+ ],
+ "why_not": [
+  [
+   "price",
+   4,
+   [
+    "16 000 FCFA c'est trop cher pour mon budget d'étudiant ce mois-ci, je vais me débrouiller avec un câble d'occasion.",
+    "C'est trop cher pour moi en ce moment et j'ai encore trop peur de me faire avoir même avec un blister."
+   ],
+   [
+    "P010",
+    "P013"
+   ]
+  ],
+  [
+   "trust",
+   2,
+   [
+    "Hors de question d'envoyer mon argent par Wave à l'avance sans avoir inspecté le paquet avec le livreur.",
+    "Les faussaires savent refaire des blisters parfaits aujourd'hui, rien ne me prouve que ce ne sont pas des clones de Dubaï."
+   ],
+   [
+    "P005",
+    "P011"
+   ]
+  ],
+  [
+   "habit",
+   1,
+   [
+    "À ce prix-là, je veux pouvoir voir le produit en boutique et le tester physiquement avant de débourser mon argent."
+   ],
+   [
+    "P002"
+   ]
+  ]
+ ],
+ "why_yes": [
+  [
+   "quality",
+   4,
+   [
+    "J'en ai marre de griller mes batteries avec les contrefaçons de Sandaga. Le blister scellé avec garantie 12 mois me rassure totalement.",
+    "La dernière fois que j'ai pris un chargeur à 4 000 F ma batterie a gonflé. Je préfère mettre le prix pour du vrai matériel fiable."
+   ],
+   [
+    "P001",
+    "P006"
+   ]
+  ],
+  [
+   "convenience",
+   4,
+   [
+    "Me faire livrer un chargeur 65W en moins de 90 min à mon bureau sans me taper les bouchons de la VDN, ça vaut largement le prix.",
+    "La commande en 1 clic Wave avec le câble renforcé offert dès la première commande, c'est ultra pratique et sans friction."
+   ],
+   [
+    "P004",
+    "P007"
+   ]
+  ],
+  [
+   "need",
+   3,
+   [
+    "J'ai besoin de chargeurs multiports GaN puissants pour mon MacBook et mon iPhone sans faire la queue au Sea Plaza.",
+    "Comme vous acceptez le paiement en espèces à la livraison, je n'ai aucun risque. J'ai un besoin urgent d'un bon chargeur."
+   ],
+   [
+    "P003",
+    "P012"
+   ]
+  ],
+  [
+   "trust",
+   2,
+   [
+    "Le blister scellé d'usine et la garantie contractuelle 12 mois me donnent enfin confiance pour acheter de la tech en ligne à Dakar.",
+    "Le fait d'avoir un sceau d'inviolabilité et une facture avec numéro de série garanti 12 mois me suffit pour essayer."
+   ],
+   [
+    "P008",
+    "P016"
+   ]
+  ]
+ ],
+ "flip": [
+  "Avoir une adresse de showroom ou un point de retrait physique au Plateau ou aux Almadies.",
+  "Offrir le câble même avec un paiement Wave effectué sur place après ouverture du colis.",
+  "Une gamme d'accessoires certifiés d'entrée de gamme autour de 8 000 à 10 000 FCFA.",
+  "Un QR code officiel constructeur (Baseus/Anker) à gratter et vérifier sur le site de la marque.",
+  "Possibilité de paiement en 2 fois par Wave ou réduction étudiante.",
+  "Un coupon de réduction de 25% ou une formule avec câble inclus d'office.",
+  "Un pack étudiant certifié à 9 900 FCFA."
+ ],
+ "purchases_first_month_per_buyer": 1.2307692307692308,
+ "price_answers": 20
+}

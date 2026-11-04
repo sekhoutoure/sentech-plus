@@ -1,0 +1,13 @@
+{
+  "id": "P013",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "C'est trop cher pour moi en ce moment et j'ai encore trop peur de me faire avoir même avec un blister.",
+  "objection": "Le montant est trop lourd par rapport à mes revenus mensuels modestes.",
+  "would_change_my_mind": "Possibilité de paiement en 2 fois par Wave ou réduction étudiante.",
+  "price_too_cheap": 3500,
+  "price_cheap": 7000,
+  "price_expensive": 13000,
+  "price_too_expensive": 18000
+}

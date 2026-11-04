@@ -1,0 +1,13 @@
+{
+  "id": "P008",
+  "buys": true,
+  "purchases_first_month": 2,
+  "reason_code": "trust",
+  "reason": "Le blister scellé d'usine et la garantie contractuelle 12 mois me donnent enfin confiance pour acheter de la tech en ligne à Dakar.",
+  "objection": "Le respect effectif de la promesse de remplacement sous 24h en cas de panne.",
+  "would_change_my_mind": "",
+  "price_too_cheap": 8000,
+  "price_cheap": 15000,
+  "price_expensive": 28000,
+  "price_too_expensive": 40000
+}

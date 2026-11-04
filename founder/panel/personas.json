@@ -1,0 +1,222 @@
+[
+ {
+  "id": "P001",
+  "name": "Alma",
+  "age": 22,
+  "segment": "Freelance tech & Créateur de contenu",
+  "income": 6434000,
+  "behaviour": "Traumatisé de Sandaga",
+  "behaviour_how": "A déjà bousillé une batterie avec un faux chargeur de rue ; exige un blister scellé et une preuve d'authenticité.",
+  "objection": "Si l'accessoire tombe en panne dans 3 mois, allez-vous vraiment me livrer un neuf sans discuter ?",
+  "habit": "vous commandez vos repas et faites vos transferts d'argent tous les jours via Wave"
+ },
+ {
+  "id": "P002",
+  "name": "Ada",
+  "age": 45,
+  "segment": "Cadre & Professionnel supérieur",
+  "income": 16779000,
+  "behaviour": "Chasseur de prix / Négociateur",
+  "behaviour_how": "Compare systématiquement avec les étals de Sandaga et Jumia ; hésite à payer le double pour du certifié.",
+  "objection": "Je préfère une boutique physique où je peux toucher le matériel avant de payer.",
+  "habit": "vous avez déjà eu une mauvaise surprise avec un accessoire acheté à la sauvette qui a lâché au bout de 2 semaines"
+ },
+ {
+  "id": "P003",
+  "name": "Esme",
+  "age": 35,
+  "segment": "Cadre & Professionnel supérieur",
+  "income": 7178000,
+  "behaviour": "Tech Addict Apple/Samsung",
+  "behaviour_how": "Équipé de matériel récent ; cherche des chargeurs GaN multiports, du MagSafe et des écouteurs ANC fiables.",
+  "objection": "Si l'accessoire tombe en panne dans 3 mois, allez-vous vraiment me livrer un neuf sans discuter ?",
+  "habit": "vous commandez vos repas et faites vos transferts d'argent tous les jours via Wave"
+ },
+ {
+  "id": "P004",
+  "name": "Mateo",
+  "age": 24,
+  "segment": "Freelance tech & Créateur de contenu",
+  "income": 9003000,
+  "behaviour": "Pressé / Workaholic",
+  "behaviour_how": "En réunion ou au bureau ; a besoin d'un câble ou chargeur livré en moins de 90 min sans quitter sa chaise.",
+  "objection": "Je préfère une boutique physique où je peux toucher le matériel avant de payer.",
+  "habit": "vous fuyez les embouteillages monstres du centre-ville et de la VDN"
+ },
+ {
+  "id": "P005",
+  "name": "Theo",
+  "age": 45,
+  "segment": "Cadre & Professionnel supérieur",
+  "income": 17961000,
+  "behaviour": "Chasseur de prix / Négociateur",
+  "behaviour_how": "Compare systématiquement avec les étals de Sandaga et Jumia ; hésite à payer le double pour du certifié.",
+  "objection": "Pourquoi devrais-je prépayer par Wave avant que le livreur ne me remette le colis ?",
+  "habit": "vous travaillez dans un bureau climatisé au Plateau ou aux Almadies"
+ },
+ {
+  "id": "P006",
+  "name": "Hana",
+  "age": 31,
+  "segment": "Étudiant urbain & Jeune diplômé",
+  "income": 1847000,
+  "behaviour": "Traumatisé de Sandaga",
+  "behaviour_how": "A déjà bousillé une batterie avec un faux chargeur de rue ; exige un blister scellé et une preuve d'authenticité.",
+  "objection": "Livraison en moins de 90 minutes à Dakar avec les bouchons de la VDN, vous êtes sûrs de tenir ?",
+  "habit": "vous commandez vos repas et faites vos transferts d'argent tous les jours via Wave"
+ },
+ {
+  "id": "P007",
+  "name": "Tariq",
+  "age": 28,
+  "segment": "Freelance tech & Créateur de contenu",
+  "income": 5454000,
+  "behaviour": "Client Wave 1-Clic",
+  "behaviour_how": "Règle tous ses achats quotidiens par Wave ou Orange Money instantanément, évite le cash.",
+  "objection": "Si l'accessoire tombe en panne dans 3 mois, allez-vous vraiment me livrer un neuf sans discuter ?",
+  "habit": "vous fuyez les embouteillages monstres du centre-ville et de la VDN"
+ },
+ {
+  "id": "P008",
+  "name": "Kenji",
+  "age": 32,
+  "segment": "Freelance tech & Créateur de contenu",
+  "income": 9246000,
+  "behaviour": "Traumatisé de Sandaga",
+  "behaviour_how": "A déjà bousillé une batterie avec un faux chargeur de rue ; exige un blister scellé et une preuve d'authenticité.",
+  "objection": "Si l'accessoire tombe en panne dans 3 mois, allez-vous vraiment me livrer un neuf sans discuter ?",
+  "habit": "vous commandez vos repas et faites vos transferts d'argent tous les jours via Wave"
+ },
+ {
+  "id": "P009",
+  "name": "Kira",
+  "age": 45,
+  "segment": "Freelance tech & Créateur de contenu",
+  "income": 7064000,
+  "behaviour": "Client Wave 1-Clic",
+  "behaviour_how": "Règle tous ses achats quotidiens par Wave ou Orange Money instantanément, évite le cash.",
+  "objection": "Livraison en moins de 90 minutes à Dakar avec les bouchons de la VDN, vous êtes sûrs de tenir ?",
+  "habit": "vous commandez vos repas et faites vos transferts d'argent tous les jours via Wave"
+ },
+ {
+  "id": "P010",
+  "name": "Omar",
+  "age": 37,
+  "segment": "Étudiant urbain & Jeune diplômé",
+  "income": 2228000,
+  "behaviour": "Pressé / Workaholic",
+  "behaviour_how": "En réunion ou au bureau ; a besoin d'un câble ou chargeur livré en moins de 90 min sans quitter sa chaise.",
+  "objection": "Si l'accessoire tombe en panne dans 3 mois, allez-vous vraiment me livrer un neuf sans discuter ?",
+  "habit": "vous avez déjà eu une mauvaise surprise avec un accessoire acheté à la sauvette qui a lâché au bout de 2 semaines"
+ },
+ {
+  "id": "P011",
+  "name": "Ines",
+  "age": 44,
+  "segment": "Étudiant urbain & Jeune diplômé",
+  "income": 2804000,
+  "behaviour": "Sceptique du SAV en ligne",
+  "behaviour_how": "A peur que la garantie ne serve à rien et que le vendeur disparaisse dès que l'argent est encaissé.",
+  "objection": "Comment puis-je vérifier que vos produits sous blister sont 100% originaux et pas des clones de Dubaï ?",
+  "habit": "vous fuyez les embouteillages monstres du centre-ville et de la VDN"
+ },
+ {
+  "id": "P012",
+  "name": "Amara",
+  "age": 29,
+  "segment": "Étudiant urbain & Jeune diplômé",
+  "income": 1754000,
+  "behaviour": "Pressé / Workaholic",
+  "behaviour_how": "En réunion ou au bureau ; a besoin d'un câble ou chargeur livré en moins de 90 min sans quitter sa chaise.",
+  "objection": "Pourquoi devrais-je prépayer par Wave avant que le livreur ne me remette le colis ?",
+  "habit": "vous commandez vos repas et faites vos transferts d'argent tous les jours via Wave"
+ },
+ {
+  "id": "P013",
+  "name": "Dev",
+  "age": 33,
+  "segment": "Étudiant urbain & Jeune diplômé",
+  "income": 1417000,
+  "behaviour": "Traumatisé de Sandaga",
+  "behaviour_how": "A déjà bousillé une batterie avec un faux chargeur de rue ; exige un blister scellé et une preuve d'authenticité.",
+  "objection": "Comment puis-je vérifier que vos produits sous blister sont 100% originaux et pas des clones de Dubaï ?",
+  "habit": "vous fuyez les embouteillages monstres du centre-ville et de la VDN"
+ },
+ {
+  "id": "P014",
+  "name": "Quinn",
+  "age": 38,
+  "segment": "Cadre & Professionnel supérieur",
+  "income": 7413000,
+  "behaviour": "Chasseur de prix / Négociateur",
+  "behaviour_how": "Compare systématiquement avec les étals de Sandaga et Jumia ; hésite à payer le double pour du certifié.",
+  "objection": "Si l'accessoire tombe en panne dans 3 mois, allez-vous vraiment me livrer un neuf sans discuter ?",
+  "habit": "vous avez déjà eu une mauvaise surprise avec un accessoire acheté à la sauvette qui a lâché au bout de 2 semaines"
+ },
+ {
+  "id": "P015",
+  "name": "Yara",
+  "age": 36,
+  "segment": "Cadre & Professionnel supérieur",
+  "income": 12208000,
+  "behaviour": "Tech Addict Apple/Samsung",
+  "behaviour_how": "Équipé de matériel récent ; cherche des chargeurs GaN multiports, du MagSafe et des écouteurs ANC fiables.",
+  "objection": "Je préfère une boutique physique où je peux toucher le matériel avant de payer.",
+  "habit": "vous avez déjà eu une mauvaise surprise avec un accessoire acheté à la sauvette qui a lâché au bout de 2 semaines"
+ },
+ {
+  "id": "P016",
+  "name": "Fatima",
+  "age": 41,
+  "segment": "Cadre & Professionnel supérieur",
+  "income": 10627000,
+  "behaviour": "Tech Addict Apple/Samsung",
+  "behaviour_how": "Équipé de matériel récent ; cherche des chargeurs GaN multiports, du MagSafe et des écouteurs ANC fiables.",
+  "objection": "Comment puis-je vérifier que vos produits sous blister sont 100% originaux et pas des clones de Dubaï ?",
+  "habit": "vous fuyez les embouteillages monstres du centre-ville et de la VDN"
+ },
+ {
+  "id": "P017",
+  "name": "Eli",
+  "age": 32,
+  "segment": "Cadre & Professionnel supérieur",
+  "income": 13143000,
+  "behaviour": "Client Wave 1-Clic",
+  "behaviour_how": "Règle tous ses achats quotidiens par Wave ou Orange Money instantanément, évite le cash.",
+  "objection": "Je préfère une boutique physique où je peux toucher le matériel avant de payer.",
+  "habit": "vous fuyez les embouteillages monstres du centre-ville et de la VDN"
+ },
+ {
+  "id": "P018",
+  "name": "Clara",
+  "age": 45,
+  "segment": "Freelance tech & Créateur de contenu",
+  "income": 3715000,
+  "behaviour": "Chasseur de prix / Négociateur",
+  "behaviour_how": "Compare systématiquement avec les étals de Sandaga et Jumia ; hésite à payer le double pour du certifié.",
+  "objection": "Si l'accessoire tombe en panne dans 3 mois, allez-vous vraiment me livrer un neuf sans discuter ?",
+  "habit": "votre journée de travail dépend entièrement de votre téléphone et de votre ordinateur"
+ },
+ {
+  "id": "P019",
+  "name": "Keisha",
+  "age": 26,
+  "segment": "Étudiant urbain & Jeune diplômé",
+  "income": 2052000,
+  "behaviour": "Pressé / Workaholic",
+  "behaviour_how": "En réunion ou au bureau ; a besoin d'un câble ou chargeur livré en moins de 90 min sans quitter sa chaise.",
+  "objection": "16 000 FCFA pour un chargeur GaN alors que j'en trouve à 5 000 FCFA à Sandaga ?",
+  "habit": "vous commandez vos repas et faites vos transferts d'argent tous les jours via Wave"
+ },
+ {
+  "id": "P020",
+  "name": "Jade",
+  "age": 36,
+  "segment": "Freelance tech & Créateur de contenu",
+  "income": 6089000,
+  "behaviour": "Sceptique du SAV en ligne",
+  "behaviour_how": "A peur que la garantie ne serve à rien et que le vendeur disparaisse dès que l'argent est encaissé.",
+  "objection": "16 000 FCFA pour un chargeur GaN alors que j'en trouve à 5 000 FCFA à Sandaga ?",
+  "habit": "vous travaillez dans un bureau climatisé au Plateau ou aux Almadies"
+ }
+]
