@@ -184,7 +184,7 @@ require_once __DIR__ . '/includes/navbar.php';
             </div>
 
             <!-- Bouton Apple Sign In avec état de chargement -->
-            <button type="submit" id="btn-submit-login" class="w-full h-[52px] rounded-2xl bg-[#1677FF] hover:bg-[#0F67E5] active:scale-[0.98] text-white text-sm font-bold shadow-[0_8px_24px_rgba(22,119,255,0.28)] hover:shadow-[0_12px_28px_rgba(22,119,255,0.36)] transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer mt-2 group">
+            <button type="submit" id="btn-submit-login" style="background-color: #1677FF !important; color: #ffffff !important;" class="w-full h-[52px] rounded-2xl bg-[#1677FF] hover:bg-[#0F67E5] active:scale-[0.98] text-white text-sm font-bold shadow-[0_8px_24px_rgba(22,119,255,0.28)] hover:shadow-[0_12px_28px_rgba(22,119,255,0.36)] transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer mt-2 group">
                 <span id="btn-login-text">Se connecter</span>
                 <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5" id="btn-login-icon"></i>
                 <div id="btn-login-spinner" class="hidden w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
