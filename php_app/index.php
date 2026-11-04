@@ -542,10 +542,10 @@ if (empty($bestSellingProducts)) {
 
             <form action="index.php" method="POST" enctype="application/x-www-form-urlencoded" class="pt-2 max-w-md mx-auto">
                 <?= getCSRFInputField() ?>
-                <div class="relative flex items-center bg-[#F4F7FB] focus-within:bg-white pl-4 pr-1.5 py-1.5 rounded-full border border-[#DCE4EE] focus-within:border-[#1677FF] shadow-2xs transition-all">
-                    <input type="email" name="newsletter_email" aria-label="Votre adresse email pour les offres VIP" placeholder="Votre email..." required autocomplete="email" class="w-full bg-transparent outline-none text-xs font-medium text-[#182230] placeholder:text-[#64748B]">
-                    <button type="submit" class="w-8 h-8 rounded-full bg-[#1677FF] hover:bg-[#0F67E5] text-white flex items-center justify-center shrink-0 shadow-2xs transition-colors cursor-pointer" aria-label="S'inscrire">
-                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                <div class="relative h-[48px] flex items-center bg-[#F1F3F7] focus-within:bg-white pl-4 pr-1.5 rounded-full border border-[#DCE4EE] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 shadow-2xs transition-all">
+                    <input type="email" name="newsletter_email" aria-label="Votre adresse email pour les offres VIP" placeholder="Votre email..." required autocomplete="email" class="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#182230] placeholder:text-[#64748B]" style="outline: none !important; border: none !important; box-shadow: none !important;">
+                    <button type="submit" class="w-9 h-9 rounded-full bg-[#1677FF] hover:bg-[#0F67E5] active:scale-90 text-white flex items-center justify-center shrink-0 shadow-2xs transition-all cursor-pointer mr-0.5" style="width: 36px !important; height: 36px !important; min-width: 36px !important; min-height: 36px !important; max-width: 36px !important; max-height: 36px !important; aspect-ratio: 1 / 1 !important; padding: 0 !important;" aria-label="S'inscrire">
+                        <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                     </button>
                 </div>
             </form>

@@ -381,9 +381,26 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
       ::selection { background-color: #1677FF; color: #FFFFFF; }
       ::-moz-selection { background-color: #1677FF; color: #FFFFFF; }
       
-      /* Loi de Fitts : Cibles tactiles d'au moins 44px sur mobile */
+      /* Loi de Fitts : Cibles tactiles d'au moins 44px sur mobile (protège boutons circulaires et icônes) */
       @media (pointer: coarse) {
-        button, a.btn-electric, select, input[type="submit"], input[type="button"] { min-height: 44px; }
+        button:not(.btn-compact):not(.btn-circle):not([class*="rounded-full"]):not([class*="w-"]):not([class*="h-"]),
+        a.btn-electric,
+        select,
+        input[type="submit"]:not([class*="w-"]):not([class*="rounded-full"]),
+        input[type="button"]:not([class*="w-"]):not([class*="rounded-full"]) {
+          min-height: 44px;
+        }
+      }
+
+      /* Règle stricte anti-déformation pour tous les boutons circulaires ou à dimensions explicites */
+      button.rounded-full,
+      button[class*="w-"][class*="h-"],
+      button.btn-circle,
+      .btn-circle {
+        min-height: unset !important;
+        min-width: unset !important;
+        aspect-ratio: 1 / 1 !important;
+        box-sizing: border-box !important;
       }
 
       /* Anti-Zoom Mobile & Tactile Optimization */
