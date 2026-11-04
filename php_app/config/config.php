@@ -136,70 +136,61 @@ if ($isProd) {
 
 
 
-// ─── 3. En-têtes HTTP de Sécurité Globale (CSP, COOP, HSTS, X-Frame) ──────────
-
+// ─── 3. En-têtes HTTP de Sécurité Globale (CSP, HSTS, X-Frame, Redirection HTTPS) ─
 function applyGlobalSecurityHeaders(): void {
+    if (headers_sent() || php_sapi_name() === 'cli') return;
 
-    if (headers_sent()) return;
+    // Masquage empreinte serveur & PHP
+    @header_remove('X-Powered-By');
+    @ini_set('expose_php', '0');
 
-    
+    // Détection HTTPS universelle (Direct, Nginx reverse-proxy, Cloudflare, ByetHost)
+    $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443)
+        || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower((string)$_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
+        || (isset($_SERVER['HTTP_CF_VISITOR']) && strpos((string)$_SERVER['HTTP_CF_VISITOR'], 'https') !== false);
 
-    // Protection Clickjacking & MIME-Sniffing
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $isLocalhost = in_array($host, ['localhost', '127.0.0.1', '::1'])
+        || str_ends_with($host, '.local')
+        || str_ends_with($host, '.test');
 
-    header('X-Frame-Options: SAMEORIGIN');
-
-    header('X-Content-Type-Options: nosniff');
-
-    header('X-XSS-Protection: 1; mode=block');
-
-    header('Referrer-Policy: strict-origin-when-cross-origin');
-
-    
-
-    // Permissions Policy (Désactivation matériel sensible & autorisation paiements)
-
-    header('Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=*');
-
-    
-
-    // Cross-Origin Isolation
-
-    header('Cross-Origin-Opener-Policy: same-origin-allow-popups');
-
-    
-
-    // Content-Security-Policy (Protection XSS & Injection Tierce)
-
-    $csp = "default-src 'self'; "
-
-         . "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://unpkg.com https://cdn.jsdelivr.net; "
-
-         . "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-
-         . "font-src 'self' https://fonts.gstatic.com data:; "
-
-         . "img-src 'self' data: https: blob:; "
-
-         . "connect-src 'self' https://app.paydunya.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://fonts.googleapis.com https://fonts.gstatic.com; "
-
-         . "frame-ancestors 'self'; "
-
-         . "form-action 'self' https://app.paydunya.com; "
-
-         . "base-uri 'self';";
-
-    header("Content-Security-Policy: {$csp}");
-
-    
-
-    // HSTS sur HTTPS
-
-    if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) {
-
-        header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
-
+    // Redirection automatique 301 vers HTTPS pour le trafic public non chiffré
+    if (!$isHttps && !$isLocalhost) {
+        $targetUrl = 'https://' . $host . ($_SERVER['REQUEST_URI'] ?? '/');
+        header('HTTP/1.1 301 Moved Permanently');
+        header('Location: ' . $targetUrl);
+        exit;
     }
 
+    // Protection Clickjacking & MIME-Sniffing
+    header('X-Frame-Options: SAMEORIGIN');
+    header('X-Content-Type-Options: nosniff');
+    header('X-XSS-Protection: 1; mode=block');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+
+    // Permissions Policy (Désactivation matériel sensible non nécessaire)
+    header('Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(self "https://app.paydunya.com")');
+
+    // Cross-Origin Opener Policy
+    header('Cross-Origin-Opener-Policy: same-origin-allow-popups');
+
+    // Content-Security-Policy stricte & optimisée
+    $csp = "default-src 'self'; "
+         . "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://unpkg.com https://cdn.jsdelivr.net; "
+         . "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+         . "font-src 'self' https://fonts.gstatic.com data:; "
+         . "img-src 'self' data: https: blob:; "
+         . "connect-src 'self' https://app.paydunya.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://fonts.googleapis.com https://fonts.gstatic.com; "
+         . "frame-ancestors 'self'; "
+         . "form-action 'self' https://app.paydunya.com; "
+         . "base-uri 'self';";
+    header("Content-Security-Policy: {$csp}");
+
+    // HSTS (HTTP Strict Transport Security - 1 an + subdomains + preload)
+    if ($isHttps) {
+        header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
+    }
 }
 
 applyGlobalSecurityHeaders();
