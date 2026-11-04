@@ -611,6 +611,30 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         }
       }
 
+            /* ─── Apple Primary Action Button ─── */
+      .btn-apple-primary {
+        background-color: #1677FF !important;
+        color: #ffffff !important;
+        min-height: 48px !important;
+        border-radius: 16px !important;
+        font-weight: 800 !important;
+        box-shadow: 0 4px 14px rgba(22, 119, 255, 0.35) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        cursor: pointer !important;
+        width: 100% !important;
+        transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease !important;
+      }
+      .btn-apple-primary:hover {
+        background-color: #0B54C2 !important;
+        box-shadow: 0 6px 20px rgba(22, 119, 255, 0.45) !important;
+      }
+      .btn-apple-primary:active {
+        transform: scale(0.97) !important;
+      }
+
       /* ─── Apple iOS Frosted Glass Tab Bar (Anti-Transparency) ─── */
       .apple-pill-bar {
         background: rgba(255, 255, 255, 0.95) !important;

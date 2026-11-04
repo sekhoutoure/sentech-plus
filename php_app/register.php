@@ -127,7 +127,7 @@ require_once __DIR__ . '/includes/navbar.php';
         
         <!-- Header -->
         <div class="text-center space-y-1.5">
-            <div class="w-12 h-12 rounded-2xl bg-[#F0F6FF] text-[#0071E3] flex items-center justify-center mx-auto mb-3 shadow-2xs">
+            <div class="w-12 h-12 rounded-2xl bg-[#F0F6FF] text-[#1677FF] flex items-center justify-center mx-auto mb-3 shadow-2xs">
                 <i data-lucide="user-plus" class="w-6 h-6"></i>
             </div>
             <h1 class="text-xl sm:text-2xl font-black text-[#1D1D1F] tracking-tight">Créer un compte</h1>
@@ -149,7 +149,7 @@ require_once __DIR__ . '/includes/navbar.php';
             <!-- Nom & Prénom -->
             <div class="space-y-1.5 text-left">
                 <label for="reg-name" class="block text-xs font-bold text-[#1D1D1F]">Nom complet *</label>
-                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#0071E3]/20 border border-[#E5E5EA] focus-within:border-[#0071E3] rounded-2xl px-3.5 h-[48px] transition-all">
+                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1677FF]/20 border border-[#E5E5EA] focus-within:border-[#1677FF] rounded-2xl px-3.5 h-[48px] transition-all">
                     <i data-lucide="user" class="w-4 h-4 text-[#8E8E93] mr-2.5 shrink-0"></i>
                     <input id="reg-name" type="text" name="name" required minlength="2" autocomplete="name" placeholder="Ex: Moussa Diop" class="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]">
                 </div>
@@ -158,7 +158,7 @@ require_once __DIR__ . '/includes/navbar.php';
             <!-- Email -->
             <div class="space-y-1.5 text-left">
                 <label for="reg-email" class="block text-xs font-bold text-[#1D1D1F]">Adresse Email *</label>
-                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#0071E3]/20 border border-[#E5E5EA] focus-within:border-[#0071E3] rounded-2xl px-3.5 h-[48px] transition-all">
+                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1677FF]/20 border border-[#E5E5EA] focus-within:border-[#1677FF] rounded-2xl px-3.5 h-[48px] transition-all">
                     <i data-lucide="mail" class="w-4 h-4 text-[#8E8E93] mr-2.5 shrink-0"></i>
                     <input id="reg-email" type="email" name="email" required autocomplete="email" placeholder="nom@exemple.com" class="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]">
                 </div>
@@ -167,7 +167,7 @@ require_once __DIR__ . '/includes/navbar.php';
             <!-- Mot de passe (Apple Design Ergonomique) -->
             <div class="space-y-1.5 text-left">
                 <label for="reg-password" class="block text-xs font-bold text-[#1D1D1F]">Mot de passe *</label>
-                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#0071E3]/20 border border-[#E5E5EA] focus-within:border-[#0071E3] rounded-2xl pl-3.5 pr-2 h-[48px] transition-all">
+                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1677FF]/20 border border-[#E5E5EA] focus-within:border-[#1677FF] rounded-2xl pl-3.5 pr-2 h-[48px] transition-all">
                     <i data-lucide="lock" class="w-4 h-4 text-[#8E8E93] mr-2.5 shrink-0"></i>
                     <input id="reg-password" type="password" name="password" required minlength="8" autocomplete="new-password" placeholder="8+ caractères (lettres & chiffres)" class="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]">
                     <button type="button" onclick="togglePassword('reg-password', this)" aria-label="Afficher le mot de passe" class="w-8 h-8 rounded-full flex items-center justify-center text-[#8E8E93] hover:text-[#1D1D1F] hover:bg-black/5 active:scale-90 transition-all cursor-pointer shrink-0">
@@ -179,7 +179,7 @@ require_once __DIR__ . '/includes/navbar.php';
             <!-- Confirmation Mot de passe -->
             <div class="space-y-1.5 text-left">
                 <label for="reg-password-confirm" class="block text-xs font-bold text-[#1D1D1F]">Confirmer le mot de passe *</label>
-                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#0071E3]/20 border border-[#E5E5EA] focus-within:border-[#0071E3] rounded-2xl pl-3.5 pr-2 h-[48px] transition-all">
+                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1677FF]/20 border border-[#E5E5EA] focus-within:border-[#1677FF] rounded-2xl pl-3.5 pr-2 h-[48px] transition-all">
                     <i data-lucide="check-shield" class="w-4 h-4 text-[#8E8E93] mr-2.5 shrink-0"></i>
                     <input id="reg-password-confirm" type="password" name="password_confirm" required minlength="8" autocomplete="new-password" placeholder="Répétez le mot de passe" class="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]">
                     <button type="button" onclick="togglePassword('reg-password-confirm', this)" aria-label="Afficher le mot de passe" class="w-8 h-8 rounded-full flex items-center justify-center text-[#8E8E93] hover:text-[#1D1D1F] hover:bg-black/5 active:scale-90 transition-all cursor-pointer shrink-0">
@@ -191,21 +191,21 @@ require_once __DIR__ . '/includes/navbar.php';
             <!-- Conditions -->
             <div class="pt-1">
                 <label class="flex items-center gap-2.5 cursor-pointer text-[#1D1D1F] text-xs font-medium">
-                    <input type="checkbox" name="accept_cgu" required class="w-4 h-4 text-[#0071E3] border-[#D1D1D6] rounded-md focus:ring-[#0071E3]">
-                    <span>J'accepte les <a href="contact.php" class="cursor-pointer text-[#0071E3] hover:underline font-bold">Conditions Générales</a></span>
+                    <input type="checkbox" name="accept_cgu" required class="w-4 h-4 text-[#1677FF] border-[#D1D1D6] rounded-md focus:ring-[#1677FF]">
+                    <span>J'accepte les <a href="contact.php" class="cursor-pointer text-[#1677FF] hover:underline font-bold">Conditions Générales</a></span>
                 </label>
             </div>
 
             <!-- Bouton Apple Sign Up -->
-            <button type="submit" class="w-full h-[48px] rounded-2xl bg-[#0071E3] hover:bg-[#0077ED] active:scale-[0.98] transition-all text-white font-black text-xs sm:text-sm shadow-[0_4px_14px_rgba(0,113,227,0.3)] flex items-center justify-center gap-2 cursor-pointer mt-2">
+            <button type="submit" class="btn-apple-primary text-xs sm:text-sm mt-3" style="background-color: #1677FF !important; color: #ffffff !important; min-height: 48px; border-radius: 16px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
                 <span>Créer mon compte</span>
-                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-white"></i>
             </button>
         </form>
 
         <div class="pt-4 border-t border-[#F2F2F7] text-center text-xs text-[#86868B]">
             Vous avez déjà un compte ? 
-            <a href="login.php<?= (!empty($redirect) && $redirect !== 'account.php') ? '?redirect=' . urlencode($redirect) : '' ?>" class="cursor-pointer font-bold text-[#0071E3] hover:text-[#0077ED] transition-colors hover:underline">Se connecter</a>
+            <a href="login.php<?= (!empty($redirect) && $redirect !== 'account.php') ? '?redirect=' . urlencode($redirect) : '' ?>" class="cursor-pointer font-bold text-[#1677FF] hover:text-[#0077ED] transition-colors hover:underline">Se connecter</a>
         </div>
     </div>
 

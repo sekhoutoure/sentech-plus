@@ -118,7 +118,7 @@ require_once __DIR__ . '/includes/navbar.php';
         
         <!-- Header -->
         <div class="text-center space-y-1.5">
-            <div class="w-12 h-12 rounded-2xl bg-[#F0F6FF] text-[#0071E3] flex items-center justify-center mx-auto mb-3 shadow-2xs">
+            <div class="w-12 h-12 rounded-2xl bg-[#F0F6FF] text-[#1677FF] flex items-center justify-center mx-auto mb-3 shadow-2xs">
                 <i data-lucide="user" class="w-6 h-6"></i>
             </div>
             <h1 class="text-xl sm:text-2xl font-black text-[#1D1D1F] tracking-tight">Connexion Client</h1>
@@ -147,7 +147,7 @@ require_once __DIR__ . '/includes/navbar.php';
             <!-- Email -->
             <div class="space-y-1.5 text-left">
                 <label for="login-email" class="block text-xs font-bold text-[#1D1D1F]">Adresse Email</label>
-                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#0071E3]/20 border border-[#E5E5EA] focus-within:border-[#0071E3] rounded-2xl px-3.5 h-[48px] transition-all">
+                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1677FF]/20 border border-[#E5E5EA] focus-within:border-[#1677FF] rounded-2xl px-3.5 h-[48px] transition-all">
                     <i data-lucide="mail" class="w-4 h-4 text-[#8E8E93] mr-2.5 shrink-0"></i>
                     <input id="login-email" type="email" name="email" required placeholder="nom@exemple.com" autocomplete="email" class="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]">
                 </div>
@@ -157,9 +157,9 @@ require_once __DIR__ . '/includes/navbar.php';
             <div class="space-y-1.5 text-left">
                 <div class="flex justify-between items-center">
                     <label for="login-password" class="block text-xs font-bold text-[#1D1D1F]">Mot de passe</label>
-                    <a href="forgot-password.php" class="cursor-pointer text-[11px] font-bold text-[#0071E3] hover:text-[#0077ED] transition-colors hover:underline">Oublié ?</a>
+                    <a href="forgot-password.php" class="cursor-pointer text-[11px] font-bold text-[#1677FF] hover:text-[#0077ED] transition-colors hover:underline">Oublié ?</a>
                 </div>
-                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#0071E3]/20 border border-[#E5E5EA] focus-within:border-[#0071E3] rounded-2xl pl-3.5 pr-2 h-[48px] transition-all">
+                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#1677FF]/20 border border-[#E5E5EA] focus-within:border-[#1677FF] rounded-2xl pl-3.5 pr-2 h-[48px] transition-all">
                     <i data-lucide="lock" class="w-4 h-4 text-[#8E8E93] mr-2.5 shrink-0"></i>
                     <input id="login-password" type="password" name="password" required placeholder="••••••••" autocomplete="current-password" class="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]">
                     <button type="button" onclick="togglePassword('login-password', this)" aria-label="Afficher le mot de passe" class="w-8 h-8 rounded-full flex items-center justify-center text-[#8E8E93] hover:text-[#1D1D1F] hover:bg-black/5 active:scale-90 transition-all cursor-pointer shrink-0">
@@ -169,15 +169,15 @@ require_once __DIR__ . '/includes/navbar.php';
             </div>
 
             <!-- Bouton Apple Sign In -->
-            <button type="submit" class="w-full h-[48px] rounded-2xl bg-[#0071E3] hover:bg-[#0077ED] active:scale-[0.98] transition-all text-white font-black text-xs sm:text-sm shadow-[0_4px_14px_rgba(0,113,227,0.3)] flex items-center justify-center gap-2 cursor-pointer mt-2">
+            <button type="submit" class="btn-apple-primary text-xs sm:text-sm mt-3" style="background-color: #1677FF !important; color: #ffffff !important; min-height: 48px; border-radius: 16px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
                 <span>Se connecter</span>
-                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-white"></i>
             </button>
         </form>
 
         <div class="pt-4 border-t border-[#F2F2F7] text-center text-xs text-[#86868B]">
             Pas encore de compte ? 
-            <a href="register.php<?= (!empty($redirect) && $redirect !== 'account.php') ? '?redirect=' . urlencode($redirect) : '' ?>" class="cursor-pointer font-bold text-[#0071E3] hover:text-[#0077ED] transition-colors hover:underline">Créer un compte</a>
+            <a href="register.php<?= (!empty($redirect) && $redirect !== 'account.php') ? '?redirect=' . urlencode($redirect) : '' ?>" class="cursor-pointer font-bold text-[#1677FF] hover:text-[#0077ED] transition-colors hover:underline">Créer un compte</a>
         </div>
     </div>
 
