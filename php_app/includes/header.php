@@ -186,7 +186,7 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         endif;
     else:
     ?>
-    <link rel="preload" as="image" href="assets/images/sentech_logo_v2.webp" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/images/sentech_logo.webp" type="image/webp" fetchpriority="high">
     <?php 
     endif; 
     ?>

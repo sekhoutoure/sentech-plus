@@ -721,11 +721,13 @@ if ('serviceWorker' in navigator) {
                     r.unregister();
                 }
             }
-            navigator.serviceWorker.register('sw.js?v=3.2').then((reg) => {
-                if (reg) reg.update();
+            navigator.serviceWorker.register('sw.js?v=3.5').then((reg) => {
+                if (reg && typeof reg.update === 'function') {
+                    reg.update().catch(() => {});
+                }
             }).catch(() => {});
         }).catch(() => {
-            navigator.serviceWorker.register('sw.js?v=3.2').catch(() => {});
+            navigator.serviceWorker.register('sw.js?v=3.5').catch(() => {});
         });
     });
 }

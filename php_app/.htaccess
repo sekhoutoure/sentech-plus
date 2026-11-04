@@ -59,8 +59,10 @@ ErrorDocument 500 /500.php
         Header set Cache-Control "max-age=31536000, public, no-transform, immutable"
     </FilesMatch>
 
-    # Never cache Service Worker file (Must always be revalidated by browsers)
+    # Service Worker: Always revalidated and force correct JavaScript MIME type
     <Files "sw.js">
+        ForceType application/javascript
+        Header set Content-Type "application/javascript; charset=utf-8"
         Header set Cache-Control "no-cache, no-store, must-revalidate"
         Header set Pragma "no-cache"
         Header set Expires "0"
