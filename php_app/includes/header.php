@@ -327,8 +327,7 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
       }
 
       .badge-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:9999px;font-size:10px;font-weight:700}
-      input,select,textarea{outline:0;transition:border-color .15s,box-shadow .15s}
-      input:not([type="search"]):not(.no-focus-ring):focus,select:focus,textarea:focus{border-color:#1677FF;box-shadow:0 0 0 3px rgba(22,119,255,.14)}
+      input,select,textarea{outline:none!important;transition:border-color .2s ease,box-shadow .2s ease,background-color .2s ease;-webkit-tap-highlight-color:transparent!important;}
       .skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
       @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
       
@@ -406,13 +405,26 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         }
       }
 
-      /* Focus Ring WCAG 2.1 AAA Haute Précision */
-      *:focus-visible {
-        outline: 2px solid #1677FF !important;
-        outline-offset: 2px !important;
-        border-radius: 6px;
+      /* ─── Apple Design: Universal Form Input Ergonomics (Zero Double Outline) ─── */
+      /* Supprime à 100% tout contour rectangulaire (outline) sur TOUS les champs de saisie du site */
+      input,
+      select,
+      textarea,
+      input:focus,
+      select:focus,
+      textarea:focus,
+      input:focus-visible,
+      select:focus-visible,
+      textarea:focus-visible {
+        outline: none !important;
+        outline-offset: 0 !important;
+        -webkit-tap-highlight-color: transparent !important;
       }
-      /* Exemption form/pill search inputs to prevent ugly double blue boxes */
+
+      /* Champs transparents intégrés dans des pilules ou conteneurs groupés */
+      input.bg-transparent,
+      input.bg-transparent:focus,
+      input.bg-transparent:focus-visible,
       input[type="search"],
       input[type="search"]:focus,
       input[type="search"]:focus-visible,
@@ -427,6 +439,25 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         box-shadow: none !important;
         border: none !important;
         -webkit-appearance: none !important;
+      }
+
+      /* Champs de saisie standards : halo doux Apple (épouse la rondeur naturelle du champ) */
+      input:not(.bg-transparent):not(.no-focus-ring):not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):focus,
+      textarea:not(.no-focus-ring):focus,
+      select:not(.no-focus-ring):focus {
+        border-color: #0071E3 !important;
+        box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15) !important;
+        outline: none !important;
+      }
+
+      /* Indicateur d'accessibilité clavier réservé exclusivement aux boutons et liens (jamais aux champs texte) */
+      button:focus-visible,
+      a:focus-visible,
+      [role="button"]:focus-visible,
+      summary:focus-visible {
+        outline: 2px solid #0071E3 !important;
+        outline-offset: 2px !important;
+        border-radius: 8px;
       }
       
       .contain-paint {
