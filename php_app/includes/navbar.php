@@ -40,8 +40,7 @@ if (!isset($layoutType)) {
         $layoutType = 'auth';
     } elseif (in_array($currPage, ['checkout.php'])) {
         $layoutType = 'checkout';
-    } elseif (in_array($currPage, ['categories.php'])) {
-        $layoutType = 'blank';
+    
     } elseif (in_array($currPage, [
         'cart.php', 
         'orders.php', 
@@ -504,7 +503,7 @@ if ($layoutType === 'public_compact'): ?>
             </div>
 
             <!-- Mobile Row 2: Seamless Unified Apple Search Omnibox -->
-            <?php if ($currPage !== 'shop.php' && $currPage !== 'categories.php'): ?>
+            <?php if ($currPage !== 'shop.php'): ?>
                 <div class="mt-2.5 relative">
                     <form action="search.php" method="GET" class="w-full relative">
                         <div class="relative h-[44px] flex items-center bg-[#F1F3F7] focus-within:bg-white rounded-full border border-[#DCE4EE] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-xs overflow-hidden">

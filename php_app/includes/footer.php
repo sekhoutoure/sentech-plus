@@ -16,8 +16,7 @@ if (!isset($layoutType)) {
         $layoutType = 'auth';
     } elseif (in_array($currPage, ['checkout.php'])) {
         $layoutType = 'checkout';
-    } elseif (in_array($currPage, ['categories.php'])) {
-        $layoutType = 'blank';
+    
     } elseif (in_array($currPage, [
         'cart.php', 
         'orders.php', 
@@ -348,7 +347,7 @@ function toggleFooterAccordion(id) {
 </script>
 
 <!-- Floating Actions Stack (Back to Top + WhatsApp cleanly positioned at Bottom-Right) -->
-<div id="floating-actions-stack" aria-label="Actions rapides flottantes" class="flex flex-col items-end gap-2.5 pointer-events-none fixed <?= in_array($currPage, ['product.php', 'categories.php', 'wishlist.php', 'checkout.php']) ? 'hidden md:flex' : 'bottom-[68px]' ?> md:bottom-6 right-3 sm:right-6 z-30">
+<div id="floating-actions-stack" aria-label="Actions rapides flottantes" class="flex flex-col items-end gap-2.5 pointer-events-none fixed <?= in_array($currPage, ['product.php', 'wishlist.php', 'checkout.php']) ? 'hidden md:flex' : 'bottom-[68px]' ?> md:bottom-6 right-3 sm:right-6 z-30">
     
     <!-- 1. Back to Top Arrow -->
     <button type="button" id="back-to-top" style="display:none;" class="pointer-events-auto w-9 h-9 sm:w-10 sm:h-10 bg-[#182230]/90 hover:bg-[#0B54C2] text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 cursor-pointer focus:ring-2 focus:ring-white active:scale-95 hover:scale-105" aria-label="Retour en haut de la page">
@@ -380,11 +379,11 @@ function toggleFooterAccordion(id) {
             <span style="font-size: 10px; font-weight: <?= $isHome ? '800' : '700' ?>; margin-top: 2px; color: <?= $isHome ? '#0B54C2' : '#344054' ?>;">Accueil</span>
         </a>
 
-        <!-- 2. Catégories & Rayons (Alibaba / Amazon Style) -->
-        <?php $isCat = ($currPage === 'categories.php'); ?>
-        <a href="categories.php" class="cursor-pointer group active:scale-95 transition-all" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; min-height: 44px;" <?= $isCat ? 'aria-current="page"' : '' ?>>
-            <svg class="w-5 h-5 <?= $isCat ? 'text-[#0B54C2]' : 'text-[#475467]' ?>" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
-            <span style="font-size: 10px; font-weight: <?= $isCat ? '800' : '700' ?>; margin-top: 2px; color: <?= $isCat ? '#0B54C2' : '#344054' ?>;">Catégories</span>
+        <!-- 2. Boutique / Catalogue -->
+        <?php $isShop = ($currPage === 'shop.php'); ?>
+        <a href="shop.php" class="cursor-pointer group active:scale-95 transition-all" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; min-height: 44px;" <?= $isShop ? 'aria-current="page"' : '' ?>>
+            <svg class="w-5 h-5 <?= $isShop ? 'text-[#0B54C2]' : 'text-[#475467]' ?>" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
+            <span style="font-size: 10px; font-weight: <?= $isShop ? '800' : '700' ?>; margin-top: 2px; color: <?= $isShop ? '#0B54C2' : '#344054' ?>;">Boutique</span>
         </a>
 
         <!-- 3. Panier (Central avec compteur) -->

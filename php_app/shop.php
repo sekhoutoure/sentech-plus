@@ -283,8 +283,6 @@ require_once __DIR__ . '/includes/navbar.php';
                 <i data-lucide="home" class="w-3.5 h-3.5"></i> Accueil
             </a>
             <span aria-hidden="true" class="text-[#CBD5E1]">/</span>
-            <a href="categories.php" class="hover:text-[#1677FF] transition-colors shrink-0">Catégories</a>
-            <span aria-hidden="true" class="text-[#CBD5E1]">/</span>
             <a href="shop.php" class="hover:text-[#1677FF] transition-colors shrink-0 <?= empty($categoryParam) && empty($collectionParam) ? 'text-[#182230] font-bold' : '' ?>">Boutique</a>
             <?php if ($activeCategory): ?>
                 <span aria-hidden="true" class="text-[#CBD5E1]">/</span>

@@ -247,7 +247,7 @@ if (empty($bestSellingProducts)) {
             <div>
                 <h2 class="text-lg sm:text-xl font-black text-[#182230] tracking-tight">Catégories</h2>
             </div>
-            <a href="categories.php" class="text-xs font-bold text-[#0B54C2] hover:text-[#09449E] flex items-center gap-1 shrink-0">
+            <a href="shop.php" class="text-xs font-bold text-[#0B54C2] hover:text-[#09449E] flex items-center gap-1 shrink-0">
                 <span>Voir tout</span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
