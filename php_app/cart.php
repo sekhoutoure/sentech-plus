@@ -59,15 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $coupon = $stmt->fetch();
                     } catch (Throwable $e) {}
                 }
-                // Fallback coupons
-                if (!$coupon) {
-                    $validCoupons = [
-                        'BIENVENUE10' => ['code' => 'BIENVENUE10', 'discount' => 10.0, 'description' => '10% de bienvenue'],
-                        'SENTECH15' => ['code' => 'SENTECH15', 'discount' => 15.0, 'description' => '15% remise spéciale audio'],
-                        'NEW20' => ['code' => 'NEW20', 'discount' => 20.0, 'description' => '20% remise flash']
-                    ];
-                    $coupon = $validCoupons[$code] ?? null;
-                }
+// Les coupons sont exclusivement validés depuis la base de données
 
                 if ($coupon) {
                     $_SESSION['applied_coupon'] = [

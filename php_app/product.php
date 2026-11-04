@@ -29,11 +29,10 @@ if (!$product) {
     $product = getProductById($productId);
 }
 
+// Si produit introuvable en base, redirection 404 / boutique
 if (!$product) {
-    $allFallback = getAllProducts();
-    if (!empty($allFallback)) {
-        $product = $allFallback[0];
-    }
+    header('Location: shop.php');
+    exit;
 }
 
 if (!$product) {
@@ -156,13 +155,13 @@ if ($pdo) {
         $relatedProducts = [];
     }
 }
-if (empty($relatedProducts)) {
-    $mockRelatedIds = ['prod_2', 'prod_3', 'prod_4', 'prod_6'];
-    foreach ($mockRelatedIds as $mId) {
-        if ($mId !== $productId) {
-            $mProd = getProductById($mId);
-            if ($mProd) $relatedProducts[] = $mProd;
-        }
+if (empty($relatedProducts) && $pdo) {
+    try {
+        $relStmt = $pdo->prepare("SELECT * FROM products WHERE id != :pid AND is_active = 1 ORDER BY sales_count DESC LIMIT 4");
+        $relStmt->execute([':pid' => $productId]);
+        $relatedProducts = $relStmt->fetchAll();
+    } catch (Throwable $e) {
+        $relatedProducts = [];
     }
 }
 

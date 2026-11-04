@@ -14,66 +14,10 @@ if (!empty($orderId)) {
     $order = getOrderDetails($orderId, $userId);
 }
 
-// Fallback pour les commandes de démonstration client
+// Sécurité : Redirection immédiate si la commande n'existe pas en base
 if (!$order) {
-    if ($orderId === 'CMD-2026-9842' || empty($orderId)) {
-        $order = [
-            'id' => 'CMD-2026-9842',
-            'order_number' => 'CMD-2026-9842',
-            'created_at' => date('Y-m-d H:i:s', strtotime('-2 hours')),
-            'customer_first_name' => explode(' ', $user['name'] ?? 'Moussa')[0] ?? 'Moussa',
-            'customer_last_name' => explode(' ', $user['name'] ?? 'Diallo')[1] ?? 'Diallo',
-            'customer_phone' => $user['phone'] ?? '+221 78 131 64 97',
-            'customer_email' => $user['email'] ?? 'client@sentechplus.com',
-            'delivery_address' => 'Rue MZ-12, Villa N° 45, Mermoz',
-            'delivery_city' => 'Dakar',
-            'payment_method' => 'Wave',
-            'status' => 'DELIVERED',
-            'subtotal' => 45000,
-            'delivery_fee' => 0,
-            'discount_total' => 0,
-            'total_amount' => 45000,
-            'items' => [
-                [
-                    'product_name_snapshot' => 'Casque Studio Pro Sans Fil ANC (Noir)',
-                    'product_image_snapshot' => 'assets/images/product_img4.webp',
-                    'quantity' => 1,
-                    'unit_price' => 45000,
-                    'subtotal' => 45000
-                ]
-            ]
-        ];
-    } elseif ($orderId === 'CMD-2026-9710') {
-        $order = [
-            'id' => 'CMD-2026-9710',
-            'order_number' => 'CMD-2026-9710',
-            'created_at' => date('Y-m-d H:i:s', strtotime('-1 week')),
-            'customer_first_name' => explode(' ', $user['name'] ?? 'Moussa')[0] ?? 'Moussa',
-            'customer_last_name' => explode(' ', $user['name'] ?? 'Diallo')[1] ?? 'Diallo',
-            'customer_phone' => $user['phone'] ?? '+221 78 131 64 97',
-            'customer_email' => $user['email'] ?? 'client@sentechplus.com',
-            'delivery_address' => 'Sacré-Cœur 3, Immeuble Horizon',
-            'delivery_city' => 'Dakar',
-            'payment_method' => 'Orange Money',
-            'status' => 'DELIVERED',
-            'subtotal' => 14000,
-            'delivery_fee' => 0,
-            'discount_total' => 0,
-            'total_amount' => 14000,
-            'items' => [
-                [
-                    'product_name_snapshot' => 'Chargeur Rapide GaN 65W Multi-Port Dual USB-C',
-                    'product_image_snapshot' => 'assets/images/product_img7.webp',
-                    'quantity' => 1,
-                    'unit_price' => 14000,
-                    'subtotal' => 14000
-                ]
-            ]
-        ];
-    } else {
-        header('Location: account?tab=orders');
-        exit;
-    }
+    header('Location: orders.php');
+    exit;
 }
 
 $invoiceNumber = 'FAC-' . preg_replace('/[^0-9]/', '', $order['order_number'] ?? $order['id'] ?? '202601');

@@ -220,41 +220,9 @@ try {
     $stmt->execute();
     $products = $stmt->fetchAll();
 } catch (Throwable $e) {
-    // Catalogue de Secours Résilient (Fallback In-Memory)
-    $mockProducts = [
-        ['id' => 'prod_1', 'name' => 'Casque Studio Pro Sans Fil ANC', 'category' => 'Audio & Écouteurs', 'subcategory' => 'Casques audio', 'brand' => 'Sony', 'price' => 45000, 'mrp' => 55000, 'images' => '["assets/images/product_img4.webp"]', 'stock' => 15, 'is_new' => 1, 'is_flash_sale' => 1, 'is_express_delivery' => 1, 'rating' => 4.9, 'connection_type' => 'Bluetooth', 'compatibility' => 'iPhone, Android, PC', 'description' => 'Réduction active du bruit ; Autonomie 40h ; Audio Hi-Res.'],
-        ['id' => 'prod_2', 'name' => 'Montre Connectée Sport V3 AMOLED', 'category' => 'Montres & Objets Connectés', 'subcategory' => 'Montres connectées', 'brand' => 'Samsung', 'price' => 32000, 'mrp' => 40000, 'images' => '["assets/images/product_img8.webp"]', 'stock' => 8, 'is_new' => 0, 'is_flash_sale' => 1, 'is_express_delivery' => 1, 'rating' => 4.8, 'connection_type' => 'Bluetooth', 'compatibility' => 'Android, iPhone', 'description' => 'Écran AMOLED 1.43" ; Appels Bluetooth ; Capteur SpO2.'],
-        ['id' => 'prod_3', 'name' => 'Enceinte Nomade Bluetooth HD 360°', 'category' => 'Audio & Écouteurs', 'subcategory' => 'Enceintes Bluetooth', 'brand' => 'JBL', 'price' => 28000, 'mrp' => 35000, 'images' => '["assets/images/product_img2.webp"]', 'stock' => 12, 'is_new' => 0, 'is_flash_sale' => 0, 'is_express_delivery' => 1, 'rating' => 4.7, 'connection_type' => 'Bluetooth', 'compatibility' => 'Universel', 'description' => 'Son immersif 360° 20W ; Étanche immersion IPX7.'],
-        ['id' => 'prod_4', 'name' => 'Écouteurs True Wireless Bass+ Pro', 'category' => 'Audio & Écouteurs', 'subcategory' => 'Écouteurs sans fil', 'brand' => 'Anker', 'price' => 19500, 'mrp' => 25000, 'images' => '["assets/images/product_img1.webp"]', 'stock' => 25, 'is_new' => 1, 'is_flash_sale' => 1, 'is_express_delivery' => 1, 'rating' => 4.9, 'connection_type' => 'Bluetooth', 'compatibility' => 'iPhone, Android', 'description' => 'Drivers 10mm graphène ; Basses profondes ; Micro 4-mic ENC.'],
-        ['id' => 'prod_5', 'name' => 'Souris Ergonomique Sans Fil Silence', 'category' => 'Informatique & Bureau', 'subcategory' => 'Souris', 'brand' => 'Logitech', 'price' => 15000, 'mrp' => 20000, 'images' => '["assets/images/product_img3.webp"]', 'stock' => 18, 'is_new' => 0, 'is_flash_sale' => 0, 'is_express_delivery' => 1, 'rating' => 4.8, 'connection_type' => 'Bluetooth, USB-C', 'compatibility' => 'PC, Mac', 'description' => 'Prise en main naturelle 57° ; Clics silencieux.'],
-        ['id' => 'prod_6', 'name' => 'Chargeur Rapide GaN 65W Multi-Port', 'category' => 'Téléphones & Accessoires', 'subcategory' => 'Chargeurs & câbles', 'brand' => 'Baseus', 'price' => 14000, 'mrp' => 18000, 'images' => '["assets/images/product_img7.webp"]', 'stock' => 30, 'is_new' => 1, 'is_flash_sale' => 0, 'is_express_delivery' => 1, 'rating' => 5.0, 'connection_type' => 'USB-C', 'compatibility' => 'iPhone, Android, PC', 'description' => 'Technologie GaN III compacte ; 2 USB-C + 1 USB-A.'],
-        ['id' => 'prod_7', 'name' => 'Casque Gamer Surround 7.1 RGB Pro', 'category' => 'Gaming', 'subcategory' => 'Casques gaming', 'brand' => 'Razer', 'price' => 39000, 'mrp' => 48000, 'images' => '["assets/images/product_img14.webp"]', 'stock' => 7, 'is_new' => 0, 'is_flash_sale' => 1, 'is_express_delivery' => 1, 'rating' => 4.8, 'connection_type' => 'USB-C, Jack', 'compatibility' => 'PC, PS5, Xbox', 'description' => 'Audio spatial 7.1 immersif ; Micro cardioïde détachable.'],
-        ['id' => 'prod_8', 'name' => 'Support Ordinateur Portable Aluminium Ajustable', 'category' => 'Informatique & Bureau', 'subcategory' => 'Accessoires PC', 'brand' => 'Baseus', 'price' => 16500, 'mrp' => 22000, 'images' => '["assets/images/product_img5.webp"]', 'stock' => 14, 'is_new' => 0, 'is_flash_sale' => 0, 'is_express_delivery' => 1, 'rating' => 4.7, 'connection_type' => '', 'compatibility' => 'PC, Mac', 'description' => 'Aluminium brossé robuste ; 6 angles d\'élévation ergonomiques.']
-    ];
-
-    $filtered = [];
-    foreach ($mockProducts as $p) {
-        if ($activeCategory && stripos($p['category'], $activeCategory['name']) === false && stripos($p['category'], $categoryParam) === false) continue;
-        if ($activeSubcategory && stripos($p['subcategory'], $activeSubcategory['name']) === false && stripos($p['subcategory'], $subcategoryParam) === false) continue;
-        if ($brandParam && strcasecmp($p['brand'], $brandParam) !== 0) continue;
-        if (($promoParam || $collectionParam === 'promo') && $p['mrp'] <= $p['price'] && empty($p['is_flash_sale'])) continue;
-        if ($collectionParam === 'flash' && empty($p['is_flash_sale'])) continue;
-        if ($collectionParam === 'under10k' && $p['price'] > 10000) continue;
-        if ($collectionParam === 'under25k' && $p['price'] > 25000) continue;
-        if (($isNewParam || $collectionParam === 'new') && empty($p['is_new'])) continue;
-        if (($expressParam || $collectionParam === 'express') && empty($p['is_express_delivery'])) continue;
-        if ($search && stripos($p['name'], $search) === false && stripos($p['category'], $search) === false && stripos($p['description'], $search) === false) continue;
-        if ($minPrice !== null && $p['price'] < $minPrice) continue;
-        if ($maxPrice !== null && $p['price'] > $maxPrice) continue;
-        if ($inStockParam === '1' && $p['stock'] <= 0) continue;
-        if ($inStockParam === 'limited' && ($p['stock'] <= 0 || $p['stock'] > 5)) continue;
-        if ($connectionParam && stripos($p['connection_type'] ?? '', $connectionParam) === false && stripos($p['description'], $connectionParam) === false) continue;
-        if ($compatibilityParam && stripos($p['compatibility'] ?? '', $compatibilityParam) === false && stripos($p['description'], $compatibilityParam) === false) continue;
-        $filtered[] = $p;
-    }
-    $totalProducts = count($filtered);
-    $totalPages = max(1, (int)ceil($totalProducts / $limit));
-    $products = array_slice($filtered, $offset, $limit);
+    $products = [];
+    $totalProducts = 0;
+    $totalPages = 1;
 }
 
 // ─── 5. Gestion des Filtres Actifs Réels (Uniquement critères secondaires) ────

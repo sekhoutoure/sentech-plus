@@ -121,17 +121,8 @@ echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         }
     }
 
-    if (empty($products)) {
-        $mockIds = [
-            'prod_charger_gan65w', 'prod_earbuds_anc_pro', 'prod_smartwatch_ultra', 
-            'prod_soundbar_gaming', 'prod_speaker_smart_gray', 'prod_camera_security_4k', 
-            'prod_smart_lamp_led', 'prod_1', 'prod_2', 'prod_3', 'prod_4', 'prod_5', 'prod_6', 'prod_7'
-        ];
-        foreach ($mockIds as $mId) {
-            $p = getProductById($mId);
-            if ($p) $products[] = $p;
-        }
-    }
+    // Zéro produit mocké dans le sitemap
+    if (empty($products)) { $products = []; }
 
     foreach ($products as $prod):
         $prodUrl = $baseUrl . '/product.php?id=' . urlencode($prod['id']);

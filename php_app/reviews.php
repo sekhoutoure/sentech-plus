@@ -46,17 +46,10 @@ try {
     }
 } catch (Throwable $e) { $reviews = []; }
 
-// Fallback mock reviews if DB empty
+// Zéro avis fictif : les avis proviennent exclusivement de la base de données
 if (empty($reviews)) {
-    $reviews = [
-        ['author'=>'Ibrahima D.','rating'=>5,'comment'=>"Livraison ultra-rapide, le casque Sony est exactement comme décrit. Je recommande SenTechPLUS à 100% !",'created_at'=>date('Y-m-d',strtotime('-2 days')),'product_name'=>'Casque Studio Pro Sans Fil ANC'],
-        ['author'=>'Fatou S.','rating'=>5,'comment'=>"Super boutique ! J'ai commandé une montre connectée samedi, reçue le lendemain dimanche. Service client au top.",'created_at'=>date('Y-m-d',strtotime('-5 days')),'product_name'=>'Montre Connectée AMOLED'],
-        ['author'=>'Ousmane B.','rating'=>4,'comment'=>"Produits authentiques et bien emballés. Le chargeur GaN fonctionne parfaitement, aucun problème de chauffe.",'created_at'=>date('Y-m-d',strtotime('-1 week')),'product_name'=>'Chargeur GaN 65W'],
-        ['author'=>'Aïssatou N.','rating'=>5,'comment'=>"Excellente expérience d'achat. Le paiement Wave est très pratique. Merci SenTechPLUS !",'created_at'=>date('Y-m-d',strtotime('-10 days')),'product_name'=>null],
-        ['author'=>'Mamadou T.','rating'=>5,'comment'=>"Les écouteurs JBL que j'ai commandés sont de véritables JBL, pas des copies. Prix imbattable à Dakar.",'created_at'=>date('Y-m-d',strtotime('-2 weeks')),'product_name'=>'Écouteurs JBL Tune'],
-        ['author'=>'Mariama K.','rating'=>4,'comment'=>"Bon service. Juste un petit délai supplémentaire dû aux embouteillages à Dakar mais le livreur a appelé pour prévenir.",'created_at'=>date('Y-m-d',strtotime('-3 weeks')),'product_name'=>null],
-    ];
-    $stats = ['total'=>count($reviews),'avg'=>4.8,'dist'=>[5=>5,4=>2,3=>0,2=>0,1=>0]];
+    $reviews = [];
+    $stats = ['total'=>0, 'avg'=>0, 'dist'=>[5=>0, 4=>0, 3=>0, 2=>0, 1=>0]];
 }
 
 require_once __DIR__ . '/includes/header.php';
@@ -114,6 +107,15 @@ require_once __DIR__ . '/includes/navbar.php';
         <!-- Reviews Grid -->
         <div class="lg:col-span-2 space-y-4">
             <h2 class="text-lg font-black text-[#182230]">Tous les avis <span class="text-[#1677FF]">(<?= $stats['total'] ?>)</span></h2>
+            <?php if (empty($reviews)): ?>
+                <div class="bg-white rounded-2xl border border-[#E8EDF3] p-10 text-center space-y-3">
+                    <div class="w-12 h-12 rounded-full bg-blue-50 text-[#1677FF] flex items-center justify-center mx-auto">
+                        <i data-lucide="message-square" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-sm font-bold text-[#182230]">Aucun avis pour le moment</p>
+                    <p class="text-xs text-[#667085]">Les avis clients vérifiés apparaîtront ici après chaque commande livrée.</p>
+                </div>
+            <?php else: ?>
             <?php foreach ($reviews as $rev): ?>
             <article class="bg-white rounded-2xl border border-[#E8EDF3] p-5 shadow-xs space-y-3">
                 <div class="flex items-start justify-between gap-3">
@@ -145,6 +147,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 </div>
             </article>
             <?php endforeach; ?>
+            <?php endif; ?>
         </div>
 
         <!-- Sidebar: Laisser un avis -->
