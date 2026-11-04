@@ -295,11 +295,11 @@ require_once __DIR__ . '/includes/navbar.php';
                             <div>
                                 <label for="c-phone" class="block font-bold text-[#1D1D1F] mb-1.5">Numéro de Téléphone (Livraison) *</label>
                                 <div class="relative flex items-center">
-                                    <div class="absolute left-3 flex items-center gap-1.5 pointer-events-none text-xs font-bold text-slate-600 border-r border-slate-200 pr-2">
+                                    <div style="position: absolute; left: 12px; z-index: 10; display: flex; align-items: center; gap: 6px; pointer-events: none; font-size: 13px; font-weight: 800; color: #475569; border-right: 1px solid #CBD5E1; padding-right: 8px;">
                                         <span>🇸🇳</span>
                                         <span>+221</span>
                                     </div>
-                                    <input type="tel" name="phone" id="c-phone" value="<?= htmlspecialchars($defaultAddress['phone'] ?? ($user['phone'] ?? '')) ?>" required pattern="^((\+221|00221)[\s-]?)?(70|75|76|77|78|33)[0-9\s-]{7,11}$" placeholder="78 131 64 97" class="w-full h-11 pl-22 pr-3.5 rounded-xl bg-[#F8FAFD] border border-slate-200/90 focus:bg-white focus:border-[#1677FF] focus:ring-4 focus:ring-[#1677FF]/10 outline-none font-black text-xs sm:text-sm text-[#1D1D1F] tracking-wide transition-all">
+                                    <input type="tel" name="phone" id="c-phone" value="<?= htmlspecialchars($defaultAddress['phone'] ?? ($user['phone'] ?? '')) ?>" required pattern="^((\+221|00221)[\s-]?)?(70|75|76|77|78|33)[0-9\s-]{7,11}$" placeholder="77 000 00 00" style="padding-left: 94px !important;" class="w-full h-11 pr-3.5 rounded-xl bg-[#F8FAFD] border border-slate-200/90 focus:bg-white focus:border-[#1677FF] focus:ring-4 focus:ring-[#1677FF]/10 outline-none font-black text-xs sm:text-sm text-[#1D1D1F] tracking-wide transition-all">
                                 </div>
                                 <span class="text-[10.5px] text-[#64748B] mt-1 block">Le coursier vous appellera 15 min avant son arrivée.</span>
                             </div>
@@ -473,9 +473,7 @@ require_once __DIR__ . '/includes/navbar.php';
                                         <span class="text-[11px] text-[#64748B] block mt-0.5">Vous inspectez l'intégrité du blister scellé avant de remettre l'appoint.</span>
                                     </div>
                                 </div>
-                                <div class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0">
-                                    <i data-lucide="hand-coins" class="w-4 h-4"></i>
-                                </div>
+                                <span class="text-xs font-black text-slate-700 bg-slate-100 border border-slate-200 px-3 py-1 rounded-xl shrink-0">CASH</span>
                             </label>
 
                         </div>
@@ -572,7 +570,7 @@ require_once __DIR__ . '/includes/navbar.php';
             </div>
 
             <!-- ─── MOBILE STICKY BUY BAR (Barre d'action inférieure sur smartphone) ─── -->
-            <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 p-3 z-40 shadow-xl flex items-center justify-between gap-3">
+            <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 px-4 py-3 z-40 shadow-[0_-8px_25px_rgba(15,23,42,0.1)] flex items-center justify-between gap-3" style="padding-bottom: max(12px, env(safe-area-inset-bottom));">
                 <div class="min-w-0">
                     <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Total à payer</span>
                     <span class="text-lg font-black text-[#1677FF] tracking-tight block leading-tight" id="mobile-display-total"><?= formatPrice($initialTotals['total']) ?></span>

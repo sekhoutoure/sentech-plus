@@ -95,14 +95,14 @@ if ($layoutType === 'checkout'): ?>
 
             <p>© <?= date('Y') ?> <strong><?= htmlspecialchars($storeName) ?></strong>. Transactions protégées & certifiées au Sénégal 🇸🇳</p>
             
-            <div class="flex items-center justify-center gap-3">
+            <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-[11px] leading-relaxed">
                 <a href="contact.php#cgu" class="hover:text-[#1677FF]">CGU & Vente</a>
-                <span>•</span>
+                <span class="text-slate-300">•</span>
                 <a href="contact.php#delivery" class="hover:text-[#1677FF]">Politique de Livraison</a>
-                <span>•</span>
+                <span class="text-slate-300">•</span>
                 <a href="https://wa.me/<?= htmlspecialchars($storeWa) ?>" target="_blank" rel="noopener noreferrer" class="hover:text-[#0D7D53] font-bold inline-flex items-center gap-1">
-                    <i data-lucide="message-circle" class="w-3 h-3 text-[#0D7D53]"></i>
-                    <span>Aide Commande WhatsApp : <?= htmlspecialchars($storePhone) ?></span>
+                    <i data-lucide="message-circle" class="w-3.5 h-3.5 text-[#0D7D53]"></i>
+                    <span>Aide WhatsApp : <?= htmlspecialchars($storePhone) ?></span>
                 </a>
             </div>
 
