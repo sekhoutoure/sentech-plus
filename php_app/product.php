@@ -603,18 +603,20 @@ require_once __DIR__ . '/includes/navbar.php';
                     </div>
 
                     <!-- Add to Cart CTA -->
-                    <button id="add-to-cart-btn" type="submit" class="cursor-pointer flex-1 py-3.5 px-4 font-black text-xs sm:text-sm rounded-xl border-2 border-[#182230] bg-white text-[#182230] hover:bg-[#F3F7FC] transition-all shadow-xs">
-                        Ajouter au panier
+                    <button id="add-to-cart-btn" type="submit" class="cursor-pointer flex-1 py-3.5 px-4 font-extrabold text-xs sm:text-sm rounded-2xl border border-slate-200 bg-[#F8FAFD] hover:bg-[#EAEFF6] text-[#1D1D1F] transition-all shadow-2xs active:scale-95 flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-bag" class="w-4 h-4 text-[#1677FF]"></i>
+                        <span>Ajouter au panier</span>
                     </button>
 
                     <!-- Buy Now CTA -->
-                    <button type="button" onclick="submitBuyNowForm()" class="cursor-pointer flex-1 py-3.5 px-4 font-black text-xs sm:text-sm rounded-xl bg-[#0B54C2] hover:bg-[#09449E] text-white transition-all shadow-md">
-                        Acheter maintenant
+                    <button type="button" onclick="submitBuyNowForm()" style="background-color: #1677FF !important; color: #ffffff !important;" class="cursor-pointer flex-1 py-3.5 px-4 font-extrabold text-xs sm:text-sm rounded-2xl bg-[#1677FF] hover:bg-[#0B54C2] text-white transition-all shadow-[0_8px_20px_rgba(22,119,255,0.25)] active:scale-95 flex items-center justify-center gap-2">
+                        <span>Acheter maintenant</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
                 </div>
 
-                <!-- Desktop WhatsApp Direct Express Ordering (1-Clic — Emil Kowalski Tactile Button) -->
-                <a id="desktop-whatsapp-order-btn" href="<?= getWhatsAppProductLink($product, !empty($variants) ? $variants[0]['name'] : null) ?>" target="_blank" rel="noopener" class="w-full py-3.5 px-4 font-extrabold text-xs rounded-xl bg-[#25D366] hover:bg-[#128C7E] text-white flex items-center justify-center gap-2 shadow-md transition-all duration-160 cursor-pointer active:scale-[0.97]">
+                <!-- Desktop WhatsApp Direct Express Ordering (1-Clic — Apple / Emil Kowalski Tactile Button) -->
+                <a id="desktop-whatsapp-order-btn" href="<?= getWhatsAppProductLink($product, !empty($variants) ? $variants[0]['name'] : null) ?>" target="_blank" rel="noopener" style="background-color: #25D366 !important; color: #ffffff !important;" class="w-full py-3.5 px-4 font-extrabold text-xs rounded-2xl bg-[#25D366] hover:bg-[#1EBE5D] text-white flex items-center justify-center gap-2 shadow-xs transition-all duration-150 cursor-pointer active:scale-[0.98]">
                     <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.075-1.704-.374-1.258-.528-2.079-1.808-2.142-1.892-.063-.084-.509-.678-.509-1.293s.322-.919.436-1.042c.114-.123.249-.155.334-.155.084 0 .168.002.241.006.077.004.181-.029.283.217.104.252.356.87.387.933.031.063.052.138.01.222-.042.084-.063.137-.126.21-.063.074-.132.164-.188.22-.063.063-.129.131-.056.257.073.126.326.539.7 0.871.482.428.887.561 1.013.624.126.063.2.052.273-.031.074-.084.316-.368.4-.494.084-.126.168-.105.283-.063.116.042.736.347.862.41.126.063.21.095.241.147.032.053.032.306-.112.711z"/></svg>
                     <span class="tracking-wide">Commander en 1 Clic sur WhatsApp (Livraison Dakar)</span>
                 </a>
@@ -1043,46 +1045,49 @@ require_once __DIR__ . '/includes/navbar.php';
 
 </main>
 
-<!-- ─── 9. APP-LIKE FIXED BOTTOM PURCHASE BAR (Screenshot 1, 2, 3, 4) ────── -->
-<div id="mobile-sticky-buy-bar" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#E8EDF3] p-2.5 px-3 shadow-[0_-4px_25px_rgba(0,0,0,0.1)] flex items-center justify-between gap-2" style="padding-bottom: max(10px, env(safe-area-inset-bottom));">
+<!-- ─── 9. APP-LIKE FIXED BOTTOM PURCHASE BAR (Apple Fluid Bar) ────── -->
+<div id="mobile-sticky-buy-bar" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-t border-slate-200/90 px-3 py-2.5 shadow-[0_-8px_30px_rgba(15,23,42,0.12)] flex items-center justify-between gap-2.5" style="padding-bottom: max(10px, env(safe-area-inset-bottom));">
     
-    <!-- 3 Left Action Icons -->
+    <!-- 3 Action Icons: Accueil, WhatsApp, Panier -->
     <div class="flex items-center gap-1 shrink-0">
-        <!-- 1. Home -->
-        <a href="index.php" class="p-2 text-[#64748B] hover:text-[#182230] flex flex-col items-center justify-center min-w-[36px]" aria-label="Accueil">
+        <!-- 1. Accueil -->
+        <a href="index.php" class="p-2 text-[#64748B] hover:text-[#1D1D1F] flex flex-col items-center justify-center min-w-[36px] active:scale-90 transition-transform" aria-label="Accueil">
             <i data-lucide="home" class="w-5 h-5"></i>
+            <span class="text-[9px] font-bold text-[#64748B]">Accueil</span>
         </a>
 
         <!-- 2. WhatsApp Direct Order -->
-        <a href="<?= getWhatsAppProductLink($product, !empty($variants) ? $variants[0]['name'] : null) ?>" target="_blank" rel="noopener" class="p-2 text-[#25D366] hover:text-[#1EBE5D] flex flex-col items-center justify-center min-w-[36px]" aria-label="Commander sur WhatsApp">
-            <i data-lucide="message-circle" class="w-5 h-5"></i>
+        <a href="<?= getWhatsAppProductLink($product, !empty($variants) ? $variants[0]['name'] : null) ?>" target="_blank" rel="noopener" class="p-2 text-[#25D366] hover:text-[#1EBE5D] flex flex-col items-center justify-center min-w-[36px] active:scale-90 transition-transform" aria-label="Commander sur WhatsApp">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.075-1.704-.374-1.258-.528-2.079-1.808-2.142-1.892-.063-.084-.509-.678-.509-1.293s.322-.919.436-1.042c.114-.123.249-.155.334-.155.084 0 .168.002.241.006.077.004.181-.029.283.217.104.252.356.87.387.933.031.063.052.138.01.222-.042.084-.063.137-.126.21-.063.074-.132.164-.188.22-.063.063-.129.131-.056.257.073.126.326.539.7 0.871.482.428.887.561 1.013.624.126.063.2.052.273-.031.074-.084.316-.368.4-.494.084-.126.168-.105.283-.063.116.042.736.347.862.41.126.063.21.095.241.147.032.053.032.306-.112.711z"/></svg>
+            <span class="text-[9px] font-bold text-[#25D366]">WhatsApp</span>
         </a>
 
         <!-- 3. Cart with Counter -->
-        <button type="button" onclick="toggleCartDrawer(true)" class="p-2 text-[#64748B] hover:text-[#182230] relative flex flex-col items-center justify-center min-w-[36px] cursor-pointer" aria-label="Panier">
+        <button type="button" onclick="toggleCartDrawer(true)" class="p-2 text-[#64748B] hover:text-[#1D1D1F] relative flex flex-col items-center justify-center min-w-[36px] cursor-pointer active:scale-90 transition-transform" aria-label="Panier">
             <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-            <span class="absolute top-0.5 right-0.5 bg-[#EF4444] text-white text-[9px] font-black rounded-full w-4 h-4 flex items-center justify-center">
+            <span class="text-[9px] font-bold text-[#64748B]">Panier</span>
+            <span class="absolute top-0.5 right-0.5 bg-[#1677FF] text-white text-[9px] font-black rounded-full w-4 h-4 flex items-center justify-center">
                 <?= getCartCount() ?>
             </span>
         </button>
     </div>
 
-    <!-- 2 Primary CTA Buttons -->
-    <div class="flex-1 flex items-center gap-1.5 min-w-0">
+    <!-- 2 Unified CTA Buttons -->
+    <div class="flex-1 flex items-center gap-2 min-w-0">
         <form action="cart.php" method="POST" enctype="application/x-www-form-urlencoded" class="flex-1 min-w-0">
             <?= getCSRFInputField() ?>
             <input type="hidden" name="action" value="add">
             <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
             <input type="hidden" id="mobile-selected-variant-id" name="variant_id" value="<?= !empty($variants) ? htmlspecialchars($variants[0]['id']) : '' ?>">
-            <button type="submit" class="w-full py-2.5 px-2 bg-white border-2 border-[#182230] hover:bg-[#F3F7FC] text-[#182230] font-black text-xs rounded-full truncate cursor-pointer transition-transform active:scale-95">
-                Ajouter au panier
+            <button type="submit" class="w-full py-3 px-2 bg-[#F1F5F9] hover:bg-[#E2E8F0] active:scale-95 text-[#1D1D1F] font-extrabold text-xs rounded-xl truncate cursor-pointer transition-all border border-slate-200/80">
+                + Panier
             </button>
         </form>
 
         <form action="checkout.php" method="GET" class="flex-1 min-w-0">
             <input type="hidden" name="buy_now" value="<?= htmlspecialchars($product['id']) ?>">
-            <button type="submit" class="w-full py-2.5 px-2 bg-[#E11D48] hover:bg-[#BE123C] text-white font-black text-xs rounded-full truncate cursor-pointer shadow-md transition-transform active:scale-95">
-                Acheter maintenant
+            <button type="submit" style="background-color: #1677FF !important; color: #ffffff !important;" class="w-full py-3 px-2 bg-[#1677FF] hover:bg-[#0B54C2] active:scale-95 text-white font-extrabold text-xs rounded-xl truncate cursor-pointer shadow-[0_4px_16px_rgba(22,119,255,0.28)] transition-all">
+                Acheter
             </button>
         </form>
     </div>

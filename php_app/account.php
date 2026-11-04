@@ -694,83 +694,68 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                 </div>
 
-                <!-- ══════ TAB 4 : MES FAVORIS ══════ -->
-                <div id="tab-wishlist" class="tab-content hidden space-y-4">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-black text-[#182230]">Mes Produits Favoris (<?= count($wishlistProducts) ?>)</h2>
-                        <a href="shop.php" class="text-xs font-bold text-[#1677FF] hover:underline">Explorer la boutique →</a>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-                        <?php foreach ($wishlistProducts as $wProd): 
-                            $wImgs = getProductImages($wProd['images'] ?? null, 'assets/images/hero_product_img1.webp');
-                            $wMainImg = $wImgs[0] ?? 'assets/images/hero_product_img1.webp';
-                            $wDiscount = calculateDiscount((float)$wProd['price'], (float)$wProd['mrp']);
-                        ?>
-                            <div class="relative group">
-                                <a href="product.php?id=<?= urlencode($wProd['id']) ?>" class="prod-card" aria-label="<?= htmlspecialchars($wProd['name']) ?> - <?= formatPrice($wProd['price']) ?>">
-                                    
-                                    <!-- Top row: Badge Reduction / Stock & Rating -->
-                                    <div class="prod-card-top">
-                                        <div class="flex items-center gap-1">
-                                            <?php if ($wDiscount > 0): ?>
-                                                <span class="prod-badge-discount">-<?= $wDiscount ?>%</span>
-                                            <?php else: ?>
-                                                <span class="prod-badge-stock">En stock</span>
-                                            <?php endif; ?>
-                                        </div>
-
-                                        <div class="prod-rating">
-                                            <span>★</span>
-                                            <span style="color:#64748B;font-size:10px;">4.9</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Product Image -->
-                                    <div class="prod-card-img-wrap">
-                                        <img loading="lazy" src="<?= htmlspecialchars($wMainImg) ?>" alt="<?= htmlspecialchars($wProd['name']) ?>" width="180" height="180" style="width:100%;height:100%;aspect-ratio:1/1;object-fit:contain;">
-                                    </div>
-
-                                    <!-- Product Details -->
-                                    <div class="prod-card-body">
-                                        <div>
-                                            <span class="prod-cat-text">
-                                                <?= htmlspecialchars($wProd['category'] ?? '') ?>
-                                            </span>
-                                            <h3 class="prod-name-text">
-                                                <?= htmlspecialchars($wProd['name']) ?>
-                                            </h3>
-                                        </div>
-
-                                        <!-- Price Section (No Button) -->
-                                        <div class="prod-price-row">
-                                            <span class="prod-price-val">
-                                                <?= formatPrice($wProd['price']) ?>
-                                            </span>
-                                            <?php if ($wProd['mrp'] > $wProd['price']): ?>
-                                                <span class="prod-price-old">
-                                                    <?= formatPrice($wProd['mrp']) ?>
-                                                </span>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-
-                                </a>
-
-                                <!-- Remove button overlay -->
-                                <form action="wishlist.php" method="POST" class="absolute top-2 right-2 z-10" onclick="event.stopPropagation();">
-                                    <?= getCSRFInputField() ?>
-                                    <input type="hidden" name="action" value="toggle">
-                                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($wProd['id']) ?>">
-                                    <button type="submit" class="cursor-pointer w-7 h-7 rounded-full bg-white/90 hover:bg-rose-500 text-rose-500 hover:text-white flex items-center justify-center transition-all shadow-xs" title="Retirer des favoris">
-                                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-
+                <!-- ══════ TAB 4 : MES FAVORIS ══════ -->
+                <div id="tab-wishlist" class="tab-content hidden space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-base sm:text-lg font-black text-[#1D1D1F] flex items-center gap-2">
+                            <i data-lucide="heart" class="w-4 h-4 text-rose-500"></i>
+                            <span>Mes Produits Favoris (<?= count($wishlistProducts) ?>)</span>
+                        </h2>
+                        <a href="shop.php" class="text-xs font-bold text-[#1677FF] hover:text-[#0B54C2] transition-colors flex items-center gap-1 active:scale-95">
+                            <span>Explorer la boutique</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                        <?php foreach ($wishlistProducts as $wProd): 
+                            $wImgs = getProductImages($wProd['images'] ?? null, 'assets/images/hero_product_img1.webp');
+                            $wMainImg = $wImgs[0] ?? 'assets/images/hero_product_img1.webp';
+                            $wDiscount = calculateDiscount((float)$wProd['price'], (float)$wProd['mrp']);
+                        ?>
+                            <div class="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-4 border border-slate-200/80 shadow-2xs hover:shadow-apple-hover hover:border-[#1677FF]/30 transition-all flex flex-col justify-between group relative">
+                                
+                                <div class="flex items-center justify-between gap-1 mb-1.5">
+                                    <?php if ($wDiscount > 0): ?>
+                                        <span class="text-[9px] font-extrabold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200/60">-<?= $wDiscount ?>%</span>
+                                    <?php else: ?>
+                                        <span class="text-[9px] font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">⚡ En Stock</span>
+                                    <?php endif; ?>
+
+                                    <form action="wishlist.php" method="POST" class="inline" onclick="event.stopPropagation();">
+                                        <?= getCSRFInputField() ?>
+                                        <input type="hidden" name="action" value="toggle">
+                                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($wProd['id']) ?>">
+                                        <button type="submit" class="cursor-pointer w-7 h-7 rounded-full bg-[#F8FAFD] hover:bg-rose-50 text-rose-500 flex items-center justify-center transition-all active:scale-90" title="Retirer des favoris">
+                                            <i data-lucide="heart" class="w-3.5 h-3.5 fill-rose-500 text-rose-500"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <a href="product.php?id=<?= urlencode($wProd['id']) ?>" class="block my-2 w-full aspect-square rounded-2xl bg-[#F8FAFD] p-2 flex items-center justify-center overflow-hidden group-hover:bg-[#EAF3FF]/30 transition-all">
+                                    <img loading="lazy" src="<?= htmlspecialchars($wMainImg) ?>" alt="<?= htmlspecialchars($wProd['name']) ?>" width="180" height="180" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                                </a>
+
+                                <div class="space-y-1 pt-1">
+                                    <span class="text-[9px] font-extrabold text-[#94A3B8] uppercase tracking-wider block truncate"><?= htmlspecialchars($wProd['category'] ?? 'High-Tech') ?></span>
+                                    <h4 class="text-xs font-bold text-[#1D1D1F] group-hover:text-[#1677FF] transition-colors line-clamp-1 leading-snug">
+                                        <a href="product.php?id=<?= urlencode($wProd['id']) ?>"><?= htmlspecialchars($wProd['name']) ?></a>
+                                    </h4>
+                                    <span class="text-xs sm:text-sm font-black text-[#1D1D1F] block mt-1"><?= formatPrice($wProd['price']) ?></span>
+                                </div>
+
+                                <div class="pt-2.5 border-t border-slate-100 mt-2">
+                                    <button type="button" onclick="addToCart('<?= htmlspecialchars($wProd['id']) ?>', 1)" style="background-color: #1677FF !important; color: #ffffff !important;" class="cursor-pointer w-full py-2 px-2.5 rounded-xl bg-[#1677FF] hover:bg-[#0B54C2] text-white font-extrabold text-[11px] flex items-center justify-center gap-1.5 shadow-xs transition-all active:scale-95">
+                                        <i data-lucide="shopping-bag" class="w-3 h-3"></i>
+                                        <span>Ajouter</span>
+                                    </button>
+                                </div>
+
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
                 <!-- ══════ TAB 5 : MES AVIS ══════ -->
                 <div id="tab-reviews" class="tab-content hidden space-y-4">
                     <h2 class="text-lg font-black text-[#182230]">Mes Avis & Évaluations Laissés</h2>
