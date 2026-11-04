@@ -121,7 +121,7 @@ if ($layoutType === 'public_compact'): ?>
             <div class="flex-1 max-w-xl hidden sm:block">
                 <form action="search.php" method="GET" class="w-full relative">
                     <div class="relative h-[44px] flex items-center bg-[#F1F3F7] hover:bg-[#EAEFF5] focus-within:bg-white pl-3.5 pr-1.5 rounded-2xl border border-[#E2E8F0] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-xs">
-                        <i data-lucide="search" class="w-4 h-4 text-[#1677FF] shrink-0 mr-2.5"></i>
+                        <svg class="w-4 h-4 text-[#1677FF] mr-2.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
                         <input 
                             name="q" 
                             type="search" 
@@ -129,11 +129,11 @@ if ($layoutType === 'public_compact'): ?>
                             placeholder="Rechercher un produit, une marque..." 
                             value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
                             autocomplete="off"
-                            class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
+                            class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]" style="font-size: 14px !important; outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                         >
-                        <button type="submit" class="h-8 px-3.5 rounded-xl bg-[#1677FF] hover:bg-[#0F67E5] text-white text-xs font-bold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer shadow-xs" aria-label="Rechercher">
+                        <button type="submit" style="background-color: #1677FF !important; color: #ffffff !important; height: 32px; padding: 0 14px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; font-size: 12px; font-weight: 700; border: none;" class="active:scale-95 transition-all shadow-xs cursor-pointer" aria-label="Rechercher">
                             <span>Rechercher</span>
-                            <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-white"></i>
+                            <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                         </button>
                     </div>
                 </form>
@@ -293,22 +293,22 @@ if ($layoutType === 'public_compact'): ?>
             <div class="flex-1 max-w-2xl relative">
                 <form action="search.php" method="GET" class="w-full relative">
                     <div class="relative h-[46px] flex items-center bg-[#F1F3F7] hover:bg-[#EAEFF5] focus-within:bg-white pl-4 pr-1.5 rounded-2xl border border-[#E2E8F0] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-xs group">
-                        <i data-lucide="search" class="w-4 h-4 text-[#1677FF] shrink-0 mr-3"></i>
+                        <svg class="w-4 h-4 text-[#1677FF] shrink-0 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
                         <input 
                             name="q"
                             type="search" 
                             aria-label="Rechercher un produit ou une marque"
-                            placeholder="Rechercher un modèle, marque, chargeur..." 
+                            placeholder="Rechercher un produit, marque, catégorie..." 
                             value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
                             autocomplete="off"
-                            class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
+                            class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]" style="font-size: 14px !important; outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                         >
                         <div class="hidden xl:flex items-center gap-1 px-2 py-0.5 rounded-lg bg-black/5 text-[10px] font-semibold text-[#86868B] shrink-0 mr-2 border border-black/[0.04] pointer-events-none">
                             <kbd class="font-sans">⌘</kbd>K
                         </div>
-                        <button type="submit" class="h-8 px-4 rounded-xl bg-[#1677FF] hover:bg-[#0F67E5] text-white text-xs font-bold transition-all shrink-0 shadow-xs active:scale-95 flex items-center gap-1.5 cursor-pointer">
+                        <button type="submit" style="background-color: #1677FF !important; color: #ffffff !important; height: 34px; padding: 0 16px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; font-size: 12px; font-weight: 700; border: none;" class="active:scale-95 transition-all shadow-xs cursor-pointer">
                             <span>Rechercher</span>
-                            <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-white"></i>
+                            <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                         </button>
                     </div>
                 </form>
@@ -428,7 +428,7 @@ if ($layoutType === 'public_compact'): ?>
             <div class="flex-1 max-w-sm relative">
                 <form action="search.php" method="GET" class="w-full relative">
                     <div class="relative h-[44px] flex items-center bg-[#F1F3F7] hover:bg-[#EAEFF5] focus-within:bg-white pl-3.5 pr-1.5 rounded-2xl border border-[#E2E8F0] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 shadow-xs transition-all">
-                        <i data-lucide="search" class="w-4 h-4 text-[#1677FF] mr-2.5 shrink-0"></i>
+                        <svg class="w-4 h-4 text-[#1677FF] mr-2.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
                         <input 
                             name="q" 
                             type="text" 
@@ -436,14 +436,13 @@ if ($layoutType === 'public_compact'): ?>
                             placeholder="Rechercher sur SenTechPLUS..." 
                             value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
                             autocomplete="off"
-                            class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
+                            class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]" style="font-size: 14px !important; outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                         >
-                        <button type="submit" class="h-8 px-3 rounded-xl bg-[#1677FF] hover:bg-[#0F67E5] active:scale-95 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 shrink-0 cursor-pointer" aria-label="Rechercher">
-                            <span>Chercher</span>
-                            <i data-lucide="arrow-right" class="w-3 h-3 text-white"></i>
+                        <button type="submit" style="background-color: #1677FF !important; color: #ffffff !important; height: 32px; padding: 0 12px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; flex-shrink: 0; font-size: 12px; font-weight: 700; border: none;" class="active:scale-95 transition-all shadow-xs cursor-pointer" aria-label="Rechercher">
+                            <span>Rechercher</span>
+                            <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                         </button>
                     </div>
-                </form>
             </div>
 
             <!-- Tablet Actions: Cloche Notifications + User -->
@@ -504,12 +503,12 @@ if ($layoutType === 'public_compact'): ?>
                 </div>
             </div>
 
-            <!-- Mobile Row 2: Modern Apple Squircle Search Bar -->
+            <!-- Mobile Row 2: Pure Apple Squircle Search Bar -->
             <?php if ($currPage !== 'shop.php' && $currPage !== 'categories.php'): ?>
-                <div class="mt-2 relative">
+                <div class="mt-2.5 relative">
                     <form action="search.php" method="GET" class="w-full relative">
                         <div class="relative h-[46px] flex items-center bg-[#F1F3F7] hover:bg-[#EAEFF5] focus-within:bg-white pl-3.5 pr-1.5 rounded-2xl border border-[#E2E8F0] focus-within:border-[#1677FF] focus-within:ring-4 focus-within:ring-[#1677FF]/15 transition-all shadow-xs">
-                            <i data-lucide="search" class="w-4 h-4 text-[#1677FF] mr-2.5 shrink-0"></i>
+                            <svg class="w-4 h-4 text-[#1677FF] mr-2.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
                             <input 
                                 name="q" 
                                 type="search" 
@@ -519,11 +518,11 @@ if ($layoutType === 'public_compact'): ?>
                                 placeholder="Rechercher un produit, marque..." 
                                 value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
                                 autocomplete="off"
-                                class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
+                                class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]" style="font-size: 14px !important; outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                             >
-                            <button type="submit" class="h-[34px] px-3.5 rounded-xl bg-[#1677FF] hover:bg-[#0F67E5] active:scale-95 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 shrink-0 cursor-pointer" aria-label="Lancer la recherche">
-                                <span>Chercher</span>
-                                <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-white"></i>
+                            <button type="submit" style="background-color: #1677FF !important; color: #ffffff !important; height: 34px; padding: 0 14px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; font-size: 12px; font-weight: 700; border: none;" class="active:scale-95 transition-all shadow-xs cursor-pointer" aria-label="Lancer la recherche">
+                                <span>Rechercher</span>
+                                <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                             </button>
                         </div>
                     </form>
