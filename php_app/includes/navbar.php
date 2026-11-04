@@ -129,7 +129,7 @@ if ($layoutType === 'public_compact'): ?>
                             placeholder="Rechercher un produit, une marque..." 
                             value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
                             autocomplete="off"
-                            class="w-full bg-transparent outline-none text-xs font-medium text-[#182230] placeholder:text-[#64748B]"
+                            class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs font-medium text-[#182230] placeholder:text-[#64748B]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                         >
                         <button type="submit" class="cursor-pointer bg-[#0B54C2] hover:bg-[#09449E] text-white text-xs font-bold px-4 py-1.5 rounded-full transition-all shrink-0">
                             Rechercher
@@ -302,7 +302,7 @@ if ($layoutType === 'public_compact'): ?>
                             placeholder="Rechercher un produit, marque, catégorie..." 
                             value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
                             autocomplete="off"
-                            class="w-full bg-transparent outline-none text-xs sm:text-sm font-medium text-[#182230] placeholder:text-[#64748B]"
+                            class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs sm:text-sm font-medium text-[#182230] placeholder:text-[#64748B]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                         >
                         <button type="submit" class="cursor-pointer bg-[#0B54C2] hover:bg-[#09449E] text-white text-xs font-bold px-5 py-2 rounded-full transition-all shrink-0 shadow-2xs active:scale-95 flex items-center gap-1.5">
                             <span>Rechercher</span>
@@ -433,7 +433,7 @@ if ($layoutType === 'public_compact'): ?>
                             placeholder="Rechercher sur SenTechPLUS..." 
                             value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
                             autocomplete="off"
-                            class="w-full bg-transparent outline-none text-xs font-medium text-[#182230] placeholder:text-[#64748B]"
+                            class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs font-medium text-[#182230] placeholder:text-[#64748B]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                         >
                         <button type="submit" class="w-6 h-6 rounded-full bg-[#1677FF] text-white flex items-center justify-center shrink-0 cursor-pointer shadow-2xs ml-1 hover:bg-[#0F67E5] transition-colors" aria-label="Rechercher">
                             <i data-lucide="arrow-right" class="w-3 h-3"></i>
@@ -517,7 +517,7 @@ if ($layoutType === 'public_compact'): ?>
                                 placeholder="Rechercher un produit, marque..." 
                                 value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
                                 autocomplete="off"
-                                class="w-full bg-transparent outline-none text-xs font-semibold text-[#182230] placeholder:text-[#64748B]"
+                                class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs font-semibold text-[#182230] placeholder:text-[#64748B]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                             >
                             <button type="submit" class="w-7 h-7 rounded-full bg-[#1677FF] hover:bg-[#0B54C2] text-white flex items-center justify-center shrink-0 cursor-pointer shadow-2xs active:scale-95 transition-all" aria-label="Lancer la recherche">
                                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>

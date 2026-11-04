@@ -328,7 +328,7 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
 
       .badge-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:9999px;font-size:10px;font-weight:700}
       input,select,textarea{outline:0;transition:border-color .15s,box-shadow .15s}
-      input:focus,select:focus,textarea:focus{border-color:#1677FF;box-shadow:0 0 0 3px rgba(22,119,255,.14)}
+      input:not([type="search"]):not(.no-focus-ring):focus,select:focus,textarea:focus{border-color:#1677FF;box-shadow:0 0 0 3px rgba(22,119,255,.14)}
       .skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
       @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
       
@@ -411,6 +411,22 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         outline: 2px solid #1677FF !important;
         outline-offset: 2px !important;
         border-radius: 6px;
+      }
+      /* Exemption form/pill search inputs to prevent ugly double blue boxes */
+      input[type="search"],
+      input[type="search"]:focus,
+      input[type="search"]:focus-visible,
+      .no-focus-ring,
+      .no-focus-ring:focus,
+      .no-focus-ring:focus-visible,
+      form[action*="search.php"] input,
+      form[action*="search.php"] input:focus,
+      form[action*="search.php"] input:focus-visible {
+        outline: none !important;
+        outline-offset: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        -webkit-appearance: none !important;
       }
       
       .contain-paint {
