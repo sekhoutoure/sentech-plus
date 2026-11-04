@@ -564,6 +564,15 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         }
       }
 
+      /* ─── Apple iOS Frosted Glass Tab Bar (Anti-Transparency) ─── */
+      .apple-pill-bar {
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(20px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+        border-top: 1px solid rgba(226, 232, 240, 0.9) !important;
+        box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.05) !important;
+      }
+
       /* ─── Floating Action Stack (Strict Bottom-Right Pinning) ───────── */
       #floating-actions-stack{position:fixed;right:14px;bottom:74px;z-index:9999;}
       @media(min-width:1024px){#floating-actions-stack{bottom:20px!important;right:24px!important;}}

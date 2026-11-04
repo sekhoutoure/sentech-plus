@@ -370,7 +370,7 @@ function toggleFooterAccordion(id) {
 </div>
 
 <!-- ─── MOBILE BOTTOM APP BAR (Apple iOS Glass Tab Bar) ─── -->
-<nav aria-label="Navigation mobile principale" class="fixed bottom-0 left-0 right-0 z-50 md:hidden apple-pill-bar" style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 999; padding-bottom: max(6px, env(safe-area-inset-bottom));">
+<nav aria-label="Navigation mobile principale" class="fixed bottom-0 left-0 right-0 z-50 md:hidden apple-pill-bar" style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 999; padding-bottom: max(6px, env(safe-area-inset-bottom)); background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-top: 1px solid rgba(226, 232, 240, 0.9); box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.05);">
     <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-around; width: 100%; height: 58px; max-width: 500px; margin: 0 auto; padding: 0 4px;">
         
         <!-- 1. Accueil -->

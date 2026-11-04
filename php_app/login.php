@@ -112,64 +112,72 @@ require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 
-<main id="main-content" class="max-w-[480px] mx-auto px-4 py-12 flex-1 w-full">
+<main id="main-content" class="max-w-[420px] mx-auto px-4 py-8 sm:py-14 flex-1 w-full flex items-center justify-center">
 
-    <div class="card-clean p-6 sm:p-8 space-y-6">
-        <div class="text-center space-y-2">
-            <h1 class="text-2xl font-extrabold text-[#182230] tracking-tight">Connexion Client</h1>
-            <p class="text-xs text-[#667085]">Accédez à vos commandes et avantages SenTechPLUS.</p>
+    <div class="w-full bg-white rounded-3xl p-6 sm:p-8 shadow-[0_12px_40px_rgba(15,23,42,0.06)] border border-[#E8EDF3] space-y-6">
+        
+        <!-- Header -->
+        <div class="text-center space-y-1.5">
+            <div class="w-12 h-12 rounded-2xl bg-[#F0F6FF] text-[#0071E3] flex items-center justify-center mx-auto mb-3 shadow-2xs">
+                <i data-lucide="user" class="w-6 h-6"></i>
+            </div>
+            <h1 class="text-xl sm:text-2xl font-black text-[#1D1D1F] tracking-tight">Connexion Client</h1>
+            <p class="text-xs text-[#86868B] font-medium">Accédez à votre espace SenTechPLUS</p>
         </div>
 
         <?php if (isset($_GET['logged_out'])): ?>
-            <div class="p-3.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-2">
+            <div class="p-3.5 rounded-2xl text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-2">
                 <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
-                <span>Vous avez été déconnecté avec succès. À bientôt sur SenTechPLUS !</span>
+                <span>Vous avez été déconnecté avec succès.</span>
             </div>
         <?php endif; ?>
 
         <?php if ($error): ?>
-            <div class="p-3.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
-                <?= htmlspecialchars($error) ?>
+            <div class="p-3.5 rounded-2xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-2">
+                <i data-lucide="alert-circle" class="w-4 h-4 text-rose-600 shrink-0"></i>
+                <span><?= htmlspecialchars($error) ?></span>
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="login.php" enctype="application/x-www-form-urlencoded" class="space-y-4 text-xs">
+        <form method="POST" action="login.php" enctype="application/x-www-form-urlencoded" class="space-y-4">
             <?= getCSRFInputField() ?>
             <?= SecurityShield::getHoneypotHtml('website_url_hp') ?>
             <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirect) ?>">
 
-            <div>
-                <label for="login-email" class="block font-bold text-[#182230] mb-1">Adresse Email</label>
-                <input id="login-email" type="email" name="email" required placeholder="nom@exemple.com" autocomplete="email" class="w-full bg-[#F3F7FC] border border-[#E8EDF3] p-3 rounded-xl font-medium text-[#182230] focus:outline-none focus:border-[#1677FF]">
+            <!-- Email -->
+            <div class="space-y-1.5 text-left">
+                <label for="login-email" class="block text-xs font-bold text-[#1D1D1F]">Adresse Email</label>
+                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#0071E3]/20 border border-[#E5E5EA] focus-within:border-[#0071E3] rounded-2xl px-3.5 h-[48px] transition-all">
+                    <i data-lucide="mail" class="w-4 h-4 text-[#8E8E93] mr-2.5 shrink-0"></i>
+                    <input id="login-email" type="email" name="email" required placeholder="nom@exemple.com" autocomplete="email" class="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]">
+                </div>
             </div>
 
-            <div>
-                <div class="flex justify-between items-center mb-1">
-                    <label for="login-password" class="block font-bold text-[#182230]">Mot de passe</label>
-                    <a href="forgot-password.php" class="cursor-pointer text-[11px] font-bold text-[#1677FF] hover:text-[#0B54C2] transition-colors duration-200 hover:underline">Mot de passe oublié ?</a>
+            <!-- Password (Apple Design Ergonomique) -->
+            <div class="space-y-1.5 text-left">
+                <div class="flex justify-between items-center">
+                    <label for="login-password" class="block text-xs font-bold text-[#1D1D1F]">Mot de passe</label>
+                    <a href="forgot-password.php" class="cursor-pointer text-[11px] font-bold text-[#0071E3] hover:text-[#0077ED] transition-colors hover:underline">Oublié ?</a>
                 </div>
-                <div class="relative">
-                    <input id="login-password" type="password" name="password" required placeholder="••••••••" autocomplete="current-password" class="w-full bg-[#F3F7FC] border border-[#E8EDF3] p-3 rounded-xl font-medium text-[#182230] focus:outline-none focus:border-[#1677FF]">
-                    <button type="button" onclick="togglePassword('login-password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-[#667085] hover:text-[#182230] transition-colors duration-200">
+                <div class="relative flex items-center bg-[#F5F5F7] hover:bg-[#EBEBF0] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#0071E3]/20 border border-[#E5E5EA] focus-within:border-[#0071E3] rounded-2xl pl-3.5 pr-2 h-[48px] transition-all">
+                    <i data-lucide="lock" class="w-4 h-4 text-[#8E8E93] mr-2.5 shrink-0"></i>
+                    <input id="login-password" type="password" name="password" required placeholder="••••••••" autocomplete="current-password" class="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]">
+                    <button type="button" onclick="togglePassword('login-password', this)" aria-label="Afficher le mot de passe" class="w-8 h-8 rounded-full flex items-center justify-center text-[#8E8E93] hover:text-[#1D1D1F] hover:bg-black/5 active:scale-90 transition-all cursor-pointer shrink-0">
                         <i data-lucide="eye" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
 
-            <button type="submit" class="btn-electric w-full text-center py-3 text-xs uppercase tracking-wider font-extrabold cursor-pointer focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#1677FF] transition-colors duration-200">
-                Se Connecter →
+            <!-- Bouton Apple Sign In -->
+            <button type="submit" class="w-full h-[48px] rounded-2xl bg-[#0071E3] hover:bg-[#0077ED] active:scale-[0.98] transition-all text-white font-black text-xs sm:text-sm shadow-[0_4px_14px_rgba(0,113,227,0.3)] flex items-center justify-center gap-2 cursor-pointer mt-2">
+                <span>Se connecter</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </button>
         </form>
 
-        <div class="flex flex-wrap justify-center gap-4 text-[11px] font-bold text-[#667085] py-2">
-            <span>🔒 Paiement Sécurisé</span>
-            <span>✅ 100% Original</span>
-            <span>🚚 Livraison Dakar</span>
-        </div>
-
-        <div class="pt-4 border-t border-[#E8EDF3] text-center text-xs text-[#667085]">
-            Vous n'avez pas encore de compte ? 
-            <a href="register.php<?= (!empty($redirect) && $redirect !== 'account.php') ? '?redirect=' . urlencode($redirect) : '' ?>" class="cursor-pointer font-bold text-[#1677FF] hover:text-[#0B54C2] transition-colors duration-200 hover:underline">Créer un compte</a>
+        <div class="pt-4 border-t border-[#F2F2F7] text-center text-xs text-[#86868B]">
+            Pas encore de compte ? 
+            <a href="register.php<?= (!empty($redirect) && $redirect !== 'account.php') ? '?redirect=' . urlencode($redirect) : '' ?>" class="cursor-pointer font-bold text-[#0071E3] hover:text-[#0077ED] transition-colors hover:underline">Créer un compte</a>
         </div>
     </div>
 
@@ -177,19 +185,16 @@ require_once __DIR__ . '/includes/navbar.php';
 
 <script>
 function togglePassword(id, btn) {
-    const i = document.getElementById(id);
-    const icon = btn.querySelector('i');
-    if (i.type === 'password') {
-        i.type = 'text';
-        icon.setAttribute('data-lucide', 'eye-off');
-    } else {
-        i.type = 'password';
-        icon.setAttribute('data-lucide', 'eye');
-    }
+    const input = document.getElementById(id);
+    if (!input) return;
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    btn.innerHTML = isPassword 
+        ? '<i data-lucide="eye-off" class="w-4 h-4"></i>' 
+        : '<i data-lucide="eye" class="w-4 h-4"></i>';
     if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
+        lucide.createIcons({ root: btn, skipHidden: false });
     }
 }
 </script>
-
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
