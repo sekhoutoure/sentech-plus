@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // ─── 7. Ultra-Fast Search Autocomplete & Voice Search Engine ─────────────────
+        // ─── 7. Ultra-Fast Search Autocomplete & Typo-Tolerant Suggestion Engine ─────
     const searchInputs = document.querySelectorAll('input[name="search"], input[name="q"]');
     searchInputs.forEach(input => {
         const parentForm = input.closest('form');
@@ -257,75 +257,95 @@ document.addEventListener('DOMContentLoaded', function() {
         let debounceTimer = null;
         let activeIndex = -1;
 
-                const getDropdown = () => {
+        const getDropdown = () => {
             if (!dropdown) {
                 dropdown = document.createElement('div');
-                dropdown.className = 'search-autocomplete-dropdown absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-[#E8EDF3] shadow-2xl p-2 z-50 hidden text-left space-y-1 max-h-[380px] overflow-y-auto';
+                dropdown.className = 'search-autocomplete-dropdown absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-[#E8EDF3] shadow-[0_16px_48px_rgba(15,23,42,0.18)] p-2 z-[99999] hidden text-left space-y-1 max-h-[420px] overflow-y-auto animate-fade-in';
+                parentForm.style.position = 'relative';
+                parentForm.style.zIndex = '9999';
                 parentForm.appendChild(dropdown);
             }
             return dropdown;
         };
 
-        input.addEventListener('focus', function() {
-            if (input.value.trim().length >= 2) {
-                input.dispatchEvent(new Event('input'));
+        const renderItems = (data, query) => {
+            const dd = getDropdown();
+            if (!data || data.length === 0) {
+                if (query.length > 0) {
+                    dd.innerHTML = `
+                        <div class="p-4 text-xs text-[#667085] text-center space-y-1">
+                            <p class="font-bold text-[#182230]">Aucun résultat pour "${query}"</p>
+                            <p class="text-[11px]">Consultez <a href="shop.php" class="text-[#1677FF] underline font-bold">tous nos produits</a>.</p>
+                        </div>
+                    `;
+                    dd.classList.remove('hidden');
+                } else {
+                    dd.classList.add('hidden');
+                }
+                return;
             }
+
+            const headerTitle = query.length === 0 
+                ? 'Tendances Populaires & Recommandations 🔥' 
+                : `Suggestions de Produits (${data.length})`;
+
+            let html = `<div class="p-2 pb-1 text-[10px] font-black text-[#667085] uppercase tracking-wider">${headerTitle}</div>`;
+            
+            data.forEach((item, idx) => {
+                html += `
+                    <a href="product.php?id=${encodeURIComponent(item.id)}" data-index="${idx}" class="search-result-item flex items-center gap-3 p-2 hover:bg-[#EAF3FF] rounded-xl transition-colors group cursor-pointer">
+                        <div class="w-11 h-11 rounded-lg bg-[#F3F7FC] p-1 border border-[#E8EDF3] flex items-center justify-center shrink-0">
+                            <img src="${item.image}" width="40" height="40" loading="lazy" class="max-w-full max-h-full object-contain" alt="${item.name}">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs font-bold text-[#182230] group-hover:text-[#0B54C2] truncate">${item.name}</p>
+                            <div class="flex items-center gap-2 mt-0.5">
+                                <span class="text-[9px] font-bold text-[#0D7D53] bg-[#0D7D53]/10 px-1.5 py-0.2 rounded-full">${item.category}</span>
+                                ${item.brand ? `<span class="text-[9px] text-[#667085] font-semibold">${item.brand}</span>` : ''}
+                            </div>
+                        </div>
+                        <span class="text-xs font-black text-[#182230] shrink-0">${item.formatted_price}</span>
+                    </a>
+                `;
+            });
+
+            if (query.length > 0) {
+                html += `
+                    <div class="pt-2 mt-1 border-t border-[#E8EDF3]">
+                        <a href="search.php?q=${encodeURIComponent(query)}" class="block text-center py-2 text-xs font-extrabold text-[#1677FF] hover:text-[#0B54C2] hover:bg-[#EAF3FF] rounded-xl transition-all">
+                            Voir tous les résultats pour "${query}" →
+                        </a>
+                    </div>
+                `;
+            }
+
+            dd.innerHTML = html;
+            dd.classList.remove('hidden');
+        };
+
+        const doSearch = (query) => {
+            fetch('api-search.php?q=' + encodeURIComponent(query))
+                .then(res => res.json())
+                .then(data => {
+                    renderItems(data, query);
+                })
+                .catch(() => {
+                    const dd = getDropdown();
+                    dd.classList.add('hidden');
+                });
+        };
+
+        input.addEventListener('focus', function() {
+            doSearch(input.value.trim());
         });
 
         input.addEventListener('input', function() {
             clearTimeout(debounceTimer);
             const query = input.value.trim();
-            const dd = getDropdown();
             activeIndex = -1;
-            
-            if (query.length < 2) {
-                dd.classList.add('hidden');
-                dd.innerHTML = '';
-                return;
-            }
-
             debounceTimer = setTimeout(() => {
-                fetch('api-search.php?q=' + encodeURIComponent(query))
-                    .then(res => res.json())
-                    .then(data => {
-                        if (!data || data.length === 0) {
-                            dd.innerHTML = `
-                                <div class="p-4 text-xs text-[#667085] text-center space-y-1">
-                                    <p class="font-bold text-[#182230]">Aucun résultat pour "${query}"</p>
-                                    <p class="text-[11px]">Essayez avec un autre mot-clé ou consultez <a href="shop.php" class="text-[#1677FF] underline font-bold">tous nos produits</a>.</p>
-                                </div>
-                            `;
-                        } else {
-                            let html = `<div class="p-1.5 text-[10px] font-extrabold text-[#667085] uppercase tracking-wider">Produits Suggérés (${data.length})</div>`;
-                            data.forEach((item, idx) => {
-                                html += `
-                                    <a href="product.php?id=${encodeURIComponent(item.id)}" data-index="${idx}" class="search-result-item flex items-center gap-3 p-2 hover:bg-[#EAF3FF] rounded-xl transition-colors group">
-                                        <div class="w-10 h-10 rounded-lg bg-[#F3F7FC] p-1 border border-[#E8EDF3] flex items-center justify-center shrink-0">
-                                            <img src="${item.image}" width="36" height="36" loading="lazy" class="max-w-full max-h-full object-contain" alt="${item.name}">
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-xs font-bold text-[#182230] group-hover:text-[#0B54C2] truncate">${item.name}</p>
-                                            <span class="text-[10px] font-bold text-[#0D7D53] bg-[#0D7D53]/10 px-1.5 py-0.5 rounded-full">${item.category}</span>
-                                        </div>
-                                        <span class="text-xs font-black text-[#182230] shrink-0">${item.formatted_price}</span>
-                                    </a>
-                                `;
-                            });
-                            html += `
-                                <div class="pt-2 mt-1 border-t border-[#E8EDF3]">
-                                    <a href="search.php?q=${encodeURIComponent(query)}" class="block text-center py-2 text-xs font-extrabold text-[#1677FF] hover:text-[#0B54C2] hover:bg-[#EAF3FF] rounded-xl transition-all">
-                                        Voir tous les résultats pour "${query}" →
-                                    </a>
-                                </div>
-                            `;
-                            dd.innerHTML = html;
-                        }
-                        dd.classList.remove('hidden');
-                    })
-                    .catch(() => {
-                        dd.classList.add('hidden');
-                    });
-            }, 180);
+                doSearch(query);
+            }, 50);
         });
 
         // Keyboard Navigation (ArrowUp, ArrowDown, Enter, Escape)

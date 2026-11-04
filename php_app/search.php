@@ -154,6 +154,72 @@ try {
     $totalPages = 1;
 }
 
+// ─── Tolérance aux fautes de frappe (Fuzzy Search Fallback) ─────────────────
+$isFuzzyMatch = false;
+if ($totalProducts === 0 && !empty($q) && $pdo) {
+    try {
+        if (!function_exists('normalizeSearchWord')) {
+            function normalizeSearchWord($str) {
+                $str = mb_strtolower(trim($str), 'UTF-8');
+                $unwanted = [
+                    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C',
+                    'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
+                    'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a',
+                    'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i',
+                    'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u',
+                    'û'=>'u', 'ü'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y', '°'=>'', '+'=>' ', '-'=>' ', '/'=>' ', '''=>' ', '"'=>' '
+                ];
+                $str = strtr($str, $unwanted);
+                return preg_replace('/[^a-z0-9 ]/', '', $str);
+            }
+        }
+        $stmtAll = $pdo->query("SELECT * FROM products WHERE is_active = 1 LIMIT 150");
+        $allProds = $stmtAll->fetchAll();
+        $cleanQ = normalizeSearchWord($q);
+        $qWords = preg_split('/\s+/', $cleanQ, -1, PREG_SPLIT_NO_EMPTY);
+        $fuzzyMap = [];
+
+        foreach ($allProds as $p) {
+            $score = 0;
+            $haystack = normalizeSearchWord($p['name'] . ' ' . ($p['brand'] ?? '') . ' ' . ($p['category'] ?? ''));
+            $haystackWords = preg_split('/\s+/', $haystack, -1, PREG_SPLIT_NO_EMPTY);
+
+            foreach ($qWords as $qw) {
+                $qwLen = strlen($qw);
+                if ($qwLen < 1) continue;
+
+                foreach ($haystackWords as $hw) {
+                    $hwLen = strlen($hw);
+                    if ($qwLen >= 2 && str_starts_with($hw, $qw)) { $score += 85; break; }
+                    if ($hwLen >= 3 && str_starts_with($qw, $hw)) { $score += 80; break; }
+                    if ($qwLen >= 3) {
+                        $lev = levenshtein($qw, $hw);
+                        $maxAllowedLev = ($qwLen <= 4) ? 1 : (($qwLen <= 7) ? 2 : 3);
+                        if ($lev <= $maxAllowedLev) { $score += (75 - $lev * 15); break; }
+                        if (metaphone($qw) === metaphone($hw) || soundex($qw) === soundex($hw)) { $score += 65; break; }
+                    }
+                    if ($qwLen >= 4 && $hwLen >= 4) {
+                        similar_text($qw, $hw, $pct);
+                        if ($pct >= 70) { $score += (int)($pct * 0.7); break; }
+                    }
+                }
+            }
+
+            if ($score >= 40) {
+                $fuzzyMap[$p['id']] = ['p' => $p, 'score' => $score];
+            }
+        }
+
+        if (!empty($fuzzyMap)) {
+            uasort($fuzzyMap, fn($a, $b) => $b['score'] <=> $a['score']);
+            $products = array_column(array_slice($fuzzyMap, 0, $limit), 'p');
+            $totalProducts = count($products);
+            $totalPages = 1;
+            $isFuzzyMatch = true;
+        }
+    } catch (Throwable $e) {}
+}
+
 // Popular Searches list
 $popularSearches = ['Casque Pro', 'Écouteurs Bass', 'Montre AMOLED', 'Chargeur GaN', 'JBL', 'Souris Sans Fil', 'Caméra Wi-Fi'];
 $availableBrands = ['Sony', 'Apple', 'Samsung', 'JBL', 'Anker', 'Baseus', 'Logitech', 'Razer', 'Xiaomi', 'Ezviz'];
@@ -420,6 +486,18 @@ $availableBrands = ['Sony', 'Apple', 'Samsung', 'JBL', 'Anker', 'Baseus', 'Logit
 
         <!-- Grille des Résultats de Recherche -->
         <div class="lg:col-span-9 space-y-6">
+
+            <?php if (!empty($isFuzzyMatch)): ?>
+                <div class="p-4 rounded-2xl bg-amber-50/90 border border-amber-200/90 text-amber-950 text-xs flex items-center gap-3 shadow-2xs">
+                    <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold">Aucun résultat exact pour "<?= htmlspecialchars($q) ?>".</p>
+                        <p class="text-[11px] text-amber-800">Voici les produits trouvés grâce à notre correction automatique d'orthographe :</p>
+                    </div>
+                </div>
+            <?php endif; ?>
 
             <?php if (!empty($products)): ?>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
