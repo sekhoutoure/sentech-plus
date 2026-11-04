@@ -44,15 +44,11 @@ function loadEnvFile(string $path): void {
 
             }
 
-            if (!getenv($key)) {
-
-                putenv("{$key}={$val}");
-
-                $_ENV[$key] = $val;
-
-                $_SERVER[$key] = $val;
-
+            if (function_exists('putenv')) {
+                @putenv("{$key}={$val}");
             }
+            $_ENV[$key] = $val;
+            $_SERVER[$key] = $val;
 
         }
 
@@ -61,6 +57,16 @@ function loadEnvFile(string $path): void {
 }
 
 loadEnvFile(__DIR__ . '/../.env');
+
+if (!function_exists('env_val')) {
+    function env_val(string $key, mixed $default = null): mixed {
+        if (isset($_ENV[$key]) && $_ENV[$key] !== '') return $_ENV[$key];
+        if (isset($_SERVER[$key]) && $_SERVER[$key] !== '') return $_SERVER[$key];
+        $val = function_exists('getenv') ? getenv($key) : false;
+        if ($val !== false && $val !== '') return $val;
+        return $default;
+    }
+}
 
 
 
@@ -294,15 +300,15 @@ if (!headers_sent()) {
 
 // ─── 5. Configuration Base de Données ─────────────────────────────────────────
 
-define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
+define('DB_HOST', env_val('DB_HOST', '127.0.0.1'));
 
-define('DB_PORT', getenv('DB_PORT') ?: '3306');
+define('DB_PORT', env_val('DB_PORT', '3306'));
 
-define('DB_NAME', getenv('DB_NAME') ?: 'sentech_plus');
+define('DB_NAME', env_val('DB_NAME', 'sentech_plus'));
 
-define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_USER', env_val('DB_USER', 'root'));
 
-define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : '');
+define('DB_PASS', env_val('DB_PASS', ''));
 
 define('DB_CHARSET', 'utf8mb4');
 
@@ -314,23 +320,23 @@ define('SITE_NAME', 'SenTechPLUS');
 
 define('SITE_TAGLINE', 'Boutique High-Tech & Accessoires Smartphone Sénégal');
 
-define('APP_URL', getenv('APP_URL') ?: 'https://sentechplus.com');
+define('APP_URL', env_val('APP_URL', 'https://sentechplus.com'));
 
-define('CONTACT_EMAIL', getenv('CONTACT_EMAIL') ?: 'contact@sentechplus.com');
+define('CONTACT_EMAIL', env_val('CONTACT_EMAIL', 'contact@sentechplus.com'));
 
-define('CONTACT_PHONE', getenv('CONTACT_PHONE') ?: '+221 78 131 64 97');
+define('CONTACT_PHONE', env_val('CONTACT_PHONE', '+221 78 131 64 97'));
 
-define('CONTACT_ADDRESS', getenv('CONTACT_ADDRESS') ?: 'Point E, Boulevard de l\'Est, Dakar, Sénégal');
+define('CONTACT_ADDRESS', env_val('CONTACT_ADDRESS', 'Point E, Boulevard de l\'Est, Dakar, Sénégal'));
 
 define('APP_CURRENCY_SYMBOL', ' FCFA');
 
 define('BASE_URL', ''); 
 
-define('APP_SECRET', getenv('APP_SECRET') ?: 'sentech_default_secret_production_key_2026');
+define('APP_SECRET', env_val('APP_SECRET', 'sentech_default_secret_production_key_2026'));
 
-define('WHATSAPP_PHONE', getenv('WHATSAPP_PHONE') ?: '221781316497');
+define('WHATSAPP_PHONE', env_val('WHATSAPP_PHONE', '221781316497'));
 
-define('WHATSAPP_DISPLAY', getenv('WHATSAPP_DISPLAY') ?: '+221 78 131 64 97');
+define('WHATSAPP_DISPLAY', env_val('WHATSAPP_DISPLAY', '+221 78 131 64 97'));
 
 
 
@@ -553,7 +559,7 @@ function getDBConnection(): ?PDO {
 
                 PDO::ATTR_EMULATE_PREPARES   => false,
 
-                PDO::ATTR_TIMEOUT            => 1,
+                PDO::ATTR_TIMEOUT            => 5,
 
             ];
 
