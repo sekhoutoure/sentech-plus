@@ -47,8 +47,8 @@ function renderBannerSlider(string $placement, ?PDO $pdo): string {
                 [
                     'id'             => 3,
                     'title'          => 'Charge Ultra-Rapide GaN 65W & Accessoires',
-                    'image_desktop'  => 'assets/images/banners/banner_charge_fr.webp',
-                    'image_mobile'   => 'assets/images/banners/banner_charge_fr_mob.webp',
+                    'image_desktop'  => 'assets/images/banners/banner_telephones_fr.webp',
+                    'image_mobile'   => 'assets/images/banners/banner_telephones_fr_mob.webp',
                     'link_url'       => 'shop.php?category=telephones-accessoires',
                 ],
                 [

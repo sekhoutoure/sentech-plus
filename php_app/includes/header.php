@@ -28,8 +28,13 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
     <meta name="description" content="<?= htmlspecialchars($metaDescription) ?>">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="<?= htmlspecialchars($canonicalUrl) ?>">
-    <!-- Immediate Service Worker Auto-Purge (Prevents InfinityFree MIME Challenge Error) -->
+    <!-- Immediate Service Worker Auto-Purge & Error Interceptor (Prevents InfinityFree MIME Challenge Error) -->
     <script>
+    window.addEventListener('unhandledrejection', function(event) {
+        if (event && event.reason && (event.reason.name === 'SecurityError' || String(event.reason).indexOf('ServiceWorker') !== -1 || String(event.reason).indexOf('sw.js') !== -1)) {
+            event.preventDefault();
+        }
+    });
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(function(regs) {
             for (var i = 0; i < regs.length; i++) { regs[i].unregister(); }
@@ -179,8 +184,8 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
     <?php
     elseif ($currentScript === 'index.php' || $currentScript === ''): 
     ?>
-    <link rel="preload" as="image" href="assets/images/banners/banner_smart_tech.webp" media="(min-width: 641px)" type="image/webp" fetchpriority="high">
-    <link rel="preload" as="image" href="assets/images/banners/banner_smart_tech_mob.webp" media="(max-width: 640px)" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/images/banners/banner_audio_fr.webp" media="(min-width: 641px)" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/images/banners/banner_audio_fr_mob.webp" media="(max-width: 640px)" type="image/webp" fetchpriority="high">
     <?php 
     elseif ($currentScript === 'shop.php'):
     ?>
