@@ -4,9 +4,9 @@
  "dealt": 20,
  "answered": 20,
  "skipped": [],
- "buys": 13,
- "passes": 7,
- "buy_rate": 0.65,
+ "buys": 17,
+ "passes": 3,
+ "buy_rate": 0.85,
  "by_segment": [
   [
    "Freelance tech & Créateur de contenu",
@@ -16,12 +16,12 @@
   [
    "Cadre & Professionnel supérieur",
    7,
-   0.7142857142857143
+   0.8571428571428571
   ],
   [
    "Étudiant urbain & Jeune diplômé",
    6,
-   0.3333333333333333
+   0.8333333333333334
   ]
  ],
  "by_behaviour": [
@@ -31,8 +31,18 @@
    1.0
   ],
   [
+   "Pressé / Workaholic",
+   4,
+   1.0
+  ],
+  [
    "Client Wave 1-Clic",
    3,
+   1.0
+  ],
+  [
+   "Sceptique du SAV en ligne",
+   2,
    1.0
   ],
   [
@@ -41,19 +51,9 @@
    0.75
   ],
   [
-   "Pressé / Workaholic",
-   4,
-   0.5
-  ],
-  [
-   "Sceptique du SAV en ligne",
-   2,
-   0.5
-  ],
-  [
    "Chasseur de prix / Négociateur",
    4,
-   0.25
+   0.5
   ]
  ],
  "by_income": [
@@ -65,37 +65,25 @@
   [
    "$9,003,000 and up",
    7,
-   0.7142857142857143
+   0.8571428571428571
   ],
   [
    "under $3,715,000",
    6,
-   0.3333333333333333
+   0.8333333333333334
   ]
  ],
  "why_not": [
   [
    "price",
-   4,
-   [
-    "16 000 FCFA c'est trop cher pour mon budget d'étudiant ce mois-ci, je vais me débrouiller avec un câble d'occasion.",
-    "C'est trop cher pour moi en ce moment et j'ai encore trop peur de me faire avoir même avec un blister."
-   ],
-   [
-    "P010",
-    "P013"
-   ]
-  ],
-  [
-   "trust",
    2,
    [
-    "Hors de question d'envoyer mon argent par Wave à l'avance sans avoir inspecté le paquet avec le livreur.",
-    "Les faussaires savent refaire des blisters parfaits aujourd'hui, rien ne me prouve que ce ne sont pas des clones de Dubaï."
+    "C'est trop cher pour moi en ce moment et j'ai encore trop peur de me faire avoir même avec un blister.",
+    "À 16 000 F c'est trop cher pour moi, je préfère acheter un chargeur Samsung de base chez mon boutiquier de quartier pour moitié moins."
    ],
    [
-    "P005",
-    "P011"
+    "P013",
+    "P018"
    ]
   ],
   [
@@ -111,6 +99,18 @@
  ],
  "why_yes": [
   [
+   "convenience",
+   5,
+   [
+    "Me faire livrer un chargeur 65W en moins de 90 min à mon bureau sans me taper les bouchons de la VDN, ça vaut largement le prix.",
+    "Pouvoir inspecter le blister avant de scanner le QR code Wave du coursier sur place et avoir le câble offert lève totalement mon blocage."
+   ],
+   [
+    "P004",
+    "P005"
+   ]
+  ],
+  [
    "quality",
    4,
    [
@@ -120,18 +120,6 @@
    [
     "P001",
     "P006"
-   ]
-  ],
-  [
-   "convenience",
-   4,
-   [
-    "Me faire livrer un chargeur 65W en moins de 90 min à mon bureau sans me taper les bouchons de la VDN, ça vaut largement le prix.",
-    "La commande en 1 clic Wave avec le câble renforcé offert dès la première commande, c'est ultra pratique et sans friction."
-   ],
-   [
-    "P004",
-    "P007"
    ]
   ],
   [
@@ -148,26 +136,34 @@
   ],
   [
    "trust",
-   2,
+   3,
    [
     "Le blister scellé d'usine et la garantie contractuelle 12 mois me donnent enfin confiance pour acheter de la tech en ligne à Dakar.",
-    "Le fait d'avoir un sceau d'inviolabilité et une facture avec numéro de série garanti 12 mois me suffit pour essayer."
+    "Le QR code officiel constructeur vérifiable en ligne me donne enfin la preuve tangible que ce ne sont pas des clones de Dubaï."
    ],
    [
     "P008",
-    "P016"
+    "P011"
+   ]
+  ],
+  [
+   "price",
+   2,
+   [
+    "Le Pack Tremplin à 9 900 FCFA avec câble offert et garantie 12 mois rentre enfin dans mon budget d'étudiant.",
+    "Le pack étudiant à 9 900 FCFA me permet d'avoir du vrai matériel sans me ruiner avec les 16 000 F initiaux."
+   ],
+   [
+    "P010",
+    "P019"
    ]
   ]
  ],
  "flip": [
   "Avoir une adresse de showroom ou un point de retrait physique au Plateau ou aux Almadies.",
-  "Offrir le câble même avec un paiement Wave effectué sur place après ouverture du colis.",
-  "Une gamme d'accessoires certifiés d'entrée de gamme autour de 8 000 à 10 000 FCFA.",
-  "Un QR code officiel constructeur (Baseus/Anker) à gratter et vérifier sur le site de la marque.",
   "Possibilité de paiement en 2 fois par Wave ou réduction étudiante.",
-  "Un coupon de réduction de 25% ou une formule avec câble inclus d'office.",
-  "Un pack étudiant certifié à 9 900 FCFA."
+  "Un coupon de réduction de 25% ou une formule avec câble inclus d'office."
  ],
- "purchases_first_month_per_buyer": 1.2307692307692308,
+ "purchases_first_month_per_buyer": 1.1764705882352942,
  "price_answers": 20
 }
