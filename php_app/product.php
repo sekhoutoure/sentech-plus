@@ -477,50 +477,55 @@ require_once __DIR__ . '/includes/navbar.php';
                 </span>
             </div>
 
-            <!-- UVP Local Delivery Pill -->
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs font-extrabold shadow-2xs">
-                <i data-lucide="zap" class="w-3.5 h-3.5 text-emerald-600 fill-emerald-600 shrink-0"></i>
-                <span>Livraison express à Dakar en moins de 2h · Commandez maintenant pour recevoir aujourd'hui</span>
-            </div>
-
-            <!-- Vente Flash Live Countdown Banner (FOMO & Urgence) -->
-            <?php if ($discountPercent > 0 || !empty($product['is_flash_sale'])): ?>
-                <div class="bg-gradient-to-r from-[#EF4444] to-[#F97316] text-white p-2.5 rounded-2xl flex items-center justify-between shadow-xs text-xs">
-                    <div class="flex items-center gap-1.5 font-black">
-                        <span class="animate-bounce">⚡</span>
-                        <span class="tracking-tight">VENTE FLASH DAKAR</span>
-                    </div>
-                    <div class="flex items-center gap-1 font-mono font-black text-xs" id="product-flash-countdown">
-                        <span class="bg-black/30 px-1.5 py-0.5 rounded" id="pcd-hours">04</span>:
-                        <span class="bg-black/30 px-1.5 py-0.5 rounded" id="pcd-mins">32</span>:
-                        <span class="bg-black/30 px-1.5 py-0.5 rounded" id="pcd-secs">15</span>
-                    </div>
-                </div>
-            <?php endif; ?>
-
-            <!-- Net Price in FCFA -->
-            <div class="py-2 border-y border-[#F1F5F9] space-y-2">
+            <!-- Net Price in FCFA (Prioritaire & Lisible) -->
+            <div class="py-2 border-y border-[#F1F5F9] space-y-2.5">
                 <div class="flex flex-wrap items-baseline gap-3">
-                    <span id="display-price" class="text-3xl sm:text-4xl font-black text-[#182230] tracking-tight">
+                    <span id="display-price" class="text-3xl sm:text-4xl font-black text-[#1D1D1F] tracking-tight">
                         <?= formatPrice($product['price']) ?>
                     </span>
                     <?php if ($product['mrp'] > $product['price']): ?>
-                        <span id="display-mrp" class="text-sm font-semibold text-[#94A3B8] line-through">
+                        <span id="display-mrp" class="text-sm sm:text-base font-semibold text-[#94A3B8] line-through">
                             <?= formatPrice($product['mrp']) ?>
                         </span>
-                        <span class="text-xs font-black text-[#EF4444] bg-rose-50 border border-rose-100 px-2.5 py-0.5 rounded-full">
+                        <span class="text-xs font-black text-rose-600 bg-rose-50 border border-rose-200/60 px-2.5 py-0.5 rounded-full">
                             -<?= $discountPercent ?>%
                         </span>
+                        <?php if ($savingsAmount > 0): ?>
+                            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/50">
+                                Économie: <?= formatPrice($savingsAmount) ?>
+                            </span>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
 
-                <!-- Minimal Coupon Note -->
-                <div class="flex items-center justify-between text-xs text-[#64748B] pt-0.5">
-                    <div class="flex items-center gap-1.5 truncate">
-                        <span>🎟️</span>
-                        <span>Code Promo : <strong class="text-[#182230]">SENTECH5</strong> (-5% dès 20 000 FCFA)</span>
+                <!-- Vente Flash Live Countdown Banner (Haute Lisibilité avec CSS Inline Garanti) -->
+                <?php if ($discountPercent > 0 || !empty($product['is_flash_sale'])): ?>
+                    <div style="background: linear-gradient(135deg, #DC2626 0%, #EA580C 100%) !important; color: #ffffff !important;" class="p-2.5 rounded-2xl flex items-center justify-between shadow-xs text-xs font-bold">
+                        <div class="flex items-center gap-1.5 text-white">
+                            <span class="text-sm">⚡</span>
+                            <span class="tracking-tight uppercase font-black">Vente Flash Dakar</span>
+                        </div>
+                        <div class="flex items-center gap-1 font-mono font-black text-xs text-white" id="product-flash-countdown">
+                            <span style="background: rgba(0,0,0,0.35); padding: 2px 6px; border-radius: 6px;" id="pcd-hours">04</span>:
+                            <span style="background: rgba(0,0,0,0.35); padding: 2px 6px; border-radius: 6px;" id="pcd-mins">32</span>:
+                            <span style="background: rgba(0,0,0,0.35); padding: 2px 6px; border-radius: 6px;" id="pcd-secs">15</span>
+                        </div>
                     </div>
-                    <button type="button" onclick="copyCouponCode('SENTECH5', this)" class="cursor-pointer text-[11px] font-bold text-[#0B54C2] hover:underline shrink-0">
+                <?php endif; ?>
+
+                <!-- UVP Local Delivery Pill -->
+                <div class="flex items-center gap-2 p-2.5 rounded-2xl bg-emerald-50/90 border border-emerald-200/80 text-emerald-900 text-xs font-bold shadow-2xs">
+                    <i data-lucide="zap" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                    <span>Livraison express à Dakar en moins de 2h · Commandez maintenant pour recevoir aujourd'hui</span>
+                </div>
+
+                <!-- Minimal Coupon Note -->
+                <div class="flex items-center justify-between text-xs p-2.5 rounded-2xl bg-[#F8FAFD] border border-slate-200">
+                    <div class="flex items-center gap-2 truncate">
+                        <span>🎟️</span>
+                        <span class="text-[#64748B]">Code Promo : <strong class="text-[#1D1D1F]">SENTECH5</strong> <span class="text-[#1677FF] font-bold">(-5% dès 20 000 FCFA)</span></span>
+                    </div>
+                    <button type="button" onclick="copyCouponCode('SENTECH5', this)" class="cursor-pointer text-xs font-bold text-[#1677FF] hover:underline px-2 py-0.5 rounded-lg hover:bg-white transition-all shrink-0">
                         Copier
                     </button>
                 </div>
@@ -1046,47 +1051,43 @@ require_once __DIR__ . '/includes/navbar.php';
 </main>
 
 <!-- ─── 9. APP-LIKE FIXED BOTTOM PURCHASE BAR (Apple Fluid Bar) ────── -->
-<div id="mobile-sticky-buy-bar" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-t border-slate-200/90 px-3 py-2.5 shadow-[0_-8px_30px_rgba(15,23,42,0.12)] flex items-center justify-between gap-2.5" style="padding-bottom: max(10px, env(safe-area-inset-bottom));">
+<div id="mobile-sticky-buy-bar" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-t border-slate-200/90 px-3 py-2 shadow-[0_-8px_30px_rgba(15,23,42,0.12)] flex items-center justify-between gap-2.5" style="padding-bottom: max(10px, env(safe-area-inset-bottom));">
     
-    <!-- 3 Action Icons: Accueil, WhatsApp, Panier -->
-    <div class="flex items-center gap-1 shrink-0">
-        <!-- 1. Accueil -->
-        <a href="index.php" class="p-2 text-[#64748B] hover:text-[#1D1D1F] flex flex-col items-center justify-center min-w-[36px] active:scale-90 transition-transform" aria-label="Accueil">
-            <i data-lucide="home" class="w-5 h-5"></i>
-            <span class="text-[9px] font-bold text-[#64748B]">Accueil</span>
-        </a>
-
-        <!-- 2. WhatsApp Direct Order -->
-        <a href="<?= getWhatsAppProductLink($product, !empty($variants) ? $variants[0]['name'] : null) ?>" target="_blank" rel="noopener" class="p-2 text-[#25D366] hover:text-[#1EBE5D] flex flex-col items-center justify-center min-w-[36px] active:scale-90 transition-transform" aria-label="Commander sur WhatsApp">
+    <!-- 2 Actions Utilitaires Gauche : WhatsApp & Panier (0 encombrement, Badge isolé sur l'icône) -->
+    <div class="flex items-center gap-1.5 shrink-0">
+        <!-- 1. WhatsApp Direct Order -->
+        <a href="<?= getWhatsAppProductLink($product, !empty($variants) ? $variants[0]['name'] : null) ?>" target="_blank" rel="noopener" class="p-1.5 text-[#25D366] hover:text-[#1EBE5D] flex flex-col items-center justify-center min-w-[40px] active:scale-90 transition-transform" aria-label="Commander sur WhatsApp">
             <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.075-1.704-.374-1.258-.528-2.079-1.808-2.142-1.892-.063-.084-.509-.678-.509-1.293s.322-.919.436-1.042c.114-.123.249-.155.334-.155.084 0 .168.002.241.006.077.004.181-.029.283.217.104.252.356.87.387.933.031.063.052.138.01.222-.042.084-.063.137-.126.21-.063.074-.132.164-.188.22-.063.063-.129.131-.056.257.073.126.326.539.7 0.871.482.428.887.561 1.013.624.126.063.2.052.273-.031.074-.084.316-.368.4-.494.084-.126.168-.105.283-.063.116.042.736.347.862.41.126.063.21.095.241.147.032.053.032.306-.112.711z"/></svg>
-            <span class="text-[9px] font-bold text-[#25D366]">WhatsApp</span>
+            <span class="text-[9px] font-bold text-[#25D366] leading-none mt-1">WhatsApp</span>
         </a>
 
-        <!-- 3. Cart with Counter -->
-        <button type="button" onclick="toggleCartDrawer(true)" class="p-2 text-[#64748B] hover:text-[#1D1D1F] relative flex flex-col items-center justify-center min-w-[36px] cursor-pointer active:scale-90 transition-transform" aria-label="Panier">
-            <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-            <span class="text-[9px] font-bold text-[#64748B]">Panier</span>
-            <span class="absolute top-0.5 right-0.5 bg-[#1677FF] text-white text-[9px] font-black rounded-full w-4 h-4 flex items-center justify-center">
-                <?= getCartCount() ?>
-            </span>
+        <!-- 2. Panier avec badge positionné au sommet de l'icône (Zéro chevauchement sur le texte) -->
+        <button type="button" onclick="toggleCartDrawer(true)" class="p-1.5 text-[#64748B] hover:text-[#1D1D1F] flex flex-col items-center justify-center min-w-[40px] cursor-pointer active:scale-90 transition-transform" aria-label="Panier">
+            <div class="relative inline-flex">
+                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                <span class="absolute -top-1.5 -right-2 bg-[#1677FF] text-white text-[9px] font-black rounded-full min-w-4 h-4 px-1 flex items-center justify-center shadow-xs">
+                    <?= getCartCount() ?>
+                </span>
+            </div>
+            <span class="text-[9px] font-bold text-[#64748B] leading-none mt-1">Panier</span>
         </button>
     </div>
 
-    <!-- 2 Unified CTA Buttons -->
+    <!-- 2 Boutons de Conversion Plein Format (65% de l'espace) -->
     <div class="flex-1 flex items-center gap-2 min-w-0">
         <form action="cart.php" method="POST" enctype="application/x-www-form-urlencoded" class="flex-1 min-w-0">
             <?= getCSRFInputField() ?>
             <input type="hidden" name="action" value="add">
             <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
             <input type="hidden" id="mobile-selected-variant-id" name="variant_id" value="<?= !empty($variants) ? htmlspecialchars($variants[0]['id']) : '' ?>">
-            <button type="submit" class="w-full py-3 px-2 bg-[#F1F5F9] hover:bg-[#E2E8F0] active:scale-95 text-[#1D1D1F] font-extrabold text-xs rounded-xl truncate cursor-pointer transition-all border border-slate-200/80">
+            <button type="submit" class="w-full py-3 px-2 bg-[#F1F5F9] hover:bg-[#E2E8F0] active:scale-95 text-[#1D1D1F] font-extrabold text-xs sm:text-sm rounded-2xl truncate cursor-pointer transition-all border border-slate-200/80">
                 + Panier
             </button>
         </form>
 
         <form action="checkout.php" method="GET" class="flex-1 min-w-0">
             <input type="hidden" name="buy_now" value="<?= htmlspecialchars($product['id']) ?>">
-            <button type="submit" style="background-color: #1677FF !important; color: #ffffff !important;" class="w-full py-3 px-2 bg-[#1677FF] hover:bg-[#0B54C2] active:scale-95 text-white font-extrabold text-xs rounded-xl truncate cursor-pointer shadow-[0_4px_16px_rgba(22,119,255,0.28)] transition-all">
+            <button type="submit" style="background-color: #1677FF !important; color: #ffffff !important;" class="w-full py-3 px-2 bg-[#1677FF] hover:bg-[#0B54C2] active:scale-95 text-white font-extrabold text-xs sm:text-sm rounded-2xl truncate cursor-pointer shadow-[0_4px_16px_rgba(22,119,255,0.28)] transition-all">
                 Acheter
             </button>
         </form>
