@@ -71,9 +71,18 @@ if (!empty($q)) {
     $words = preg_split('/\s+/', $q, -1, PREG_SPLIT_NO_EMPTY);
     $searchClauses = [];
     foreach ($words as $idx => $word) {
-        $pKey = ":w_" . $idx;
-        $searchClauses[] = "(name LIKE $pKey OR brand LIKE $pKey OR category LIKE $pKey OR subcategory LIKE $pKey OR description LIKE $pKey)";
-        $params[$pKey] = '%' . $word . '%';
+        $pName = ":wn_{$idx}";
+        $pBrand = ":wb_{$idx}";
+        $pCat = ":wc_{$idx}";
+        $pSub = ":ws_{$idx}";
+        $pDesc = ":wd_{$idx}";
+        $searchClauses[] = "(name LIKE {$pName} OR brand LIKE {$pBrand} OR category LIKE {$pCat} OR subcategory LIKE {$pSub} OR description LIKE {$pDesc})";
+        $val = '%' . $word . '%';
+        $params[$pName] = $val;
+        $params[$pBrand] = $val;
+        $params[$pCat] = $val;
+        $params[$pSub] = $val;
+        $params[$pDesc] = $val;
     }
     if (!empty($searchClauses)) {
         $whereClauses[] = "(" . implode(" AND ", $searchClauses) . ")";
@@ -143,7 +152,7 @@ try {
     $stmt->execute($params);
     $products = $stmt->fetchAll();
 } catch (Throwable $e) {
-    $products = [];
+        $products = [];
     $totalProducts = 0;
     $totalPages = 1;
 }
