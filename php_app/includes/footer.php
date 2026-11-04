@@ -65,7 +65,7 @@ if ($layoutType === 'auth'): ?>
             <a href="contact.php" class="hover:text-[#1677FF]">Assistance</a>
         </div>
     </footer>
-    <script src="assets/js/app.min.js?v=3.0" defer></script>
+    <script src="assets/js/app.min.js?v=3.3" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -109,7 +109,7 @@ if ($layoutType === 'checkout'): ?>
 
         </div>
     </footer>
-    <script src="assets/js/app.min.js?v=3.0" defer></script>
+    <script src="assets/js/app.min.js?v=3.3" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -425,53 +425,8 @@ function toggleFooterAccordion(id) {
     </div>
 </nav>
 
-<!-- ─── FULL-SCREEN MOBILE SEARCH MODAL OVERLAY ─── -->
-<div id="mobile-search-overlay" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex-col justify-start p-4 transition-all">
-    <div class="bg-white rounded-3xl p-5 shadow-2xl space-y-4 max-w-lg w-full mx-auto animate-fade-in">
-        <div class="flex items-center justify-between pb-2 border-b border-[#E8EDF3]">
-            <div class="flex items-center gap-2">
-                <i data-lucide="search" class="w-5 h-5 text-[#1677FF]"></i>
-                <span class="text-sm font-black text-[#182230]">Recherche Instantanée</span>
-            </div>
-            <button type="button" onclick="closeMobileSearch()" class="cursor-pointer text-[#667085] hover:text-[#182230] p-1.5 rounded-full hover:bg-[#F3F7FC]">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-        </div>
-
-        <form action="search.php" method="GET" class="relative">
-            <div class="relative flex items-center bg-[#F7F9FC] px-4 py-3 rounded-2xl border border-[#E1E8F0] focus-within:border-[#1677FF] focus-within:bg-white shadow-2xs">
-                <input 
-                    type="text" 
-                    name="q" 
-                    id="overlay-search-input"
-                    aria-label="Recherche rapide de produit"
-                    placeholder="Tapez un produit, une marque (ex: Sony, GaN)..." 
-                    autocomplete="off"
-                    class="w-full bg-transparent outline-none text-xs font-bold text-[#182230] placeholder:text-[#667085]"
-                >
-                <button type="submit" class="cursor-pointer bg-[#1677FF] text-white text-xs font-black px-3.5 py-1.5 rounded-xl ml-2 shrink-0">
-                    Aller
-                </button>
-            </div>
-        </form>
-
-        <!-- Recherches Populaires -->
-        <div class="space-y-2 pt-1">
-            <span class="text-[11px] font-black text-[#344054] uppercase tracking-wider block">Tendances du Moment :</span>
-            <div class="flex flex-wrap gap-1.5">
-                <a href="search.php?q=Casque+ANC" class="px-3 py-1 rounded-full bg-[#EAF3FF] text-[#0B54C2] text-xs font-bold hover:bg-blue-100 transition-colors">🎧 Casque ANC</a>
-                <a href="search.php?q=Chargeur+GaN" class="px-3 py-1 rounded-full bg-[#EAF3FF] text-[#0B54C2] text-xs font-bold hover:bg-blue-100 transition-colors">⚡ Chargeur GaN</a>
-                <a href="search.php?q=MagSafe" class="px-3 py-1 rounded-full bg-[#EAF3FF] text-[#0B54C2] text-xs font-bold hover:bg-blue-100 transition-colors">🧲 Support MagSafe</a>
-                <a href="search.php?q=Montre+Connectée" class="px-3 py-1 rounded-full bg-[#EAF3FF] text-[#0B54C2] text-xs font-bold hover:bg-blue-100 transition-colors">⌚ Montre Sport</a>
-                <a href="search.php?q=Enceinte+JBL" class="px-3 py-1 rounded-full bg-[#EAF3FF] text-[#0B54C2] text-xs font-bold hover:bg-blue-100 transition-colors">🔊 Enceinte Bluetooth</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!-- Interactive Scripts -->
-<script src="assets/js/app.min.js?v=3.0" defer></script>
+<script src="assets/js/app.min.js?v=3.3" defer></script>
 <script>
     function initIcons() {
         if (typeof lucide !== 'undefined') {

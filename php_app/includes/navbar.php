@@ -288,29 +288,27 @@ if ($layoutType === 'public_compact'): ?>
                 <img src="assets/images/sentech_logo.webp" alt="SenTech PLUS" width="150" height="34" decoding="async" style="width: 150px; height: 34px; aspect-ratio: 150 / 34;" class="h-8 object-contain">
             </a>
 
-            <!-- Search Bar Omnibox Desktop (Zero-UI "Ask & Get" Pill) -->
+            <!-- Search Bar Omnibox Desktop Directe -->
             <div class="flex-1 max-w-2xl relative">
-                <div onclick="openOmnibar(document.getElementById('desktop-search-input').value)" class="cursor-pointer relative w-full flex items-center bg-[#F4F7FB] hover:bg-white pl-4 pr-1.5 py-1.5 rounded-full border border-[#DCE4EE] hover:border-[#1677FF] transition-all shadow-2xs group">
-                    <div class="w-6 h-6 rounded-full bg-[#EAF3FF] text-[#1677FF] flex items-center justify-center shrink-0 mr-2.5">
-                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                <form action="search.php" method="GET" class="w-full relative">
+                    <div class="relative w-full flex items-center bg-[#F4F7FB] hover:bg-white focus-within:bg-white pl-4 pr-1.5 py-1.5 rounded-full border border-[#DCE4EE] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-2xs group">
+                        <div class="w-6 h-6 rounded-full bg-[#EAF3FF] text-[#1677FF] flex items-center justify-center shrink-0 mr-2.5">
+                            <i data-lucide="search" class="w-3.5 h-3.5"></i>
+                        </div>
+                        <input 
+                            name="q"
+                            type="search" 
+                            aria-label="Rechercher un produit ou une marque"
+                            placeholder="Rechercher un produit, marque, catégorie..." 
+                            value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
+                            autocomplete="off"
+                            class="w-full bg-transparent outline-none text-xs sm:text-sm font-medium text-[#182230] placeholder:text-[#64748B]"
+                        >
+                        <button type="submit" class="cursor-pointer bg-[#0B54C2] hover:bg-[#09449E] text-white text-xs font-bold px-5 py-2 rounded-full transition-all shrink-0 shadow-2xs active:scale-95 flex items-center gap-1.5">
+                            <span>Rechercher</span>
+                        </button>
                     </div>
-                    <input 
-                        id="desktop-search-input"
-                        type="text" 
-                        placeholder="Posez une question ou cherchez... (Ex: livraison, Wave, écouteurs...)" 
-                        value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
-                        readonly
-                        class="w-full bg-transparent outline-none text-xs sm:text-sm font-medium text-[#182230] placeholder:text-[#64748B] cursor-pointer"
-                    >
-                    
-                    <kbd class="hidden sm:inline-flex items-center gap-0.5 text-[10px] font-extrabold uppercase bg-white border border-[#DCE4EE] text-[#667085] px-2 py-0.5 rounded-lg shadow-2xs shrink-0 mr-2">
-                        ⌘K / Ctrl+K
-                    </kbd>
-
-                    <button type="button" class="cursor-pointer bg-[#0B54C2] hover:bg-[#09449E] text-white text-xs font-bold px-4 py-2 rounded-full transition-all shrink-0 shadow-2xs active:scale-95 flex items-center gap-1.5">
-                        <span>Explorer</span>
-                    </button>
-                </div>
+                </form>
             </div>
 
             <!-- Actions Droite: Cloche Notifications + Espace Compte -->
@@ -502,22 +500,30 @@ if ($layoutType === 'public_compact'): ?>
                 </div>
             </div>
 
-            <!-- Mobile Row 2: Search Bar (Cachée sur shop.php et categories.php pour éviter tout doublon) -->
+            <!-- Mobile Row 2: Direct Search Bar -->
             <?php if ($currPage !== 'shop.php' && $currPage !== 'categories.php'): ?>
                 <div class="mt-2 relative">
-                    <div onclick="openMobileSearch()" class="cursor-pointer relative h-[42px] flex items-center justify-between bg-[#F4F7FB] hover:bg-white active:bg-white pl-3.5 pr-2 rounded-full border border-[#DCE4EE] shadow-[0_2px_8px_rgba(15,23,42,0.035)] hover:border-[#1677FF]/40 transition-all">
-                        <div class="flex items-center gap-2.5 flex-1 min-w-0">
-                            <div class="w-6 h-6 rounded-full bg-white flex items-center justify-center text-[#1677FF] shadow-2xs shrink-0">
+                    <form action="search.php" method="GET" class="w-full relative">
+                        <div class="relative h-[42px] flex items-center bg-[#F4F7FB] focus-within:bg-white pl-3.5 pr-1.5 rounded-full border border-[#DCE4EE] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-[0_2px_8px_rgba(15,23,42,0.035)]">
+                            <div class="w-6 h-6 rounded-full bg-white flex items-center justify-center text-[#1677FF] shadow-2xs shrink-0 mr-2">
                                 <i data-lucide="search" class="w-3.5 h-3.5"></i>
                             </div>
-                            <span class="text-xs font-semibold text-[#64748B] truncate">
-                                <?= !empty($_GET['q']) ? htmlspecialchars($_GET['q']) : 'Rechercher sur SenTechPLUS...' ?>
-                            </span>
+                            <input 
+                                name="q" 
+                                type="search" 
+                                inputmode="search"
+                                enterkeyhint="search"
+                                aria-label="Rechercher sur SenTechPLUS"
+                                placeholder="Rechercher un produit, marque..." 
+                                value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
+                                autocomplete="off"
+                                class="w-full bg-transparent outline-none text-xs font-semibold text-[#182230] placeholder:text-[#64748B]"
+                            >
+                            <button type="submit" class="w-7 h-7 rounded-full bg-[#1677FF] hover:bg-[#0B54C2] text-white flex items-center justify-center shrink-0 cursor-pointer shadow-2xs active:scale-95 transition-all" aria-label="Lancer la recherche">
+                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                            </button>
                         </div>
-                        <div class="w-7 h-7 rounded-full bg-[#1677FF] text-white flex items-center justify-center shrink-0 shadow-2xs">
-                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             <?php endif; ?>
         </div>

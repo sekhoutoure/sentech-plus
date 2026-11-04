@@ -92,25 +92,16 @@ function closeMobileDrawer() {
 }
 
 function openMobileSearch() {
-    const ov = document.getElementById('mobile-search-overlay');
-    if (ov) {
-        ov.classList.remove('hidden');
-        ov.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons({ root: ov, skipHidden: false });
-        }
-        setTimeout(() => document.getElementById('overlay-search-input')?.focus(), 80);
+    const inp = document.querySelector('input[name="q"], input[name="search"]');
+    if (inp) {
+        inp.focus();
+        inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 }
 
 function closeMobileSearch() {
-    const ov = document.getElementById('mobile-search-overlay');
-    if (ov) {
-        ov.classList.add('hidden');
-        ov.classList.remove('flex');
-        document.body.style.overflow = '';
-    }
+    const dds = document.querySelectorAll('.search-autocomplete-dropdown');
+    dds.forEach(dd => dd.classList.add('hidden'));
 }
 
 // ─── 4. Keyboard Shortcuts (Escape to dismiss all modals/drawers) ────────────
@@ -266,33 +257,18 @@ document.addEventListener('DOMContentLoaded', function() {
         let debounceTimer = null;
         let activeIndex = -1;
 
-        const getDropdown = () => {
+                const getDropdown = () => {
             if (!dropdown) {
                 dropdown = document.createElement('div');
-                dropdown.className = 'absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-[#E8EDF3] shadow-2xl p-2 z-50 hidden text-left space-y-1 max-h-[380px] overflow-y-auto';
+                dropdown.className = 'search-autocomplete-dropdown absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-[#E8EDF3] shadow-2xl p-2 z-50 hidden text-left space-y-1 max-h-[380px] overflow-y-auto';
                 parentForm.appendChild(dropdown);
             }
             return dropdown;
         };
 
-        const renderSuggestions = () => {
-            const dd = getDropdown();
-            dd.innerHTML = `
-                <div class="p-2.5 pb-1 text-[11px] font-bold text-[#667085] uppercase tracking-wider">Recherches Populaires à Dakar 🔥</div>
-                <div class="flex flex-wrap gap-1.5 p-2 pt-0">
-                    <a href="search.php?q=Casque" class="px-2.5 py-1 rounded-full bg-[#F3F7FC] hover:bg-[#1677FF] hover:text-white text-xs font-bold text-[#182230] transition-colors">🎧 Casques Pro</a>
-                    <a href="search.php?q=Écouteurs" class="px-2.5 py-1 rounded-full bg-[#F3F7FC] hover:bg-[#1677FF] hover:text-white text-xs font-bold text-[#182230] transition-colors">🎵 Écouteurs Bass</a>
-                    <a href="search.php?q=Montre" class="px-2.5 py-1 rounded-full bg-[#F3F7FC] hover:bg-[#1677FF] hover:text-white text-xs font-bold text-[#182230] transition-colors">⌚ Montres AMOLED</a>
-                    <a href="search.php?q=Chargeur" class="px-2.5 py-1 rounded-full bg-[#F3F7FC] hover:bg-[#1677FF] hover:text-white text-xs font-bold text-[#182230] transition-colors">⚡ Chargeurs GaN</a>
-                    <a href="search.php?q=Enceinte" class="px-2.5 py-1 rounded-full bg-[#F3F7FC] hover:bg-[#1677FF] hover:text-white text-xs font-bold text-[#182230] transition-colors">🔊 Enceintes Bluetooth</a>
-                </div>
-            `;
-            dd.classList.remove('hidden');
-        };
-
         input.addEventListener('focus', function() {
-            if (input.value.trim().length === 0) {
-                renderSuggestions();
+            if (input.value.trim().length >= 2) {
+                input.dispatchEvent(new Event('input'));
             }
         });
 
@@ -302,8 +278,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const dd = getDropdown();
             activeIndex = -1;
             
-            if (query.length < 1) {
-                renderSuggestions();
+            if (query.length < 2) {
+                dd.classList.add('hidden');
+                dd.innerHTML = '';
                 return;
             }
 
