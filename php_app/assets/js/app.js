@@ -629,11 +629,11 @@ if ('serviceWorker' in navigator) {
                     r.unregister();
                 }
             }
-            navigator.serviceWorker.register('sw.js?v=3.0').then((reg) => {
+            navigator.serviceWorker.register('sw.js?v=3.2').then((reg) => {
                 if (reg) reg.update();
             }).catch(() => {});
         }).catch(() => {
-            navigator.serviceWorker.register('sw.js?v=3.0').catch(() => {});
+            navigator.serviceWorker.register('sw.js?v=3.2').catch(() => {});
         });
     });
 }

@@ -20,7 +20,7 @@ require_once __DIR__ . '/includes/header.php';
         </p>
 
         <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
-            <button type="button" onclick="window.location.reload()" class="cursor-pointer inline-flex items-center gap-2 bg-[#1677FF] hover:bg-[#0F67E5] text-white font-extrabold text-xs px-5 py-2.5 rounded-xl shadow-xs transition-all">
+            <button type="button" onclick="forceReconnect()" class="cursor-pointer inline-flex items-center gap-2 bg-[#1677FF] hover:bg-[#0F67E5] text-white font-extrabold text-xs px-5 py-2.5 rounded-xl shadow-xs transition-all">
                 <i data-lucide="refresh-cw" class="w-4 h-4"></i>
                 <span>Réessayer la connexion</span>
             </button>
@@ -51,6 +51,30 @@ require_once __DIR__ . '/includes/header.php';
 </main>
 
 <script>
+function forceReconnect() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(regs) {
+            for (let r of regs) r.unregister();
+        });
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                for (let name of names) caches.delete(name);
+            });
+        }
+    }
+    window.location.href = 'index.php?ref=online&t=' + Date.now();
+}
+
+// Auto-redirection si le téléphone est connecté
+if (navigator.onLine) {
+    setTimeout(function() {
+        forceReconnect();
+    }, 1200);
+}
+window.addEventListener('online', function() {
+    forceReconnect();
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     try {
         const raw = localStorage.getItem('sentech_recently_viewed');
@@ -77,14 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `).join('');
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
-    } catch (e) {
-        console.error(e);
-    }
-});
-
-// Auto-redirect if connection is restored
-window.addEventListener('online', () => {
-    window.location.reload();
+    } catch (e) {}
 });
 </script>
 

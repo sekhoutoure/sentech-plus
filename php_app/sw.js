@@ -1,5 +1,5 @@
-// SenTechPLUS Service Worker (Lightweight Offline Cache & 3G/4G Resilience)
-const CACHE_NAME = 'sentech-v3.0';
+// SenTechPLUS Service Worker (High-Speed & Resilient Network First)
+const CACHE_NAME = 'sentech-v3.2';
 const PRECACHE_URLS = [
     './index.php',
     './shop.php',
@@ -16,8 +16,9 @@ const PRECACHE_URLS = [
     './assets/images/product_img4.webp'
 ];
 
-// 1. Install & Precache (Resilient Per-Item Caching)
+// 1. Install & Immediate Precache
 self.addEventListener('install', (event) => {
+    self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             return Promise.allSettled(
@@ -27,11 +28,11 @@ self.addEventListener('install', (event) => {
                     });
                 })
             );
-        }).then(() => self.skipWaiting())
+        })
     );
 });
 
-// 2. Activate & Purge Old Caches
+// 2. Activate & Purge All Old Caches
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
@@ -46,23 +47,22 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// 3. Fetch Strategy: Guaranteed Valid Response on Every Path
+// 3. Fetch Strategy: Network First with Native Timeout
 self.addEventListener('fetch', (event) => {
     const request = event.request;
     if (request.method !== 'GET') return;
 
-    // Ignore unsupported schemes (chrome-extension://, moz-extension://, etc.)
     if (!request.url.startsWith('http://') && !request.url.startsWith('https://')) return;
 
     const url = new URL(request.url);
 
-    // Only intercept same-origin requests (Cross-origin like Google Fonts are handled natively)
+    // Only intercept same-origin requests
     if (url.origin !== self.location.origin) return;
 
     // A. HTML Navigation requests (pages)
     if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
         event.respondWith(
-            fetchWithTimeout(request, 3000)
+            fetch(request)
                 .then((networkResponse) => {
                     if (networkResponse && networkResponse.status === 200) {
                         const copy = networkResponse.clone();
@@ -101,6 +101,7 @@ self.addEventListener('fetch', (event) => {
                     return cachedResponse;
                 }
 
+                // If not in cache, fetch from network
                 return fetch(request).then((networkResponse) => {
                     if (networkResponse && networkResponse.status === 200) {
                         const copy = networkResponse.clone();
@@ -108,7 +109,6 @@ self.addEventListener('fetch', (event) => {
                     }
                     return networkResponse;
                 }).catch(async () => {
-                    // Guaranteed fallback response
                     if (url.pathname.match(/\.(webp|png|jpg|jpeg|svg)$/)) {
                         const fallbackImg = await caches.match('./assets/images/product_img1.webp');
                         if (fallbackImg) return fallbackImg;
@@ -124,20 +124,3 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 });
-
-// Helper for Network First Timeout
-function fetchWithTimeout(request, timeoutMs) {
-    return new Promise((resolve, reject) => {
-        const timer = setTimeout(() => reject(new Error('Network Timeout')), timeoutMs);
-        fetch(request).then(
-            (response) => {
-                clearTimeout(timer);
-                resolve(response);
-            },
-            (err) => {
-                clearTimeout(timer);
-                reject(err);
-            }
-        );
-    });
-}
