@@ -254,49 +254,19 @@ $availableBrands = ['Baseus', 'Anker', 'Apple', 'JBL', 'Oraimo', 'Sony', 'Samsun
                 </ol>
             </nav>
 
-            <!-- Search Omnibox Header Card -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                
-                <div class="flex-1 max-w-2xl">
-                    <form method="GET" action="search.php" class="relative flex items-center group">
-                        <!-- Conserver les filtres actifs -->
-                        <?php if ($categoryParam): ?><input type="hidden" name="category" value="<?= htmlspecialchars($categoryParam) ?>"><?php endif; ?>
-                        <?php if ($brandParam): ?><input type="hidden" name="brand" value="<?= htmlspecialchars($brandParam) ?>"><?php endif; ?>
-                        <?php if ($sort !== 'relevance'): ?><input type="hidden" name="sort" value="<?= htmlspecialchars($sort) ?>"><?php endif; ?>
-
-                        <div class="relative w-full flex items-center bg-[#F1F3F7] hover:bg-[#EAEFF6] focus-within:bg-white focus-within:ring-4 focus-within:ring-[#1677FF]/15 border border-[#E2E8F0] focus-within:border-[#1677FF] rounded-2xl pl-4 pr-3 h-[52px] transition-all duration-200 shadow-2xs">
-                            <i data-lucide="search" class="w-5 h-5 text-[#64748B] group-focus-within:text-[#1677FF] mr-3 shrink-0 transition-colors"></i>
-                            
-                            <input 
-                                type="search" 
-                                name="q" 
-                                id="page-search-input" 
-                                value="<?= htmlspecialchars($q) ?>" 
-                                placeholder="Rechercher un modèle, marque, chargeur, casque..." 
-                                autocomplete="off"
-                                class="w-full bg-transparent outline-none text-[15px] sm:text-sm font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93]">
-                            
-                            <?php if (!empty($q)): ?>
-                                <a href="search.php" aria-label="Effacer la recherche" class="w-8 h-8 rounded-full flex items-center justify-center text-[#8E8E93] hover:text-[#1D1D1F] hover:bg-black/5 active:scale-90 transition-all mr-1">
-                                    <i data-lucide="x" class="w-4 h-4"></i>
-                                </a>
-                            <?php endif; ?>
-
-                            <button type="submit" aria-label="Lancer la recherche" class="h-9 px-4 rounded-xl bg-[#1677FF] hover:bg-[#0F67E5] active:scale-95 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 shrink-0">
-                                <span>Chercher</span>
-                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                            </button>
-                        </div>
-                    </form>
+            <!-- Header Results Title & Sorting Controls (Eliminates redundant duplicate search bar) -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+                <div>
+                    <h1 class="text-lg sm:text-2xl font-black text-[#1D1D1F] tracking-tight">
+                        <?= !empty($q) ? 'Résultats pour « ' . htmlspecialchars($q) . ' »' : 'Tous les Produits' ?>
+                    </h1>
+                    <p class="text-xs text-[#64748B] font-medium mt-0.5">
+                        <span class="font-extrabold text-[#1D1D1F]"><?= $totalProducts ?></span> produit<?= $totalProducts > 1 ? 's trouvés' : ' trouvé' ?>
+                    </p>
                 </div>
 
-                <!-- Tri & Compteur -->
-                <div class="flex items-center justify-between sm:justify-end gap-3 shrink-0">
-                    <div class="text-xs font-medium text-[#64748B]">
-                        <span class="font-extrabold text-[#1D1D1F]"><?= $totalProducts ?></span> produit<?= $totalProducts > 1 ? 's' : '' ?>
-                    </div>
-
-                    <!-- Tri Dropdown Apple -->
+                <!-- Tri Dropdown Apple -->
+                <div class="flex items-center gap-3 shrink-0">
                     <form method="GET" action="search.php" class="inline-flex items-center">
                         <?php if ($q): ?><input type="hidden" name="q" value="<?= htmlspecialchars($q) ?>"><?php endif; ?>
                         <?php if ($categoryParam): ?><input type="hidden" name="category" value="<?= htmlspecialchars($categoryParam) ?>"><?php endif; ?>
@@ -318,7 +288,6 @@ $availableBrands = ['Baseus', 'Anker', 'Apple', 'JBL', 'Oraimo', 'Sony', 'Samsun
                         </div>
                     </form>
                 </div>
-
             </div>
 
             <!-- Horizontal Fast-Filter Chip Bar (UI-UX-Pro-Max / HIG Standard) -->
