@@ -1,0 +1,29 @@
+{
+  "business": "SenTechPLUS Dakar",
+  "unit": "commande",
+  "price": 16000,
+  "variable": [
+    {"label": "Coût d'achat produit scellé certifié (COGS)", "cost": 6500},
+    {"label": "Packaging sécurisé & sceau d'inviolabilité", "cost": 400},
+    {"label": "Course moto express Dakar (H+2)", "cost": 1500},
+    {"label": "Frais de transaction mobile (Wave/OM)", "cost": 160},
+    {"label": "Provision remplacement sous garantie 12 mois (3%)", "cost": 480}
+  ],
+  "fixed_monthly": [
+    {"label": "Rémunération opérations & dispatching", "cost": 250000},
+    {"label": "Flotte coursiers dédiés Dakar", "cost": 250000},
+    {"label": "Local tampon sécurisé Dakar (Sacré-Cœur)", "cost": 150000},
+    {"label": "Infrastructure logicielle & API WhatsApp", "cost": 30000}
+  ],
+  "startup": [
+    {"label": "Stock initial tampon (Hero SKUs)", "cost": 1500000},
+    {"label": "Câbles de bienvenue offerts (100 pcs)", "cost": 150000},
+    {"label": "Packaging & scellés de sécurité", "cost": 120000},
+    {"label": "Campagne publicitaire lancement (Reels/TikTok)", "cost": 350000},
+    {"label": "Réserve de trésorerie BFR", "cost": 500000}
+  ],
+  "days_per_month": 30,
+  "capacity_per_day": 30,
+  "plan_per_day": 6,
+  "ramp_per_day": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+}
