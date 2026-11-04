@@ -1,5 +1,5 @@
 // SenTechPLUS Service Worker (High-Speed & Resilient Network First)
-const CACHE_NAME = 'sentech-v3.2';
+const CACHE_NAME = 'sentech-v3.3';
 const PRECACHE_URLS = [
     './index.php',
     './shop.php',

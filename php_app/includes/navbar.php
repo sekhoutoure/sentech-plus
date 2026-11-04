@@ -438,7 +438,7 @@ if ($layoutType === 'public_compact'): ?>
                             autocomplete="off"
                             class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs font-medium text-[#182230] placeholder:text-[#64748B]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                         >
-                        <button type="submit" class="w-8 h-8 rounded-full bg-[#1677FF] text-white flex items-center justify-center shrink-0 cursor-pointer shadow-2xs ml-1 hover:bg-[#0F67E5] transition-colors" style="width: 32px !important; height: 32px !important; min-width: 32px !important; min-height: 32px !important; max-width: 32px !important; max-height: 32px !important; aspect-ratio: 1 / 1 !important; padding: 0 !important;" aria-label="Rechercher">
+                        <button type="submit" class="btn-pill-arrow cursor-pointer active:scale-90 transition-all ml-1" aria-label="Rechercher">
                             <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                         </button>
                     </div>
@@ -522,7 +522,7 @@ if ($layoutType === 'public_compact'): ?>
                                 autocomplete="off"
                                 class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs sm:text-sm font-semibold text-[#182230] placeholder:text-[#64748B]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                             >
-                            <button type="submit" class="w-8 h-8 rounded-full bg-[#1677FF] hover:bg-[#0F67E5] text-white flex items-center justify-center shrink-0 cursor-pointer shadow-2xs active:scale-95 transition-all mr-0.5" style="width: 32px !important; height: 32px !important; min-width: 32px !important; min-height: 32px !important; max-width: 32px !important; max-height: 32px !important; aspect-ratio: 1 / 1 !important; padding: 0 !important;" aria-label="Lancer la recherche">
+                            <button type="submit" class="btn-pill-arrow cursor-pointer active:scale-90 transition-all" aria-label="Lancer la recherche">
                                 <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                             </button>
                         </div>
