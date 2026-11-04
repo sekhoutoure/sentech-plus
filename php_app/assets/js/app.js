@@ -247,8 +247,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-        // ─── 7. Ultra-Fast Search Autocomplete & Typo-Tolerant Suggestion Engine ─────
+        // ─── 7. Ultra-Fast Search Autocomplete & Typo-Tolerant Suggestion Engine (UI-UX-Pro-Max) ─────
     const searchInputs = document.querySelectorAll('input[name="search"], input[name="q"]');
+    
+    // Global Cmd+K / Ctrl+K Spotlight Shortcut
+    document.addEventListener('keydown', function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            const primaryInput = document.querySelector('input[name="search"], input[name="q"]');
+            if (primaryInput) {
+                primaryInput.focus();
+                primaryInput.select();
+                primaryInput.dispatchEvent(new Event('focus', { bubbles: true }));
+            }
+        }
+    });
+
     searchInputs.forEach(input => {
         const parentForm = input.closest('form');
         if (!parentForm) return;
@@ -260,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const getDropdown = () => {
             if (!dropdown) {
                 dropdown = document.createElement('div');
-                dropdown.className = 'search-autocomplete-dropdown absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-[#E8EDF3] shadow-[0_16px_48px_rgba(15,23,42,0.18)] p-2 z-[99999] hidden text-left space-y-1 max-h-[420px] overflow-y-auto animate-fade-in';
+                dropdown.className = 'search-autocomplete-dropdown absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-2xl rounded-[24px] border border-black/[0.08] shadow-[0_24px_64px_rgba(15,23,42,0.16)] p-3 z-[99999] hidden text-left space-y-2.5 max-h-[460px] overflow-y-auto animate-fade-in transition-all';
                 parentForm.style.position = 'relative';
                 parentForm.style.zIndex = '9999';
                 parentForm.appendChild(dropdown);
@@ -268,16 +282,47 @@ document.addEventListener('DOMContentLoaded', function() {
             return dropdown;
         };
 
-        const renderItems = (data, query) => {
+        const renderItems = (payload, query) => {
             const dd = getDropdown();
-            if (!data || data.length === 0) {
+            
+            // Normalized data extraction
+            let products = [];
+            let categories = [];
+            let brands = [];
+            let popular = [];
+
+            if (Array.isArray(payload)) {
+                products = payload;
+            } else if (payload && typeof payload === 'object') {
+                products = payload.products || [];
+                categories = payload.categories || [];
+                brands = payload.brands || [];
+                popular = payload.popular || [];
+            }
+
+            const hasResults = (products.length > 0 || categories.length > 0 || brands.length > 0);
+
+            if (!hasResults) {
                 if (query.length > 0) {
                     dd.innerHTML = `
-                        <div class="p-4 text-xs text-[#667085] text-center space-y-1">
-                            <p class="font-bold text-[#182230]">Aucun résultat pour "${query}"</p>
-                            <p class="text-[11px]">Consultez <a href="shop.php" class="text-[#1677FF] underline font-bold">tous nos produits</a>.</p>
+                        <div class="p-6 text-center space-y-3">
+                            <div class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
+                                <i data-lucide="search-x" class="w-5 h-5"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-xs font-bold text-[#1D1D1F]">Aucun équipement pour "${query}"</p>
+                                <p class="text-[11px] text-[#64748B]">Vérifiez l'orthographe ou contactez notre conciergerie WhatsApp express.</p>
+                            </div>
+                            <div class="pt-2 flex items-center justify-center gap-2">
+                                <a href="shop.php" class="px-3 py-1.5 rounded-xl bg-[#F1F3F7] hover:bg-[#1677FF] hover:text-white text-xs font-bold text-[#1D1D1F] transition-all">Tous les produits</a>
+                                <a href="https://wa.me/221781316497?text=Bonjour,%20je%20cherche%20${encodeURIComponent(query)}" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+                                    <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                                    <span>Demander sur WhatsApp</span>
+                                </a>
+                            </div>
                         </div>
                     `;
+                    if (typeof lucide !== 'undefined') lucide.createIcons({ root: dd });
                     dd.classList.remove('hidden');
                 } else {
                     dd.classList.add('hidden');
@@ -285,41 +330,91 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const headerTitle = query.length === 0 
-                ? 'Tendances Populaires & Recommandations 🔥' 
-                : `Suggestions de Produits (${data.length})`;
+            let html = '';
 
-            let html = `<div class="p-2 pb-1 text-[10px] font-black text-[#667085] uppercase tracking-wider">${headerTitle}</div>`;
-            
-            data.forEach((item, idx) => {
+            // 1. Rayons & Catégories Suggérés (si présents)
+            if (categories.length > 0) {
                 html += `
-                    <a href="product.php?id=${encodeURIComponent(item.id)}" data-index="${idx}" class="search-result-item flex items-center gap-3 p-2 hover:bg-[#EAF3FF] rounded-xl transition-colors group cursor-pointer">
-                        <div class="w-11 h-11 rounded-lg bg-[#F3F7FC] p-1 border border-[#E8EDF3] flex items-center justify-center shrink-0">
-                            <img src="${item.image}" width="40" height="40" loading="lazy" class="max-w-full max-h-full object-contain" alt="${item.name}">
+                    <div class="pb-1.5 border-b border-[#F1F3F7]">
+                        <span class="text-[10px] font-black text-[#64748B] uppercase tracking-wider block px-1 mb-1.5">Rayons correspondants</span>
+                        <div class="flex flex-wrap gap-1.5">
+                            ${categories.map(c => `
+                                <a href="search.php?category=${encodeURIComponent(c.slug || c.name)}" class="px-2.5 py-1 rounded-xl bg-[#F1F3F7] hover:bg-[#1677FF] hover:text-white text-xs font-bold text-[#1D1D1F] transition-all flex items-center gap-1.5">
+                                    <i data-lucide="${c.icon || 'tag'}" class="w-3 h-3"></i>
+                                    <span>${c.name}</span>
+                                </a>
+                            `).join('')}
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-xs font-bold text-[#182230] group-hover:text-[#0B54C2] truncate">${item.name}</p>
-                            <div class="flex items-center gap-2 mt-0.5">
-                                <span class="text-[9px] font-bold text-[#0D7D53] bg-[#0D7D53]/10 px-1.5 py-0.2 rounded-full">${item.category}</span>
-                                ${item.brand ? `<span class="text-[9px] text-[#667085] font-semibold">${item.brand}</span>` : ''}
-                            </div>
-                        </div>
-                        <span class="text-xs font-black text-[#182230] shrink-0">${item.formatted_price}</span>
-                    </a>
+                    </div>
                 `;
-            });
+            }
 
+            // 2. Marques Certifiées
+            if (brands.length > 0) {
+                html += `
+                    <div class="pb-1.5 border-b border-[#F1F3F7]">
+                        <span class="text-[10px] font-black text-[#64748B] uppercase tracking-wider block px-1 mb-1.5">Marques Officielles</span>
+                        <div class="flex flex-wrap gap-1.5">
+                            ${brands.map(b => `
+                                <a href="search.php?brand=${encodeURIComponent(b)}" class="px-2.5 py-1 rounded-xl bg-[#1D1D1F] hover:bg-[#1677FF] text-white text-xs font-bold transition-all">
+                                    ${b}
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 3. Produits trouvés
+            if (products.length > 0) {
+                const headerTitle = query.length === 0 
+                    ? 'Indispensables & Tendances à Dakar 🔥' 
+                    : `Produits Recommandés (${products.length})`;
+
+                html += `<div class="px-1 text-[10px] font-black text-[#64748B] uppercase tracking-wider pt-0.5">${headerTitle}</div>`;
+                
+                products.forEach((item, idx) => {
+                    html += `
+                        <a href="product.php?id=${encodeURIComponent(item.id)}" data-index="${idx}" class="search-result-item flex items-center gap-3 p-2.5 hover:bg-[#F0F6FF] rounded-2xl transition-all group cursor-pointer border border-transparent hover:border-[#1677FF]/15">
+                            <div class="w-12 h-12 rounded-xl bg-[#F8FAFD] p-1 border border-[#E8EDF3] flex items-center justify-center shrink-0 overflow-hidden">
+                                <img src="${item.image}" width="44" height="44" loading="lazy" class="max-w-full max-h-full object-contain transform group-hover:scale-105 transition-transform" alt="${item.name}">
+                            </div>
+                            <div class="flex-1 min-w-0 text-left">
+                                <p class="text-xs font-bold text-[#1D1D1F] group-hover:text-[#1677FF] truncate">${item.name}</p>
+                                <div class="flex items-center gap-2 mt-0.5">
+                                    <span class="text-[9px] font-bold text-[#1677FF] bg-[#1677FF]/10 px-2 py-0.5 rounded-full">${item.category}</span>
+                                    ${item.brand ? `<span class="text-[10px] text-[#64748B] font-bold uppercase">${item.brand}</span>` : ''}
+                                    <span class="text-[9px] font-bold ${item.in_stock ? 'text-emerald-700' : 'text-slate-400'}">• ${item.in_stock ? 'En stock' : 'Rupture'}</span>
+                                </div>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span class="text-xs font-black text-[#1D1D1F] block">${item.formatted_price}</span>
+                                <span class="text-[9px] font-semibold text-amber-600 flex items-center justify-end gap-0.5 mt-0.5">
+                                    <i data-lucide="zap" class="w-2.5 h-2.5"></i> H+2
+                                </span>
+                            </div>
+                        </a>
+                    `;
+                });
+            }
+
+            // 4. Footer Omnibox Action & Keyboard Hints
             if (query.length > 0) {
                 html += `
-                    <div class="pt-2 mt-1 border-t border-[#E8EDF3]">
-                        <a href="search.php?q=${encodeURIComponent(query)}" class="block text-center py-2 text-xs font-extrabold text-[#1677FF] hover:text-[#0B54C2] hover:bg-[#EAF3FF] rounded-xl transition-all">
-                            Voir tous les résultats pour "${query}" →
+                    <div class="pt-2 mt-1 border-t border-[#F1F3F7] flex items-center justify-between text-xs px-1">
+                        <a href="search.php?q=${encodeURIComponent(query)}" class="py-1.5 px-3 rounded-xl font-extrabold text-[#1677FF] hover:bg-[#EAF3FF] transition-all flex items-center gap-1.5">
+                            <span>Tous les résultats pour "${query}"</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
+                        <span class="hidden sm:inline text-[10px] text-[#94A3B8] font-medium">
+                            <kbd class="px-1.5 py-0.5 rounded bg-[#F1F3F7] border border-[#E2E8F0] text-[9px] font-bold">↑↓</kbd> naviguer <kbd class="px-1.5 py-0.5 rounded bg-[#F1F3F7] border border-[#E2E8F0] text-[9px] font-bold ml-1">↵</kbd>
+                        </span>
                     </div>
                 `;
             }
 
             dd.innerHTML = html;
+            if (typeof lucide !== 'undefined') lucide.createIcons({ root: dd });
             dd.classList.remove('hidden');
         };
 
@@ -345,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function() {
             activeIndex = -1;
             debounceTimer = setTimeout(() => {
                 doSearch(query);
-            }, 50);
+            }, 100);
         });
 
         // Keyboard Navigation (ArrowUp, ArrowDown, Enter, Escape)
@@ -375,10 +470,10 @@ document.addEventListener('DOMContentLoaded', function() {
         function updateActiveItem(items) {
             items.forEach((it, i) => {
                 if (i === activeIndex) {
-                    it.classList.add('bg-[#EAF3FF]', 'ring-1', 'ring-[#1677FF]');
+                    it.classList.add('bg-[#EAF3FF]', 'border-[#1677FF]/40', 'ring-2', 'ring-[#1677FF]/20');
                     it.scrollIntoView({ block: 'nearest' });
                 } else {
-                    it.classList.remove('bg-[#EAF3FF]', 'ring-1', 'ring-[#1677FF]');
+                    it.classList.remove('bg-[#EAF3FF]', 'border-[#1677FF]/40', 'ring-2', 'ring-[#1677FF]/20');
                 }
             });
         }

@@ -299,12 +299,15 @@ if ($layoutType === 'public_compact'): ?>
                             name="q"
                             type="search" 
                             aria-label="Rechercher un produit ou une marque"
-                            placeholder="Rechercher un produit, marque, catégorie..." 
+                            placeholder="Rechercher un modèle, marque, chargeur..." 
                             value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
                             autocomplete="off"
                             class="w-full bg-transparent outline-none no-focus-ring search-pill-input text-xs sm:text-sm font-medium text-[#182230] placeholder:text-[#64748B]" style="outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
                         >
-                        <button type="submit" class="cursor-pointer bg-[#0B54C2] hover:bg-[#09449E] text-white text-xs font-bold px-5 py-2 rounded-full transition-all shrink-0 shadow-2xs active:scale-95 flex items-center gap-1.5">
+                        <div class="hidden xl:flex items-center gap-1 px-2 py-0.5 rounded-lg bg-black/5 text-[10px] font-semibold text-[#86868B] shrink-0 mr-2 border border-black/[0.04] pointer-events-none">
+                            <kbd class="font-sans">⌘</kbd>K
+                        </div>
+                        <button type="submit" class="cursor-pointer bg-[#1677FF] hover:bg-[#0F67E5] text-white text-xs font-bold px-5 py-2 rounded-full transition-all shrink-0 shadow-2xs active:scale-95 flex items-center gap-1.5">
                             <span>Rechercher</span>
                         </button>
                     </div>
