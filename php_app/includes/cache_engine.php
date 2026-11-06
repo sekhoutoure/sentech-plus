@@ -81,7 +81,7 @@ class FastCache {
             return null;
         }
 
-        $data = @unserialize(substr($raw, 10));
+        $data = @unserialize(substr($raw, 10), ['allowed_classes' => false]);
         if ($data === false && substr($raw, 10) !== serialize(false)) {
             return null;
         }
