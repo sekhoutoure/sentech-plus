@@ -1,4 +1,5 @@
 <?php
+define('IS_ADMIN_AREA', true);
 require_once __DIR__ . '/../config/config.php';
 $adminUser = requireAdmin();
 

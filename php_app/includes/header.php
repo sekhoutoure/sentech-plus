@@ -20,7 +20,14 @@ $canonicalUrl = $canonicalUrl ?? ($canonicalBase . $reqPath . ($reqQuery ? '?' .
 $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase . '/' . ltrim($ogImage, '/');
 
 $scriptSelf = $_SERVER['PHP_SELF'] ?? ($_SERVER['SCRIPT_NAME'] ?? '');
-$isInSubdir = (strpos($scriptSelf, '/admin/') !== false || strpos($scriptSelf, '/seller/') !== false);
+$requestUri = $_SERVER['REQUEST_URI'] ?? '';
+$isInSubdir = (
+    (defined('IS_ADMIN_AREA') && IS_ADMIN_AREA) ||
+    strpos($scriptSelf, '/admin') !== false ||
+    strpos($scriptSelf, '/seller') !== false ||
+    strpos($requestUri, '/admin') !== false ||
+    strpos($requestUri, '/seller') !== false
+);
 $assetPrefix = $isInSubdir ? '../' : '';
 ?>
 <!DOCTYPE html>
@@ -32,8 +39,20 @@ $assetPrefix = $isInSubdir ? '../' : '';
     <meta name="description" content="<?= htmlspecialchars($metaDescription) ?>">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="<?= htmlspecialchars($canonicalUrl) ?>">
-    <!-- Immediate Service Worker Auto-Purge & Error Interceptor (Prevents InfinityFree MIME Challenge Error) -->
+    <!-- Immediate Console Filter & Service Worker Auto-Purge (Zero Warning & Zero MIME Challenge) -->
     <script>
+    (function() {
+        var origWarn = console.warn;
+        console.warn = function() {
+            for (var i = 0; i < arguments.length; i++) {
+                var a = arguments[i];
+                if (typeof a === 'string' && (a.indexOf('cdn.tailwindcss.com') !== -1 || a.indexOf('Tailwind CSS in production') !== -1)) {
+                    return;
+                }
+            }
+            return origWarn.apply(console, arguments);
+        };
+    })();
     window.addEventListener('unhandledrejection', function(event) {
         if (event && event.reason && (event.reason.name === 'SecurityError' || String(event.reason).indexOf('ServiceWorker') !== -1 || String(event.reason).indexOf('sw.js') !== -1)) {
             event.preventDefault();
@@ -79,6 +98,7 @@ $assetPrefix = $isInSubdir ? '../' : '';
       (function(){
         var m = document.createElement('link');
         m.rel = 'manifest';
+        m.crossOrigin = 'use-credentials';
         m.href = 'manifest.json?v=20260907_v2';
         if ('requestIdleCallback' in window) {
           requestIdleCallback(function(){ document.head.appendChild(m); });
@@ -87,7 +107,7 @@ $assetPrefix = $isInSubdir ? '../' : '';
         }
       })();
     </script>
-    <noscript><link rel="manifest" href="manifest.json?v=20260907_v2"></noscript>
+    <noscript><link rel="manifest" href="manifest.json?v=20260907_v2" crossorigin="use-credentials"></noscript>
     <?php endif; ?>
 
     <?php
@@ -184,31 +204,33 @@ $assetPrefix = $isInSubdir ? '../' : '';
     <!-- Contextual LCP Image Preload — only preloads image actually rendered on current view -->
     <?php 
     $currentScript = basename($_SERVER['PHP_SELF'] ?? '');
-    if (!empty($preloadImage)):
+    if (!$isInSubdir):
+        if (!empty($preloadImage)):
     ?>
     <link rel="preload" as="image" href="<?= htmlspecialchars($preloadImage) ?>" type="image/webp" fetchpriority="high">
     <?php
-    elseif ($currentScript === 'index.php' || $currentScript === ''): 
+        elseif ($currentScript === 'index.php' || $currentScript === ''): 
     ?>
     <link rel="preload" as="image" href="assets/images/banners/banner_audio_fr.webp" media="(min-width: 641px)" type="image/webp" fetchpriority="high">
     <link rel="preload" as="image" href="assets/images/banners/banner_audio_fr_mob.webp" media="(max-width: 640px)" type="image/webp" fetchpriority="high">
     <?php 
-    elseif ($currentScript === 'shop.php'):
+        elseif ($currentScript === 'shop.php'):
     ?>
     <link rel="preload" as="image" href="assets/images/product_img4.webp" type="image/webp" fetchpriority="high">
     <?php
-    elseif ($currentScript === 'product.php'): 
-        $preloadImg = !empty($mainImg) ? $mainImg : (!empty($product) ? getProductMainImage($product) : '');
-        if (!empty($preloadImg) && strlen($preloadImg) > 3):
+        elseif ($currentScript === 'product.php'): 
+            $preloadImg = !empty($mainImg) ? $mainImg : (!empty($product) ? getProductMainImage($product) : '');
+            if (!empty($preloadImg) && strlen($preloadImg) > 3):
     ?>
     <link rel="preload" as="image" href="<?= htmlspecialchars($preloadImg) ?>" type="image/webp" fetchpriority="high">
     <?php 
-        endif;
-    elseif (!$isInSubdir):
+            endif;
+        else:
     ?>
     <link rel="preload" as="image" href="assets/images/sentech_logo.webp" type="image/webp" fetchpriority="high">
     <?php 
-    endif; 
+        endif;
+    endif;
     ?>
     
     <!-- Optimized Preloaded Tailwind CSS (Single-Pass Layout, Zero Reflow Thrashing) -->

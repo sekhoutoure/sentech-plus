@@ -1,7 +1,10 @@
 <?php
+$origin = $_SERVER['HTTP_ORIGIN'] ?? 'https://www.sentechplus.com';
+header("Access-Control-Allow-Origin: {$origin}");
+header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/manifest+json; charset=utf-8');
 header('Cache-Control: public, max-age=86400');
-header('Access-Control-Allow-Origin: *');
+header('X-Content-Type-Options: nosniff');
 
 $manifestFile = __DIR__ . '/manifest.json';
 if (file_exists($manifestFile)) {
