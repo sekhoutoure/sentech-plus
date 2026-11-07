@@ -1051,44 +1051,44 @@ require_once __DIR__ . '/includes/navbar.php';
 </main>
 
 <!-- ─── 9. APP-LIKE FIXED BOTTOM PURCHASE BAR (Apple Fluid Bar) ────── -->
-<div id="mobile-sticky-buy-bar" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-t border-slate-200/90 px-3 py-2 shadow-[0_-8px_30px_rgba(15,23,42,0.12)] flex items-center justify-between gap-2.5" style="padding-bottom: max(10px, env(safe-area-inset-bottom));">
+<div id="mobile-sticky-buy-bar" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-t border-slate-200/90 px-3 py-2.5 shadow-[0_-8px_30px_rgba(15,23,42,0.10)] flex items-center justify-between gap-2" style="padding-bottom: max(10px, env(safe-area-inset-bottom));">
     
-    <!-- 2 Actions Utilitaires Gauche : WhatsApp & Panier (0 encombrement, Badge isolé sur l'icône) -->
+    <!-- Actions Utilitaires Tactiles : WhatsApp & Panier (Boutons Squircle 44x44 Apple Style) -->
     <div class="flex items-center gap-1.5 shrink-0">
         <!-- 1. WhatsApp Direct Order -->
-        <a href="<?= getWhatsAppProductLink($product, !empty($variants) ? $variants[0]['name'] : null) ?>" target="_blank" rel="noopener" class="p-1.5 text-[#25D366] hover:text-[#1EBE5D] flex flex-col items-center justify-center min-w-[40px] active:scale-90 transition-transform" aria-label="Commander sur WhatsApp">
+        <a href="<?= getWhatsAppProductLink($product, !empty($variants) ? $variants[0]['name'] : null) ?>" target="_blank" rel="noopener" class="w-11 h-11 rounded-2xl bg-[#E8F8F0] hover:bg-[#D1F2E2] text-[#0D7D53] border border-[#25D366]/30 flex items-center justify-center active:scale-95 transition-all shadow-2xs cursor-pointer" aria-label="Commander sur WhatsApp" title="Commander sur WhatsApp">
             <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.075-1.704-.374-1.258-.528-2.079-1.808-2.142-1.892-.063-.084-.509-.678-.509-1.293s.322-.919.436-1.042c.114-.123.249-.155.334-.155.084 0 .168.002.241.006.077.004.181-.029.283.217.104.252.356.87.387.933.031.063.052.138.01.222-.042.084-.063.137-.126.21-.063.074-.132.164-.188.22-.063.063-.129.131-.056.257.073.126.326.539.7 0.871.482.428.887.561 1.013.624.126.063.2.052.273-.031.074-.084.316-.368.4-.494.084-.126.168-.105.283-.063.116.042.736.347.862.41.126.063.21.095.241.147.032.053.032.306-.112.711z"/></svg>
-            <span class="text-[9px] font-bold text-[#25D366] leading-none mt-1">WhatsApp</span>
         </a>
 
-        <!-- 2. Panier avec badge positionné au sommet de l'icône (Zéro chevauchement sur le texte) -->
-        <button type="button" onclick="toggleCartDrawer(true)" class="p-1.5 text-[#64748B] hover:text-[#1D1D1F] flex flex-col items-center justify-center min-w-[40px] cursor-pointer active:scale-90 transition-transform" aria-label="Panier">
-            <div class="relative inline-flex">
-                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                <span class="absolute -top-1.5 -right-2 bg-[#1677FF] text-white text-[9px] font-black rounded-full min-w-4 h-4 px-1 flex items-center justify-center shadow-xs">
-                    <?= getCartCount() ?>
+        <!-- 2. Panier avec badge intégré sans débordement -->
+        <button type="button" onclick="toggleCartDrawer(true)" class="relative w-11 h-11 rounded-2xl bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#1D1D1F] border border-[#E2E8F0] flex items-center justify-center cursor-pointer active:scale-95 transition-all shadow-2xs" aria-label="Panier">
+            <i data-lucide="shopping-cart" class="w-5 h-5 text-[#334155]"></i>
+            <?php $cCount = (int)getCartCount(); if ($cCount > 0): ?>
+                <span class="absolute -top-1 -right-1 bg-[#1677FF] text-white text-[10px] font-black rounded-full w-4 h-4 flex items-center justify-center border-2 border-white shadow-xs">
+                    <?= $cCount ?>
                 </span>
-            </div>
-            <span class="text-[9px] font-bold text-[#64748B] leading-none mt-1">Panier</span>
+            <?php endif; ?>
         </button>
     </div>
 
-    <!-- 2 Boutons de Conversion Plein Format (65% de l'espace) -->
+    <!-- 2 Boutons de Conversion Plein Format (Alignement parfait 44px) -->
     <div class="flex-1 flex items-center gap-2 min-w-0">
         <form action="cart.php" method="POST" enctype="application/x-www-form-urlencoded" class="flex-1 min-w-0">
             <?= getCSRFInputField() ?>
             <input type="hidden" name="action" value="add">
             <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
             <input type="hidden" id="mobile-selected-variant-id" name="variant_id" value="<?= !empty($variants) ? htmlspecialchars($variants[0]['id']) : '' ?>">
-            <button type="submit" class="w-full py-3 px-2 bg-[#F1F5F9] hover:bg-[#E2E8F0] active:scale-95 text-[#1D1D1F] font-extrabold text-xs sm:text-sm rounded-2xl truncate cursor-pointer transition-all border border-slate-200/80">
-                + Panier
+            <button type="submit" class="w-full h-11 px-2.5 bg-[#F1F5F9] hover:bg-[#E2E8F0] active:scale-[0.97] text-[#1D1D1F] font-bold text-xs sm:text-sm rounded-2xl truncate cursor-pointer transition-all border border-slate-200/90 flex items-center justify-center gap-1.5 shadow-2xs">
+                <i data-lucide="plus" class="w-3.5 h-3.5 text-[#64748B] shrink-0"></i>
+                <span>Panier</span>
             </button>
         </form>
 
         <form action="checkout.php" method="GET" class="flex-1 min-w-0">
             <input type="hidden" name="buy_now" value="<?= htmlspecialchars($product['id']) ?>">
-            <button type="submit" style="background-color: #1677FF !important; color: #ffffff !important;" class="w-full py-3 px-2 bg-[#1677FF] hover:bg-[#0B54C2] active:scale-95 text-white font-extrabold text-xs sm:text-sm rounded-2xl truncate cursor-pointer shadow-[0_4px_16px_rgba(22,119,255,0.28)] transition-all">
-                Acheter
+            <button type="submit" style="background-color: #1677FF !important; color: #ffffff !important;" class="w-full h-11 px-2.5 bg-[#1677FF] hover:bg-[#0B54C2] active:scale-[0.97] text-white font-extrabold text-xs sm:text-sm rounded-2xl truncate cursor-pointer shadow-[0_4px_16px_rgba(22,119,255,0.28)] transition-all flex items-center justify-center gap-1.5">
+                <i data-lucide="zap" class="w-3.5 h-3.5 text-white shrink-0"></i>
+                <span>Acheter</span>
             </button>
         </form>
     </div>
