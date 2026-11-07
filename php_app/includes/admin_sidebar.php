@@ -5,7 +5,7 @@ $currentAdminPage = basename($_SERVER['PHP_SELF']);
 <aside class="w-64 bg-[#182230] text-white min-h-screen p-4 space-y-1 hidden lg:block shrink-0 sticky top-0 h-screen overflow-y-auto scrollbar-none z-30">
     <div class="p-3 mb-4 border-b border-white/10 flex flex-col items-start gap-1">
         <a href="index.php">
-            <img src="../assets/images/sentech_logo.webp" class="h-8 w-auto brightness-0 invert" alt="Logo" width="140" height="32">
+            <img src="../assets/images/sentech_logo.png" onerror="this.onerror=null; this.src='../assets/images/sentech_logo.webp';" class="h-8 w-auto brightness-0 invert" alt="SenTechPLUS" width="140" height="32">
         </a>
         <span class="text-[9px] font-black text-blue-400 uppercase tracking-widest block mt-1">Cockpit Administrateur</span>
     </div>

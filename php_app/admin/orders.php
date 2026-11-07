@@ -171,52 +171,7 @@ require_once __DIR__ . '/../includes/header.php';
 
 <div class="min-h-screen flex bg-[#F3F7FC]">
     
-    <!-- Sidebar Admin -->
-    <aside class="w-64 bg-[#182230] text-white min-h-screen p-5 space-y-2 hidden lg:block shrink-0 sticky top-0 h-screen overflow-y-auto">
-        <div class="p-2 mb-6 border-b border-white/10 flex items-center gap-3">
-            <img src="../assets/images/sentech_logo.webp" class="h-8 w-auto brightness-0 invert" alt="Logo" width="140" height="32">
-        </div>
-        
-        <a href="index.php" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs transition-colors cursor-pointer">
-            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-            <span>Tableau de bord</span>
-        </a>
-        <a href="products.php" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs transition-colors cursor-pointer">
-            <i data-lucide="package" class="w-4 h-4"></i>
-            <span>Produits & Variantes</span>
-        </a>
-        <a href="categories.php" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs transition-colors cursor-pointer">
-            <i data-lucide="layers" class="w-4 h-4"></i>
-            <span>Catégories & Rayons</span>
-        </a>
-        <a href="announcements.php" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs transition-colors cursor-pointer">
-            <i data-lucide="megaphone" class="w-4 h-4"></i>
-            <span>Annonces & Affiches</span>
-        </a>
-        <a href="orders.php" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#1677FF] text-white font-bold text-xs shadow-xs cursor-pointer">
-            <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-            <span>Commandes</span>
-        </a>
-        <a href="stores.php" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs transition-colors cursor-pointer">
-            <i data-lucide="store" class="w-4 h-4"></i>
-            <span>Boutiques</span>
-        </a>
-        <a href="coupons.php" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs transition-colors cursor-pointer">
-            <i data-lucide="tag" class="w-4 h-4"></i>
-            <span>Coupons</span>
-        </a>
-
-        <div class="pt-8 mt-8 border-t border-white/10 space-y-1">
-            <a href="../shop.php" class="flex items-center gap-3 px-4 py-2 text-xs font-bold text-blue-400 hover:underline cursor-pointer">
-                <i data-lucide="external-link" class="w-4 h-4"></i>
-                <span>Boutique Publique</span>
-            </a>
-            <a href="../logout.php" class="flex items-center gap-3 px-4 py-2 text-xs font-bold text-rose-400 hover:underline cursor-pointer">
-                <i data-lucide="log-out" class="w-4 h-4"></i>
-                <span>Déconnexion</span>
-            </a>
-        </div>
-    </aside>
+    <?php require_once __DIR__ . '/../includes/admin_sidebar.php'; ?>
 
     <!-- Main Content -->
     <main class="flex-1 flex flex-col min-h-screen">

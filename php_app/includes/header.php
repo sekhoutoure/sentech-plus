@@ -18,6 +18,10 @@ $reqPath = parse_url($currentUri, PHP_URL_PATH) ?: '/';
 $reqQuery = parse_url($currentUri, PHP_URL_QUERY);
 $canonicalUrl = $canonicalUrl ?? ($canonicalBase . $reqPath . ($reqQuery ? '?' . $reqQuery : ''));
 $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase . '/' . ltrim($ogImage, '/');
+
+$scriptSelf = $_SERVER['PHP_SELF'] ?? ($_SERVER['SCRIPT_NAME'] ?? '');
+$isInSubdir = (strpos($scriptSelf, '/admin/') !== false || strpos($scriptSelf, '/seller/') !== false);
+$assetPrefix = $isInSubdir ? '../' : '';
 ?>
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth overflow-x-hidden">
@@ -68,13 +72,13 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
     <meta name="twitter:image" content="<?= htmlspecialchars($absoluteOgImage) ?>">
 
     <meta name="theme-color" content="#1677FF">
-    <link rel="apple-touch-icon" href="assets/images/sentech_icon.webp">
-    <link rel="icon" href="assets/images/sentech_icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="<?= $assetPrefix ?>assets/images/sentech_icon.webp">
+    <link rel="icon" href="<?= $assetPrefix ?>assets/images/sentech_icon.png" type="image/png">
     <script>
       (function(){
         var m = document.createElement('link');
         m.rel = 'manifest';
-        m.href = 'manifest.json?v=20260907_v2';
+        m.href = '<?= $assetPrefix ?>manifest.json?v=20260907_v2';
         if ('requestIdleCallback' in window) {
           requestIdleCallback(function(){ document.head.appendChild(m); });
         } else {
@@ -82,7 +86,7 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         }
       })();
     </script>
-    <noscript><link rel="manifest" href="manifest.json?v=20260907_v2"></noscript>
+    <noscript><link rel="manifest" href="<?= $assetPrefix ?>manifest.json?v=20260907_v2"></noscript>
 
     <?php
     $baseAppUrl = defined('APP_URL') && !empty(APP_URL) ? rtrim(APP_URL, '/') : 'https://www.sentechplus.com';
@@ -200,17 +204,35 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         endif;
     else:
     ?>
-    <link rel="preload" as="image" href="assets/images/sentech_logo.webp" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="<?= $assetPrefix ?>assets/images/sentech_logo.webp" type="image/webp" fetchpriority="high">
     <?php 
     endif; 
     ?>
     
     <!-- Optimized Preloaded Tailwind CSS (Single-Pass Layout, Zero Reflow Thrashing) -->
-    <link rel="preload" as="style" href="assets/css/tailwind.min.css?v=<?= file_exists(__DIR__ . '/../assets/css/tailwind.min.css') ? filemtime(__DIR__ . '/../assets/css/tailwind.min.css') : 1 ?>">
-    <link rel="stylesheet" href="assets/css/tailwind.min.css?v=<?= file_exists(__DIR__ . '/../assets/css/tailwind.min.css') ? filemtime(__DIR__ . '/../assets/css/tailwind.min.css') : 1 ?>">
+    <link rel="preload" as="style" href="<?= $assetPrefix ?>assets/css/tailwind.min.css?v=<?= file_exists(__DIR__ . '/../assets/css/tailwind.min.css') ? filemtime(__DIR__ . '/../assets/css/tailwind.min.css') : 1 ?>">
+    <link rel="stylesheet" href="<?= $assetPrefix ?>assets/css/tailwind.min.css?v=<?= file_exists(__DIR__ . '/../assets/css/tailwind.min.css') ? filemtime(__DIR__ . '/../assets/css/tailwind.min.css') : 1 ?>">
     
     <!-- Local Self-Hosted Lucide Icons (Zero Tracking Warnings, 100% Offline Compatible) -->
-    <script src="assets/js/lucide.min.js?v=<?= file_exists(__DIR__ . '/../assets/js/lucide.min.js') ? filemtime(__DIR__ . '/../assets/js/lucide.min.js') : time() ?>" defer></script>
+    <script src="<?= $assetPrefix ?>assets/js/lucide.min.js?v=<?= file_exists(__DIR__ . '/../assets/js/lucide.min.js') ? filemtime(__DIR__ . '/../assets/js/lucide.min.js') : time() ?>" defer></script>
+
+    <?php if ($isInSubdir): ?>
+    <!-- Tailwind Play CDN for Complete Admin Style & Arbitrary Class Coverage -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#1677FF',
+                        dark: '#182230',
+                    }
+                }
+            }
+        };
+    </script>
+    <?php endif; ?>
     
     <style>
       /* Self-Hosted Poppins Fonts (Inlined to eliminate HTTP requests & chaining) */
@@ -219,7 +241,7 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         font-style: normal;
         font-weight: 600;
         font-display: optional;
-        src: url('assets/fonts/poppins_2_pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2') format('woff2');
+        src: url('<?= $assetPrefix ?>assets/fonts/poppins_2_pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2') format('woff2');
         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
       }
       @font-face {
@@ -227,7 +249,7 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         font-style: normal;
         font-weight: 700;
         font-display: optional;
-        src: url('assets/fonts/poppins_5_pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2') format('woff2');
+        src: url('<?= $assetPrefix ?>assets/fonts/poppins_5_pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2') format('woff2');
         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
       }
 

@@ -38,8 +38,35 @@ if (!isset($layoutType)) {
     }
 }
 
-// Blank & Admin : aucun footer public
-if ($layoutType === 'blank' || $layoutType === 'admin') {
+// Blank : aucun footer ni script
+if ($layoutType === 'blank') {
+    return;
+}
+
+// Admin : pas de footer public ni de modals boutique, mais initialisation complète des icônes Lucide et fermeture du DOM
+if ($layoutType === 'admin') {
+    $scriptSelf = $_SERVER['PHP_SELF'] ?? ($_SERVER['SCRIPT_NAME'] ?? '');
+    $assetPrefix = (strpos($scriptSelf, '/admin/') !== false || strpos($scriptSelf, '/seller/') !== false) ? '../' : '';
+    ?>
+    <!-- Admin Interactive Scripts & Lucide Icons -->
+    <script src="<?= $assetPrefix ?>assets/js/lucide.min.js?v=<?= file_exists(__DIR__ . '/../assets/js/lucide.min.js') ? filemtime(__DIR__ . '/../assets/js/lucide.min.js') : time() ?>" defer></script>
+    <script>
+        function initAdminIcons() {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAdminIcons);
+        } else {
+            initAdminIcons();
+        }
+        // Fallback retry after 150ms to ensure defer scripts have executed
+        setTimeout(initAdminIcons, 150);
+    </script>
+    </body>
+    </html>
+    <?php
     return;
 }
 ?>

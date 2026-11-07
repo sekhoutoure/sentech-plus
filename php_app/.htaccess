@@ -1,3 +1,16 @@
+
+# Declarations MIME types pour WebP, polices et assets statiques
+<IfModule mod_mime.c>
+    AddType image/webp .webp
+    AddType image/png .png
+    AddType image/jpeg .jpg .jpeg
+    AddType image/svg+xml .svg
+    AddType font/woff2 .woff2
+    AddType font/woff .woff
+    AddType text/css .css
+    AddType application/javascript .js
+</IfModule>
+
 Options -Indexes
 ServerSignature Off
 
@@ -50,7 +63,7 @@ ErrorDocument 500 /500.php
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
     Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=*"
     Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://app.paydunya.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://fonts.googleapis.com https://fonts.gstatic.com; frame-ancestors 'self'; form-action 'self' https://app.paydunya.com; base-uri 'self';"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.googletagmanager.com https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://app.paydunya.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://fonts.googleapis.com https://fonts.gstatic.com; frame-ancestors 'self'; form-action 'self' https://app.paydunya.com; base-uri 'self';"
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" env=HTTPS
 
 

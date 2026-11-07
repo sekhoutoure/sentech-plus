@@ -177,7 +177,7 @@ function applyGlobalSecurityHeaders(): void {
 
     // Content-Security-Policy stricte & optimisée
     $csp = "default-src 'self'; "
-         . "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://unpkg.com https://cdn.jsdelivr.net; "
+         . "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://www.googletagmanager.com https://unpkg.com https://cdn.jsdelivr.net; "
          . "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
          . "font-src 'self' https://fonts.gstatic.com data:; "
          . "img-src 'self' data: https: blob:; "
