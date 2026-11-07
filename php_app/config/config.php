@@ -581,6 +581,7 @@ function getDBConnection(): ?PDO {
             ];
 
             $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+            ensureAccurateCatalogImages($pdo);
 
         } catch (Throwable $e) {
 
@@ -939,12 +940,110 @@ function getProductImages(mixed $images, string $fallback = 'assets/images/produ
 
 
 /**
+ * Table de correspondance visuelle exacte des produits du catalogue officiel
+ * Corrige toute inversion d'image (ex: montre affichée sur lampe LED ou PS5 sur caméra)
+ */
+function getOfficialProductImageMap(): array {
+    return [
+        'prod_1' => 'assets/images/product_img4.webp',  // Casque Studio Pro Sans Fil ANC
+        'prod_2' => 'assets/images/product_img13.webp', // Montre Connectée Sport V3 AMOLED
+        'prod_3' => 'assets/images/product_img2.webp',  // Enceinte Nomade Bluetooth HD 360°
+        'prod_4' => 'assets/images/product_img9.webp',  // Écouteurs True Wireless Bass+ Pro
+        'prod_5' => 'assets/images/product_img11.webp', // Souris Ergonomique Sans Fil Silence
+        'prod_6' => 'assets/images/product_img7.webp',  // Chargeur Rapide GaN 65W Multi-Port
+        'prod_7' => 'assets/images/product_img15.webp', // Casque Gamer Surround 7.1 RGB Pro
+        'prod_8' => 'assets/images/product_img1.webp',  // Lampe de Bureau LED Tactile avec Induction
+        'prod_9' => 'assets/images/product_img6.webp',  // Caméra de Surveillance Wi-Fi 2K 360°
+    ];
+}
+
+/**
+ * Synchronise automatiquement et de manière idempotente les images des produits et catégories en BDD
+ */
+function ensureAccurateCatalogImages(?PDO $pdo = null): void {
+    if (!$pdo) return;
+    static $synced = false;
+    if ($synced) return;
+    $synced = true;
+
+    try {
+        // Vérifie si prod_8 (Lampe de bureau) pointe encore sur l'ancienne image (product_img13.webp)
+        $stmtCheck = $pdo->query("SELECT images FROM products WHERE id = 'prod_8' LIMIT 1");
+        $currentImg8 = $stmtCheck ? (string)$stmtCheck->fetchColumn() : '';
+        if (strpos($currentImg8, 'product_img13.webp') !== false || strpos($currentImg8, 'product_img1.webp') === false) {
+            $prodMap = getOfficialProductImageMap();
+            $stmtUpdProd = $pdo->prepare("UPDATE products SET images = :imgs WHERE id = :id");
+            foreach ($prodMap as $pid => $imgPath) {
+                $stmtUpdProd->execute([
+                    ':imgs' => json_encode([$imgPath], JSON_UNESCAPED_SLASHES),
+                    ':id'   => $pid
+                ]);
+            }
+
+            $catMap = [
+                'cat_montres'               => 'assets/images/product_img13.webp',
+                'sub_montres_connectees'    => 'assets/images/product_img13.webp',
+                'sub_bracelets_connectes'   => 'assets/images/product_img10.webp',
+                'sub_accessoires_montres'   => 'assets/images/product_img3.webp',
+                'sub_trackers_gadgets'      => 'assets/images/product_img10.webp',
+                'cat_informatique'          => 'assets/images/product_img11.webp',
+                'sub_souris'                => 'assets/images/product_img11.webp',
+                'sub_claviers'              => 'assets/images/product_img11.webp',
+                'sub_supports_laptop'       => 'assets/images/product_img11.webp',
+                'sub_hubs_adaptateurs'      => 'assets/images/product_img7.webp',
+                'sub_stockage_usb'          => 'assets/images/product_img11.webp',
+                'sub_accessoires_pc'        => 'assets/images/product_img11.webp',
+                'cat_gaming'                => 'assets/images/product_img14.webp',
+                'sub_casques_gaming'        => 'assets/images/product_img15.webp',
+                'sub_souris_gaming'         => 'assets/images/product_img11.webp',
+                'sub_claviers_gaming'       => 'assets/images/product_img14.webp',
+                'sub_manettes'              => 'assets/images/product_img14.webp',
+                'sub_supports_console'      => 'assets/images/product_img14.webp',
+                'cat_maison'                => 'assets/images/product_img1.webp',
+                'sub_lampes_led'            => 'assets/images/product_img1.webp',
+                'sub_prises_multiprises'    => 'assets/images/product_img1.webp',
+                'sub_eclairage_deco'        => 'assets/images/product_img16.webp',
+                'sub_accessoires_domotique' => 'assets/images/product_img12.webp',
+                'cat_securite'              => 'assets/images/product_img6.webp',
+                'sub_cameras_wifi'          => 'assets/images/product_img6.webp',
+                'sub_cameras_bebe'          => 'assets/images/product_img6.webp',
+                'sub_mini_cameras'          => 'assets/images/product_img6.webp',
+                'sub_accessoires_surveillance' => 'assets/images/product_img6.webp',
+                'sub_ecouteurs_sans_fil'    => 'assets/images/product_img9.webp',
+                'sub_barres_son'            => 'assets/images/product_img8.webp',
+            ];
+            $stmtUpdCat = $pdo->prepare("UPDATE categories SET image = :img WHERE id = :id");
+            foreach ($catMap as $cid => $cImg) {
+                $stmtUpdCat->execute([':img' => $cImg, ':id' => $cid]);
+            }
+
+            if (class_exists('FastCache')) {
+                FastCache::forget('official_catalog_products');
+                FastCache::forget('global_categories_tree');
+            }
+        }
+    } catch (Throwable $e) {}
+}
+
+/**
 
  * Retourne l'image principale d'un produit (toujours une chaîne URL valide, jamais '[')
 
  */
 
 function getProductMainImage(mixed $productOrImages, string $fallback = 'assets/images/product_img1.webp'): string {
+    if (is_array($productOrImages) && !empty($productOrImages['id'])) {
+        $officialMap = getOfficialProductImageMap();
+        $pid = (string)$productOrImages['id'];
+        if (isset($officialMap[$pid])) {
+            $rawImgs = getProductImages($productOrImages['images'] ?? $productOrImages['image'] ?? '', '');
+            $firstImg = $rawImgs[0] ?? '';
+            // Si l'image est vide ou utilise une image générique product_img*.webp, garantir la bonne correspondance
+            if ($firstImg === '' || str_starts_with($firstImg, 'assets/images/product_img')) {
+                return $officialMap[$pid];
+            }
+        }
+    }
 
     if (is_array($productOrImages) && isset($productOrImages['images'])) {
 
@@ -1732,7 +1831,7 @@ function getAllCategoriesTree(): array {
 
                 'icon' => 'watch',
 
-                'image' => 'assets/images/product_img8.webp',
+                'image' => 'assets/images/product_img13.webp',
 
                 'description' => 'Smartwatches, bracelets sport et suivi de santé quotidien.',
 
@@ -1764,7 +1863,7 @@ function getAllCategoriesTree(): array {
 
                 'icon' => 'laptop',
 
-                'image' => 'assets/images/product_img3.webp',
+                'image' => 'assets/images/product_img11.webp',
 
                 'description' => 'Périphériques, connectique et équipement setup bureautique.',
 
@@ -1800,7 +1899,7 @@ function getAllCategoriesTree(): array {
 
                 'icon' => 'gamepad-2',
 
-                'image' => 'assets/images/product_img6.webp',
+                'image' => 'assets/images/product_img14.webp',
 
                 'description' => 'Équipements haute performance pour joueurs PC, PS5 et Xbox.',
 
@@ -1834,7 +1933,7 @@ function getAllCategoriesTree(): array {
 
                 'icon' => 'zap',
 
-                'image' => 'assets/images/product_img13.webp',
+                'image' => 'assets/images/product_img1.webp',
 
                 'description' => 'Éclairage intelligent, solutions d’alimentation et domotique.',
 
@@ -1868,7 +1967,7 @@ function getAllCategoriesTree(): array {
 
                 'icon' => 'camera',
 
-                'image' => 'assets/images/product_img14.webp',
+                'image' => 'assets/images/product_img6.webp',
 
                 'description' => 'Surveillance vidéo intelligente, caméras Wi-Fi et capteurs de sécurité.',
 
@@ -3666,7 +3765,11 @@ function getProductMediaList(string $productId, ?array $fallbackImages = [], str
 
     if (empty($mediaList)) {
 
+        $officialMap = getOfficialProductImageMap();
         $cleanImgs = !empty($fallbackImages) ? $fallbackImages : ['assets/images/product_img1.webp'];
+        if (isset($officialMap[$productId]) && (empty($cleanImgs[0]) || str_starts_with($cleanImgs[0], 'assets/images/product_img'))) {
+            $cleanImgs[0] = $officialMap[$productId];
+        }
 
         foreach ($cleanImgs as $idx => $imgPath) {
 
@@ -3809,6 +3912,140 @@ function deleteProductMedia(int $mediaId): bool {
 }
 
 
+
+/**
+ * Génère le contenu dynamique interne du Cart Drawer (Body + Footer)
+ * Utilisé au chargement initial (cart_drawer.php) ET lors des mises à jour AJAX (cart.php)
+ */
+function renderCartDrawerDynamicContent(): string {
+    $cartItems = getCartItems();
+    $productsInCart = [];
+    $totalPrice = 0;
+
+    if (!empty($cartItems)) {
+        try {
+            $pdo = getDBConnection();
+            if ($pdo) {
+                $placeholders = implode(',', array_fill(0, count($cartItems), '?'));
+                $stmt = $pdo->prepare("SELECT * FROM products WHERE id IN ($placeholders)");
+                $stmt->execute(array_keys($cartItems));
+                $fetched = $stmt->fetchAll();
+
+                foreach ($fetched as $p) {
+                    $qty = (int)($cartItems[$p['id']] ?? 1);
+                    $itemTotal = (float)$p['price'] * $qty;
+                    $totalPrice += $itemTotal;
+                    $p['cart_quantity'] = $qty;
+                    $p['item_total'] = $itemTotal;
+                    $p['main_image'] = getProductMainImage($p, 'assets/images/product_img1.webp');
+                    $productsInCart[] = $p;
+                }
+            }
+        } catch (Throwable $e) {
+            $productsInCart = [];
+        }
+    }
+
+    ob_start();
+    ?>
+    <!-- Drawer Body / Cart Items -->
+    <div class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4 bg-[#F3F7FC]/30">
+        <?php if (empty($productsInCart)): ?>
+            <div class="h-full flex flex-col items-center justify-center text-center text-[#667085] py-12">
+                <div class="w-20 h-20 bg-[#EAF3FF] text-[#1677FF] rounded-full flex items-center justify-center mb-6">
+                    <i data-lucide="shopping-bag" class="w-10 h-10 stroke-1"></i>
+                </div>
+                <p class="text-xl font-extrabold text-[#182230] mb-2">Votre panier est vide</p>
+                <p class="text-sm text-[#667085] max-w-[250px] mx-auto mb-8">Découvrez nos équipements high-tech certifiés et faites-vous plaisir !</p>
+                <a href="shop.php" onclick="toggleCartDrawer(false)" class="cursor-pointer px-6 py-3 bg-[#1677FF] hover:bg-[#0B54C2] text-white font-bold text-sm rounded-xl transition-all duration-200 active:scale-[0.97] shadow-md inline-flex items-center gap-2">
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    <span>Continuer les achats</span>
+                </a>
+            </div>
+        <?php else: ?>
+            <div class="space-y-3.5">
+                <?php foreach ($productsInCart as $item): 
+                    $maxStock = max(1, (int)($item['stock'] ?? 15));
+                    $qty = (int)$item['cart_quantity'];
+                ?>
+                    <div class="flex gap-3.5 p-3.5 bg-white rounded-2xl border border-[#E8EDF3] shadow-2xs hover:border-[#1677FF]/30 transition-colors">
+                        <!-- Image -->
+                        <a href="product.php?id=<?= urlencode($item['id']) ?>" class="w-18 h-18 sm:w-20 sm:h-20 bg-[#F8FAFD] rounded-xl p-2 flex items-center justify-center border border-[#E8EDF3] shrink-0 overflow-hidden">
+                            <img src="<?= htmlspecialchars($item['main_image']) ?>" alt="<?= htmlspecialchars($item['name']) ?> - SenTechPLUS" width="76" height="76" loading="eager" decoding="async" style="width:100%;height:100%;aspect-ratio:1/1;object-fit:contain;" class="max-w-full max-h-full object-contain">
+                        </a>
+                        
+                        <div class="flex-1 flex flex-col justify-between min-w-0">
+                            <div class="flex justify-between items-start gap-2">
+                                <h4 class="font-bold text-[#182230] text-xs sm:text-sm line-clamp-1 flex-1">
+                                    <a href="product.php?id=<?= urlencode($item['id']) ?>" class="hover:text-[#1677FF] transition-colors"><?= htmlspecialchars($item['name']) ?></a>
+                                </h4>
+                                <!-- Bouton Supprimer AJAX -->
+                                <form action="cart.php" method="POST" enctype="application/x-www-form-urlencoded" class="shrink-0">
+                                    <?= getCSRFInputField() ?>
+                                    <input type="hidden" name="action" value="remove">
+                                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($item['id']) ?>">
+                                    <button type="submit" class="text-[#667085] hover:text-rose-600 hover:bg-rose-50 rounded-lg p-1.5 transition-all active:scale-90 cursor-pointer" title="Retirer" aria-label="Retirer du panier">
+                                        <i data-lucide="x" class="w-4 h-4"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            
+                            <p class="text-[11px] font-bold text-[#667085] mt-0.5"><?= formatPrice($item['price']) ?> / unité</p>
+                            
+                            <div class="flex items-center justify-between mt-2">
+                                <!-- Stepper Quantité Tactile -->
+                                <div class="inline-flex items-center border border-[#E8EDF3] rounded-xl bg-[#F8FAFD] p-0.5">
+                                    <form action="cart.php" method="POST" enctype="application/x-www-form-urlencoded" class="inline">
+                                        <?= getCSRFInputField() ?>
+                                        <input type="hidden" name="action" value="update">
+                                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($item['id']) ?>">
+                                        <input type="hidden" name="quantity" value="<?= max(0, $qty - 1) ?>">
+                                        <button type="submit" class="cursor-pointer w-6 h-6 flex items-center justify-center text-[#182230] hover:bg-white rounded-lg transition-all active:scale-90 text-xs font-bold" aria-label="Diminuer">−</button>
+                                    </form>
+                                    <span class="w-6 text-center text-xs font-extrabold text-[#182230] select-none"><?= $qty ?></span>
+                                    <form action="cart.php" method="POST" enctype="application/x-www-form-urlencoded" class="inline">
+                                        <?= getCSRFInputField() ?>
+                                        <input type="hidden" name="action" value="update">
+                                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($item['id']) ?>">
+                                        <input type="hidden" name="quantity" value="<?= min($maxStock, $qty + 1) ?>">
+                                        <button type="submit" <?= $qty >= $maxStock ? 'disabled' : '' ?> class="cursor-pointer w-6 h-6 flex items-center justify-center text-[#182230] hover:bg-white rounded-lg transition-all active:scale-90 text-xs font-bold disabled:opacity-30" aria-label="Augmenter">+</button>
+                                    </form>
+                                </div>
+                                <p class="text-xs sm:text-sm font-black text-[#182230]"><?= formatPrice($item['item_total']) ?></p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <!-- Drawer Footer / Summary -->
+    <?php if (!empty($productsInCart)): ?>
+        <div class="p-5 sm:p-6 border-t border-[#E8EDF3] bg-white space-y-4">
+            <div class="flex items-center justify-between">
+                <span class="font-extrabold text-[#64748B] text-xs uppercase tracking-wider">Total estimé</span>
+                <span class="text-xl font-black text-[#1677FF]"><?= formatPrice($totalPrice) ?></span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+                <a href="cart.php" class="cursor-pointer py-3 px-2.5 bg-[#F8FAFD] hover:bg-[#F1F5F9] text-[#1D1D1F] font-bold text-xs rounded-2xl text-center border border-slate-200 transition-all active:scale-[0.97] flex justify-center items-center gap-1.5 shadow-2xs">
+                    <i data-lucide="shopping-bag" class="w-4 h-4 text-[#64748B]"></i>
+                    <span>Voir le Panier</span>
+                </a>
+                <a href="checkout.php" style="background-color: #1677FF !important; color: #ffffff !important;" class="cursor-pointer py-3 px-2.5 bg-[#1677FF] hover:bg-[#0B54C2] text-white font-extrabold text-xs sm:text-sm rounded-2xl text-center shadow-[0_4px_16px_rgba(22,119,255,0.25)] transition-all active:scale-[0.97] flex justify-center items-center gap-1.5">
+                    <span>Commander</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-white"></i>
+                </a>
+            </div>
+            <button type="button" onclick="toggleCartDrawer(false)" class="cursor-pointer w-full py-1 text-[#64748B] hover:text-[#182230] font-bold text-xs text-center transition-colors">
+                ← Continuer mes achats
+            </button>
+        </div>
+    <?php endif; ?>
+    <?php
+    return (string)ob_get_clean();
+}
 
 // ─── Services de Paiement & Notifications SMS Automatisées ─────────────────
 

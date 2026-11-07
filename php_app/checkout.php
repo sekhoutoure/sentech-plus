@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $smsMsg = buildSMSMessage('order_created', [
                             'id'            => $order['order_number'] ?? $order['id'] ?? 'ST-NEW',
                             'name'          => $firstName . ' ' . $lastName,
-                            'total'         => $orderTotals['final_total'] ?? 0,
+                            'total'         => $orderTotals['total'] ?? $orderTotals['final_total'] ?? 0,
                             'shipping_zone' => $city ?: ($region ?: 'Dakar')
                         ]);
                         sendSMSNotification($phone, $smsMsg, 'order_created', ['order_id' => $order['id'] ?? $order['order_number'] ?? null]);

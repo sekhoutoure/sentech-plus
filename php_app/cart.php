@@ -92,7 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'cart_count' => getCartCount(),
                 'subtotal' => formatPrice($cartTotals['subtotal']),
                 'discount' => formatPrice($cartTotals['discount_total']),
-                'total' => formatPrice($cartTotals['total'])
+                'total' => formatPrice($cartTotals['total']),
+                'drawer_html' => renderCartDrawerDynamicContent()
             ]);
             exit;
         }

@@ -188,11 +188,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const form = e.target;
         if (!form || !form.action) return;
 
-        // Intercept Cart Additions
+        // Intercept Cart Additions & Drawer Live Updates/Removals
         if (form.action.includes('cart.php')) {
             const formData = new FormData(form);
             const action = formData.get('action');
-            if (action === 'add') {
+            const isInsideDrawer = !!form.closest('#cart-drawer-overlay');
+
+            if (action === 'add' || (isInsideDrawer && (action === 'remove' || action === 'update'))) {
                 e.preventDefault();
                 
                 const submitBtn = form.querySelector('button[type="submit"]');
@@ -214,25 +216,49 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(data => {
                     if (data.success) {
                         // Badge Micro-Bounce on all cart badges
-                        document.querySelectorAll('.cart-count-badge, #cart-drawer-count').forEach(badge => {
+                        document.querySelectorAll('.cart-count-badge, #cart-drawer-count, #nav-cart-count').forEach(badge => {
                             badge.textContent = data.cart_count;
+                            if (badge.id !== 'cart-drawer-count') {
+                                if (data.cart_count > 0) {
+                                    badge.classList.remove('hidden');
+                                    badge.style.display = 'flex';
+                                } else {
+                                    badge.classList.add('hidden');
+                                    badge.style.display = 'none';
+                                }
+                            }
                             badge.classList.remove('animate-badge-pop');
                             void badge.offsetWidth; // Trigger reflow for animation restart
                             badge.classList.add('animate-badge-pop');
                         });
 
+                        // Synchronize Cart Drawer DOM in real-time
+                        if (data.drawer_html) {
+                            const drawerDynamic = document.getElementById('cart-drawer-dynamic-content');
+                            if (drawerDynamic) {
+                                drawerDynamic.innerHTML = data.drawer_html;
+                                if (typeof lucide !== 'undefined') {
+                                    lucide.createIcons({ root: drawerDynamic, skipHidden: false });
+                                }
+                            }
+                        }
+
                         // Discreet Toast without auto-opening drawer
-                        showToast(data.message || 'Produit ajouté à votre panier !', 'success');
-                        closeQuickViewModal();
+                        if (action === 'add') {
+                            showToast(data.message || 'Produit ajouté à votre panier ✓', 'success');
+                            closeQuickViewModal();
+                        } else if (action === 'remove') {
+                            showToast('Article retiré du panier', 'info');
+                        }
                     } else {
-                        showToast(data.message || 'Erreur lors de l\'ajout au panier', 'error');
+                        showToast(data.message || 'Erreur lors de la mise à jour du panier', 'error');
                     }
                 })
                 .catch(() => {
-                    showToast('Produit ajouté à votre panier !', 'success');
+                    if (action === 'add') showToast('Produit ajouté à votre panier ✓', 'success');
                 })
                 .finally(() => {
-                    if (submitBtn) {
+                    if (submitBtn && document.body.contains(submitBtn)) {
                         submitBtn.disabled = false;
                         submitBtn.style.opacity = '1';
                         submitBtn.innerHTML = origHtml;

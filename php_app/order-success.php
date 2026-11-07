@@ -113,7 +113,7 @@ require_once __DIR__ . '/includes/navbar.php';
                     <p class="text-xs font-bold text-[#182230]">Profitez de <strong>-10% de remise</strong> sur votre prochaine commande avec le code :</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <span class="font-mono font-black text-sm px-3 py-1.5 bg-white border border-[#1677FF] text-[#1677FF] rounded-xl select-all">SENTECH-VIP10</span>
+                    <button type="button" onclick="if(navigator.clipboard){navigator.clipboard.writeText('SENTECH-VIP10');} if(typeof showToast==='function'){showToast('Code promo SENTECH-VIP10 copié !','success');} this.textContent='✓ COPIÉ !';" class="cursor-pointer font-mono font-black text-sm px-3.5 py-1.5 bg-white hover:bg-[#1677FF] text-[#1677FF] hover:text-white border border-[#1677FF] rounded-xl transition-all active:scale-95 shadow-2xs" title="Cliquer pour copier">SENTECH-VIP10</button>
                 </div>
             </div>
 

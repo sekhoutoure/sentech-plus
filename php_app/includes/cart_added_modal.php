@@ -1,7 +1,7 @@
 <!-- =============================================================================
      POP-UP MODALE : CONFIRMATION AJOUT AU PANIER (SenTechPLUS High-Conversion)
      ============================================================================= -->
-<div id="cart-added-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-200" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="cam-title" onclick="closeCartAddedModal()">
+<div id="cart-added-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-200" style="display: none; z-index: 100000 !important;" role="dialog" aria-modal="true" aria-labelledby="cam-title" onclick="closeCartAddedModal()">
     <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-100 w-full max-w-md space-y-4 animate-fade-in relative text-left" onclick="event.stopPropagation()">
         
         <!-- Header : Succès + Titre + Bouton Fermer -->
@@ -58,7 +58,7 @@
 
         <!-- Boutons d'Action Clairs -->
         <div class="space-y-2 pt-1">
-            <a href="cart" class="w-full py-3.5 px-4 rounded-2xl bg-[#0B54C2] hover:bg-[#09449E] active:scale-[0.99] text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xs transition-all text-center cursor-pointer">
+            <a href="cart.php" class="w-full py-3.5 px-4 rounded-2xl bg-[#0B54C2] hover:bg-[#09449E] active:scale-[0.99] text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xs transition-all text-center cursor-pointer">
                 <i data-lucide="shopping-bag" class="w-4 h-4"></i>
                 <span>Voir le Panier & Commander</span>
             </a>

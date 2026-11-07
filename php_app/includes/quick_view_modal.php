@@ -1,5 +1,5 @@
 <!-- Quick View Modal Component (Emil Kowalski & Apple Design Principles) -->
-<div id="quickview-modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 glass-overlay anim-modal-overlay">
+<div id="quickview-modal-overlay" style="z-index: 100000 !important;" class="fixed inset-0 flex items-center justify-center p-3 sm:p-6 glass-overlay anim-modal-overlay">
     <div onclick="closeQuickViewModal()" class="absolute inset-0 cursor-pointer"></div>
 
     <div class="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/70 z-10 anim-modal-dialog origin-center pointer-events-auto">

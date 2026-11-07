@@ -1096,7 +1096,7 @@ require_once __DIR__ . '/includes/navbar.php';
 </div>
 
 <!-- ─── 10. PRODUCT LIGHTBOX MODAL ────────────────────────────────────────── -->
-<div id="product-lightbox" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden flex-col justify-between p-4 sm:p-6 select-none" role="dialog" aria-modal="true">
+<div id="product-lightbox" style="z-index: 100000 !important;" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden flex-col justify-between p-4 sm:p-6 select-none" role="dialog" aria-modal="true">
     <div class="flex items-center justify-between text-white text-xs max-w-4xl w-full mx-auto">
         <span id="lightbox-counter" class="font-mono bg-white/10 px-3 py-1 rounded-full font-bold">1 / <?= count($productMedia) ?></span>
         <span id="lightbox-title" class="font-bold truncate max-w-xs sm:max-w-md"><?= htmlspecialchars($product['name']) ?></span>
@@ -1430,16 +1430,29 @@ function addProductToCartAjax(btn, productId) {
     })
     .then(res => res.json())
     .then(data => {
-        // 1. Update all cart count badges in header
+        // 1. Update all cart count badges in header & drawer
         if (data && data.cart_count !== undefined) {
             document.querySelectorAll('.cart-count-badge, #cart-drawer-count, #nav-cart-count').forEach(b => {
                 b.textContent = data.cart_count;
-                b.classList.remove('hidden');
-                b.style.display = 'flex';
+                if (b.id !== 'cart-drawer-count') {
+                    b.classList.remove('hidden');
+                    b.style.display = 'flex';
+                }
                 b.classList.remove('animate-badge-pop');
                 void b.offsetWidth;
                 b.classList.add('animate-badge-pop');
             });
+        }
+
+        // 1.5. Live-sync Cart Drawer DOM so opening the drawer shows the exact items without reload
+        if (data && data.drawer_html) {
+            const drawerDynamic = document.getElementById('cart-drawer-dynamic-content');
+            if (drawerDynamic) {
+                drawerDynamic.innerHTML = data.drawer_html;
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons({ root: drawerDynamic, skipHidden: false });
+                }
+            }
         }
 
         // 2. Button inline micro-interaction feedback (✓ Ajouté !)
