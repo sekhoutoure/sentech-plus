@@ -2105,7 +2105,23 @@ function getProductSpecs(string $productId, ?string $rawDescription = null): arr
 
             } else {
 
-                $specs[] = ['spec_key' => 'Caractéristique', 'spec_value' => $p];
+                $guessedKey = 'Caractéristique';
+                if (preg_match('/\b(audio|son|watts?|\d+w\b|bass|sonore|stéréo|haut-parleur)/i', $p)) {
+                    $guessedKey = 'Audio / Puissance';
+                } elseif (preg_match('/\b(ipx\d*|étanche|waterproof|immersion|résistance|résistant)/i', $p)) {
+                    $guessedKey = 'Étanchéité';
+                } elseif (preg_match('/\b(autonomie|\d+h\b|heures?)/i', $p)) {
+                    $guessedKey = 'Autonomie';
+                } elseif (preg_match('/\b(powerbank|batterie|mah|charge|recharge)/i', $p)) {
+                    $guessedKey = 'Batterie & Charge';
+                } elseif (preg_match('/\b(bluetooth|wi-?fi|sans fil|portée|connexion|connectivité)/i', $p)) {
+                    $guessedKey = 'Connectivité';
+                } elseif (preg_match('/\b(finition|tissu|aluminium|poids|dimensions?|boîtier|conception)/i', $p)) {
+                    $guessedKey = 'Conception & Matériaux';
+                } elseif (preg_match('/\b(garantie|garanti|sav)/i', $p)) {
+                    $guessedKey = 'Garantie';
+                }
+                $specs[] = ['spec_key' => $guessedKey, 'spec_value' => $p];
 
             }
 

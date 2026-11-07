@@ -107,6 +107,15 @@ if (is_array($rawSpecs)) {
             }
         } elseif (is_string($item) || is_numeric($item)) {
             $label = is_string($k) ? $k : 'Caractéristique';
+            if ($label === 'Caractéristique') {
+                $valStr = (string)$item;
+                if (preg_match('/\b(audio|son|\d+w\b|bass|sonore|stéréo)/i', $valStr)) $label = 'Audio / Puissance';
+                elseif (preg_match('/\b(ipx\d*|étanche|waterproof)/i', $valStr)) $label = 'Étanchéité';
+                elseif (preg_match('/\b(autonomie|\d+h\b)/i', $valStr)) $label = 'Autonomie';
+                elseif (preg_match('/\b(powerbank|batterie|mah|charge)/i', $valStr)) $label = 'Batterie & Charge';
+                elseif (preg_match('/\b(bluetooth|wi-?fi|sans fil)/i', $valStr)) $label = 'Connectivité';
+                elseif (preg_match('/\b(finition|tissu|aluminium)/i', $valStr)) $label = 'Conception';
+            }
             $cleanSpecs[] = ['label' => (string)$label, 'value' => (string)$item];
         }
     }
@@ -343,7 +352,7 @@ require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 
-<main id="main-content" class="max-w-[1280px] mx-auto px-3 sm:px-6 py-3 sm:py-6 pb-28 lg:pb-12 flex-1 space-y-4 sm:space-y-6 overflow-x-hidden min-w-0">
+<main id="main-content" class="max-w-[1280px] mx-auto px-3 sm:px-6 py-3 sm:py-6 pb-36 lg:pb-16 flex-1 space-y-4 sm:space-y-6 overflow-x-hidden min-w-0">
 
     <!-- Responsive Breadcrumb Navigation & Mobile Back Action -->
     <nav aria-label="Fil d'Ariane" class="flex text-xs font-semibold text-[#667085] items-center justify-between gap-2 max-w-full overflow-hidden">
@@ -525,7 +534,7 @@ require_once __DIR__ . '/includes/navbar.php';
                         <span>🎟️</span>
                         <span class="text-[#64748B]">Code Promo : <strong class="text-[#1D1D1F]">SENTECH5</strong> <span class="text-[#1677FF] font-bold">(-5% dès 20 000 FCFA)</span></span>
                     </div>
-                    <button type="button" onclick="copyCouponCode('SENTECH5', this)" class="cursor-pointer text-xs font-bold text-[#1677FF] hover:underline px-2 py-0.5 rounded-lg hover:bg-white transition-all shrink-0">
+                    <button type="button" onclick="copyCouponCode('SENTECH5', this)" class="cursor-pointer text-xs font-bold text-[#1677FF] hover:bg-white active:scale-[0.97] px-2.5 py-1 rounded-lg border border-transparent hover:border-slate-200 transition-all duration-150 ease-out shrink-0">
                         Copier
                     </button>
                 </div>
@@ -714,15 +723,18 @@ require_once __DIR__ . '/includes/navbar.php';
             </span>
         </div>
 
-        <!-- Structured Key-Value Specifications Table -->
+        <!-- Structured Key-Value Specifications Table (Emil Kowalski Clean Grid) -->
         <?php if (!empty($cleanSpecs)): ?>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                 <?php foreach ($cleanSpecs as $specItem): 
                     if (empty($specItem['label']) || empty($specItem['value'])) continue;
                 ?>
-                    <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-xl bg-[#F8FAFD] border border-[#E8EDF3]">
-                        <span class="font-bold text-[#64748B] shrink-0 mr-2"><?= htmlspecialchars($specItem['label']) ?></span>
-                        <span class="font-black text-[#182230] text-right truncate max-w-[200px]"><?= htmlspecialchars($specItem['value']) ?></span>
+                    <div class="flex items-center justify-between p-2.5 sm:p-3 rounded-2xl bg-[#F8FAFD] border border-[#E8EDF3] hover:border-[#CBD5E1] transition-colors">
+                        <span class="font-bold text-[#64748B] text-[11px] sm:text-xs shrink-0 mr-2 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#1677FF]/60 shrink-0"></span>
+                            <?= htmlspecialchars($specItem['label']) ?>
+                        </span>
+                        <span class="font-black text-[#0F172A] text-right truncate max-w-[210px]"><?= htmlspecialchars($specItem['value']) ?></span>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -750,7 +762,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 <i data-lucide="star" class="w-4 h-4 text-amber-500 fill-amber-500"></i>
                 <span>Avis & Évaluations Clients</span>
             </h2>
-            <button type="button" onclick="document.getElementById('review-form-container').classList.toggle('hidden')" class="cursor-pointer text-xs font-bold text-[#1677FF] hover:text-[#0F67E5] flex items-center gap-1.5 bg-[#EAF3FF] px-3 py-1.5 rounded-full transition-colors">
+            <button type="button" onclick="document.getElementById('review-form-container').classList.toggle('hidden')" class="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 text-xs font-bold text-[#1677FF] hover:text-[#0F67E5] bg-[#EAF3FF] hover:bg-[#DCEBFF] active:scale-[0.97] px-3.5 py-1.5 rounded-xl transition-all duration-150 ease-out cursor-pointer shadow-2xs">
                 <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
                 <span>Donner mon avis</span>
             </button>
@@ -805,15 +817,20 @@ require_once __DIR__ . '/includes/navbar.php';
             </form>
         </div>
 
-        <!-- Horizontal Photo Review Cards -->
+        <!-- Horizontal Photo Review Cards (Emil Tactile Squircle Gallery) -->
         <div class="flex items-center gap-2.5 overflow-x-auto pb-2 no-scrollbar max-w-full">
             <?php foreach ($reviews as $rev): 
                 $rPhoto = $rev['photo'] ?? $mainImg;
             ?>
-                <div class="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden border border-[#E8EDF3] bg-[#F8FAFC]">
+                <div class="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden border border-[#E2E8F0] bg-[#F8FAFC] shadow-2xs group cursor-pointer active:scale-95 transition-transform duration-150 ease-out">
                     <img src="<?= htmlspecialchars($rPhoto) ?>" alt="Avis client - SenTechPLUS" width="112" height="112" loading="lazy" style="aspect-ratio:1/1;" class="w-full h-full object-cover">
-                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-1.5 text-center">
-                        <span class="text-[10px] font-black text-amber-400">★ <?= (float)($rev['rating'] ?? 5) ?></span>
+                    <div class="absolute bottom-1.5 left-1.5 right-1.5 flex items-center justify-between">
+                        <span class="backdrop-blur-md bg-black/60 text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5 shadow-xs">
+                            <span class="text-amber-400">★</span> <?= (float)($rev['rating'] ?? 5) ?>
+                        </span>
+                        <span class="backdrop-blur-md bg-emerald-600/85 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-full">
+                            ✓ Vérifié
+                        </span>
                     </div>
                 </div>
             <?php endforeach; ?>
