@@ -64,7 +64,7 @@ if ($layoutType === 'auth'): ?>
             <a href="contact.php" class="hover:text-[#1677FF]">Assistance</a>
         </div>
     </footer>
-    <script src="assets/js/app.min.js?v=3.9" defer></script>
+    <script src="assets/js/app.min.js?v=4.0" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -108,7 +108,7 @@ if ($layoutType === 'checkout'): ?>
 
         </div>
     </footer>
-    <script src="assets/js/app.min.js?v=3.9" defer></script>
+    <script src="assets/js/app.min.js?v=4.0" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -426,7 +426,7 @@ function toggleFooterAccordion(id) {
 <?php endif; ?>
 
 <!-- Interactive Scripts -->
-<script src="assets/js/app.min.js?v=3.9" defer></script>
+<script src="assets/js/app.min.js?v=4.0" defer></script>
 <script>
     function initIcons() {
         if (typeof lucide !== 'undefined') {

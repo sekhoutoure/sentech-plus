@@ -303,6 +303,15 @@ document.addEventListener('DOMContentLoaded', function() {
             return dropdown;
         };
 
+        const highlightTokens = (text, q) => {
+            if (!q || !text) return text;
+            const terms = q.trim().split(/\s+/).filter(t => t.length > 0);
+            if (terms.length === 0) return text;
+            const escaped = terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+            const regex = new RegExp(`(${escaped})`, 'gi');
+            return text.replace(regex, '<mark class="bg-blue-100 text-blue-700 font-extrabold rounded px-0.5">$1</mark>');
+        };
+
         const renderItems = (payload, query) => {
             const dd = getDropdown();
             
@@ -332,11 +341,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                             <div class="space-y-1">
                                 <p class="text-xs font-bold text-[#1D1D1F]">Aucun équipement pour "${query}"</p>
-                                <p class="text-[11px] text-[#64748B]">Vérifiez l'orthographe ou contactez notre conciergerie WhatsApp express.</p>
+                                <p class="text-[11px] text-[#64748B]">Vérifiez l'orthographe ou demandez directement à nos conseillers tech.</p>
                             </div>
                             <div class="pt-2 flex items-center justify-center gap-2">
-                                <a href="shop.php" class="px-3 py-1.5 rounded-xl bg-[#F1F3F7] hover:bg-[#1677FF] hover:text-white text-xs font-bold text-[#1D1D1F] transition-all">Tous les produits</a>
-                                <a href="https://wa.me/221781316497?text=Bonjour,%20je%20cherche%20${encodeURIComponent(query)}" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+                                <a href="shop.php" class="search-pill-btn px-3 py-1.5 rounded-xl bg-[#F1F3F7] hover:bg-[#1677FF] hover:text-white text-xs font-bold text-[#1D1D1F] transition-all">Tous les produits</a>
+                                <a href="https://wa.me/221781316497?text=Bonjour,%20je%20cherche%20${encodeURIComponent(query)}" target="_blank" rel="noopener" class="search-pill-btn px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
                                     <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
                                     <span>Demander sur WhatsApp</span>
                                 </a>
@@ -363,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </span>
                         <div class="flex flex-wrap gap-1.5">
                             ${popular.map(term => `
-                                <a href="search.php?q=${encodeURIComponent(term)}" class="px-2.5 py-1 rounded-full bg-[#F8FAFD] hover:bg-[#1677FF] hover:text-white border border-[#E2E8F0] hover:border-[#1677FF] text-[11px] font-bold text-[#344054] transition-all flex items-center gap-1">
+                                <a href="search.php?q=${encodeURIComponent(term)}" class="search-pill-btn px-2.5 py-1 rounded-full bg-[#F8FAFD] hover:bg-[#1677FF] hover:text-white border border-[#E2E8F0] hover:border-[#1677FF] text-[11px] font-bold text-[#344054] transition-all flex items-center gap-1">
                                     <i data-lucide="search" class="w-2.5 h-2.5 opacity-60"></i>
                                     <span>${term}</span>
                                 </a>
@@ -373,16 +382,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
             }
 
-            // 1. Rayons & Catégories Suggérés (si présents)
+            // 1. Rayons & Catégories Suggérés
             if (categories.length > 0) {
                 html += `
                     <div class="pb-1.5 border-b border-[#F1F3F7]">
                         <span class="text-[10px] font-black text-[#64748B] uppercase tracking-wider block px-1 mb-1.5">Rayons correspondants</span>
                         <div class="flex flex-wrap gap-1.5">
                             ${categories.map(c => `
-                                <a href="search.php?category=${encodeURIComponent(c.slug || c.name)}" class="px-2.5 py-1 rounded-xl bg-[#F1F3F7] hover:bg-[#1677FF] hover:text-white text-xs font-bold text-[#1D1D1F] transition-all flex items-center gap-1.5">
+                                <a href="search.php?category=${encodeURIComponent(c.slug || c.name)}" class="search-pill-btn px-2.5 py-1 rounded-xl bg-[#F1F3F7] hover:bg-[#1677FF] hover:text-white text-xs font-bold text-[#1D1D1F] transition-all flex items-center gap-1.5">
                                     <i data-lucide="${c.icon || 'tag'}" class="w-3 h-3"></i>
-                                    <span>${c.name}</span>
+                                    <span>${highlightTokens(c.name, query)}</span>
                                 </a>
                             `).join('')}
                         </div>
@@ -397,8 +406,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="text-[10px] font-black text-[#64748B] uppercase tracking-wider block px-1 mb-1.5">Marques Officielles</span>
                         <div class="flex flex-wrap gap-1.5">
                             ${brands.map(b => `
-                                <a href="search.php?brand=${encodeURIComponent(b)}" class="px-2.5 py-1 rounded-xl bg-[#1D1D1F] hover:bg-[#1677FF] text-white text-xs font-bold transition-all">
-                                    ${b}
+                                <a href="search.php?brand=${encodeURIComponent(b)}" class="search-pill-btn px-2.5 py-1 rounded-xl bg-[#1D1D1F] hover:bg-[#1677FF] text-white text-xs font-bold transition-all">
+                                    ${highlightTokens(b, query)}
                                 </a>
                             `).join('')}
                         </div>
@@ -406,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
             }
 
-            // 3. Produits trouvés
+            // 3. Produits trouvés avec mise en valeur et bouton direct d'ajout
             if (products.length > 0) {
                 const headerTitle = query.length === 0 
                     ? 'Indispensables & Tendances à Dakar 🔥' 
@@ -415,26 +424,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 html += `<div class="px-1 text-[10px] font-black text-[#64748B] uppercase tracking-wider pt-0.5">${headerTitle}</div>`;
                 
                 products.forEach((item, idx) => {
+                    const highlightedName = highlightTokens(item.name, query);
                     html += `
-                        <a href="product.php?id=${encodeURIComponent(item.id)}" data-index="${idx}" class="search-result-item flex items-center gap-3 p-2.5 hover:bg-[#F0F6FF] rounded-2xl transition-all group cursor-pointer border border-transparent hover:border-[#1677FF]/15">
-                            <div class="w-12 h-12 rounded-xl bg-[#F8FAFD] p-1 border border-[#E8EDF3] flex items-center justify-center shrink-0 overflow-hidden">
-                                <img src="${item.image}" width="44" height="44" loading="lazy" class="max-w-full max-h-full object-contain transform group-hover:scale-105 transition-transform" alt="${item.name}">
-                            </div>
-                            <div class="flex-1 min-w-0 text-left">
-                                <p class="text-xs font-bold text-[#1D1D1F] group-hover:text-[#1677FF] truncate">${item.name}</p>
-                                <div class="flex items-center gap-2 mt-0.5">
-                                    <span class="text-[9px] font-bold text-[#1677FF] bg-[#1677FF]/10 px-2 py-0.5 rounded-full">${item.category}</span>
-                                    ${item.brand ? `<span class="text-[10px] text-[#64748B] font-bold uppercase">${item.brand}</span>` : ''}
-                                    <span class="text-[9px] font-bold ${item.in_stock ? 'text-emerald-700' : 'text-slate-400'}">• ${item.in_stock ? 'En stock' : 'Rupture'}</span>
+                        <div data-index="${idx}" class="search-result-item flex items-center justify-between gap-3 p-2.5 hover:bg-[#F0F6FF] rounded-2xl transition-all group cursor-pointer border border-transparent hover:border-[#1677FF]/15">
+                            <a href="product.php?id=${encodeURIComponent(item.id)}" class="flex items-center gap-3 min-w-0 flex-1">
+                                <div class="w-12 h-12 rounded-xl bg-[#F8FAFD] p-1 border border-[#E8EDF3] flex items-center justify-center shrink-0 overflow-hidden">
+                                    <img src="${item.image}" width="44" height="44" loading="lazy" class="max-w-full max-h-full object-contain transform group-hover:scale-105 transition-transform" alt="${item.name}">
                                 </div>
+                                <div class="min-w-0 flex-1 text-left">
+                                    <p class="text-xs font-bold text-[#1D1D1F] group-hover:text-[#1677FF] truncate">${highlightedName}</p>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="text-[9px] font-bold text-[#1677FF] bg-[#1677FF]/10 px-2 py-0.5 rounded-full">${item.category}</span>
+                                        ${item.brand ? `<span class="text-[10px] text-[#64748B] font-bold uppercase">${item.brand}</span>` : ''}
+                                        <span class="text-[9px] font-bold ${item.in_stock ? 'text-emerald-700' : 'text-slate-400'}">• ${item.in_stock ? 'En stock' : 'Rupture'}</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="text-right shrink-0 flex items-center gap-2">
+                                <div>
+                                    <span class="text-xs font-black text-[#1D1D1F] block">${item.formatted_price}</span>
+                                    <span class="text-[9px] font-semibold text-amber-600 flex items-center justify-end gap-0.5 mt-0.5">
+                                        <i data-lucide="zap" class="w-2.5 h-2.5"></i> H+2
+                                    </span>
+                                </div>
+                                ${item.in_stock ? `
+                                    <form action="cart.php" method="POST" class="inline shrink-0">
+                                        <input type="hidden" name="csrf_token" value="${window.csrfToken || ''}">
+                                        <input type="hidden" name="action" value="add">
+                                        <input type="hidden" name="product_id" value="${item.id}">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button type="submit" class="w-8 h-8 rounded-xl bg-[#EAF3FF] hover:bg-[#1677FF] text-[#1677FF] hover:text-white flex items-center justify-center transition-all active:scale-90 shadow-2xs" title="Ajouter au panier" aria-label="Ajouter au panier">
+                                            <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i>
+                                        </button>
+                                    </form>
+                                ` : ''}
                             </div>
-                            <div class="text-right shrink-0">
-                                <span class="text-xs font-black text-[#1D1D1F] block">${item.formatted_price}</span>
-                                <span class="text-[9px] font-semibold text-amber-600 flex items-center justify-end gap-0.5 mt-0.5">
-                                    <i data-lucide="zap" class="w-2.5 h-2.5"></i> H+2
-                                </span>
-                            </div>
-                        </a>
+                        </div>
                     `;
                 });
             }
@@ -443,7 +468,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (query.length > 0) {
                 html += `
                     <div class="pt-2 mt-1 border-t border-[#F1F3F7] flex items-center justify-between text-xs px-1">
-                        <a href="search.php?q=${encodeURIComponent(query)}" class="py-1.5 px-3 rounded-xl font-extrabold text-[#1677FF] hover:bg-[#EAF3FF] transition-all flex items-center gap-1.5">
+                        <a href="search.php?q=${encodeURIComponent(query)}" class="search-pill-btn py-1.5 px-3 rounded-xl font-extrabold text-[#1677FF] hover:bg-[#EAF3FF] transition-all flex items-center gap-1.5">
                             <span>Tous les résultats pour "${query}"</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
@@ -1001,3 +1026,42 @@ document.addEventListener('submit', function(e) {
         form.submit();
     });
 });
+
+// ─── 13. Système d'Annonces & Ticker Rotatif Automatique (Apple / Emil Kowalski) ───
+(function initAnnouncementTicker() {
+    if (sessionStorage.getItem('sentech_ann_dismissed') === '1') {
+        const bar = document.getElementById('sentech-top-announcement');
+        if (bar) bar.classList.add('dismissed');
+        return;
+    }
+    const slides = document.querySelectorAll('.announcement-slide');
+    if (slides.length <= 1) return;
+
+    let currentIdx = 0;
+    let tickerInterval = setInterval(() => {
+        slides[currentIdx].classList.remove('active');
+        currentIdx = (currentIdx + 1) % slides.length;
+        slides[currentIdx].classList.add('active');
+    }, 4500);
+
+    const track = document.getElementById('sentech-top-announcement');
+    if (track) {
+        track.addEventListener('mouseenter', () => clearInterval(tickerInterval));
+        track.addEventListener('mouseleave', () => {
+            clearInterval(tickerInterval);
+            tickerInterval = setInterval(() => {
+                slides[currentIdx].classList.remove('active');
+                currentIdx = (currentIdx + 1) % slides.length;
+                slides[currentIdx].classList.add('active');
+            }, 4500);
+        });
+    }
+})();
+
+window.dismissTopAnnouncement = function() {
+    const bar = document.getElementById('sentech-top-announcement');
+    if (bar) {
+        bar.classList.add('dismissed');
+        sessionStorage.setItem('sentech_ann_dismissed', '1');
+    }
+};

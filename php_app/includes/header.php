@@ -545,6 +545,72 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
       }
 
       /* ─── Apple Fluid Modal & Drawer Architecture (Spring Physics & Velocity-Aware) ─── */
+
+      /* ─── Apple / Emil Kowalski: Search Autocomplete Glass Capsule ─── */
+      .search-autocomplete-dropdown {
+        position: absolute !important;
+        top: calc(100% + 8px) !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: rgba(255, 255, 255, 0.98) !important;
+        backdrop-filter: blur(24px) saturate(190%) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+        border: 1px solid rgba(226, 232, 240, 0.9) !important;
+        border-radius: 24px !important;
+        box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.16), 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+        padding: 12px 14px !important;
+        z-index: 99999 !important;
+        max-height: 480px !important;
+        overflow-y: auto !important;
+        transform-origin: top center;
+        animation: searchDropdownEnter 180ms cubic-bezier(0.23, 1, 0.32, 1) forwards !important;
+        will-change: transform, opacity;
+      }
+      @keyframes searchDropdownEnter {
+        0% { opacity: 0; transform: translateY(-8px) scale(0.97); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      .search-autocomplete-dropdown mark {
+        background-color: rgba(22, 119, 255, 0.12) !important;
+        color: #0B54C2 !important;
+        font-weight: 800 !important;
+        padding: 0 2px !important;
+        border-radius: 4px !important;
+      }
+      .search-result-item:active {
+        transform: scale(0.98) !important;
+        transition: transform 90ms var(--ease-apple-standard) !important;
+      }
+      .search-pill-btn:active {
+        transform: scale(0.95) !important;
+        transition: transform 90ms var(--ease-apple-standard) !important;
+      }
+
+      /* ─── Apple / Emil Kowalski: Top Announcement Bar & Fluid Ticker ─── */
+      #sentech-top-announcement {
+        transition: max-height 280ms cubic-bezier(0.32, 0.72, 0, 1), opacity 200ms ease-out, padding 240ms ease !important;
+        overflow: hidden;
+      }
+      #sentech-top-announcement.dismissed {
+        max-height: 0 !important;
+        opacity: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        border-bottom-width: 0 !important;
+        pointer-events: none !important;
+      }
+      .announcement-slide {
+        display: none;
+        opacity: 0;
+        transform: translateY(4px);
+        transition: opacity 260ms cubic-bezier(0.25, 1, 0.5, 1), transform 260ms cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      .announcement-slide.active {
+        display: flex !important;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
       .pointer-events-auto { pointer-events: auto !important; }
       .pointer-events-none { pointer-events: none; }
       #cart-drawer-panel,

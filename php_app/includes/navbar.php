@@ -19,17 +19,26 @@ if ($pdoAnn) {
 if (empty($topAnnouncements)) {
     $topAnnouncements = [
         [
-            'title' => 'Livraison Express à Dakar en moins de 2h • Wave & Paiement à la livraison',
+            'title' => 'Livraison Express à Dakar en moins de 2h • Wave & Paiement à la réception',
             'badge_text' => 'DAKAR H+2',
             'icon' => 'truck',
             'placement' => 'header_top_left'
         ],
         [
-            'title' => 'Produits 100% Originaux certifiés sous blister avec garantie 12 mois',
-            'button_text' => 'Nos engagements',
-            'button_url' => 'about.php',
+            'title' => 'Matériel 100% Neuf & Authentique garanti 12 mois avec échange immédiat',
+            'button_text' => 'Nos garanties',
+            'button_url' => 'about.php#garantie',
             'icon' => 'shield-check',
+            'badge_text' => 'CERTIFIÉ',
             'placement' => 'header_top_center'
+        ],
+        [
+            'title' => 'Code promo SENTECH10 : -10% immédiat sur toute la boutique dès 25 000 FCFA',
+            'button_text' => 'En profiter',
+            'button_url' => 'shop.php',
+            'icon' => 'tag',
+            'badge_text' => 'PROMO',
+            'placement' => 'header_top_right'
         ]
     ];
 }
@@ -104,6 +113,54 @@ if ($layoutType === 'checkout'): ?>
         </div>
     </header>
 <?php return; endif; ?>
+
+<?php if (!empty($topAnnouncements)): ?>
+    <!-- ─── BANDEAU ANNONCES SUPÉRIEUR (Apple / Emil Kowalski Ticker Universel) ─── -->
+    <div id="sentech-top-announcement" class="bg-[#182230] text-white text-[11px] font-medium border-b border-white/10 relative z-50">
+        <div class="max-w-[1400px] mx-auto px-3 sm:px-6 py-1.5 flex items-center justify-between gap-3">
+            
+            <!-- Gauche / Centre : Ticker Animé avec Crossfade Doux -->
+            <div class="flex-1 min-w-0 flex items-center gap-2 overflow-hidden">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0 animate-pulse" aria-hidden="true"></span>
+                <div id="announcement-ticker-track" class="relative flex-1 min-w-0 h-[18px] flex items-center">
+                    <?php foreach ($topAnnouncements as $idx => $ann): ?>
+                        <div class="announcement-slide <?= $idx === 0 ? 'active' : '' ?> flex items-center gap-2 w-full text-slate-200 truncate" data-index="<?= $idx ?>">
+                            <?php if (!empty($ann['badge_text'])): ?>
+                                <span class="bg-[#1677FF] text-white text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase shrink-0">
+                                    <?= htmlspecialchars($ann['badge_text']) ?>
+                                </span>
+                            <?php endif; ?>
+                            <span class="truncate"><?= htmlspecialchars($ann['title']) ?></span>
+                            <?php if (!empty($ann['button_url']) && !empty($ann['button_text'])): ?>
+                                <a href="<?= htmlspecialchars($ann['button_url']) ?>" class="hidden sm:inline text-[#60A5FA] hover:text-white font-bold hover:underline shrink-0">
+                                    <?= htmlspecialchars($ann['button_text']) ?> →
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <!-- Droite : Liens Rapides Rassurance + Bouton Fermer ✕ -->
+            <div class="flex items-center gap-3 shrink-0 text-slate-300 text-[10px]">
+                <div class="hidden md:flex items-center gap-3">
+                    <a href="tracking.php" class="hover:text-white transition-colors flex items-center gap-1">
+                        <i data-lucide="truck" class="w-3 h-3 text-[#60A5FA]"></i>
+                        <span>Suivi Colis</span>
+                    </a>
+                    <a href="https://wa.me/221781316497" target="_blank" rel="noopener" class="hover:text-white transition-colors flex items-center gap-1">
+                        <i data-lucide="headphones" class="w-3 h-3 text-[#60A5FA]"></i>
+                        <span>Support 7j/7</span>
+                    </a>
+                </div>
+                <button type="button" onclick="dismissTopAnnouncement()" aria-label="Fermer le bandeau d'annonces" class="cursor-pointer p-0.5 px-1 rounded-md text-slate-400 hover:text-white hover:bg-white/10 transition-colors text-xs leading-none">
+                    ✕
+                </button>
+            </div>
+
+        </div>
+    </div>
+<?php endif; ?>
 
 <?php
 // ─── 2.5. LAYOUT PUBLIC COMPACT (Header secondaire épuré & rapide) ───────────
@@ -274,45 +331,7 @@ if ($layoutType === 'public_compact'): ?>
     </header>
 <?php return; endif; ?>
 
-<?php if (!empty($topAnnouncements)): ?>
-    <!-- ─── BANDEAU ANNONCES SUPÉRIEUR (Dynamique DB) ─────────────────────── -->
-    <div class="bg-[#182230] text-white text-[11px] font-medium py-1.5 px-3 sm:px-6 border-b border-white/10 hidden sm:block">
-        <div class="max-w-[1400px] mx-auto flex items-center justify-between gap-4">
-            <div class="flex items-center gap-2 text-slate-300">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span><?= htmlspecialchars($topAnnouncements[0]['title'] ?? 'Livraison Express Dakar') ?></span>
-                <?php if (!empty($topAnnouncements[0]['badge_text'])): ?>
-                    <span class="bg-[#0B54C2] text-white text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase">
-                        <?= htmlspecialchars($topAnnouncements[0]['badge_text']) ?>
-                    </span>
-                <?php endif; ?>
-            </div>
 
-            <?php if (count($topAnnouncements) > 1 && !empty($topAnnouncements[1])): ?>
-                <div class="hidden md:flex items-center gap-2 text-slate-300">
-                    <i data-lucide="<?= htmlspecialchars($topAnnouncements[1]['icon'] ?? 'sparkles') ?>" class="w-3.5 h-3.5 text-amber-400"></i>
-                    <span><?= htmlspecialchars($topAnnouncements[1]['title']) ?></span>
-                    <?php if (!empty($topAnnouncements[1]['button_url']) && !empty($topAnnouncements[1]['button_text'])): ?>
-                        <a href="<?= htmlspecialchars($topAnnouncements[1]['button_url']) ?>" class="text-[#60A5FA] hover:text-white font-bold hover:underline ml-1">
-                            <?= htmlspecialchars($topAnnouncements[1]['button_text']) ?> →
-                        </a>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-
-            <div class="flex items-center gap-4 text-slate-300 text-[10px]">
-                <a href="tracking.php" class="hover:text-white transition-colors flex items-center gap-1">
-                    <i data-lucide="truck" class="w-3 h-3 text-[#60A5FA]"></i>
-                    <span>Suivi Colis</span>
-                </a>
-                <a href="contact.php" class="hover:text-white transition-colors flex items-center gap-1">
-                    <i data-lucide="headphones" class="w-3 h-3 text-[#60A5FA]"></i>
-                    <span>Support 7j/7</span>
-                </a>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
 
 <!-- ─── 4. MAIN HEADER STICKY RESPONSIVE (Apple-Style Glassmorphism) ────────── -->
 <header class="sticky top-0 z-40 glass-nav shadow-apple-soft">
