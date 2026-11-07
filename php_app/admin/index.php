@@ -145,6 +145,86 @@ $pageTitle = "Cockpit Administrateur Central — SenTechPLUS";
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
+
+<style>
+/* ─── Emil Kowalski Design Engineering Physics & Micro-Interactions ─── */
+:root {
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Staggered entrance for dashboard surface blocks */
+@keyframes emilFadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stagger-1 { animation: emilFadeUp 220ms var(--ease-out) forwards; }
+.stagger-2 { animation: emilFadeUp 220ms var(--ease-out) 35ms forwards; }
+.stagger-3 { animation: emilFadeUp 220ms var(--ease-out) 70ms forwards; }
+.stagger-4 { animation: emilFadeUp 220ms var(--ease-out) 105ms forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+    .stagger-1, .stagger-2, .stagger-3, .stagger-4 {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* Tactile press response on buttons */
+.btn-tactile {
+    transition: transform 140ms var(--ease-out), background-color 140ms ease, border-color 140ms ease !important;
+}
+.btn-tactile:active {
+    transform: scale(0.97) !important;
+}
+
+/* SVG Chart Bar Hover Physics */
+.chart-bar-rect {
+    transform-origin: bottom;
+    transition: transform 140ms var(--ease-out), opacity 140ms ease !important;
+    cursor: pointer;
+}
+@media (hover: hover) and (pointer: fine) {
+    .chart-bar-rect:hover {
+        transform: scaleY(1.025);
+        opacity: 0.88;
+    }
+}
+
+/* Mobile Drawer with Natural Momentum */
+@media (max-width: 1023px) {
+    aside#admin-sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        z-index: 50 !important;
+        transform: translateX(-100%);
+        transition: transform 240ms var(--ease-drawer) !important;
+        display: block !important;
+        pointer-events: none;
+    }
+    aside#admin-sidebar.open {
+        transform: translateX(0) !important;
+        pointer-events: auto !important;
+        box-shadow: 10px 0 35px -5px rgba(15, 23, 42, 0.35);
+    }
+    #admin-drawer-backdrop {
+        transition: opacity 200ms var(--ease-out), visibility 200ms var(--ease-out) !important;
+    }
+}
+</style>
+
 <div class="min-h-screen flex bg-[#F4F6F9] text-[#0F172A]">
     
     <!-- Sidebar Unifiée Framed Sheet -->
@@ -197,7 +277,7 @@ require_once __DIR__ . '/../includes/header.php';
         <div class="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 max-w-[1400px] w-full mx-auto">
             
             <!-- Page Title Row (24px Noun Title + Immediate Finding) -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="stagger-1 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-bold tracking-tight text-[#0F172A]">Tableau de bord</h1>
                     <p class="text-xs text-[#64748B] mt-0.5">
@@ -206,11 +286,11 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
                 
                 <div class="flex items-center gap-2">
-                    <a href="products.php?action=new" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#1677FF] hover:bg-[#0F67E5] text-white text-xs font-bold transition-colors cursor-pointer shadow-none">
+                    <a href="products.php?action=new" class="btn-tactile inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#1677FF] hover:bg-[#0F67E5] text-white text-xs font-bold cursor-pointer shadow-none">
                         <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                         <span>Nouveau produit</span>
                     </a>
-                    <a href="orders.php" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white border border-[#E5E7EB] hover:bg-slate-50 text-slate-700 text-xs font-bold transition-colors cursor-pointer">
+                    <a href="orders.php" class="btn-tactile inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white border border-[#E5E7EB] hover:bg-slate-50 text-slate-700 text-xs font-bold cursor-pointer">
                         <i data-lucide="package" class="w-3.5 h-3.5 text-slate-500"></i>
                         <span>Gérer commandes</span>
                     </a>
@@ -218,7 +298,7 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
 
             <!-- ─── KPIS : UNIFIED STRIP (Type, Not Tiles — Zero Icons in Circles) ── -->
-            <div class="bg-white border border-[#E5E7EB] rounded-2xl p-0 overflow-hidden divide-y sm:divide-y-0 sm:divide-x divide-[#E5E7EB] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="stagger-2 bg-white border border-[#E5E7EB] rounded-2xl p-0 overflow-hidden divide-y sm:divide-y-0 sm:divide-x divide-[#E5E7EB] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                 
                 <!-- Chiffre d'Affaires -->
                 <div class="p-5 sm:p-6 space-y-1">
@@ -268,7 +348,7 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
 
             <!-- ─── ACTIVITÉ COMMERCIALE 7 JOURS (SVG Chart — Craft Standards) ───── -->
-            <div class="bg-white border border-[#E5E7EB] rounded-2xl p-5 sm:p-6 space-y-4">
+            <div class="stagger-3 bg-white border border-[#E5E7EB] rounded-2xl p-5 sm:p-6 space-y-4">
                 
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-[#F1F3F5] pb-4">
                     <div>
@@ -317,7 +397,7 @@ require_once __DIR__ . '/../includes/header.php';
                             $barColor = $isToday ? "#1677FF" : ($amt > 0 ? "#93C5FD" : "#E2E8F0");
                         ?>
                             <!-- Bar -->
-                            <rect x="<?= $x ?>" y="<?= $y ?>" width="<?= $colWidth ?>" height="<?= max(2, $height) ?>" rx="4" fill="<?= $barColor ?>">
+                            <rect class="chart-bar-rect" x="<?= $x ?>" y="<?= $y ?>" width="<?= $colWidth ?>" height="<?= max(2, $height) ?>" rx="4" fill="<?= $barColor ?>">
                                 <title><?= $dayLabels[$idx] ?> : <?= number_format($amt, 0, ',', ' ') ?> FCFA</title>
                             </rect>
                             
@@ -339,7 +419,7 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
 
             <!-- ─── 2 COLONNES ÉQUILIBRÉES (7/12 et 5/12) ────────────────────────── -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <div class="stagger-4 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 
                 <!-- Colonne Gauche : Commandes Récentes (7 Cols) -->
                 <div class="lg:col-span-7 bg-white border border-[#E5E7EB] rounded-2xl p-5 sm:p-6 space-y-4">
@@ -425,7 +505,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <div class="lg:col-span-5 space-y-6">
                     
                     <!-- Alertes Stock Faible -->
-                    <div class="bg-white border border-[#E5E7EB] rounded-2xl p-5 sm:p-6 space-y-4">
+                    <div class="stagger-3 bg-white border border-[#E5E7EB] rounded-2xl p-5 sm:p-6 space-y-4">
                         <div class="flex items-center justify-between border-b border-[#F1F3F5] pb-3">
                             <h3 class="text-sm font-bold text-[#0F172A]">Stocks & Réapprovisionnement</h3>
                             <a href="products.php" class="text-xs font-semibold text-[#1677FF] hover:underline">
@@ -492,26 +572,50 @@ require_once __DIR__ . '/../includes/header.php';
 </div>
 
 <script>
-// Mobile Sidebar Drawer Toggle
+// Mobile Sidebar Drawer with Momentum
 document.addEventListener('DOMContentLoaded', function() {
     const btn = document.getElementById('admin-sidebar-btn');
-    const aside = document.querySelector('aside');
+    const aside = document.getElementById('admin-sidebar');
     const backdrop = document.getElementById('admin-drawer-backdrop');
 
+    function openDrawer() {
+        if (!aside || !backdrop) return;
+        aside.classList.add('open');
+        backdrop.classList.remove('hidden');
+        requestAnimationFrame(() => {
+            backdrop.classList.add('opacity-100');
+            backdrop.classList.remove('opacity-0');
+        });
+    }
+
+    function closeDrawer() {
+        if (!aside || !backdrop) return;
+        aside.classList.remove('open');
+        backdrop.classList.add('opacity-0');
+        backdrop.classList.remove('opacity-100');
+        setTimeout(() => {
+            if (!aside.classList.contains('open')) {
+                backdrop.classList.add('hidden');
+            }
+        }, 220);
+    }
+
     if (btn && aside && backdrop) {
-        btn.addEventListener('click', function() {
-            aside.classList.toggle('hidden');
-            aside.classList.toggle('fixed');
-            aside.classList.toggle('inset-y-0');
-            aside.classList.toggle('left-0');
-            aside.classList.toggle('z-40');
-            backdrop.classList.toggle('hidden');
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (aside.classList.contains('open')) {
+                closeDrawer();
+            } else {
+                openDrawer();
+            }
         });
 
-        backdrop.addEventListener('click', function() {
-            aside.classList.add('hidden');
-            aside.classList.remove('fixed', 'inset-y-0', 'left-0', 'z-40');
-            backdrop.classList.add('hidden');
+        backdrop.addEventListener('click', closeDrawer);
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && aside.classList.contains('open')) {
+                closeDrawer();
+            }
         });
     }
 });
