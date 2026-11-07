@@ -309,7 +309,7 @@ require_once __DIR__ . '/../includes/header.php';
                                         <td class="p-3.5 pl-5">
                                             <div class="flex items-center gap-3">
                                                 <div class="w-11 h-11 rounded-xl bg-[#F3F7FC] p-1 border border-[#E8EDF3] flex items-center justify-center shrink-0">
-                                                    <img src="../<?= htmlspecialchars($pImg) ?>" alt="<?= htmlspecialchars($p['name']) ?>" width="44" height="44" style="aspect-ratio:1/1;" class="max-h-full max-w-full object-contain" loading="lazy">
+                                                    <img src="../<?= htmlspecialchars($pImg) ?>" alt="<?= htmlspecialchars($p['name']) ?>" width="44" height="44" style="aspect-ratio:1/1;" class="max-h-full max-w-full object-contain" decoding="async">
                                                 </div>
                                                 <div class="min-w-0">
                                                     <a href="../product.php?id=<?= urlencode($p['id']) ?>" target="_blank" class="font-bold text-[#182230] hover:text-[#1677FF] transition-colors truncate block max-w-xs">

@@ -149,7 +149,7 @@ require_once __DIR__ . '/../includes/header.php';
                     <?php foreach ($mediaList as $m): ?>
                         <div class="bg-white rounded-2xl p-3 border border-[#E8EDF3] shadow-2xs space-y-2 flex flex-col justify-between group">
                             <div class="w-full h-32 bg-[#F3F7FC] rounded-xl flex items-center justify-center p-2 overflow-hidden relative">
-                                <img src="../<?= htmlspecialchars($m['file_path']) ?>" alt="<?= htmlspecialchars($m['original_name']) ?>" width="128" height="128" style="aspect-ratio:1/1;" class="w-full h-full object-contain" loading="lazy">
+                                <img src="../<?= htmlspecialchars($m['file_path']) ?>" alt="<?= htmlspecialchars($m['original_name']) ?>" width="128" height="128" style="aspect-ratio:1/1;" class="w-full h-full object-contain" decoding="async">
                                 <span class="absolute top-2 left-2 text-[9px] font-extrabold bg-[#182230]/80 text-white px-2 py-0.5 rounded-full uppercase">
                                     <?= htmlspecialchars($m['category'] ?? 'media') ?>
                                 </span>

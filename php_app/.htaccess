@@ -47,6 +47,9 @@ ErrorDocument 500 /500.php
     RewriteCond %{HTTP_HOST} !^192\.168\.\d+\.\d+(:\d+)?$
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+    # Serve manifest.json dynamically via manifest.php (Bypasses InfinityFree static challenge)
+    RewriteRule ^manifest\.json$ manifest.php [L,QSA]
+
     # Serve sitemap.xml dynamically via sitemap.php
     RewriteRule ^sitemap\.xml$ sitemap.php [L,QSA]
 

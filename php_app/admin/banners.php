@@ -217,7 +217,7 @@ $placements = [
                     <tr class="hover:bg-[#F8FBFF] transition-colors">
                         <td class="p-3.5 pl-5">
                             <?php if ($b['image_desktop']): ?>
-                            <img src="../<?= htmlspecialchars($b['image_desktop']) ?>" alt="Aperçu bannière" width="80" height="48" style="aspect-ratio:5/3;" class="w-20 h-12 object-cover rounded-lg border border-[#E8EDF3]" loading="lazy">
+                            <img src="../<?= htmlspecialchars($b['image_desktop']) ?>" alt="Aperçu bannière" width="80" height="48" style="aspect-ratio:5/3;" class="w-20 h-12 object-cover rounded-lg border border-[#E8EDF3]" decoding="async">
                             <?php else: ?>
                             <div class="w-20 h-12 rounded-lg bg-[#F3F7FC] flex items-center justify-center">
                                 <i data-lucide="image" class="w-5 h-5 text-[#CBD5E1]"></i>

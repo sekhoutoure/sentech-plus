@@ -334,7 +334,7 @@ require_once __DIR__ . '/../includes/header.php';
                                             </div>
                                         </div>
                                     <?php else: ?>
-                                        <img src="../<?= htmlspecialchars($thumb) ?>" alt="<?= htmlspecialchars($med['alt_text'] ?? '') ?>" width="80" height="80" style="aspect-ratio:1/1;" class="w-full h-full object-contain p-2" loading="lazy">
+                                        <img src="../<?= htmlspecialchars($thumb) ?>" alt="<?= htmlspecialchars($med['alt_text'] ?? '') ?>" width="80" height="80" style="aspect-ratio:1/1;" class="w-full h-full object-contain p-2" decoding="async">
                                     <?php endif; ?>
                                 </div>
 

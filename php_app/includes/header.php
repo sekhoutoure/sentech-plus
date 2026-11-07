@@ -74,11 +74,12 @@ $assetPrefix = $isInSubdir ? '../' : '';
     <meta name="theme-color" content="#1677FF">
     <link rel="apple-touch-icon" href="<?= $assetPrefix ?>assets/images/sentech_icon.webp">
     <link rel="icon" href="<?= $assetPrefix ?>assets/images/sentech_icon.png" type="image/png">
+    <?php if (!$isInSubdir): ?>
     <script>
       (function(){
         var m = document.createElement('link');
         m.rel = 'manifest';
-        m.href = '<?= $assetPrefix ?>manifest.json?v=20260907_v2';
+        m.href = 'manifest.json?v=20260907_v2';
         if ('requestIdleCallback' in window) {
           requestIdleCallback(function(){ document.head.appendChild(m); });
         } else {
@@ -86,7 +87,8 @@ $assetPrefix = $isInSubdir ? '../' : '';
         }
       })();
     </script>
-    <noscript><link rel="manifest" href="<?= $assetPrefix ?>manifest.json?v=20260907_v2"></noscript>
+    <noscript><link rel="manifest" href="manifest.json?v=20260907_v2"></noscript>
+    <?php endif; ?>
 
     <?php
     $baseAppUrl = defined('APP_URL') && !empty(APP_URL) ? rtrim(APP_URL, '/') : 'https://www.sentechplus.com';
@@ -202,9 +204,9 @@ $assetPrefix = $isInSubdir ? '../' : '';
     <link rel="preload" as="image" href="<?= htmlspecialchars($preloadImg) ?>" type="image/webp" fetchpriority="high">
     <?php 
         endif;
-    else:
+    elseif (!$isInSubdir):
     ?>
-    <link rel="preload" as="image" href="<?= $assetPrefix ?>assets/images/sentech_logo.webp" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/images/sentech_logo.webp" type="image/webp" fetchpriority="high">
     <?php 
     endif; 
     ?>
@@ -217,7 +219,18 @@ $assetPrefix = $isInSubdir ? '../' : '';
     <script src="<?= $assetPrefix ?>assets/js/lucide.min.js?v=<?= file_exists(__DIR__ . '/../assets/js/lucide.min.js') ? filemtime(__DIR__ . '/../assets/js/lucide.min.js') : time() ?>" defer></script>
 
     <?php if ($isInSubdir): ?>
-    <!-- Tailwind Play CDN for Complete Admin Style & Arbitrary Class Coverage -->
+    <!-- Tailwind Play CDN for Complete Admin Style & Arbitrary Class Coverage (Warning Filtered) -->
+    <script>
+        (function() {
+            var origWarn = console.warn;
+            console.warn = function() {
+                if (arguments[0] && typeof arguments[0] === 'string' && arguments[0].indexOf('cdn.tailwindcss.com') !== -1) {
+                    return;
+                }
+                origWarn.apply(console, arguments);
+            };
+        })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
