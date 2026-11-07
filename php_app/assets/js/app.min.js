@@ -353,6 +353,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let html = '';
 
+            // 0. Recherches populaires (quand le champ est vide au focus)
+            if (query.length === 0 && popular.length > 0) {
+                html += `
+                    <div class="pb-2 border-b border-[#F1F3F7]">
+                        <span class="text-[10px] font-black text-[#64748B] uppercase tracking-wider flex items-center gap-1 px-1 mb-1.5">
+                            <i data-lucide="trending-up" class="w-3 h-3 text-[#1677FF]"></i>
+                            <span>Recherches populaires</span>
+                        </span>
+                        <div class="flex flex-wrap gap-1.5">
+                            ${popular.map(term => `
+                                <a href="search.php?q=${encodeURIComponent(term)}" class="px-2.5 py-1 rounded-full bg-[#F8FAFD] hover:bg-[#1677FF] hover:text-white border border-[#E2E8F0] hover:border-[#1677FF] text-[11px] font-bold text-[#344054] transition-all flex items-center gap-1">
+                                    <i data-lucide="search" class="w-2.5 h-2.5 opacity-60"></i>
+                                    <span>${term}</span>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
             // 1. Rayons & Catégories Suggérés (si présents)
             if (categories.length > 0) {
                 html += `
@@ -892,4 +912,91 @@ window.toggleWishlistInline = function(productId, btn) {
     });
 };
 
+// ─── 12. Système de Notifications Global (Compact + Desktop + AJAX 0-Reload) ───
+window.toggleNotificationsDropdown = function() {
+    const dropdown = document.getElementById('desktop-notifs-dropdown');
+    const btn = document.getElementById('desktop-notifs-btn');
+    if (!dropdown) return;
+    const isHidden = dropdown.classList.contains('hidden');
+    if (isHidden) {
+        dropdown.classList.remove('hidden');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+    } else {
+        dropdown.classList.add('hidden');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+};
 
+window.toggleCompactNotifsDropdown = function() {
+    const dropdown = document.getElementById('compact-notifs-dropdown');
+    const btn = document.getElementById('compact-notifs-btn');
+    if (!dropdown) return;
+    const isHidden = dropdown.classList.contains('hidden');
+    if (isHidden) {
+        dropdown.classList.remove('hidden');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+    } else {
+        dropdown.classList.add('hidden');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+};
+
+document.addEventListener('click', function(e) {
+    const container = document.getElementById('desktop-notifs-container');
+    const dropdown = document.getElementById('desktop-notifs-dropdown');
+    const btn = document.getElementById('desktop-notifs-btn');
+    if (container && !container.contains(e.target) && dropdown && !dropdown.classList.contains('hidden')) {
+        dropdown.classList.add('hidden');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+
+    const cContainer = document.getElementById('compact-notifs-container');
+    const cDropdown = document.getElementById('compact-notifs-dropdown');
+    const cBtn = document.getElementById('compact-notifs-btn');
+    if (cContainer && !cContainer.contains(e.target) && cDropdown && !cDropdown.classList.contains('hidden')) {
+        cDropdown.classList.add('hidden');
+        if (cBtn) cBtn.setAttribute('aria-expanded', 'false');
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const dropdown = document.getElementById('desktop-notifs-dropdown');
+        if (dropdown && !dropdown.classList.contains('hidden')) dropdown.classList.add('hidden');
+        const cDropdown = document.getElementById('compact-notifs-dropdown');
+        if (cDropdown && !cDropdown.classList.contains('hidden')) cDropdown.classList.add('hidden');
+    }
+});
+
+document.addEventListener('submit', function(e) {
+    const form = e.target.closest('.ajax-mark-all-notifs-form');
+    if (!form) return;
+    e.preventDefault();
+
+    const fd = new FormData(form);
+    fetch('notifications.php', {
+        method: 'POST',
+        body: fd,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+        }
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data && data.success) {
+            document.querySelectorAll('.notif-unread-badge, .notif-unread-dot').forEach(el => {
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('.notif-dropdown-item').forEach(el => {
+                el.classList.remove('bg-[#EEF5FC]/40');
+            });
+            if (typeof showToast === 'function') {
+                showToast('Toutes les notifications ont été marquées comme lues ✓', 'success');
+            }
+        }
+    })
+    .catch(() => {
+        form.submit();
+    });
+});

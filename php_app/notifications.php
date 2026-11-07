@@ -3,13 +3,29 @@ require_once __DIR__ . '/config/config.php';
 
 $user = getCurrentUser();
 $userId = $user['id'] ?? null;
+
+// Marquage automatique au clic depuis la cloche de navigation (?read_id=...&redirect=...)
+if (!empty($_GET['read_id'])) {
+    $readId = sanitize($_GET['read_id']);
+    markNotificationAsRead($readId, $userId);
+    if (!empty($_GET['redirect'])) {
+        $targetUrl = getSafeRedirectUrl($_GET['redirect'], 'notifications.php');
+        header('Location: ' . $targetUrl);
+        exit;
+    }
+}
+
 $filter = sanitize($_GET['filter'] ?? 'all');
 $unreadOnly = ($filter === 'unread');
 $typeFilter = in_array($filter, ['order', 'promo', 'support', 'coupon']) ? $filter : null;
 
-// Traitement des actions POST
+// Traitement des actions POST (Classique + AJAX 0-rechargement)
 $message = '';
 $messageType = 'info';
+$isAjax = (
+    (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') ||
+    (!empty($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false)
+);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
@@ -37,6 +53,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
+
+    if ($isAjax) {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+            'success'      => ($messageType === 'success'),
+            'message'      => $message,
+            'unread_count' => getUnreadNotificationsCount($userId)
+        ]);
+        exit;
+    }
 }
 
 $notifications = getUserNotifications($userId, 50, $unreadOnly, $typeFilter);
@@ -62,7 +88,7 @@ require_once __DIR__ . '/includes/navbar.php';
         </div>
 
         <?php if ($unreadCount > 0): ?>
-            <form action="notifications.php" method="POST" class="shrink-0">
+            <form action="notifications.php" method="POST" class="shrink-0 ajax-mark-all-notifs-form">
                 <?= getCSRFInputField() ?>
                 <input type="hidden" name="action" value="mark_all_read">
                 <button type="submit" class="cursor-pointer inline-flex items-center gap-2 bg-white hover:bg-[#F3F7FC] text-[#1677FF] border border-[#1677FF]/30 text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-2xs active:scale-95">
@@ -149,7 +175,7 @@ require_once __DIR__ . '/includes/navbar.php';
                     <!-- Actions à Droite -->
                     <div class="flex items-center gap-2 w-full sm:w-auto justify-end pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200/60">
                         <?php if (!empty($notif['link_url'])): ?>
-                            <a href="<?= htmlspecialchars($notif['link_url']) ?>" class="cursor-pointer bg-[#1677FF] hover:bg-[#0F67E5] text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all shadow-2xs shrink-0 flex items-center gap-1">
+                            <a href="notifications.php?read_id=<?= urlencode($notif['id']) ?>&redirect=<?= urlencode($notif['link_url']) ?>" class="cursor-pointer bg-[#1677FF] hover:bg-[#0F67E5] text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all shadow-2xs shrink-0 flex items-center gap-1">
                                 <span>Voir</span>
                                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                             </a>

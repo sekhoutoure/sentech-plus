@@ -3017,19 +3017,25 @@ function createOrder(array $customerData, array $cartItems, array $totals): arra
 
 
 
+    // Notification temps réel pour la commande
+    try {
+        createNotification(
+            $userId,
+            'order',
+            'Commande #' . $orderNumber . ' confirmée',
+            'Votre commande de ' . formatPrice($orderRecord['total']) . ' est enregistrée. Livraison express en préparation à Dakar.',
+            'order-success.php?id=' . urlencode($orderId),
+            'package',
+            'high'
+        );
+    } catch (Throwable $e) {}
+
     // Sauvegarde en session pour affichage immédiat
-
     $_SESSION['last_placed_order'] = array_merge($orderRecord, ['items' => $totals['items']]);
-
     
-
     // Vider le panier
-
     $_SESSION['cart'] = [];
-
     unset($_SESSION['applied_coupon']);
-
-
 
     return $orderRecord;
 
@@ -3308,49 +3314,41 @@ function logAdminActivity(string $action, string $description): void {
  */
 
 function ensureNotificationsTableExists(?PDO $pdo = null): void {
-
+    static $initialized = false;
+    if ($initialized) return;
     $pdo = $pdo ?: getDBConnection();
-
     if (!$pdo) return;
-
+    $initialized = true;
     try {
-
         $pdo->exec("
-
             CREATE TABLE IF NOT EXISTS `notifications` (
-
               `id` VARCHAR(64) NOT NULL PRIMARY KEY,
-
               `user_id` VARCHAR(64) NULL,
-
               `type` VARCHAR(32) NOT NULL DEFAULT 'info',
-
               `title` VARCHAR(255) NOT NULL,
-
               `message` TEXT NOT NULL,
-
               `link_url` VARCHAR(255) NULL,
-
               `icon` VARCHAR(64) NOT NULL DEFAULT 'bell',
-
               `priority` ENUM('low', 'normal', 'high') NOT NULL DEFAULT 'normal',
-
               `is_read` TINYINT(1) NOT NULL DEFAULT 0,
-
               `read_at` DATETIME NULL,
-
               `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
               `expires_at` DATETIME NULL,
-
               INDEX `idx_notif_user` (`user_id`, `is_read`, `created_at`)
-
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
         ");
 
+        // Initialisation unique (idempotente) des notifications officielles si jamais initialisées
+        $stmtSeed = $pdo->query("SELECT COUNT(*) FROM notifications WHERE id = 'notif_seed_v1'");
+        if ($stmtSeed && (int)$stmtSeed->fetchColumn() === 0) {
+            $pdo->exec("
+                INSERT IGNORE INTO `notifications` (`id`, `user_id`, `type`, `title`, `message`, `link_url`, `icon`, `priority`, `is_read`, `created_at`, `expires_at`) VALUES
+                ('notif_seed_v1', NULL, 'system', 'Seed Marker', 'System marker', NULL, 'check', 'low', 1, '2000-01-01 00:00:00', '2000-01-01 00:00:00'),
+                ('notif_promo_sentech10', NULL, 'promo', 'Code Promo SENTECH10 : -10% immédiat', 'Profitez de -10% sur toute la boutique dès 25 000 FCFA d\'achat avec le code SENTECH10.', 'shop.php', 'tag', 'high', 0, NOW(), NULL),
+                ('notif_express_dakar', NULL, 'order', 'Livraison Express Dakar H+2 active', 'Commandez avant 18h : livraison en moins de 2h à Dakar (Paiement Wave, Orange Money ou Espèces à la réception).', 'tracking.php', 'truck', 'normal', 0, DATE_SUB(NOW(), INTERVAL 25 MINUTE), NULL)
+            ");
+        }
     } catch (Throwable $e) {}
-
 }
 
 
@@ -3448,13 +3446,9 @@ function getUnreadNotificationsCount(?string $userId = null): int {
             $stmt->execute($params);
 
             return (int)$stmt->fetchColumn();
-
         } catch (Throwable $e) {}
-
     }
-
-    return 2;
-
+    return 0;
 }
 
 

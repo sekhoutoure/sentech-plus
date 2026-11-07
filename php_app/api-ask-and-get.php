@@ -149,7 +149,7 @@ $result = FastCache::remember($cacheKey, 180, function() use ($cleanQ, $query) {
             ]);
 
             while ($row = $stmt->fetch()) {
-                $img = getProductMainImage($row['images'] ?? '', 'assets/images/product_img1.webp');
+                $img = getProductMainImage($row, 'assets/images/product_img1.webp');
                 $matchedProducts[] = [
                     'id'              => $row['id'],
                     'name'            => $row['name'],
@@ -199,7 +199,7 @@ $result = FastCache::remember($cacheKey, 180, function() use ($cleanQ, $query) {
             $pDesc = mb_strtolower($p['description'] ?? '', 'UTF-8');
             $pCat = mb_strtolower($p['category'] ?? ($p['category_id'] ?? ''), 'UTF-8');
             if (str_contains($pName, $cleanQ) || str_contains($pDesc, $cleanQ) || str_contains($pCat, $cleanQ)) {
-                $img = getProductMainImage($p['images'] ?? '', 'assets/images/product_img1.webp');
+                $img = getProductMainImage($p, 'assets/images/product_img1.webp');
                 $matchedProducts[] = [
                     'id'              => $p['id'],
                     'name'            => $p['name'],

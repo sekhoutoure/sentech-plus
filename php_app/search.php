@@ -90,10 +90,13 @@ if (!empty($q)) {
 }
 
 if ($activeCategory) {
-    $whereClauses[] = "(category = :cat_name OR category_id = :cat_id OR category LIKE :cat_slug)";
+    $whereClauses[] = "(category = :cat_name OR category_id = :cat_id OR category LIKE :cat_slug OR subcategory = :cat_sub_name OR subcategory_id = :cat_sub_id OR subcategory LIKE :cat_sub_slug)";
     $params[':cat_name'] = $activeCategory['name'];
     $params[':cat_id'] = $activeCategory['id'];
     $params[':cat_slug'] = '%' . $activeCategory['slug'] . '%';
+    $params[':cat_sub_name'] = $activeCategory['name'];
+    $params[':cat_sub_id'] = $activeCategory['id'];
+    $params[':cat_sub_slug'] = '%' . $activeCategory['slug'] . '%';
 }
 
 if ($activeSubcategory) {
@@ -499,8 +502,7 @@ $availableBrands = ['Baseus', 'Anker', 'Apple', 'JBL', 'Oraimo', 'Sony', 'Samsun
                     <!-- Grille Produits Pro Max Apple Style -->
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5 sm:gap-5">
                         <?php foreach ($products as $product): 
-                            $imgs = getProductImages($product['images'] ?? null, 'assets/images/hero_product_img1.webp');
-                            $mainImg = $imgs[0] ?? 'assets/images/hero_product_img1.webp';
+                            $mainImg = getProductMainImage($product, 'assets/images/product_img1.webp');
                             $discount = ($product['mrp'] > $product['price']) ? round((($product['mrp'] - $product['price']) / $product['mrp']) * 100) : 0;
                             $inStock = (int)($product['stock'] ?? $product['in_stock'] ?? 1) > 0;
                         ?>
@@ -562,10 +564,23 @@ $availableBrands = ['Baseus', 'Anker', 'Apple', 'JBL', 'Oraimo', 'Sony', 'Samsun
                                         <?php endif; ?>
                                     </div>
 
-                                    <a href="product.php?id=<?= urlencode($product['id']) ?>" class="h-9 px-3 rounded-xl bg-[#F1F3F7] hover:bg-[#1677FF] hover:text-white text-[#1D1D1F] text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 shrink-0">
-                                        <span>Détails</span>
-                                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                                    </a>
+                                    <?php if ($inStock): ?>
+                                        <form action="cart.php" method="POST" class="inline shrink-0">
+                                            <?= getCSRFInputField() ?>
+                                            <input type="hidden" name="action" value="add">
+                                            <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
+                                            <input type="hidden" name="quantity" value="1">
+                                            <button type="submit" class="cursor-pointer h-9 px-3 rounded-xl bg-[#1677FF] hover:bg-[#0B54C2] text-white text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 shadow-2xs" aria-label="Ajouter au panier">
+                                                <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i>
+                                                <span>+ Panier</span>
+                                            </button>
+                                        </form>
+                                    <?php else: ?>
+                                        <a href="product.php?id=<?= urlencode($product['id']) ?>" class="h-9 px-3 rounded-xl bg-[#F1F3F7] hover:bg-[#1677FF] hover:text-white text-[#1D1D1F] text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 shrink-0">
+                                            <span>Détails</span>
+                                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
 
                             </div>
@@ -653,11 +668,11 @@ $availableBrands = ['Baseus', 'Anker', 'Apple', 'JBL', 'Oraimo', 'Sony', 'Samsun
                                 </h3>
                                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                                     <?php foreach ($heroFallbackProducts as $hp): 
-                                        $hImgs = getProductImages($hp['images'] ?? null, 'assets/images/hero_product_img1.webp');
+                                        $hMainImg = getProductMainImage($hp, 'assets/images/product_img1.webp');
                                     ?>
                                         <a href="product.php?id=<?= urlencode($hp['id']) ?>" class="p-2.5 rounded-2xl bg-[#F8FAFD] hover:bg-white border border-[#E8EDF3] hover:border-[#1677FF] transition-all group flex flex-col justify-between">
                                             <div class="w-full aspect-square p-1 flex items-center justify-center mb-1.5">
-                                                <img src="<?= htmlspecialchars($hImgs[0] ?? '') ?>" alt="<?= htmlspecialchars($hp['name']) ?>" class="max-w-full max-h-full object-contain">
+                                                <img src="<?= htmlspecialchars($hMainImg) ?>" alt="<?= htmlspecialchars($hp['name']) ?>" class="max-w-full max-h-full object-contain">
                                             </div>
                                             <div>
                                                 <p class="text-[11px] font-bold text-[#1D1D1F] line-clamp-1 group-hover:text-[#1677FF]"><?= htmlspecialchars($hp['name']) ?></p>

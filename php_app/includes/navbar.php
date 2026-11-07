@@ -157,26 +157,26 @@ if ($layoutType === 'public_compact'): ?>
                     >
                         <i data-lucide="bell" class="w-5 h-5"></i>
                         <?php if ($unreadNotifsCount > 0): ?>
-                            <span class="absolute top-1 right-1 min-w-4 h-4 bg-[#F97316] text-white text-[9px] font-black rounded-full flex items-center justify-center px-1 animate-pulse">
+                            <span class="notif-unread-badge absolute top-1 right-1 min-w-4 h-4 bg-[#EF4444] text-white text-[9px] font-black rounded-full flex items-center justify-center px-1 border border-white">
                                 <?= $unreadNotifsCount ?>
                             </span>
                         <?php endif; ?>
                     </button>
 
                     <!-- Dropdown Panneau Notifications Compact -->
-                    <div id="compact-notifs-dropdown" class="hidden absolute right-0 top-full mt-2 w-[320px] sm:w-[360px] bg-white rounded-2xl shadow-2xl border border-[#E1E8F0] z-50 overflow-hidden animate-fade-in">
+                    <div id="compact-notifs-dropdown" class="hidden absolute right-0 top-full mt-2 w-[310px] sm:w-[360px] bg-white rounded-2xl shadow-2xl border border-[#E1E8F0] z-50 overflow-hidden animate-fade-in">
                         <!-- En-tête Dropdown -->
                         <div class="p-3 px-4 bg-[#F8FBFF] border-b border-[#E8EDF3] flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="bell" class="w-4 h-4 text-[#1677FF]"></i>
                                 <span class="text-xs font-black text-[#182230]">Notifications</span>
                                 <?php if ($unreadNotifsCount > 0): ?>
-                                    <span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-orange-100 text-[#C2410C]">
+                                    <span class="notif-unread-badge text-[10px] font-black px-2 py-0.5 rounded-full bg-orange-100 text-[#C2410C]">
                                         <?= $unreadNotifsCount ?> non lue<?= $unreadNotifsCount > 1 ? 's' : '' ?>
                                     </span>
                                 <?php endif; ?>
                             </div>
-                            <form action="notifications.php" method="POST" class="inline">
+                            <form action="notifications.php" method="POST" class="inline ajax-mark-all-notifs-form">
                                 <?= getCSRFInputField() ?>
                                 <input type="hidden" name="action" value="mark_all_read">
                                 <button type="submit" class="text-[10px] font-bold text-[#0B54C2] hover:underline cursor-pointer">
@@ -194,7 +194,7 @@ if ($layoutType === 'public_compact'): ?>
                                 </div>
                             <?php else: ?>
                                 <?php foreach ($recentNotifs as $notif): ?>
-                                    <a href="<?= htmlspecialchars($notif['link_url'] ?? 'notifications.php') ?>" class="block p-3 hover:bg-[#F8FBFF] transition-colors <?= $notif['is_read'] == 0 ? 'bg-[#EEF5FC]/40' : '' ?>">
+                                    <a href="notifications.php?read_id=<?= urlencode($notif['id']) ?>&redirect=<?= urlencode($notif['link_url'] ?? 'notifications.php') ?>" class="notif-dropdown-item block p-3 hover:bg-[#F8FBFF] transition-colors <?= $notif['is_read'] == 0 ? 'bg-[#EEF5FC]/40' : '' ?>">
                                         <div class="flex items-start gap-2.5">
                                             <div class="w-7 h-7 rounded-lg bg-[#EAF3FF] text-[#1677FF] flex items-center justify-center shrink-0 mt-0.5">
                                                 <i data-lucide="<?= htmlspecialchars($notif['icon'] ?? 'bell') ?>" class="w-3.5 h-3.5 text-[#1677FF]"></i>
@@ -203,7 +203,7 @@ if ($layoutType === 'public_compact'): ?>
                                                 <div class="flex items-center justify-between gap-1">
                                                     <span class="text-xs font-bold text-[#182230] truncate"><?= htmlspecialchars($notif['title']) ?></span>
                                                     <?php if ($notif['is_read'] == 0): ?>
-                                                        <span class="w-1.5 h-1.5 rounded-full bg-[#1677FF] shrink-0"></span>
+                                                        <span class="notif-unread-dot w-1.5 h-1.5 rounded-full bg-[#1677FF] shrink-0"></span>
                                                     <?php endif; ?>
                                                 </div>
                                                 <p class="text-[11px] text-[#667085] line-clamp-2 mt-0.5"><?= htmlspecialchars($notif['message']) ?></p>
@@ -233,6 +233,45 @@ if ($layoutType === 'public_compact'): ?>
             </div>
 
         </div>
+
+        <!-- Mobile Search Row on Compact Header (< 640px) -->
+        <div class="sm:hidden max-w-[1400px] mx-auto px-3 mt-2 relative">
+            <form action="search.php" method="GET" class="w-full relative">
+                <div class="relative h-[40px] flex items-center bg-white focus-within:bg-white rounded-full border border-[#DCE4EE] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-2xs">
+                    <div class="pl-3.5 pr-2 flex items-center shrink-0">
+                        <svg class="w-4 h-4 text-[#1677FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.3-4.3"></path>
+                        </svg>
+                    </div>
+                    <input 
+                        name="q" 
+                        type="search" 
+                        inputmode="search"
+                        enterkeyhint="search"
+                        aria-label="Rechercher sur SenTechPLUS"
+                        placeholder="Rechercher un produit, marque..." 
+                        value="<?= htmlspecialchars($_GET['q'] ?? $_GET['search'] ?? '') ?>"
+                        autocomplete="off"
+                        class="flex-1 min-w-0 bg-transparent outline-none no-focus-ring search-pill-input text-xs font-semibold text-[#1D1D1F] placeholder:font-normal placeholder:text-[#8E8E93] h-full py-0"
+                        style="font-size: 13px !important; outline: none !important; border: none !important; box-shadow: none !important; -webkit-appearance: none !important;"
+                    >
+                    <button 
+                        type="submit" 
+                        style="background-color: #1677FF !important; color: #ffffff !important; height: 30px; padding: 0 12px; border-radius: 9999px; margin-right: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; flex-shrink: 0; outline: none !important; border: none !important; cursor: pointer;"
+                        class="hover:bg-[#0B54C2] active:scale-95 transition-all shadow-xs" 
+                        aria-label="Lancer la recherche"
+                    >
+                        <span class="hidden min-[350px]:inline text-[11px] font-bold leading-none">Rechercher</span>
+                        <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 12h14"></path>
+                            <path d="m12 5 7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </header>
 <?php return; endif; ?>
 
 <?php if (!empty($topAnnouncements)): ?>
@@ -325,7 +364,7 @@ if ($layoutType === 'public_compact'): ?>
                                 <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
                             </svg>
                             <?php if ($unreadNotifsCount > 0): ?>
-                                <span style="position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; background-color: #EF4444; color: #ffffff; font-size: 9px; font-weight: 900; border-radius: 9999px; display: flex; align-items: center; justify-content: center; border: 1.5px solid #ffffff; line-height: 1; pointer-events: none; z-index: 10;">
+                                <span class="notif-unread-badge" style="position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; background-color: #EF4444; color: #ffffff; font-size: 9px; font-weight: 900; border-radius: 9999px; display: flex; align-items: center; justify-content: center; border: 1.5px solid #ffffff; line-height: 1; pointer-events: none; z-index: 10;">
                                     <?= $unreadNotifsCount ?>
                                 </span>
                             <?php endif; ?>
@@ -340,12 +379,12 @@ if ($layoutType === 'public_compact'): ?>
                                 <i data-lucide="bell" class="w-4 h-4 text-[#1677FF]"></i>
                                 <span class="text-xs font-black text-[#182230]">Notifications</span>
                                 <?php if ($unreadNotifsCount > 0): ?>
-                                    <span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-orange-100 text-[#C2410C]">
+                                    <span class="notif-unread-badge text-[10px] font-black px-2 py-0.5 rounded-full bg-orange-100 text-[#C2410C]">
                                         <?= $unreadNotifsCount ?> non lue<?= $unreadNotifsCount > 1 ? 's' : '' ?>
                                     </span>
                                 <?php endif; ?>
                             </div>
-                            <form action="notifications.php" method="POST" class="inline">
+                            <form action="notifications.php" method="POST" class="inline ajax-mark-all-notifs-form">
                                 <?= getCSRFInputField() ?>
                                 <input type="hidden" name="action" value="mark_all_read">
                                 <button type="submit" class="text-[10px] font-bold text-[#0B54C2] hover:underline cursor-pointer">
@@ -363,7 +402,7 @@ if ($layoutType === 'public_compact'): ?>
                                 </div>
                             <?php else: ?>
                                 <?php foreach ($recentNotifs as $notif): ?>
-                                    <a href="<?= htmlspecialchars($notif['link_url'] ?? 'notifications.php') ?>" class="block p-3.5 hover:bg-[#F8FBFF] transition-colors <?= $notif['is_read'] == 0 ? 'bg-[#EEF5FC]/40' : '' ?>">
+                                    <a href="notifications.php?read_id=<?= urlencode($notif['id']) ?>&redirect=<?= urlencode($notif['link_url'] ?? 'notifications.php') ?>" class="notif-dropdown-item block p-3.5 hover:bg-[#F8FBFF] transition-colors <?= $notif['is_read'] == 0 ? 'bg-[#EEF5FC]/40' : '' ?>">
                                         <div class="flex items-start gap-3">
                                             <div class="w-8 h-8 rounded-xl bg-[#EAF3FF] text-[#1677FF] flex items-center justify-center shrink-0 mt-0.5">
                                                 <i data-lucide="<?= htmlspecialchars($notif['icon'] ?? 'bell') ?>" class="w-4 h-4 text-[#1677FF]"></i>
@@ -372,7 +411,7 @@ if ($layoutType === 'public_compact'): ?>
                                                 <div class="flex items-center justify-between gap-1">
                                                     <span class="text-xs font-bold text-[#182230] truncate"><?= htmlspecialchars($notif['title']) ?></span>
                                                     <?php if ($notif['is_read'] == 0): ?>
-                                                        <span class="w-2 h-2 rounded-full bg-[#1677FF] shrink-0"></span>
+                                                        <span class="notif-unread-dot w-2 h-2 rounded-full bg-[#1677FF] shrink-0"></span>
                                                     <?php endif; ?>
                                                 </div>
                                                 <p class="text-[11px] text-[#667085] line-clamp-2 mt-0.5"><?= htmlspecialchars($notif['message']) ?></p>
@@ -442,6 +481,7 @@ if ($layoutType === 'public_compact'): ?>
                             <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                         </button>
                     </div>
+                </form>
             </div>
 
             <!-- Tablet Actions: Cloche Notifications + User -->
@@ -453,7 +493,7 @@ if ($layoutType === 'public_compact'): ?>
                             <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
                         </svg>
                         <?php if ($unreadNotifsCount > 0): ?>
-                            <span style="position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; background-color: #EF4444; color: #ffffff; font-size: 9px; font-weight: 900; border-radius: 9999px; display: flex; align-items: center; justify-content: center; border: 1.5px solid #ffffff; line-height: 1; pointer-events: none; z-index: 10;">
+                            <span class="notif-unread-badge" style="position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; background-color: #EF4444; color: #ffffff; font-size: 9px; font-weight: 900; border-radius: 9999px; display: flex; align-items: center; justify-content: center; border: 1.5px solid #ffffff; line-height: 1; pointer-events: none; z-index: 10;">
                                 <?= $unreadNotifsCount ?>
                             </span>
                         <?php endif; ?>
@@ -493,7 +533,7 @@ if ($layoutType === 'public_compact'): ?>
                                 <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
                             </svg>
                             <?php if ($unreadNotifsCount > 0): ?>
-                                <span style="position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; background-color: #EF4444; color: #ffffff; font-size: 9px; font-weight: 900; border-radius: 9999px; display: flex; align-items: center; justify-content: center; border: 1.5px solid #ffffff; line-height: 1; pointer-events: none; z-index: 10;">
+                                <span class="notif-unread-badge" style="position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; background-color: #EF4444; color: #ffffff; font-size: 9px; font-weight: 900; border-radius: 9999px; display: flex; align-items: center; justify-content: center; border: 1.5px solid #ffffff; line-height: 1; pointer-events: none; z-index: 10;">
                                     <?= $unreadNotifsCount ?>
                                 </span>
                             <?php endif; ?>
@@ -502,9 +542,8 @@ if ($layoutType === 'public_compact'): ?>
                 </div>
             </div>
 
-            <!-- Mobile Row 2: Seamless Unified Apple Search Omnibox (Matching Design References) -->
-            <?php if ($currPage !== 'shop.php'): ?>
-                <div class="mt-2 relative">
+            <!-- Mobile Row 2: Seamless Unified Apple Search Omnibox (Disponible sur toutes les pages y compris Boutique) -->
+            <div class="mt-2 relative">
                     <form action="search.php" method="GET" class="w-full relative">
                         <div class="relative h-[42px] flex items-center bg-white focus-within:bg-white rounded-full border border-[#DCE4EE] focus-within:border-[#1677FF] focus-within:ring-2 focus-within:ring-[#1677FF]/15 transition-all shadow-2xs">
                             <!-- Left Search Icon -->
@@ -543,7 +582,6 @@ if ($layoutType === 'public_compact'): ?>
                         </div>
                     </form>
                 </div>
-            <?php endif; ?>
         </div>
 
         <!-- ─── DESKTOP SECONDARY NAVBAR (Uniquement sur layout_public_full) ─── -->
