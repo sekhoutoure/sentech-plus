@@ -582,6 +582,7 @@ function getDBConnection(): ?PDO {
 
             $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
             ensureAccurateCatalogImages($pdo);
+            ensureAdminAccount($pdo);
 
         } catch (Throwable $e) {
 
@@ -1024,6 +1025,74 @@ function ensureAccurateCatalogImages(?PDO $pdo = null): void {
         }
     } catch (Throwable $e) {}
 }
+
+/**
+ * Garantit de façon sécurisée et idempotente l'existence et les privilèges du compte administrateur bootstrap (via variables d'environnement .env)
+ */
+function ensureAdminAccount(?PDO $pdo = null): void {
+    if (!$pdo) return;
+    static $adminSynced = false;
+    if ($adminSynced) return;
+    $adminSynced = true;
+
+    try {
+        $adminEmail = (string)env_val('ADMIN_BOOTSTRAP_EMAIL', '');
+        $adminPass = (string)env_val('ADMIN_BOOTSTRAP_PASS', '');
+        if ($adminEmail === '' || $adminPass === '') {
+            return;
+        }
+        
+        $stmt = $pdo->prepare("SELECT id, password, role FROM users WHERE email = :email LIMIT 1");
+        $stmt->execute([':email' => $adminEmail]);
+        $existing = $stmt->fetch();
+
+        if ($existing) {
+            $needsUpdate = false;
+            $params = [':email' => $adminEmail];
+            $updates = ["is_email_verified = 1"];
+
+            if (($existing['role'] ?? '') !== 'admin') {
+                $updates[] = "role = 'admin'";
+                $needsUpdate = true;
+            }
+
+            if (empty($existing['password']) || !password_verify($adminPass, $existing['password'])) {
+                $hash = password_hash($adminPass, PASSWORD_BCRYPT);
+                $updates[] = "password = :pass";
+                $params[':pass'] = $hash;
+                $needsUpdate = true;
+            }
+
+            if ($needsUpdate) {
+                $sql = "UPDATE users SET " . implode(', ', $updates) . " WHERE email = :email";
+                $upd = $pdo->prepare($sql);
+                $upd->execute($params);
+            }
+        } else {
+            $hash = password_hash($adminPass, PASSWORD_BCRYPT);
+            $newId = 'user_admin_' . bin2hex(random_bytes(6));
+            $adminName = (string)env_val('ADMIN_BOOTSTRAP_NAME', 'Administrateur');
+            $adminPhone = (string)env_val('ADMIN_NOTIFICATION_PHONE', '221781316497');
+            $ins = $pdo->prepare("INSERT INTO users (id, name, email, password, phone, is_email_verified, role, created_at, updated_at) VALUES (:id, :name, :email, :pass, :phone, 1, 'admin', NOW(), NOW())");
+            $ins->execute([
+                ':id' => $newId,
+                ':name' => $adminName,
+                ':email' => $adminEmail,
+                ':pass' => $hash,
+                ':phone' => $adminPhone
+            ]);
+        }
+
+        // Réinitialiser les compteurs de sécurité et de blocage pour ce compte
+        if (class_exists('SecurityShield')) {
+            SecurityShield::clearRateLimit('login_user', $adminEmail);
+            SecurityShield::clearRateLimit('login');
+        }
+    } catch (Throwable $e) {
+        error_log("ensureAdminAccount error: " . $e->getMessage());
+    }
+}
+
 
 /**
 

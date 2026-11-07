@@ -40,3 +40,6 @@ desktop.ini
 .vscode/
 *.sublime-project
 *.sublime-workspace
+
+# Scratch and temporary deployment scripts
+scratch/
