@@ -630,7 +630,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const onPointerDown = (e) => {
-                if (e.target.closest('button, a, input, select, textarea, form')) return;
+                // Only initiate drag from the top grabber handle so normal taps/scrolls inside the cart never trigger drawer dismissal
+                if (!e.target.closest('.apple-drag-handle')) return;
                 isDragging = true;
                 pointerId = e.pointerId;
                 try { panel.setPointerCapture(pointerId); } catch (_) {}

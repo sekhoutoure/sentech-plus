@@ -545,6 +545,17 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
       }
 
       /* ─── Apple Fluid Modal & Drawer Architecture (Spring Physics & Velocity-Aware) ─── */
+      .pointer-events-auto { pointer-events: auto !important; }
+      .pointer-events-none { pointer-events: none; }
+      #cart-drawer-panel,
+      #cart-drawer-panel *,
+      .anim-modal-dialog,
+      .anim-modal-dialog *,
+      #floating-whatsapp-btn,
+      #floating-whatsapp-btn *,
+      #back-to-top {
+        pointer-events: auto !important;
+      }
       .anim-drawer-overlay{display:none;opacity:0;visibility:hidden;transition:opacity 240ms var(--ease-apple-standard),visibility 240ms var(--ease-apple-standard);}
       .anim-drawer-overlay.active{display:block;opacity:1;visibility:visible;}
       .anim-drawer-panel{transform:translateX(100%);transition:transform 300ms var(--ease-apple-sheet);will-change:transform;}

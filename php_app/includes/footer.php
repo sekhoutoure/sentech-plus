@@ -64,7 +64,7 @@ if ($layoutType === 'auth'): ?>
             <a href="contact.php" class="hover:text-[#1677FF]">Assistance</a>
         </div>
     </footer>
-    <script src="assets/js/app.min.js?v=3.6" defer></script>
+    <script src="assets/js/app.min.js?v=3.9" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -108,7 +108,7 @@ if ($layoutType === 'checkout'): ?>
 
         </div>
     </footer>
-    <script src="assets/js/app.min.js?v=3.6" defer></script>
+    <script src="assets/js/app.min.js?v=3.9" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -355,7 +355,7 @@ function toggleFooterAccordion(id) {
     </button>
 
     <!-- 2. Floating WhatsApp Button (Vibrant Emerald Pill) -->
-    <aside id="floating-whatsapp-btn" aria-label="Support WhatsApp" class="pointer-events-auto">
+    <aside id="floating-whatsapp-btn" aria-label="Support WhatsApp" class="pointer-events-auto" style="pointer-events: auto !important;">
         <a href="https://wa.me/<?= htmlspecialchars($storeWa) ?>?text=Bonjour%20<?= urlencode($storeName) ?>%20!%20Je%20souhaite%20avoir%20des%20informations%20sur%20vos%20%C3%A9quipements%20High-Tech." target="_blank" rel="noopener noreferrer" style="background-color: #25D366 !important; color: #FFFFFF !important; box-shadow: 0 6px 20px rgba(37,211,102,0.45) !important;" class="relative flex items-center justify-center bg-[#25D366] hover:bg-[#1EBE5D] text-white rounded-full shadow-[0_6px_20px_rgba(37,211,102,0.45)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer p-2.5 sm:px-4 sm:py-2.5" aria-label="Contactez-nous sur WhatsApp">
             <div class="w-5 h-5 flex items-center justify-center shrink-0">
                 <svg viewBox="0 0 32 32" class="w-5 h-5 fill-white" style="fill: #FFFFFF !important;" xmlns="http://www.w3.org/2000/svg">
@@ -426,7 +426,7 @@ function toggleFooterAccordion(id) {
 <?php endif; ?>
 
 <!-- Interactive Scripts -->
-<script src="assets/js/app.min.js?v=3.6" defer></script>
+<script src="assets/js/app.min.js?v=3.9" defer></script>
 <script>
     function initIcons() {
         if (typeof lucide !== 'undefined') {

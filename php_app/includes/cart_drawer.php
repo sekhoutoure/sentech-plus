@@ -4,11 +4,11 @@
 
 <div id="cart-drawer-overlay" class="fixed inset-0 overflow-hidden anim-drawer-overlay" style="z-index: 100000 !important;">
     <!-- Backdrop (Apple Glass Overlay) -->
-    <div onclick="toggleCartDrawer(false)" class="absolute inset-0 glass-overlay cursor-pointer"></div>
+    <div onclick="toggleCartDrawer(false)" class="absolute inset-0 z-0 glass-overlay cursor-pointer"></div>
 
-    <div class="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10 pointer-events-none">
+    <div class="fixed inset-y-0 right-0 z-10 max-w-full flex pl-0 sm:pl-10 pointer-events-none">
         <!-- Slide-over panel (Smooth Hardware Easing & Apple Glass) -->
-        <div id="cart-drawer-panel" class="w-screen max-w-md bg-white/95 backdrop-blur-2xl shadow-2xl flex flex-col justify-between anim-drawer-panel border-l border-white/60 pointer-events-auto h-full" style="padding-bottom: max(12px, env(safe-area-inset-bottom));">
+        <div id="cart-drawer-panel" onclick="event.stopPropagation()" class="relative z-10 w-screen max-w-md bg-white/95 backdrop-blur-2xl shadow-2xl flex flex-col justify-between anim-drawer-panel border-l border-white/60 pointer-events-auto h-full" style="pointer-events: auto !important; padding-bottom: max(12px, env(safe-area-inset-bottom));">
             
             <!-- Apple Sheet Grabber (Mobile touch target & visual anchor) -->
             <div class="sm:hidden pt-2 pb-1 flex justify-center bg-transparent">
