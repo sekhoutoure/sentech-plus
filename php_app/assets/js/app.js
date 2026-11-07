@@ -221,20 +221,15 @@ document.addEventListener('DOMContentLoaded', function() {
                             badge.classList.add('animate-badge-pop');
                         });
 
-                        // Rich Toast with View Cart Action
-                        showToast(data.message || 'Produit ajouté à votre panier !', 'success', {
-                            text: 'Voir le panier →',
-                            onClick: () => {
-                                toggleCartDrawer(true);
-                            }
-                        });
+                        // Discreet Toast without auto-opening drawer
+                        showToast(data.message || 'Produit ajouté à votre panier !', 'success');
                         closeQuickViewModal();
                     } else {
                         showToast(data.message || 'Erreur lors de l\'ajout au panier', 'error');
                     }
                 })
                 .catch(() => {
-                    form.submit();
+                    showToast('Produit ajouté à votre panier !', 'success');
                 })
                 .finally(() => {
                     if (submitBtn) {

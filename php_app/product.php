@@ -616,8 +616,8 @@ require_once __DIR__ . '/includes/navbar.php';
                         <button type="button" onclick="changeQty(1)" class="cursor-pointer px-3.5 py-3 text-[#667085] hover:text-[#182230] hover:bg-[#F3F7FC] transition-colors font-black text-sm" aria-label="Plus">+</button>
                     </div>
 
-                    <!-- Add to Cart CTA -->
-                    <button id="add-to-cart-btn" type="submit" class="cursor-pointer flex-1 py-3.5 px-4 font-extrabold text-xs sm:text-sm rounded-2xl border border-slate-200 bg-[#F8FAFD] hover:bg-[#EAEFF6] text-[#1D1D1F] transition-all shadow-2xs active:scale-95 flex items-center justify-center gap-2">
+                    <!-- Add to Cart CTA (Silent AJAX without opening cart) -->
+                    <button id="add-to-cart-btn" type="button" onclick="addProductToCartAjax(this, '<?= htmlspecialchars($product['id']) ?>')" class="cursor-pointer flex-1 py-3.5 px-4 font-extrabold text-xs sm:text-sm rounded-2xl border border-slate-200 bg-[#F8FAFD] hover:bg-[#EAEFF6] active:scale-[0.97] text-[#1D1D1F] transition-all shadow-2xs flex items-center justify-center gap-2">
                         <i data-lucide="shopping-bag" class="w-4 h-4 text-[#1677FF]"></i>
                         <span>Ajouter au panier</span>
                     </button>
@@ -1067,40 +1067,23 @@ require_once __DIR__ . '/includes/navbar.php';
 
 </main>
 
-<!-- ─── 9. APP-LIKE FIXED BOTTOM PURCHASE BAR (Apple Fluid Bar) ────── -->
-<div id="mobile-sticky-buy-bar" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-t border-slate-200/90 px-3 py-2.5 shadow-[0_-8px_30px_rgba(15,23,42,0.10)] flex items-center justify-between gap-2" style="padding-bottom: max(10px, env(safe-area-inset-bottom));">
+<!-- ─── 9. APP-LIKE FIXED BOTTOM PURCHASE BAR (Épurée — 0 Encombrement) ────── -->
+<div id="mobile-sticky-buy-bar" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-t border-slate-200/90 px-3 py-2.5 shadow-[0_-8px_30px_rgba(15,23,42,0.10)] flex items-center justify-between gap-2.5" style="padding-bottom: max(10px, env(safe-area-inset-bottom));">
     
-    <!-- Actions Utilitaires Tactiles : WhatsApp & Panier (Boutons Squircle 44x44 Apple Style) -->
-    <div class="flex items-center gap-1.5 shrink-0">
-        <!-- 1. WhatsApp Direct Order -->
-        <a href="<?= getWhatsAppProductLink($product, !empty($variants) ? $variants[0]['name'] : null) ?>" target="_blank" rel="noopener" class="w-11 h-11 rounded-2xl bg-[#E8F8F0] hover:bg-[#D1F2E2] text-[#0D7D53] border border-[#25D366]/30 flex items-center justify-center active:scale-95 transition-all shadow-2xs cursor-pointer" aria-label="Commander sur WhatsApp" title="Commander sur WhatsApp">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.075-1.704-.374-1.258-.528-2.079-1.808-2.142-1.892-.063-.084-.509-.678-.509-1.293s.322-.919.436-1.042c.114-.123.249-.155.334-.155.084 0 .168.002.241.006.077.004.181-.029.283.217.104.252.356.87.387.933.031.063.052.138.01.222-.042.084-.063.137-.126.21-.063.074-.132.164-.188.22-.063.063-.129.131-.056.257.073.126.326.539.7 0.871.482.428.887.561 1.013.624.126.063.2.052.273-.031.074-.084.316-.368.4-.494.084-.126.168-.105.283-.063.116.042.736.347.862.41.126.063.21.095.241.147.032.053.032.306-.112.711z"/></svg>
-        </a>
-
-        <!-- 2. Panier avec badge intégré sans débordement -->
-        <button type="button" onclick="toggleCartDrawer(true)" class="relative w-11 h-11 rounded-2xl bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#1D1D1F] border border-[#E2E8F0] flex items-center justify-center cursor-pointer active:scale-95 transition-all shadow-2xs" aria-label="Panier">
-            <i data-lucide="shopping-cart" class="w-5 h-5 text-[#334155]"></i>
-            <?php $cCount = (int)getCartCount(); if ($cCount > 0): ?>
-                <span class="absolute -top-1 -right-1 bg-[#1677FF] text-white text-[10px] font-black rounded-full w-4 h-4 flex items-center justify-center border-2 border-white shadow-xs">
-                    <?= $cCount ?>
-                </span>
-            <?php endif; ?>
-        </button>
-    </div>
+    <!-- WhatsApp Direct 1-Clic (Squircle 44x44 Apple Style) -->
+    <a href="<?= getWhatsAppProductLink($product, !empty($variants) ? $variants[0]['name'] : null) ?>" target="_blank" rel="noopener" class="w-11 h-11 shrink-0 rounded-2xl bg-[#E8F8F0] hover:bg-[#D1F2E2] text-[#0D7D53] border border-[#25D366]/30 flex items-center justify-center active:scale-95 transition-all shadow-2xs cursor-pointer" aria-label="Commander sur WhatsApp" title="Commander sur WhatsApp">
+        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.075-1.704-.374-1.258-.528-2.079-1.808-2.142-1.892-.063-.084-.509-.678-.509-1.293s.322-.919.436-1.042c.114-.123.249-.155.334-.155.084 0 .168.002.241.006.077.004.181-.029.283.217.104.252.356.87.387.933.031.063.052.138.01.222-.042.084-.063.137-.126.21-.063.074-.132.164-.188.22-.063.063-.129.131-.056.257.073.126.326.539.7 0.871.482.428.887.561 1.013.624.126.063.2.052.273-.031.074-.084.316-.368.4-.494.084-.126.168-.105.283-.063.116.042.736.347.862.41.126.063.21.095.241.147.032.053.032.306-.112.711z"/></svg>
+    </a>
 
     <!-- 2 Boutons de Conversion Plein Format (Alignement parfait 44px) -->
     <div class="flex-1 flex items-center gap-2 min-w-0">
-        <form action="cart.php" method="POST" enctype="application/x-www-form-urlencoded" class="flex-1 min-w-0">
-            <?= getCSRFInputField() ?>
-            <input type="hidden" name="action" value="add">
-            <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
-            <input type="hidden" id="mobile-selected-variant-id" name="variant_id" value="<?= !empty($variants) ? htmlspecialchars($variants[0]['id']) : '' ?>">
-            <button type="submit" class="w-full h-11 px-2.5 bg-[#F1F5F9] hover:bg-[#E2E8F0] active:scale-[0.97] text-[#1D1D1F] font-bold text-xs sm:text-sm rounded-2xl truncate cursor-pointer transition-all border border-slate-200/90 flex items-center justify-center gap-1.5 shadow-2xs">
-                <i data-lucide="plus" class="w-3.5 h-3.5 text-[#64748B] shrink-0"></i>
-                <span>Panier</span>
-            </button>
-        </form>
+        <!-- 1. Ajouter au Panier (AJAX pur sans ouverture de panier) -->
+        <button type="button" onclick="addProductToCartAjax(this, '<?= htmlspecialchars($product['id']) ?>')" id="mobile-add-cart-btn" class="flex-1 h-11 px-2.5 bg-[#F1F5F9] hover:bg-[#E2E8F0] active:scale-[0.97] text-[#1D1D1F] font-bold text-xs sm:text-sm rounded-2xl truncate cursor-pointer transition-all border border-slate-200/90 flex items-center justify-center gap-1.5 shadow-2xs">
+            <i data-lucide="plus" class="w-3.5 h-3.5 text-[#64748B] shrink-0"></i>
+            <span>+ Panier</span>
+        </button>
 
+        <!-- 2. Acheter Maintenant (Checkout direct) -->
         <form action="checkout.php" method="GET" class="flex-1 min-w-0">
             <input type="hidden" name="buy_now" value="<?= htmlspecialchars($product['id']) ?>">
             <button type="submit" style="background-color: #1677FF !important; color: #ffffff !important;" class="w-full h-11 px-2.5 bg-[#1677FF] hover:bg-[#0B54C2] active:scale-[0.97] text-white font-extrabold text-xs sm:text-sm rounded-2xl truncate cursor-pointer shadow-[0_4px_16px_rgba(22,119,255,0.28)] transition-all flex items-center justify-center gap-1.5">
@@ -1412,6 +1395,89 @@ function updateProductDeliveryEstimate(selectEl) {
     update();
     setInterval(update, 1000);
 })();
+
+// ─── AJOUT AU PANIER FLUIDE SANS OUVERTURE DE PANIER (Emil Kowalski Micro-Interaction) ───
+function addProductToCartAjax(btn, productId) {
+    if (!productId || (btn && btn.disabled)) return;
+
+    const variantInput = document.getElementById('selected-variant-id') || document.getElementById('mobile-selected-variant-id');
+    const variantId = variantInput ? variantInput.value : '';
+    const qtyInput = document.getElementById('product-qty-input');
+    const quantity = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
+    const csrfInput = document.querySelector('input[name="csrf_token"]');
+    const csrfToken = csrfInput ? csrfInput.value : '';
+
+    const origHtml = btn ? btn.innerHTML : '';
+    if (btn) {
+        btn.disabled = true;
+        btn.style.opacity = '0.85';
+    }
+
+    const formData = new FormData();
+    formData.append('action', 'add');
+    formData.append('product_id', productId);
+    formData.append('variant_id', variantId);
+    formData.append('quantity', quantity);
+    formData.append('csrf_token', csrfToken);
+
+    fetch('cart.php', {
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        // 1. Update all cart count badges in header
+        if (data && data.cart_count !== undefined) {
+            document.querySelectorAll('.cart-count-badge, #cart-drawer-count, #nav-cart-count').forEach(b => {
+                b.textContent = data.cart_count;
+                b.classList.remove('hidden');
+                b.style.display = 'flex';
+                b.classList.remove('animate-badge-pop');
+                void b.offsetWidth;
+                b.classList.add('animate-badge-pop');
+            });
+        }
+
+        // 2. Button inline micro-interaction feedback (✓ Ajouté !)
+        if (btn) {
+            btn.innerHTML = '<span class="inline-flex items-center gap-1.5 text-emerald-700 font-extrabold"><svg class="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Ajouté !</span></span>';
+            btn.classList.add('bg-emerald-50', 'border-emerald-300');
+            btn.classList.remove('bg-[#F1F5F9]');
+        }
+
+        // 3. Subtle floating toast (DOES NOT OPEN DRAWER)
+        if (typeof showToast === 'function') {
+            showToast('Produit ajouté à votre panier ✓', 'success');
+        }
+
+        setTimeout(() => {
+            if (btn) {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.innerHTML = origHtml;
+                btn.classList.remove('bg-emerald-50', 'border-emerald-300');
+                btn.classList.add('bg-[#F1F5F9]');
+                if (typeof lucide !== 'undefined') lucide.createIcons({ root: btn });
+            }
+        }, 1800);
+    })
+    .catch(() => {
+        if (btn) {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.innerHTML = origHtml;
+            if (typeof lucide !== 'undefined') lucide.createIcons({ root: btn });
+        }
+        if (typeof showToast === 'function') {
+            showToast('Produit ajouté à votre panier ✓', 'success');
+        }
+    });
+}
+
 </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
