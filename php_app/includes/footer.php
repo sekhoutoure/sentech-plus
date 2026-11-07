@@ -348,17 +348,17 @@ function toggleFooterAccordion(id) {
 <!-- Floating Actions Stack (Back to Top + WhatsApp cleanly positioned at Bottom-Right) -->
 <div id="floating-actions-stack" aria-label="Actions rapides flottantes" class="flex flex-col items-end gap-2.5 pointer-events-none fixed <?= in_array($currPage, ['product.php', 'wishlist.php', 'checkout.php']) ? 'hidden md:flex' : 'bottom-[68px]' ?> md:bottom-6 right-3 sm:right-6 z-30">
     
-    <!-- 1. Back to Top Arrow -->
-    <button type="button" id="back-to-top" style="display:none;" class="pointer-events-auto w-9 h-9 sm:w-10 sm:h-10 bg-[#182230]/90 hover:bg-[#0B54C2] text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 cursor-pointer focus:ring-2 focus:ring-white active:scale-95 hover:scale-105" aria-label="Retour en haut de la page">
-      <i data-lucide="chevrons-up" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+    <!-- 1. Back to Top Arrow (High Contrast Apple Dark Finish) -->
+    <button type="button" id="back-to-top" style="display:none; background-color: #1D1D1F !important; color: #FFFFFF !important; box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;" class="pointer-events-auto w-10 h-10 bg-[#1D1D1F] hover:bg-[#0B54C2] text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 cursor-pointer focus:ring-2 focus:ring-white active:scale-95 hover:scale-105" aria-label="Retour en haut de la page">
+      <i data-lucide="chevrons-up" class="w-5 h-5 text-white" style="color: #FFFFFF !important; stroke: #FFFFFF !important;"></i>
       <span class="sr-only">Retour en haut</span>
     </button>
 
-    <!-- 2. Floating WhatsApp Button -->
+    <!-- 2. Floating WhatsApp Button (Vibrant Emerald Pill) -->
     <aside id="floating-whatsapp-btn" aria-label="Support WhatsApp" class="pointer-events-auto">
-        <a href="https://wa.me/<?= htmlspecialchars($storeWa) ?>?text=Bonjour%20<?= urlencode($storeName) ?>%20!%20Je%20souhaite%20avoir%20des%20informations%20sur%20vos%20%C3%A9quipements%20High-Tech." target="_blank" rel="noopener noreferrer" class="relative flex items-center justify-center bg-[#0A7C42] hover:bg-[#075E54] text-white rounded-full shadow-[0_4px_16px_rgba(10,124,66,0.35)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer p-2.5 sm:px-3.5 sm:py-2" aria-label="Contactez-nous sur WhatsApp">
+        <a href="https://wa.me/<?= htmlspecialchars($storeWa) ?>?text=Bonjour%20<?= urlencode($storeName) ?>%20!%20Je%20souhaite%20avoir%20des%20informations%20sur%20vos%20%C3%A9quipements%20High-Tech." target="_blank" rel="noopener noreferrer" style="background-color: #25D366 !important; color: #FFFFFF !important; box-shadow: 0 6px 20px rgba(37,211,102,0.45) !important;" class="relative flex items-center justify-center bg-[#25D366] hover:bg-[#1EBE5D] text-white rounded-full shadow-[0_6px_20px_rgba(37,211,102,0.45)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer p-2.5 sm:px-4 sm:py-2.5" aria-label="Contactez-nous sur WhatsApp">
             <div class="w-5 h-5 flex items-center justify-center shrink-0">
-                <svg viewBox="0 0 32 32" class="w-5 h-5 fill-white" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 32 32" class="w-5 h-5 fill-white" style="fill: #FFFFFF !important;" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.002 2C8.28 2 2 8.28 2 16.002c0 2.482.672 4.81 1.844 6.812L2 30l7.394-1.816A13.934 13.934 0 0016.002 30C23.72 30 30 23.72 30 16.002 30 8.28 23.72 2 16.002 2zm0 25.324a11.27 11.27 0 01-5.744-1.574l-.41-.244-4.39 1.078 1.108-4.28-.268-.44a11.278 11.278 0 01-1.722-6.012c0-6.254 5.09-11.342 11.342-11.342 6.254 0 11.342 5.088 11.342 11.342 0 6.254-5.09 11.342-11.342 11.342h-.116zm6.22-8.49c-.34-.17-2.014-1.002-2.328-1.118-.314-.114-.542-.17-.77.17-.228.34-.882 1.118-1.082 1.346-.2.228-.4.256-.74.086-.34-.17-1.436-.53-2.736-1.69-1.012-.902-1.694-2.016-1.894-2.356-.2-.34-.022-.524.15-.694.156-.152.34-.398.51-.598.17-.2.228-.34.342-.568.114-.228.058-.428-.028-.598-.086-.17-.77-1.862-1.056-2.55-.278-.668-.56-.578-.77-.588h-.656c-.228 0-.598.086-.912.428-.314.342-1.2 1.172-1.2 2.856s1.228 3.31 1.398 3.54c.17.228 2.418 3.69 5.858 5.18.818.354 1.456.566 1.954.724.82.262 1.568.226 2.158.138.658-.1 2.014-.824 2.3-1.62.284-.798.284-1.482.2-1.624-.086-.142-.314-.228-.654-.4z" />
                 </svg>
             </div>

@@ -724,9 +724,83 @@ $absoluteOgImage = (strpos($ogImage, 'http') === 0) ? $ogImage : $canonicalBase 
         box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.05) !important;
       }
 
-      /* ─── Floating Action Stack (Strict Bottom-Right Pinning) ───────── */
+      /* ─── Floating Action Stack (Strict Bottom-Right Pinning & High Contrast) ───────── */
       #floating-actions-stack{position:fixed;right:14px;bottom:74px;z-index:9999;}
       @media(min-width:1024px){#floating-actions-stack{bottom:20px!important;right:24px!important;}}
+
+      #back-to-top {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        min-height: 42px !important;
+        border-radius: 9999px !important;
+        background-color: #1D1D1F !important;
+        color: #FFFFFF !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28) !important;
+        cursor: pointer !important;
+        transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1), background-color 180ms ease-out !important;
+      }
+      #back-to-top:hover {
+        background-color: #0B54C2 !important;
+        transform: scale(1.06) !important;
+      }
+      #back-to-top:active {
+        transform: scale(0.92) !important;
+      }
+      #back-to-top svg {
+        width: 20px !important;
+        height: 20px !important;
+        stroke: #FFFFFF !important;
+        color: #FFFFFF !important;
+      }
+
+      #floating-whatsapp-btn a {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        height: 44px !important;
+        padding: 0 16px !important;
+        border-radius: 9999px !important;
+        background-color: #25D366 !important;
+        color: #FFFFFF !important;
+        font-weight: 700 !important;
+        font-size: 12px !important;
+        text-decoration: none !important;
+        box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45) !important;
+        border: 1px solid rgba(255, 255, 255, 0.25) !important;
+        transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1), background-color 180ms ease-out, box-shadow 180ms ease-out !important;
+        cursor: pointer !important;
+      }
+      #floating-whatsapp-btn a:hover {
+        background-color: #1EBE5D !important;
+        box-shadow: 0 8px 24px rgba(37, 211, 102, 0.55) !important;
+        transform: scale(1.04) !important;
+      }
+      #floating-whatsapp-btn a:active {
+        transform: scale(0.94) !important;
+      }
+      #floating-whatsapp-btn svg {
+        width: 20px !important;
+        height: 20px !important;
+        fill: #FFFFFF !important;
+        flex-shrink: 0 !important;
+      }
+      @media (max-width: 640px) {
+        #floating-whatsapp-btn a {
+          width: 44px !important;
+          height: 44px !important;
+          padding: 0 !important;
+          border-radius: 9999px !important;
+        }
+        #floating-whatsapp-btn a span {
+          display: none !important;
+        }
+      }
 
       /* ─── Apple-Style Clean & Airy Product Card Architecture ─── */
       .prod-card {
