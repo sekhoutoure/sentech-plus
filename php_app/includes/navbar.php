@@ -283,7 +283,7 @@ if ($layoutType === 'public_compact'): ?>
                 </div>
 
                 <!-- Account / Connexion -->
-                <a href="<?= isLoggedIn() ? 'account.php' : 'login.php' ?>" class="cursor-pointer flex items-center gap-1.5 text-xs font-bold text-[#344054] hover:text-[#1677FF] p-2 rounded-xl hover:bg-[#F3F7FC] transition-colors" aria-label="Mon Compte">
+                <a href="<?= getLoginUrl() ?>" class="cursor-pointer flex items-center gap-1.5 text-xs font-bold text-[#344054] hover:text-[#1677FF] p-2 rounded-xl hover:bg-[#F3F7FC] transition-colors" aria-label="Mon Compte">
                     <i data-lucide="user" class="w-5 h-5"></i>
                     <span class="hidden lg:inline"><?= isLoggedIn() ? htmlspecialchars(explode(' ', getCurrentUser()['name'])[0]) : 'Compte' ?></span>
                 </a>
@@ -453,7 +453,7 @@ if ($layoutType === 'public_compact'): ?>
                 </div>
 
                 <!-- Account / Connexion -->
-                <a href="<?= isLoggedIn() ? 'account.php' : 'login.php' ?>" class="cursor-pointer flex items-center gap-2 text-xs font-extrabold text-[#182230] hover:text-[#0B54C2] transition-colors group">
+                <a href="<?= getLoginUrl() ?>" class="cursor-pointer flex items-center gap-2 text-xs font-extrabold text-[#182230] hover:text-[#0B54C2] transition-colors group">
                     <div class="w-10 h-10 rounded-full bg-white group-hover:bg-[#EAF3FF] border border-[#E5EAF0] flex items-center justify-center text-[#475467] group-hover:text-[#0B54C2] transition-colors shadow-2xs">
                         <svg class="w-5 h-5 text-[#475467] group-hover:text-[#0B54C2] transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     </div>
@@ -519,7 +519,7 @@ if ($layoutType === 'public_compact'): ?>
                     </div>
                 </a>
 
-                <a href="<?= isLoggedIn() ? 'account.php' : 'login.php' ?>" class="w-9 h-9 rounded-xl flex items-center justify-center text-[#475467] hover:text-[#0B54C2] hover:bg-[#F3F7FC] transition-colors" aria-label="Compte">
+                <a href="<?= getLoginUrl() ?>" class="w-9 h-9 rounded-xl flex items-center justify-center text-[#475467] hover:text-[#0B54C2] hover:bg-[#F3F7FC] transition-colors" aria-label="Compte">
                     <i data-lucide="user" class="w-5 h-5"></i>
                 </a>
             </div>
@@ -741,7 +741,7 @@ if ($layoutType === 'public_compact'): ?>
                         <span class="font-bold text-[#182230] block">Bienvenue sur SenTechPLUS</span>
                         <span class="text-[10px] text-[#344054] font-medium">Connectez-vous pour vos commandes</span>
                     </div>
-                    <a href="login.php" class="cursor-pointer bg-[#0B54C2] hover:bg-[#09449E] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-2xs">
+                    <a href="<?= getLoginUrl() ?>" class="cursor-pointer bg-[#0B54C2] hover:bg-[#09449E] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-2xs">
                         Connexion
                     </a>
                 </div>

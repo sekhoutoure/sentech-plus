@@ -740,6 +740,28 @@ function requireSeller(): array {
 
  */
 
+
+/**
+ * Génère l'URL de connexion ou de compte intelligente :
+ * - Si déjà connecté (admin) -> admin/index.php
+ * - Si déjà connecté (client) -> account.php
+ * - Si non connecté -> login.php?redirect={page_courante}
+ */
+function getLoginUrl(?string $currentPageUrl = null): string {
+    if (isLoggedIn()) {
+        return isAdmin() ? 'admin/index.php' : 'account.php';
+    }
+    $req = $currentPageUrl ?: ($_SERVER['REQUEST_URI'] ?? '');
+    $path = parse_url($req, PHP_URL_PATH);
+    $file = basename($path ?: '');
+    $forbidden = ['login.php', 'register.php', 'logout.php', 'forgot-password.php', 'reset-password.php'];
+    if (empty($req) || in_array($file, $forbidden, true)) {
+        return 'login.php';
+    }
+    $cleanReq = ltrim($req, '/');
+    return 'login.php?redirect=' . urlencode($cleanReq);
+}
+
 function getSafeRedirectUrl(?string $redirect, string $userRole = 'customer'): string {
 
     if (empty($redirect)) {

@@ -414,11 +414,24 @@ function toggleFooterAccordion(id) {
             <span style="font-size: 10px; font-weight: <?= $isWish ? '800' : '700' ?>; margin-top: 2px; color: <?= $isWish ? '#0B54C2' : '#344054' ?>;">Favoris</span>
         </a>
 
-        <!-- 5. Compte Client -->
-        <?php $isAuth = ($currPage === 'account.php' || $currPage === 'login.php' || $currPage === 'register.php' || $currPage === 'orders.php'); ?>
-        <a href="<?= isLoggedIn() ? 'account.php' : 'login.php' ?>" class="cursor-pointer group active:scale-95 transition-all" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; min-height: 44px;" <?= $isAuth ? 'aria-current="page"' : '' ?>>
+        <!-- 5. Compte Client / Cockpit Admin -->
+        <?php 
+        $isAuth = ($currPage === 'account.php' || $currPage === 'login.php' || $currPage === 'register.php' || $currPage === 'orders.php');
+        $footAccountLink = getLoginUrl();
+        $footAccountLabel = 'Compte';
+        if (isLoggedIn()) {
+            if (isAdmin()) {
+                $footAccountLink = 'admin/index.php';
+                $footAccountLabel = 'Cockpit';
+            } else {
+                $footAccountLink = 'account.php';
+                $footAccountLabel = htmlspecialchars(explode(' ', getCurrentUser()['name'] ?? 'Client')[0]);
+            }
+        }
+        ?>
+        <a href="<?= $footAccountLink ?>" class="cursor-pointer group active:scale-95 transition-all" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; min-height: 44px;" <?= $isAuth ? 'aria-current="page"' : '' ?>>
             <svg class="w-5 h-5 <?= $isAuth ? 'text-[#0B54C2]' : 'text-[#475467]' ?>" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            <span style="font-size: 10px; font-weight: <?= $isAuth ? '800' : '700' ?>; margin-top: 2px; color: <?= $isAuth ? '#0B54C2' : '#344054' ?>;"><?= isLoggedIn() ? htmlspecialchars(explode(' ', getCurrentUser()['name'])[0]) : 'Compte' ?></span>
+            <span style="font-size: 10px; font-weight: <?= $isAuth ? '800' : '700' ?>; margin-top: 2px; color: <?= $isAuth ? '#0B54C2' : '#344054' ?>;"><?= $footAccountLabel ?></span>
         </a>
 
     </div>

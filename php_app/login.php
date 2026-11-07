@@ -2,14 +2,30 @@
 require_once __DIR__ . '/config/config.php';
 
 if (isLoggedIn()) {
-    header('Location: index.php');
+    $dest = isAdmin() ? 'admin/index.php' : 'account.php';
+    header("Location: {$dest}");
     exit;
 }
 
 $pdo = getDBConnection();
 $error = '';
-$rawRedirect = $_GET['redirect'] ?? $_POST['redirect'] ?? '';
-$redirect = getSafeRedirectUrl($rawRedirect, 'customer');
+$rawRedirect = trim((string)($_GET['redirect'] ?? $_POST['redirect'] ?? ''));
+
+// Si aucun paramètre redirect explicite n'a été passé, capturer le HTTP_REFERER pour renvoyer le client sur sa page d'origine
+if (empty($rawRedirect) && !empty($_SERVER['HTTP_REFERER'])) {
+    $refParsed = parse_url($_SERVER['HTTP_REFERER']);
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+    if (empty($refParsed['host']) || $refParsed['host'] === $host) {
+        $refPath = $refParsed['path'] ?? '';
+        $refFile = basename($refPath);
+        $forbidden = ['login.php', 'register.php', 'logout.php', 'forgot-password.php', 'reset-password.php'];
+        if (!in_array($refFile, $forbidden, true) && !empty($refPath)) {
+            $rawRedirect = ltrim($refPath, '/') . (!empty($refParsed['query']) ? '?' . $refParsed['query'] : '');
+        }
+    }
+}
+
+$redirect = !empty($rawRedirect) ? getSafeRedirectUrl($rawRedirect, 'customer') : '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = strtolower(trim($_POST['email'] ?? ''));
@@ -85,7 +101,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             SecurityShield::logSecurityEvent('AUTH_SUCCESS', "Connexion réussie pour {$email}", ['role' => $user['role']]);
 
-            $targetRedirect = getSafeRedirectUrl($_POST['redirect'] ?? $_GET['redirect'] ?? '', $user['role'] ?? 'customer');
+            // Redirection Intelligente selon le Rôle et l'Intention Client :
+            if (($user['role'] ?? '') === 'admin') {
+                // Pour un ADMINISTRATEUR : ouverture DIRECTE du Cockpit Admin
+                $reqRedirect = trim((string)($_POST['redirect'] ?? $_GET['redirect'] ?? ''));
+                if (!empty($reqRedirect) && (str_contains($reqRedirect, 'admin/') || str_starts_with($reqRedirect, 'admin/'))) {
+                    $targetRedirect = getSafeRedirectUrl($reqRedirect, 'admin');
+                } else {
+                    $targetRedirect = 'admin/index.php';
+                }
+            } else {
+                // Pour un CLIENT : le ramener exactement sur la page où il voulait aller ($redirect)
+                $rawTarget = trim((string)($_POST['redirect'] ?? $_GET['redirect'] ?? ''));
+                if (!empty($rawTarget) && $rawTarget !== 'index.php') {
+                    $targetRedirect = getSafeRedirectUrl($rawTarget, 'customer');
+                } else {
+                    $targetRedirect = 'account.php';
+                }
+            }
+
             header('Location: ' . $targetRedirect);
             exit;
         } else {
