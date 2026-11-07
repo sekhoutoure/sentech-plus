@@ -119,7 +119,7 @@ require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 
-<main id="main-content" class="min-h-screen bg-[#F8FAFD] py-5 sm:py-9 pb-32 lg:pb-12">
+<main id="main-content" class="min-h-screen bg-[#F8FAFD] py-5 sm:py-9 pb-36 lg:pb-12">
     <div class="max-w-[1360px] mx-auto px-3 sm:px-6 space-y-5">
 
         <!-- Fil d'Ariane & Titre Apple Minimal -->
@@ -454,7 +454,7 @@ require_once __DIR__ . '/includes/navbar.php';
             </div>
 
             <!-- ─── BARRE FLOTTANTE MOBILE PERSISTANTE (Apple Fixed Action Bar) ─── -->
-            <div class="lg:hidden fixed bottom-[58px] left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 px-4 py-2.5 flex items-center justify-between gap-3 shadow-[0_-4px_25px_rgba(15,23,42,0.08)]">
+            <div class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 px-4 py-3 flex items-center justify-between gap-3 shadow-[0_-8px_30px_rgba(15,23,42,0.10)]" style="padding-bottom: max(12px, env(safe-area-inset-bottom));">
                 <div>
                     <span class="text-[10px] font-extrabold uppercase text-[#94A3B8] block">Total</span>
                     <span class="text-base font-black text-[#1677FF]" id="mobile-cart-total-val"><?= formatPrice($finalCartTotal) ?></span>

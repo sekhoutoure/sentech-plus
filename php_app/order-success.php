@@ -45,7 +45,7 @@ require_once __DIR__ . '/includes/navbar.php';
 }
 </style>
 
-<div id="main-content" class="min-h-screen bg-[#F3F7FC] py-6 sm:py-10">
+<div id="main-content" class="min-h-screen bg-[#F3F7FC] py-6 sm:py-10 pb-28 sm:pb-16">
     <div class="max-w-3xl mx-auto px-3 sm:px-6 space-y-6">
 
         <!-- ─── CARTE SUCCÈS & FÉLICITATIONS (Écran uniquement) ──────────────── -->
@@ -134,11 +134,11 @@ require_once __DIR__ . '/includes/navbar.php';
 
             <!-- Actions Rapides -->
             <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-                <button type="button" onclick="window.print()" class="cursor-pointer inline-flex items-center gap-2 bg-[#F3F7FC] hover:bg-[#EAF3FF] text-[#182230] hover:text-[#0B54C2] font-bold text-xs px-4 py-2.5 rounded-xl border border-[#E8EDF3] transition-colors">
+                <button type="button" onclick="window.print()" class="cursor-pointer inline-flex items-center gap-2 bg-[#F3F7FC] hover:bg-[#EAF3FF] text-[#182230] hover:text-[#0B54C2] font-bold text-xs px-4 py-2.5 rounded-xl border border-[#E8EDF3] transition-colors active:scale-[0.97]">
                     <i data-lucide="printer" class="w-4 h-4"></i>
                     <span>Imprimer la Facture</span>
                 </button>
-                <a href="https://wa.me/221781316497?text=Bonjour%20SenTechPLUS,%20je%20suis%20le%20client%20<?= urlencode($order['customer_first_name']) ?>.%20Ma%20commande%20est%20la%20<?= urlencode($order['order_number'] ?? $order['id']) ?>." target="_blank" rel="noopener" class="cursor-pointer inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all shadow-xs">
+                <a href="https://wa.me/221781316497?text=Bonjour%20SenTechPLUS,%20je%20suis%20le%20client%20<?= urlencode($order['customer_first_name']) ?>.%20Ma%20commande%20est%20la%20<?= urlencode($order['order_number'] ?? $order['id']) ?>." target="_blank" rel="noopener" class="cursor-pointer inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all shadow-xs active:scale-[0.97]">
                     <i data-lucide="message-circle" class="w-4 h-4"></i>
                     <span>Suivi Direct WhatsApp</span>
                 </a>

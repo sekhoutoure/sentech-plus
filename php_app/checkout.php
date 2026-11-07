@@ -174,7 +174,7 @@ require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 
-<div id="main-content" class="min-h-screen bg-[#F8FAFD] py-4 sm:py-8 pb-28 lg:pb-16">
+<div id="main-content" class="min-h-screen bg-[#F8FAFD] py-4 sm:py-8 pb-36 lg:pb-16">
     <div class="max-w-[1360px] mx-auto px-3 sm:px-6 space-y-5">
 
         <!-- ─── 1. TUNNEL DE COMMANDE ÉPURÉ TYPE APPLE (Indicateurs d'étapes) ─── -->
