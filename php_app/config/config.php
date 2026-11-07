@@ -4028,16 +4028,10 @@ function renderCartDrawerDynamicContent(): string {
                 <span class="text-xl font-black text-[#1677FF]"><?= formatPrice($totalPrice) ?></span>
             </div>
 
-            <div class="grid grid-cols-2 gap-2.5">
-                <a href="cart.php" class="cursor-pointer py-3 px-2.5 bg-[#F8FAFD] hover:bg-[#F1F5F9] text-[#1D1D1F] font-bold text-xs rounded-2xl text-center border border-slate-200 transition-all active:scale-[0.97] flex justify-center items-center gap-1.5 shadow-2xs">
-                    <i data-lucide="shopping-bag" class="w-4 h-4 text-[#64748B]"></i>
-                    <span>Voir le Panier</span>
-                </a>
-                <a href="checkout.php" style="background-color: #1677FF !important; color: #ffffff !important;" class="cursor-pointer py-3 px-2.5 bg-[#1677FF] hover:bg-[#0B54C2] text-white font-extrabold text-xs sm:text-sm rounded-2xl text-center shadow-[0_4px_16px_rgba(22,119,255,0.25)] transition-all active:scale-[0.97] flex justify-center items-center gap-1.5">
-                    <span>Commander</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4 text-white"></i>
-                </a>
-            </div>
+            <a href="checkout.php" style="background-color: #1677FF !important; color: #ffffff !important;" class="cursor-pointer w-full py-3.5 px-5 bg-[#1677FF] hover:bg-[#0B54C2] text-white font-extrabold text-sm rounded-2xl text-center shadow-[0_6px_20px_rgba(22,119,255,0.28)] transition-all active:scale-[0.98] flex justify-center items-center gap-2">
+                <span>Commander maintenant</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-white"></i>
+            </a>
             <button type="button" onclick="toggleCartDrawer(false)" class="cursor-pointer w-full py-1 text-[#64748B] hover:text-[#182230] font-bold text-xs text-center transition-colors">
                 ← Continuer mes achats
             </button>
