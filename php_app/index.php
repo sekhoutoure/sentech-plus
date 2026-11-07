@@ -483,7 +483,17 @@ if (empty($bestSellingProducts)) {
         </div>
     </section>
 
-    <!-- 6. ENGAGEMENTS (4 Piliers Épurés) -->
+    <!-- 6. ENGAGEMENTS (4 Piliers Épurés & Dynamiques) -->
+    <?php
+    $feat1_title = getSiteSetting('feature_1_title', 'Livraison H+1 Dakar');
+    $feat1_sub   = getSiteSetting('feature_1_sub', 'Chrono sous scellé');
+    $feat2_title = getSiteSetting('feature_2_title', 'Paiement Sécurisé');
+    $feat2_sub   = getSiteSetting('feature_2_sub', 'Wave, OM, Cash');
+    $feat3_title = getSiteSetting('feature_3_title', '100% Certifié');
+    $feat3_sub   = getSiteSetting('feature_3_sub', 'Échange neuf 12 mois');
+    $feat4_title = getSiteSetting('feature_4_title', 'Support 7j/7');
+    $feat4_sub   = getSiteSetting('feature_4_sub', 'WhatsApp direct');
+    ?>
     <section class="max-w-[1400px] mx-auto px-3 sm:px-6 content-auto">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             
@@ -492,8 +502,8 @@ if (empty($bestSellingProducts)) {
                     <i data-lucide="truck" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h3 class="text-xs sm:text-sm font-black text-[#182230]">Livraison H+1 Dakar</h3>
-                    <p class="text-[10px] text-[#1677FF] font-bold">Chrono sous scellé</p>
+                    <h3 class="text-xs sm:text-sm font-black text-[#182230]"><?= htmlspecialchars($feat1_title) ?></h3>
+                    <p class="text-[10px] text-[#1677FF] font-bold"><?= htmlspecialchars($feat1_sub) ?></p>
                 </div>
             </div>
 
@@ -502,8 +512,8 @@ if (empty($bestSellingProducts)) {
                     <i data-lucide="lock" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h3 class="text-xs sm:text-sm font-black text-[#182230]">Paiement Sécurisé</h3>
-                    <p class="text-[10px] text-[#64748B]">Wave, OM, Cash</p>
+                    <h3 class="text-xs sm:text-sm font-black text-[#182230]"><?= htmlspecialchars($feat2_title) ?></h3>
+                    <p class="text-[10px] text-[#64748B]"><?= htmlspecialchars($feat2_sub) ?></p>
                 </div>
             </div>
 
@@ -512,8 +522,8 @@ if (empty($bestSellingProducts)) {
                     <i data-lucide="shield-check" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h3 class="text-xs sm:text-sm font-black text-[#182230]">100% Certifié</h3>
-                    <p class="text-[10px] text-[#0D7D53] font-bold">Échange neuf 12 mois</p>
+                    <h3 class="text-xs sm:text-sm font-black text-[#182230]"><?= htmlspecialchars($feat3_title) ?></h3>
+                    <p class="text-[10px] text-[#0D7D53] font-bold"><?= htmlspecialchars($feat3_sub) ?></p>
                 </div>
             </div>
 
@@ -522,8 +532,8 @@ if (empty($bestSellingProducts)) {
                     <i data-lucide="headphones" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h3 class="text-xs sm:text-sm font-black text-[#182230]">Support 7j/7</h3>
-                    <p class="text-[10px] text-[#64748B]">WhatsApp direct</p>
+                    <h3 class="text-xs sm:text-sm font-black text-[#182230]"><?= htmlspecialchars($feat4_title) ?></h3>
+                    <p class="text-[10px] text-[#64748B]"><?= htmlspecialchars($feat4_sub) ?></p>
                 </div>
             </div>
 

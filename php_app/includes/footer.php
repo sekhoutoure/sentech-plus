@@ -186,15 +186,15 @@ if ($layoutType === 'public_compact'): ?>
                 </ul>
             </div>
 
-            <!-- Col 3: Catégories Clés -->
+            <!-- Col 3: Catégories Clés (Dynamiques depuis MySQL) -->
             <div class="space-y-3">
                 <h3 class="text-xs font-black text-[#182230] uppercase tracking-wider">Rayons</h3>
                 <ul class="space-y-2 text-xs font-semibold text-[#667085]">
-                    <li><a href="shop.php?category=audio-ecouteurs" class="hover:text-[#1677FF] transition-colors">Écouteurs & Audio</a></li>
-                    <li><a href="shop.php?category=montres-objets-connectes" class="hover:text-[#1677FF] transition-colors">Montres Connectées</a></li>
-                    <li><a href="shop.php?category=telephones-accessoires" class="hover:text-[#1677FF] transition-colors">Accessoires Mobile</a></li>
-                    <li><a href="shop.php?category=informatique-bureau" class="hover:text-[#1677FF] transition-colors">Informatique & Bureau</a></li>
-                    <li><a href="shop.php?category=gaming" class="hover:text-[#1677FF] transition-colors">Gaming & Setup</a></li>
+                    <?php 
+                    $footerCats = array_slice($categoriesTree ?? getAllCategoriesTree(), 0, 5);
+                    foreach ($footerCats as $fCat): ?>
+                        <li><a href="shop.php?category=<?= urlencode($fCat['slug']) ?>" class="hover:text-[#1677FF] transition-colors"><?= htmlspecialchars($fCat['name']) ?></a></li>
+                    <?php endforeach; ?>
                     <li><a href="shop.php?collection=flash" class="hover:text-[#C2410C] text-[#C2410C] font-bold transition-colors">⚡ Ventes Flash</a></li>
                 </ul>
             </div>
@@ -287,10 +287,9 @@ if ($layoutType === 'public_compact'): ?>
                     <i data-lucide="chevron-down" id="chevron-foot-cats" class="w-4 h-4 text-[#667085] transition-transform duration-200"></i>
                 </button>
                 <ul id="foot-cats" class="hidden pt-1 pb-2 space-y-2 text-xs font-semibold text-[#667085]">
-                    <li><a href="shop.php?category=audio-ecouteurs" class="hover:text-[#1677FF] block py-0.5">Écouteurs & Audio</a></li>
-                    <li><a href="shop.php?category=montres-objets-connectes" class="hover:text-[#1677FF] block py-0.5">Montres Connectées</a></li>
-                    <li><a href="shop.php?category=telephones-accessoires" class="hover:text-[#1677FF] block py-0.5">Accessoires Smartphone</a></li>
-                    <li><a href="shop.php?category=gaming" class="hover:text-[#1677FF] block py-0.5">Gaming & Setup</a></li>
+                    <?php foreach ($footerCats as $fCat): ?>
+                        <li><a href="shop.php?category=<?= urlencode($fCat['slug']) ?>" class="hover:text-[#1677FF] block py-0.5"><?= htmlspecialchars($fCat['name']) ?></a></li>
+                    <?php endforeach; ?>
                     <li><a href="shop.php?collection=flash" class="hover:text-[#C2410C] text-[#C2410C] font-bold block py-0.5">⚡ Ventes Flash</a></li>
                 </ul>
             </div>

@@ -7,10 +7,26 @@ $canonicalUrl    = "https://www.sentechplus.com/about.php";
 
 $pdo = getDBConnection();
 $teamMembers = [];
+$caseStudies = [];
+$totalProductsCount = 0;
+$totalOrdersCount = 0;
+
 if ($pdo) {
     try {
         $stmtTeam = $pdo->query("SELECT * FROM team_members WHERE is_active = 1 ORDER BY display_order ASC");
         $teamMembers = $stmtTeam ? $stmtTeam->fetchAll(PDO::FETCH_ASSOC) : [];
+    } catch (Throwable $e) {}
+
+    try {
+        $stmtCS = $pdo->query("SELECT * FROM case_studies WHERE is_active = 1 ORDER BY display_order ASC LIMIT 6");
+        $caseStudies = $stmtCS ? $stmtCS->fetchAll(PDO::FETCH_ASSOC) : [];
+    } catch (Throwable $e) {}
+
+    try {
+        $stmtP = $pdo->query("SELECT COUNT(*) FROM products WHERE in_stock = 1");
+        $totalProductsCount = (int)($stmtP ? $stmtP->fetchColumn() : 0);
+        $stmtO = $pdo->query("SELECT COUNT(*) FROM orders");
+        $totalOrdersCount = (int)($stmtO ? $stmtO->fetchColumn() : 0);
     } catch (Throwable $e) {}
 }
 
@@ -21,6 +37,9 @@ if (empty($teamMembers)) {
         ['name' => 'Babacar Sarr', 'role' => 'Resp. Logistique & Express', 'image' => 'assets/images/profile_pic3.webp'],
     ];
 }
+
+$displayProducts = $totalProductsCount > 50 ? ($totalProductsCount . '+') : '500+';
+$displayClients = $totalOrdersCount > 100 ? ($totalOrdersCount . '+') : '1000+';
 
 $schemaJson = json_encode([
     "@context" => "https://schema.org",
@@ -74,14 +93,14 @@ echo "<script type=\"application/ld+json\">{$schemaJson}</script>\n";
             </p>
         </div>
         <div class="grid grid-cols-2 gap-4">
-            <!-- Stats -->
+            <!-- Stats (Dynamiques SQL) -->
             <div class="card-clean p-4 text-center space-y-1">
-                <div class="text-2xl font-black text-[#1677FF]">500+</div>
-                <div class="text-[10px] font-bold text-[#667085] uppercase tracking-wider">Produits</div>
+                <div class="text-2xl font-black text-[#1677FF]"><?= htmlspecialchars($displayProducts) ?></div>
+                <div class="text-[10px] font-bold text-[#667085] uppercase tracking-wider">Produits Actifs</div>
             </div>
             <div class="card-clean p-4 text-center space-y-1">
-                <div class="text-2xl font-black text-[#0D7D53]">1000+</div>
-                <div class="text-[10px] font-bold text-[#667085] uppercase tracking-wider">Clients</div>
+                <div class="text-2xl font-black text-[#0D7D53]"><?= htmlspecialchars($displayClients) ?></div>
+                <div class="text-[10px] font-bold text-[#667085] uppercase tracking-wider">Clients Livrés</div>
             </div>
             <div class="card-clean p-4 text-center space-y-1">
                 <div class="text-2xl font-black text-[#C2410C] flex justify-center"><i data-lucide="truck" class="w-8 h-8"></i></div>
@@ -103,61 +122,58 @@ echo "<script type=\"application/ld+json\">{$schemaJson}</script>\n";
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs">
-            
-            <!-- Cas 1 -->
-            <div class="card-clean p-5 space-y-3 bg-white hover:border-[#1677FF] transition-all">
-                <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#1677FF] flex items-center justify-center font-bold">
-                    <i data-lucide="building-2" class="w-5 h-5"></i>
+            <?php 
+            $displayCases = !empty($caseStudies) ? $caseStudies : [
+                [
+                    'emoji' => '🏢',
+                    'client_name' => 'Coworking Dakar Plateau',
+                    'title' => 'Équipement Haute Densité en Stations GaN',
+                    'context' => 'Déploiement de 45 chargeurs 100W GaN et hubs USB-C 10-en-1 pour 120 postes de travail nomades. Zéro surchauffe et charge ultra-rapide multi-appareils.',
+                    'result' => 'Gain productivité +40% • 100% Satisfait ★★★★★',
+                    'color' => '#1677FF'
+                ],
+                [
+                    'emoji' => '🎧',
+                    'client_name' => "Centre d'Appels & BPO Mermoz",
+                    'title' => 'Casques ANC & Réduction de Bruit Active',
+                    'context' => 'Fourniture de 80 casques certifiés avec isolation acoustique et microphones directionnels pour téléconseillers. Clarté vocale cristalline garantie.',
+                    'result' => 'Livraison 24h à Dakar • Garantie 12 mois',
+                    'color' => '#0D7D53'
+                ],
+                [
+                    'emoji' => '💼',
+                    'client_name' => 'Cabinet Conseil & Audit Almadies',
+                    'title' => 'Kits Mobiles Cadres & Écrans Nomades',
+                    'context' => 'Kits exécutifs composés de powerbanks 20000mAh 65W, claviers sans fil rétroéclairés et supports ergonomiques pour consultants en déplacement.',
+                    'result' => 'Autonomie 72h • Paiement Wave Pro',
+                    'color' => '#C2410C'
+                ]
+            ];
+            foreach ($displayCases as $cs): 
+                $csColor = !empty($cs['color']) ? $cs['color'] : '#1677FF';
+            ?>
+                <div class="card-clean p-5 space-y-3 bg-white hover:border-[#1677FF] transition-all">
+                    <div class="w-10 h-10 rounded-xl bg-[#F0F6FF] flex items-center justify-center font-bold text-lg">
+                        <span><?= htmlspecialchars($cs['emoji'] ?? '⚡') ?></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider block" style="color: <?= htmlspecialchars($csColor) ?>;">
+                            <?= htmlspecialchars($cs['client_name'] ?? 'Partenaire Pro') ?>
+                        </span>
+                        <h3 class="font-extrabold text-sm text-[#182230] mt-0.5">
+                            <?= htmlspecialchars($cs['title'] ?? '') ?>
+                        </h3>
+                    </div>
+                    <p class="text-[#667085] leading-relaxed">
+                        <?= htmlspecialchars($cs['context'] ?? '') ?>
+                    </p>
+                    <?php if (!empty($cs['result'])): ?>
+                        <div class="pt-2 border-t border-[#E8EDF3] flex items-center justify-between text-[11px] font-bold text-[#0D7D53]">
+                            <span><?= htmlspecialchars($cs['result']) ?></span>
+                        </div>
+                    <?php endif; ?>
                 </div>
-                <div>
-                    <span class="text-[10px] font-extrabold text-[#1677FF] uppercase tracking-wider block">Coworking Dakar Plateau</span>
-                    <h3 class="font-extrabold text-sm text-[#182230] mt-0.5">Équipement Haute Densité en Stations GaN</h3>
-                </div>
-                <p class="text-[#667085] leading-relaxed">
-                    Déploiement de 45 chargeurs 100W GaN et hubs USB-C 10-en-1 pour 120 postes de travail nomades. Zéro surchauffe et charge ultra-rapide multi-appareils.
-                </p>
-                <div class="pt-2 border-t border-[#E8EDF3] flex items-center justify-between text-[11px] font-bold text-[#0D7D53]">
-                    <span>Gain productivité +40%</span>
-                    <span>100% Satisfait ★★★★★</span>
-                </div>
-            </div>
-
-            <!-- Cas 2 -->
-            <div class="card-clean p-5 space-y-3 bg-white hover:border-[#0D7D53] transition-all">
-                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-[#0D7D53] flex items-center justify-center font-bold">
-                    <i data-lucide="headset" class="w-5 h-5"></i>
-                </div>
-                <div>
-                    <span class="text-[10px] font-extrabold text-[#0D7D53] uppercase tracking-wider block">Centre d'Appels & BPO Mermoz</span>
-                    <h3 class="font-extrabold text-sm text-[#182230] mt-0.5">Casques ANC & Réduction de Bruit Active</h3>
-                </div>
-                <p class="text-[#667085] leading-relaxed">
-                    Fourniture de 80 casques certifiés avec isolation acoustique et microphones directionnels pour téléconseillers. Clarté vocale cristalline garantie.
-                </p>
-                <div class="pt-2 border-t border-[#E8EDF3] flex items-center justify-between text-[11px] font-bold text-[#0D7D53]">
-                    <span>Livraison 24h à Dakar</span>
-                    <span>Garantie 12 mois</span>
-                </div>
-            </div>
-
-            <!-- Cas 3 -->
-            <div class="card-clean p-5 space-y-3 bg-white hover:border-[#C2410C] transition-all">
-                <div class="w-10 h-10 rounded-xl bg-orange-50 text-[#C2410C] flex items-center justify-center font-bold">
-                    <i data-lucide="laptop" class="w-5 h-5"></i>
-                </div>
-                <div>
-                    <span class="text-[10px] font-extrabold text-[#C2410C] uppercase tracking-wider block">Cabinet Conseil & Audit Almadies</span>
-                    <h3 class="font-extrabold text-sm text-[#182230] mt-0.5">Kits Mobiles Cadres & Écrans Nomades</h3>
-                </div>
-                <p class="text-[#667085] leading-relaxed">
-                    Kits exécutifs composés de powerbanks 20000mAh 65W, claviers sans fil rétroéclairés et supports ergonomiques pour consultants en déplacement.
-                </p>
-                <div class="pt-2 border-t border-[#E8EDF3] flex items-center justify-between text-[11px] font-bold text-[#0D7D53]">
-                    <span>Autonomie 72h</span>
-                    <span>Paiement Wave Pro</span>
-                </div>
-            </div>
-
+            <?php endforeach; ?>
         </div>
     </div>
 

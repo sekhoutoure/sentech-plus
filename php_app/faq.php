@@ -8,23 +8,52 @@ $metaDescription = "Reponses a vos questions sur la livraison a Dakar, les modes
 $ogImage         = "assets/images/sentech_logo.webp";
 $breadcrumbs     = [['label'=>'FAQ & Aide','url'=>null]];
 
-$faqs = [
-    ['q'=>'Quels sont les delais de livraison a Dakar et en region ?',
-     'a'=>'A Dakar intra-muros, nous livrons en 2h a 4h chrono apres confirmation de votre commande. Pour les regions senegalaises (Thies, Saint-Louis, Mbour, Ziguinchor, Touba), le delai est de 24h a 48h via nos partenaires logistiques. La livraison est gratuite pour toute commande superieure a 30 000 FCFA.',
-     'icon'=>'🚚'],
-    ['q'=>'Quels sont les modes de paiement acceptes ?',
-     'a'=>'Nous acceptons tous les modes de paiement populaires au Senegal : Wave, Orange Money, Free Money, Carte Bancaire (Visa/Mastercard) via PayDunya, et le paiement en especes a la livraison. Tous les paiements en ligne sont cryptes et securises.',
-     'icon'=>'💳'],
-    ['q'=>'Quelle est la garantie sur les produits ?',
-     'a'=>'Tous nos produits High-Tech sont certifies authentiques et couverts par une garantie 12 mois constructeur. En cas de panne dans ce delai, nous procedons a un echange immediat ou un remboursement intégral selon votre preference. Notre equipe technique est disponible pour tout diagnostic.',
-     'icon'=>'🛡️'],
-    ['q'=>'Comment fonctionne la politique de retour ?',
-     'a'=>'Vous disposez de 7 jours ouvres apres reception pour retourner votre produit si vous n etes pas satisfait. Le produit doit etre dans son etat d origine avec tous ses accessoires. Le remboursement est effectue par le meme moyen de paiement que votre achat, dans un delai de 24h apres reception du retour.',
-     'icon'=>'↩️'],
-    ['q'=>'Comment contacter le support SenTechPLUS ?',
-     'a'=>'Notre equipe est disponible du lundi au samedi de 8h30 a 20h00. Nous repondons sur WhatsApp au +221 78 131 64 97 en moins de 2h. Vous pouvez egalement nous ecrire via le formulaire de contact ou nous appeler directement. Nous nous engageons a repondre a toute demande dans un delai maximum de 4h ouvrées.',
-     'icon'=>'💬'],
-];
+$faqs = [];
+$pdo = getDBConnection();
+if ($pdo) {
+    try {
+        $stmtFaqs = $pdo->query("SELECT question as q, answer as a, category FROM faqs WHERE is_active = 1 ORDER BY display_order ASC, id ASC");
+        $dbFaqs = $stmtFaqs ? $stmtFaqs->fetchAll(PDO::FETCH_ASSOC) : [];
+        if (!empty($dbFaqs)) {
+            $catIcons = [
+                'Livraison' => '🚚',
+                'Paiement'  => '💳',
+                'Garantie'  => '🛡️',
+                'Retours'   => '↩️',
+                'Support'   => '💬'
+            ];
+            $defaultIcons = ['🚚', '💳', '🛡️', '↩️', '💬', '⚡', '📦', '📱'];
+            foreach ($dbFaqs as $idx => $f) {
+                $icon = $catIcons[$f['category'] ?? ''] ?? $defaultIcons[$idx % count($defaultIcons)];
+                $faqs[] = [
+                    'q'    => $f['q'],
+                    'a'    => $f['a'],
+                    'icon' => $icon
+                ];
+            }
+        }
+    } catch (Throwable $e) {}
+}
+
+if (empty($faqs)) {
+    $faqs = [
+        ['q'=>'Quels sont les delais de livraison a Dakar et en region ?',
+         'a'=>'A Dakar intra-muros, nous livrons en 2h a 4h chrono apres confirmation de votre commande. Pour les regions senegalaises (Thies, Saint-Louis, Mbour, Ziguinchor, Touba), le delai est de 24h a 48h via nos partenaires logistiques. La livraison est gratuite pour toute commande superieure a 30 000 FCFA.',
+         'icon'=>'🚚'],
+        ['q'=>'Quels sont les modes de paiement acceptes ?',
+         'a'=>'Nous acceptons tous les modes de paiement populaires au Senegal : Wave, Orange Money, Free Money, Carte Bancaire (Visa/Mastercard) via PayDunya, et le paiement en especes a la livraison. Tous les paiements en ligne sont cryptes et securises.',
+         'icon'=>'💳'],
+        ['q'=>'Quelle est la garantie sur les produits ?',
+         'a'=>'Tous nos produits High-Tech sont certifies authentiques et couverts par une garantie 12 mois constructeur. En cas de panne dans ce delai, nous procedons a un echange immediat ou un remboursement intégral selon votre preference. Notre equipe technique est disponible pour tout diagnostic.',
+         'icon'=>'🛡️'],
+        ['q'=>'Comment fonctionne la politique de retour ?',
+         'a'=>'Vous disposez de 7 jours ouvres apres reception pour retourner votre produit si vous n etes pas satisfait. Le produit doit etre dans son etat d origine avec tous ses accessoires. Le remboursement est effectue par le meme moyen de paiement que votre achat, dans un delai de 24h apres reception du retour.',
+         'icon'=>'↩️'],
+        ['q'=>'Comment contacter le support SenTechPLUS ?',
+         'a'=>'Notre equipe est disponible du lundi au samedi de 8h30 a 20h00. Nous repondons sur WhatsApp au +221 78 131 64 97 en moins de 2h. Vous pouvez egalement nous ecrire via le formulaire de contact ou nous appeler directement. Nous nous engageons a repondre a toute demande dans un delai maximum de 4h ouvrées.',
+         'icon'=>'💬'],
+    ];
+}
 
 $schemaJsonLd = [
     "@context"   => "https://schema.org",
