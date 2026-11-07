@@ -14,12 +14,11 @@ if (!empty($cartItems)) {
 
         foreach ($fetched as $p) {
             $qty = $cartItems[$p['id']] ?? 1;
-            $imgs = getProductImages($p['images'] ?? null, 'assets/images/product_img1.webp');
             $itemTotal = $p['price'] * $qty;
             $totalPrice += $itemTotal;
             $p['cart_quantity'] = $qty;
             $p['item_total'] = $itemTotal;
-            $p['main_image'] = $imgs[0] ?? 'assets/images/product_img1.webp';
+            $p['main_image'] = getProductMainImage($p, 'assets/images/product_img1.webp');
             $productsInCart[] = $p;
         }
     } catch (Throwable $e) {
@@ -28,13 +27,13 @@ if (!empty($cartItems)) {
 }
 ?>
 
-<div id="cart-drawer-overlay" class="fixed inset-0 z-[100] overflow-hidden anim-drawer-overlay">
+<div id="cart-drawer-overlay" class="fixed inset-0 overflow-hidden anim-drawer-overlay" style="z-index: 100000 !important;">
     <!-- Backdrop (Apple Glass Overlay) -->
     <div onclick="toggleCartDrawer(false)" class="absolute inset-0 glass-overlay cursor-pointer"></div>
 
     <div class="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10 pointer-events-none">
         <!-- Slide-over panel (Smooth Hardware Easing & Apple Glass) -->
-        <div id="cart-drawer-panel" class="w-screen max-w-md bg-white/95 backdrop-blur-2xl shadow-2xl flex flex-col justify-between anim-drawer-panel border-l border-white/60 pointer-events-auto">
+        <div id="cart-drawer-panel" class="w-screen max-w-md bg-white/95 backdrop-blur-2xl shadow-2xl flex flex-col justify-between anim-drawer-panel border-l border-white/60 pointer-events-auto h-full" style="padding-bottom: max(12px, env(safe-area-inset-bottom));">
             
             <!-- Apple Sheet Grabber (Mobile touch target & visual anchor) -->
             <div class="sm:hidden pt-2 pb-1 flex justify-center bg-transparent">
@@ -115,15 +114,19 @@ if (!empty($cartItems)) {
                         <span class="text-xl font-black text-[#1677FF]"><?= formatPrice($totalPrice) ?></span>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-2.5">
-                        <a href="cart.php" class="cursor-pointer w-full py-3.5 bg-[#1677FF] hover:bg-[#0F67E5] text-white font-bold text-sm rounded-full text-center shadow-xs transition-all active:scale-95 flex justify-center items-center gap-2">
-                            <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <a href="cart.php" class="cursor-pointer py-3 px-2.5 bg-[#F8FAFD] hover:bg-[#F1F5F9] text-[#1D1D1F] font-bold text-xs rounded-2xl text-center border border-slate-200 transition-all active:scale-[0.97] flex justify-center items-center gap-1.5 shadow-2xs">
+                            <i data-lucide="shopping-bag" class="w-4 h-4 text-[#64748B]"></i>
                             <span>Voir le Panier</span>
                         </a>
-                        <button type="button" onclick="toggleCartDrawer(false)" class="cursor-pointer w-full py-2.5 bg-[#F4F7FB] hover:bg-[#E8EDF3] text-[#182230] font-bold text-xs rounded-full text-center transition-colors">
-                            Continuer les achats
-                        </button>
+                        <a href="checkout.php" style="background-color: #1677FF !important; color: #ffffff !important;" class="cursor-pointer py-3 px-2.5 bg-[#1677FF] hover:bg-[#0B54C2] text-white font-extrabold text-xs sm:text-sm rounded-2xl text-center shadow-[0_4px_16px_rgba(22,119,255,0.25)] transition-all active:scale-[0.97] flex justify-center items-center gap-1.5">
+                            <span>Commander</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 text-white"></i>
+                        </a>
                     </div>
+                    <button type="button" onclick="toggleCartDrawer(false)" class="cursor-pointer w-full py-1 text-[#64748B] hover:text-[#182230] font-bold text-xs text-center transition-colors">
+                        ← Continuer mes achats
+                    </button>
                 </div>
             <?php endif; ?>
 

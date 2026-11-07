@@ -1079,8 +1079,8 @@ require_once __DIR__ . '/includes/navbar.php';
     <div class="flex-1 flex items-center gap-2 min-w-0">
         <!-- 1. Ajouter au Panier (AJAX pur sans ouverture de panier) -->
         <button type="button" onclick="addProductToCartAjax(this, '<?= htmlspecialchars($product['id']) ?>')" id="mobile-add-cart-btn" class="flex-1 h-11 px-2.5 bg-[#F1F5F9] hover:bg-[#E2E8F0] active:scale-[0.97] text-[#1D1D1F] font-bold text-xs sm:text-sm rounded-2xl truncate cursor-pointer transition-all border border-slate-200/90 flex items-center justify-center gap-1.5 shadow-2xs">
-            <i data-lucide="plus" class="w-3.5 h-3.5 text-[#64748B] shrink-0"></i>
-            <span>+ Panier</span>
+            <i data-lucide="plus" class="w-4 h-4 text-[#1677FF] shrink-0"></i>
+            <span>Panier</span>
         </button>
 
         <!-- 2. Acheter Maintenant (Checkout direct) -->
