@@ -231,43 +231,59 @@ require_once __DIR__ . '/../includes/header.php';
     <!-- Sidebar Unifiée Framed Sheet -->
     <?php require_once __DIR__ . '/../includes/admin_sidebar.php'; ?>
 
-    <!-- Mobile Drawer Overlay -->
-    <div id="admin-drawer-backdrop" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-30 hidden lg:hidden transition-opacity"></div>
+
 
     <main class="flex-1 flex flex-col min-h-screen min-w-0 overflow-y-auto">
         
-        <!-- ─── TOP BAR (48px — Framed Sheet Standard) ───────────────────────── -->
-        <header class="h-12 bg-white border-b border-[#E5E7EB] px-4 lg:px-8 flex items-center justify-between sticky top-0 z-20 shrink-0">
+        <!-- ─── TOP BAR (48px — Framed Sheet Standard Emil Kowalski) ────────── -->
+        <header class="h-12 bg-white/95 backdrop-blur-xs border-b border-[#E5E7EB] px-4 lg:px-8 flex items-center justify-between sticky top-0 z-20 shrink-0">
             
             <div class="flex items-center gap-3">
-                <button type="button" id="admin-sidebar-btn" class="lg:hidden p-1.5 -ml-1.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 cursor-pointer" aria-label="Ouvrir le menu">
+                <button type="button" id="admin-sidebar-btn" class="lg:hidden p-1.5 -ml-1.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 active:scale-95 transition-transform duration-120 cursor-pointer" aria-label="Ouvrir le menu">
                     <i data-lucide="menu" class="w-4 h-4"></i>
                 </button>
                 <div class="flex items-center gap-2 text-xs text-[#64748B]">
-                    <span class="font-bold text-[#0F172A]">SenTechPLUS</span>
-                    <span>/</span>
-                    <span class="font-medium">Cockpit Dakar</span>
+                    <span class="font-bold text-[#0F172A] tracking-tight">SenTechPLUS</span>
+                    <span class="text-slate-300">/</span>
+                    <span class="font-medium text-slate-600">Cockpit Dakar</span>
                 </div>
             </div>
 
-            <div class="flex items-center gap-4 text-xs">
+            <div class="flex items-center gap-3 sm:gap-4 text-xs">
                 <div class="hidden sm:flex items-center gap-2 text-[#64748B]">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-[11px] font-medium">Boutique en ligne active</span>
+                    <span class="text-[11px] font-medium text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">Boutique active</span>
                 </div>
 
-                <a href="../shop.php" target="_blank" rel="noopener noreferrer" class="hidden md:inline-flex items-center gap-1.5 text-xs font-semibold text-[#1677FF] hover:underline cursor-pointer">
+                <a href="../shop.php" target="_blank" rel="noopener noreferrer" class="hidden md:inline-flex items-center gap-1.5 text-xs font-semibold text-[#1677FF] hover:text-[#0F67E5] active:scale-[0.97] transition-all cursor-pointer">
                     <span>Voir la boutique</span>
                     <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                 </a>
 
                 <div class="h-4 w-px bg-slate-200 hidden sm:block"></div>
 
-                <div class="flex items-center gap-3">
-                    <span class="text-xs font-semibold text-slate-700 hidden sm:inline">
-                        <?= htmlspecialchars($adminUser['name'] ?? 'Admin') ?>
-                    </span>
-                    <a href="../logout.php" class="text-xs font-bold text-rose-600 hover:text-rose-700 cursor-pointer">
+                <div class="flex items-center gap-2">
+                    <?php 
+                    $adminName = $adminUser['name'] ?? 'Sekhou Toure';
+                    $adminInitials = 'ST';
+                    $nameParts = explode(' ', trim($adminName));
+                    if (count($nameParts) >= 2) {
+                        $adminInitials = strtoupper(mb_substr($nameParts[0], 0, 1) . mb_substr($nameParts[count($nameParts)-1], 0, 1));
+                    } else {
+                        $adminInitials = strtoupper(mb_substr($adminName, 0, 2));
+                    }
+                    ?>
+                    <!-- Tactile User Avatar Pill -->
+                    <div class="flex items-center gap-2 py-1 px-1.5 sm:px-2 rounded-lg bg-slate-50 border border-slate-200/80">
+                        <span class="w-5 h-5 rounded-full bg-[#182230] text-white text-[9px] font-black flex items-center justify-center shrink-0 tracking-tighter">
+                            <?= htmlspecialchars($adminInitials) ?>
+                        </span>
+                        <span class="text-xs font-semibold text-slate-800 hidden sm:inline">
+                            <?= htmlspecialchars($adminName) ?>
+                        </span>
+                    </div>
+
+                    <a href="../logout.php" class="text-xs font-bold text-rose-600 hover:text-rose-700 hover:bg-rose-50 px-2.5 py-1 rounded-lg active:scale-[0.97] transition-all cursor-pointer">
                         Déconnexion
                     </a>
                 </div>
@@ -574,54 +590,6 @@ $prodSku = !empty($prod['sku']) ? $prod['sku'] : ('ST-' . strtoupper(substr(md5(
     </main>
 </div>
 
-<script>
-// Mobile Sidebar Drawer with Momentum
-document.addEventListener('DOMContentLoaded', function() {
-    const btn = document.getElementById('admin-sidebar-btn');
-    const aside = document.getElementById('admin-sidebar');
-    const backdrop = document.getElementById('admin-drawer-backdrop');
 
-    function openDrawer() {
-        if (!aside || !backdrop) return;
-        aside.classList.add('open');
-        backdrop.classList.remove('hidden');
-        requestAnimationFrame(() => {
-            backdrop.classList.add('opacity-100');
-            backdrop.classList.remove('opacity-0');
-        });
-    }
-
-    function closeDrawer() {
-        if (!aside || !backdrop) return;
-        aside.classList.remove('open');
-        backdrop.classList.add('opacity-0');
-        backdrop.classList.remove('opacity-100');
-        setTimeout(() => {
-            if (!aside.classList.contains('open')) {
-                backdrop.classList.add('hidden');
-            }
-        }, 220);
-    }
-
-    if (btn && aside && backdrop) {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (aside.classList.contains('open')) {
-                closeDrawer();
-            } else {
-                openDrawer();
-            }
-        });
-
-        backdrop.addEventListener('click', closeDrawer);
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && aside.classList.contains('open')) {
-                closeDrawer();
-            }
-        });
-    }
-});
-</script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

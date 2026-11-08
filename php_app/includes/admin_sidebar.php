@@ -1,110 +1,170 @@
 <?php
-// Sidebar Admin Unifiée SenTechPLUS
-$currentAdminPage = basename($_SERVER['PHP_SELF']);
+// Sidebar Admin Unifiée SenTechPLUS — Standard Emil Kowalski Design Engineering
+$currentAdminPage = basename($_SERVER['PHP_SELF'] ?? '');
+
+// Récupération dynamique et discrète des compteurs d'alertes
+$adminSidebarPdo = function_exists('getDBConnection') ? getDBConnection() : null;
+$sidebarPendingOrders = 0;
+$sidebarPendingReviews = 0;
+if ($adminSidebarPdo) {
+    try {
+        $stmtPOrders = $adminSidebarPdo->query("SELECT COUNT(*) FROM orders WHERE order_status IN ('pending', 'processing') OR status = 'ORDER_PLACED'");
+        $sidebarPendingOrders = (int)($stmtPOrders ? $stmtPOrders->fetchColumn() : 0);
+        
+        $stmtPReviews = $adminSidebarPdo->query("SELECT COUNT(*) FROM reviews WHERE is_approved = 0");
+        $sidebarPendingReviews = (int)($stmtPReviews ? $stmtPReviews->fetchColumn() : 0);
+    } catch (Throwable $e) {}
+}
+
+/**
+ * Helper de génération de lien tactile pour la sidebar
+ */
+function renderSidebarLink($href, $icon, $label, $isActive, $badge = null, $badgeColor = 'amber') {
+    $activeClass = "relative bg-white/[0.08] text-white font-semibold before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:bg-[#1677FF] before:rounded-r-full shadow-2xs";
+    $inactiveClass = "text-slate-300/80 hover:bg-white/[0.05] hover:text-white";
+    $baseClass = "flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs transition-[transform,background-color,color] duration-120 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] cursor-pointer group";
+    $stateClass = $isActive ? $activeClass : $inactiveClass;
+    
+    $badgeHtml = '';
+    if ($badge !== null && $badge > 0) {
+        $badgeColors = [
+            'amber' => 'bg-amber-400/20 text-amber-300 border border-amber-400/30',
+            'blue' => 'bg-blue-400/20 text-blue-300 border border-blue-400/30',
+            'emerald' => 'bg-emerald-400/20 text-emerald-300 border border-emerald-400/30',
+        ];
+        $bCls = $badgeColors[$badgeColor] ?? $badgeColors['amber'];
+        $badgeHtml = "<span class="ml-auto text-[10px] font-mono font-bold px-2 py-0.5 rounded-full {$bCls} tabular-nums">{$badge}</span>";
+    }
+
+    echo "<a href="{$href}" class="{$baseClass} {$stateClass}">
+";
+    echo "    <i data-lucide="{$icon}" class="w-4 h-4 shrink-0 transition-transform duration-120 group-hover:scale-105 " . ($isActive ? 'text-[#1677FF]' : 'text-slate-400 group-hover:text-white') . ""></i>
+";
+    echo "    <span class="truncate">{$label}</span>
+";
+    echo "    {$badgeHtml}
+";
+    echo "</a>
+";
+}
 ?>
-<aside id="admin-sidebar" class="w-64 bg-[#182230] text-white min-h-screen p-4 space-y-1 hidden lg:block shrink-0 sticky top-0 h-screen overflow-y-auto scrollbar-none z-30">
-    <div class="p-3 mb-4 border-b border-white/10 flex flex-col items-start gap-1">
-        <a href="index.php">
-            <img src="../assets/images/sentech_logo.png" onerror="this.onerror=null; this.src='../assets/images/sentech_logo.webp';" class="h-8 w-auto brightness-0 invert" alt="SenTechPLUS" width="140" height="32">
+<!-- Mobile Drawer Backdrop Automatique -->
+<div id="admin-drawer-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-30 hidden lg:hidden opacity-0 transition-opacity duration-200"></div>
+
+<aside id="admin-sidebar" class="w-64 bg-[#182230] text-white min-h-screen p-4 space-y-1 hidden lg:block shrink-0 sticky top-0 h-screen overflow-y-auto scrollbar-none z-40 select-none">
+    
+    <!-- En-tête Cockpit & Fermeture Mobile -->
+    <div class="p-2.5 mb-3 border-b border-white/10 flex items-center justify-between">
+        <a href="index.php" class="flex flex-col items-start gap-1 focus:outline-hidden group">
+            <img src="../assets/images/sentech_logo.png" onerror="this.onerror=null; this.src='../assets/images/sentech_logo.webp';" class="h-7 w-auto brightness-0 invert transition-transform duration-120 group-hover:scale-[1.02]" alt="SenTechPLUS" width="130" height="28">
+            <span class="text-[9px] font-black text-blue-400 uppercase tracking-widest block mt-0.5">Cockpit Administrateur</span>
         </a>
-        <span class="text-[9px] font-black text-blue-400 uppercase tracking-widest block mt-1">Cockpit Administrateur</span>
+        <!-- Bouton Fermer Tactile (Mobile) -->
+        <button type="button" id="admin-sidebar-close" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 active:scale-90 transition-all cursor-pointer" aria-label="Fermer le menu">
+            <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
     </div>
     
-    <div class="text-[10px] font-black uppercase text-white/40 px-3 pt-2 tracking-wider">Commerce & Ventes</div>
-    
-    <a href="index.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'index.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="layout-dashboard" class="w-4 h-4 shrink-0"></i>
-        <span>Tableau de bord</span>
-    </a>
-    
-    <a href="orders.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'orders.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="shopping-cart" class="w-4 h-4 shrink-0"></i>
-        <span>Commandes</span>
-    </a>
+    <!-- Section 1 : Commerce & Ventes -->
+    <div class="text-[10px] font-bold uppercase text-slate-400/70 px-3.5 pt-3 pb-1 tracking-widest">Commerce & Ventes</div>
+    <?php renderSidebarLink('index.php', 'layout-dashboard', 'Tableau de bord', $currentAdminPage === 'index.php'); ?>
+    <?php renderSidebarLink('orders.php', 'shopping-cart', 'Commandes', $currentAdminPage === 'orders.php', $sidebarPendingOrders, 'amber'); ?>
+    <?php renderSidebarLink('products.php', 'package', 'Produits & Variantes', $currentAdminPage === 'products.php'); ?>
+    <?php renderSidebarLink('categories.php', 'layers', 'Catégories & Rayons', $currentAdminPage === 'categories.php'); ?>
+    <?php renderSidebarLink('coupons.php', 'tag', 'Coupons & Promos', $currentAdminPage === 'coupons.php'); ?>
+    <?php renderSidebarLink('reviews.php', 'star', 'Avis Clients', $currentAdminPage === 'reviews.php', $sidebarPendingReviews, 'blue'); ?>
 
-    <a href="products.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'products.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="package" class="w-4 h-4 shrink-0"></i>
-        <span>Produits & Variantes</span>
-    </a>
+    <!-- Section 2 : Marketing & Contenu -->
+    <div class="text-[10px] font-bold uppercase text-slate-400/70 px-3.5 pt-5 pb-1 tracking-widest">Marketing & Contenu</div>
+    <?php renderSidebarLink('announcements.php', 'megaphone', 'Annonces & Bannières', $currentAdminPage === 'announcements.php'); ?>
+    <?php renderSidebarLink('notifications.php', 'bell', 'Notifications Push & CRM', $currentAdminPage === 'notifications.php'); ?>
+    <?php renderSidebarLink('pages.php', 'file-text', 'Pages CMS & SEO', $currentAdminPage === 'pages.php'); ?>
+    <?php renderSidebarLink('sections.php', 'layout-template', 'Sections Dynamiques', $currentAdminPage === 'sections.php'); ?>
+    <?php renderSidebarLink('media.php', 'image', 'Médiathèque', $currentAdminPage === 'media.php'); ?>
 
-    <a href="categories.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'categories.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="layers" class="w-4 h-4 shrink-0"></i>
-        <span>Catégories & Rayons</span>
-    </a>
+    <!-- Section 3 : Configuration Système -->
+    <div class="text-[10px] font-bold uppercase text-slate-400/70 px-3.5 pt-5 pb-1 tracking-widest">Configuration</div>
+    <?php renderSidebarLink('settings.php', 'settings', 'Paramètres du Site', $currentAdminPage === 'settings.php'); ?>
+    <?php renderSidebarLink('security.php', 'shield-check', 'Bouclier Sécurité & SIEM', $currentAdminPage === 'security.php'); ?>
+    <?php renderSidebarLink('menus.php', 'menu', 'Menus & Footer', $currentAdminPage === 'menus.php'); ?>
+    <?php renderSidebarLink('stores.php', 'store', 'Boutiques Vendeurs', $currentAdminPage === 'stores.php'); ?>
+    <?php renderSidebarLink('backup.php', 'database', 'Sauvegardes BDD', $currentAdminPage === 'backup.php'); ?>
 
-    <a href="coupons.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'coupons.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="tag" class="w-4 h-4 shrink-0"></i>
-        <span>Coupons & Promos</span>
-    </a>
-
-    <a href="reviews.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'reviews.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="star" class="w-4 h-4 shrink-0"></i>
-        <span>Avis Clients</span>
-    </a>
-
-    <div class="text-[10px] font-black uppercase text-white/40 px-3 pt-4 tracking-wider">Marketing & Contenu</div>
-
-    <a href="announcements.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'announcements.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="megaphone" class="w-4 h-4 shrink-0"></i>
-        <span>Annonces & Bannières</span>
-    </a>
-
-    <a href="notifications.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'notifications.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="bell" class="w-4 h-4 shrink-0"></i>
-        <span>Notifications Push & CRM</span>
-    </a>
-
-    <a href="pages.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'pages.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="file-text" class="w-4 h-4 shrink-0"></i>
-        <span>Pages CMS & SEO</span>
-    </a>
-
-    <a href="sections.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'sections.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="layout-template" class="w-4 h-4 shrink-0"></i>
-        <span>Sections Dynamiques</span>
-    </a>
-
-    <a href="media.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'media.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="image" class="w-4 h-4 shrink-0"></i>
-        <span>Médiathèque</span>
-    </a>
-
-    <div class="text-[10px] font-black uppercase text-white/40 px-3 pt-4 tracking-wider">Configuration</div>
-
-    <a href="settings.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'settings.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="settings" class="w-4 h-4 shrink-0"></i>
-        <span>Paramètres du Site</span>
-    </a>
-
-    <a href="security.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'security.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="shield-check" class="w-4 h-4 shrink-0 text-emerald-400"></i>
-        <span>Bouclier Sécurité & SIEM</span>
-    </a>
-
-
-    <a href="menus.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'menus.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="menu" class="w-4 h-4 shrink-0"></i>
-        <span>Menus & Footer</span>
-    </a>
-
-    <a href="stores.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'stores.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="store" class="w-4 h-4 shrink-0"></i>
-        <span>Boutiques Vendeurs</span>
-    </a>
-
-    <a href="backup.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-[transform,background-color] duration-140 active:scale-[0.98] cursor-pointer <?= $currentAdminPage === 'backup.php' ? 'bg-[#1677FF] text-white shadow-xs' : 'text-white/80 hover:bg-white/10 hover:text-white' ?>">
-        <i data-lucide="database" class="w-4 h-4 shrink-0"></i>
-        <span>Sauvegardes BDD</span>
-    </a>
-
-    <div class="pt-6 mt-6 border-t border-white/10 space-y-1">
-        <a href="../shop.php" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-3.5 py-2 text-xs font-bold text-blue-400 hover:underline cursor-pointer">
-            <i data-lucide="external-link" class="w-4 h-4"></i>
+    <!-- Pied de barre : Boutique Publique & Déconnexion -->
+    <div class="pt-5 mt-5 border-t border-white/10 space-y-1">
+        <a href="../shop.php" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/[0.06] transition-[transform,background-color,color] duration-120 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] cursor-pointer group">
+            <i data-lucide="external-link" class="w-4 h-4 text-blue-400 transition-transform duration-120 group-hover:scale-105"></i>
             <span>Boutique Publique</span>
         </a>
-        <a href="../logout.php" class="flex items-center gap-3 px-3.5 py-2 text-xs font-bold text-rose-400 hover:underline cursor-pointer">
-            <i data-lucide="log-out" class="w-4 h-4"></i>
+        <a href="../logout.php" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition-[transform,background-color,color] duration-120 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] cursor-pointer group">
+            <i data-lucide="log-out" class="w-4 h-4 transition-transform duration-120 group-hover:scale-105"></i>
             <span>Déconnexion</span>
         </a>
     </div>
 </aside>
+
+<script>
+// Mobile Sidebar Drawer Management (Emil Kowalski Momentum & Touch)
+(function() {
+    function initAdminDrawer() {
+        var btn = document.getElementById('admin-sidebar-btn');
+        var closeBtn = document.getElementById('admin-sidebar-close');
+        var aside = document.getElementById('admin-sidebar');
+        var backdrop = document.getElementById('admin-drawer-backdrop');
+
+        if (!aside || !backdrop) return;
+
+        function openDrawer() {
+            aside.classList.add('open');
+            backdrop.classList.remove('hidden');
+            requestAnimationFrame(function() {
+                backdrop.classList.add('opacity-100');
+                backdrop.classList.remove('opacity-0');
+            });
+        }
+
+        function closeDrawer() {
+            aside.classList.remove('open');
+            backdrop.classList.add('opacity-0');
+            backdrop.classList.remove('opacity-100');
+            setTimeout(function() {
+                if (!aside.classList.contains('open')) {
+                    backdrop.classList.add('hidden');
+                }
+            }, 220);
+        }
+
+        if (btn) {
+            btn.onclick = function(e) {
+                e.stopPropagation();
+                if (aside.classList.contains('open')) {
+                    closeDrawer();
+                } else {
+                    openDrawer();
+                }
+            };
+        }
+
+        if (closeBtn) {
+            closeBtn.onclick = function(e) {
+                e.stopPropagation();
+                closeDrawer();
+            };
+        }
+
+        backdrop.onclick = closeDrawer;
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && aside.classList.contains('open')) {
+                closeDrawer();
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAdminDrawer);
+    } else {
+        initAdminDrawer();
+    }
+})();
+</script>
