@@ -19,10 +19,11 @@ if ($adminSidebarPdo) {
 /**
  * Helper de génération de lien tactile pour la sidebar
  */
+if (!function_exists('renderSidebarLink')):
 function renderSidebarLink($href, $icon, $label, $isActive, $badge = null, $badgeColor = 'amber') {
-    $activeClass = "relative bg-white/[0.08] text-white font-semibold before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:bg-[#1677FF] before:rounded-r-full shadow-2xs";
-    $inactiveClass = "text-slate-300/80 hover:bg-white/[0.05] hover:text-white";
-    $baseClass = "flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs transition-[transform,background-color,color] duration-120 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] cursor-pointer group";
+    $activeClass = 'relative bg-white/[0.08] text-white font-semibold before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:bg-[#1677FF] before:rounded-r-full shadow-2xs';
+    $inactiveClass = 'text-slate-300/80 hover:bg-white/[0.05] hover:text-white';
+    $baseClass = 'flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs transition-[transform,background-color,color] duration-120 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] cursor-pointer group';
     $stateClass = $isActive ? $activeClass : $inactiveClass;
     
     $badgeHtml = '';
@@ -33,20 +34,18 @@ function renderSidebarLink($href, $icon, $label, $isActive, $badge = null, $badg
             'emerald' => 'bg-emerald-400/20 text-emerald-300 border border-emerald-400/30',
         ];
         $bCls = $badgeColors[$badgeColor] ?? $badgeColors['amber'];
-        $badgeHtml = "<span class="ml-auto text-[10px] font-mono font-bold px-2 py-0.5 rounded-full {$bCls} tabular-nums">{$badge}</span>";
+        $badgeHtml = '<span class="ml-auto text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ' . $bCls . ' tabular-nums">' . (int)$badge . '</span>';
     }
 
-    echo "<a href="{$href}" class="{$baseClass} {$stateClass}">
-";
-    echo "    <i data-lucide="{$icon}" class="w-4 h-4 shrink-0 transition-transform duration-120 group-hover:scale-105 " . ($isActive ? 'text-[#1677FF]' : 'text-slate-400 group-hover:text-white') . ""></i>
-";
-    echo "    <span class="truncate">{$label}</span>
-";
-    echo "    {$badgeHtml}
-";
-    echo "</a>
-";
+    $iconColor = $isActive ? 'text-[#1677FF]' : 'text-slate-400 group-hover:text-white';
+
+    echo '<a href="' . htmlspecialchars($href) . '" class="' . $baseClass . ' ' . $stateClass . '">' . "\n";
+    echo '    <i data-lucide="' . htmlspecialchars($icon) . '" class="w-4 h-4 shrink-0 transition-transform duration-120 group-hover:scale-105 ' . $iconColor . '"></i>' . "\n";
+    echo '    <span class="truncate">' . htmlspecialchars($label) . '</span>' . "\n";
+    echo '    ' . $badgeHtml . "\n";
+    echo '</a>' . "\n";
 }
+endif;
 ?>
 <!-- Mobile Drawer Backdrop Automatique -->
 <div id="admin-drawer-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-30 hidden lg:hidden opacity-0 transition-opacity duration-200"></div>
