@@ -431,20 +431,20 @@ require_once __DIR__ . '/../includes/header.php';
                             <p class="text-xs text-[#64748B]">Expéditions express Dakar (Plateau, Almadies, Mermoz)</p>
                         </div>
                         <a href="orders.php" class="text-xs font-semibold text-[#1677FF] hover:underline">
-                            Voir tout (<?= $totalOrdersCount ?>) →
+                            Voir tout (<?= max(count($recentOrders), $totalOrdersCount) ?>) →
                         </a>
                     </div>
 
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs">
+                        <table class="w-full text-left text-xs min-w-[580px]">
                             <thead class="text-[#64748B] font-semibold text-xs border-b border-[#E5E7EB]">
                                 <tr>
-                                    <th class="py-2.5 pr-3">Commande</th>
-                                    <th class="py-2.5 px-3">Client & Zone</th>
-                                    <th class="py-2.5 px-3">Paiement</th>
-                                    <th class="py-2.5 px-3 text-right">Montant</th>
-                                    <th class="py-2.5 px-3">Statut</th>
-                                    <th class="py-2.5 pl-3 text-right">Action</th>
+                                    <th class="py-2.5 pr-3 whitespace-nowrap">Commande</th>
+                                    <th class="py-2.5 px-3 whitespace-nowrap">Client & Zone</th>
+                                    <th class="py-2.5 px-3 whitespace-nowrap">Paiement</th>
+                                    <th class="py-2.5 px-3 text-right whitespace-nowrap">Montant</th>
+                                    <th class="py-2.5 px-3 whitespace-nowrap">Statut</th>
+                                    <th class="py-2.5 pl-3 text-right whitespace-nowrap">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-[#F1F3F5]">
@@ -467,29 +467,29 @@ require_once __DIR__ . '/../includes/header.php';
                                     $district = $rord['delivery_district'] ?? 'Dakar Centre';
                                 ?>
                                     <tr class="hover:bg-slate-50/75 transition-colors">
-                                        <td class="py-3 pr-3 font-semibold text-[#0F172A] tabular-nums">
+                                        <td class="py-3 pr-3 font-semibold text-[#0F172A] tabular-nums whitespace-nowrap">
                                             #<?= htmlspecialchars($rord['order_number'] ?? $rord['id']) ?>
                                         </td>
-                                        <td class="py-3 px-3">
-                                            <div class="font-bold text-[#0F172A]">
+                                        <td class="py-3 px-3 min-w-[130px]">
+                                            <div class="font-bold text-[#0F172A] truncate">
                                                 <?= htmlspecialchars(($rord['customer_first_name'] ?? 'Client') . ' ' . ($rord['customer_last_name'] ?? '')) ?>
                                             </div>
-                                            <div class="text-[11px] text-[#64748B]"><?= htmlspecialchars($district) ?></div>
+                                            <div class="text-[11px] text-[#64748B] truncate"><?= htmlspecialchars($district) ?></div>
                                         </td>
-                                        <td class="py-3 px-3">
-                                            <span class="text-[11px] font-medium text-slate-700 bg-slate-100 px-2 py-0.5 rounded-sm">
+                                        <td class="py-3 px-3 whitespace-nowrap">
+                                            <span class="inline-block text-[11px] font-medium text-slate-700 bg-slate-100 px-2 py-0.5 rounded-sm whitespace-nowrap">
                                                 <?= htmlspecialchars($rord['payment_method'] ?? 'COD') ?>
                                             </span>
                                         </td>
-                                        <td class="py-3 px-3 text-right font-bold text-[#0F172A] tabular-nums">
+                                        <td class="py-3 px-3 text-right font-bold text-[#0F172A] tabular-nums whitespace-nowrap">
                                             <?= number_format($rord['total'] ?? $rord['total_amount'] ?? 0, 0, ',', ' ') ?> <span class="text-[10px] text-[#64748B] font-normal">FCFA</span>
                                         </td>
-                                        <td class="py-3 px-3">
-                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold <?= $pillClass ?>">
+                                        <td class="py-3 px-3 whitespace-nowrap">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold whitespace-nowrap <?= $pillClass ?>">
                                                 <?= $stLabel ?>
                                             </span>
                                         </td>
-                                        <td class="py-3 pl-3 text-right">
+                                        <td class="py-3 pl-3 text-right whitespace-nowrap">
                                             <a href="orders.php?order_id=<?= urlencode($rord['id']) ?>" class="text-xs font-semibold text-[#1677FF] hover:underline cursor-pointer">
                                                 Gérer
                                             </a>
@@ -525,12 +525,14 @@ require_once __DIR__ . '/../includes/header.php';
                                             <?= htmlspecialchars($prod['name']) ?>
                                         </div>
                                         <div class="text-[11px] text-[#64748B]">
-                                            SKU: <?= htmlspecialchars($prod['sku'] ?? 'N/A') ?> · <?= number_format($prod['price'] ?? 0, 0, ',', ' ') ?> FCFA
+                                            <?php 
+$prodSku = !empty($prod['sku']) ? $prod['sku'] : ('ST-' . strtoupper(substr(md5($prod['id'] ?? $prod['name']), 0, 6)));
+?>SKU: <?= htmlspecialchars($prodSku) ?> · <?= number_format($prod['price'] ?? 0, 0, ',', ' ') ?> FCFA
                                         </div>
                                     </div>
 
                                     <div class="shrink-0 text-right">
-                                        <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold tabular-nums <?= $isCrit ? 'bg-[#FFEDEA] text-[#831C1E]' : 'bg-slate-100 text-slate-800' ?>">
+                                        <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold tabular-nums whitespace-nowrap <?= $isCrit ? 'bg-[#FFEDEA] text-[#831C1E]' : 'bg-slate-100 text-slate-800' ?>">
                                             <?= $stk ?> en stock
                                         </span>
                                     </div>
