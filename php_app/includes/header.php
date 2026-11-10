@@ -200,6 +200,20 @@ $assetPrefix = $isInSubdir ? '../' : '';
       gtag('config', '<?= htmlspecialchars($gaId) ?>');
     </script>
     <?php endif; ?>
+
+    <?php 
+    $clarityId = defined('CLARITY_PROJECT_ID') ? CLARITY_PROJECT_ID : (getenv('CLARITY_PROJECT_ID') ?: 'zbqqu7swos');
+    if (!$isInSubdir && !empty($clarityId)): 
+    ?>
+    <!-- Microsoft Clarity (Heatmaps & Session Recordings) -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "<?= htmlspecialchars($clarityId, ENT_QUOTES, 'UTF-8') ?>");
+    </script>
+    <?php endif; ?>
     
     <!-- Contextual LCP Image Preload — only preloads image actually rendered on current view -->
     <?php 

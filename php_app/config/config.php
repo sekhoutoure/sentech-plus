@@ -177,11 +177,11 @@ function applyGlobalSecurityHeaders(): void {
 
     // Content-Security-Policy stricte & optimisée
     $csp = "default-src 'self'; "
-         . "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://www.googletagmanager.com https://unpkg.com https://cdn.jsdelivr.net; "
+         . "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://www.googletagmanager.com https://unpkg.com https://cdn.jsdelivr.net https://www.clarity.ms; "
          . "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
          . "font-src 'self' https://fonts.gstatic.com data:; "
-         . "img-src 'self' data: https: blob:; "
-         . "connect-src 'self' https://app.paydunya.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://fonts.googleapis.com https://fonts.gstatic.com; "
+         . "img-src 'self' data: https: blob: https://c.clarity.ms https://*.clarity.ms; "
+         . "connect-src 'self' https://app.paydunya.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://fonts.googleapis.com https://fonts.gstatic.com https://*.clarity.ms https://c.clarity.ms; "
          . "frame-ancestors 'self'; "
          . "form-action 'self' https://app.paydunya.com; "
          . "base-uri 'self';";
@@ -354,6 +354,9 @@ define('APP_SECRET', env_val('APP_SECRET', 'sentech_default_secret_production_ke
 define('WHATSAPP_PHONE', env_val('WHATSAPP_PHONE', '221781316497'));
 
 define('WHATSAPP_DISPLAY', env_val('WHATSAPP_DISPLAY', '+221 78 131 64 97'));
+
+// Analytics & Visual Heatmaps
+define('CLARITY_PROJECT_ID', env_val('CLARITY_PROJECT_ID', 'zbqqu7swos'));
 
 
 
